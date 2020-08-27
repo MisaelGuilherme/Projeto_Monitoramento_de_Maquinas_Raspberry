@@ -1,6 +1,7 @@
 from tkinter import *
 from time import sleep
-import sqlite3
+#import sqlite3
+import mysql.connector
 
 
 
@@ -192,6 +193,11 @@ class LoginAdmnistração:
         elif str(self.campCpf.get()).isnumeric() == False:
             self.error = Label(self.janelaCad, text='O campo precisa ser numérico', fg='red', bg='white')
             self.error.place(x=210, y=180)
+        
+        elif len(self.campCpf.get()) != 11:
+            print(len(self.campCpf.get()))
+            self.error = Label(self.janelaCad, text='O CPF precisa conter 11 dígitos', fg='red', bg='white')
+            self.error.place(x=210, y=180)
 
         else:
             self.error = Label(self.janelaCad, text='', fg='red', bg='white', width=30)
@@ -200,14 +206,17 @@ class LoginAdmnistração:
         if self.campSenha.get() == '' or self.confSenha.get() == '':
             self.error = Label(self.janelaCad, text='Preencha o campo!', fg='red', bg='white', width=30)
             self.error.place(x=175, y=325)
+            
 
         elif str(self.campSenha.get()).isnumeric() == True and str(self.confSenha.get()).isnumeric() == True and str(self.campSenha.get()).isnumeric() == str(self.confSenha.get()).isnumeric() :
-            if self.campSenha.get() != self.confSenha.get():
-                print('true')
+            if len(self.campSenha.get()) != 4 or len(self.confSenha.get()) != 4:
+                self.error = Label(self.janelaCad, text='A senha precisa conter 4 dígitos', fg='red', bg='white', width=30)
+                self.error.place(x=175, y=325) 
+                
+            elif self.campSenha.get() != self.confSenha.get():
                 self.error = Label(self.janelaCad, text='As senhas não coincidem', fg='red', bg='white', width=30)
                 self.error.place(x=175, y=325)
             else:
-                print('false')
                 self.error = Label(self.janelaCad, text='', bg='white', width=30)
                 self.error.place(x=175, y=325)
                 self.banco_de_dados()
@@ -218,15 +227,25 @@ class LoginAdmnistração:
     #------------------------------- (Banco de Dados) - FUNÇÃO 5º A SER INVOCADA POR: conferir_valores() ------------------------------- 
 
     def banco_de_dados(self):
-
+        cpf = self.campCpf.get()
+        nome = self.campNome.get().upper()
+        senha = self.campSenha.get()
         try:
-            self.banco = sqlite3.connect('banco_funcionario.db')
-            self.cursor = self.banco.cursor()
-            self.cursor.execute("CREATE TABLE IF NOT EXISTS funcionarios(nome, cpf, senha)")
-            self.cursor.execute("INSERT INTO funcionarios VALUES('"+self.campNome.get()+"','"+self.campCpf.get()+"','"+self.campSenha.get()+"')")
-            self.banco.commit()
-            self.banco.close()
-
+            banco = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="")
+            
+            cursor = banco.cursor()
+            #cursor.execute("CREATE DATABASE IF NOT EXISTS empresa_funcionarios")
+            cursor.execute('USE empresa_funcionarios')
+            #cursor.execute("CREATE TABLE IF NOT EXISTS funcionarios(cpf int(11) NOT NULL, nome VARCHAR(30), senha int(8))")
+            cursor.execute("INSERT INTO funcionarios VALUES(id,'"+nome+"','"+cpf+"','"+senha+"')")
+            banco.commit()
+            
+            
+            #self.banco.close()
+            
             self.janelaCad.destroy()
 
             self.alerta = Toplevel()
@@ -252,8 +271,8 @@ class LoginAdmnistração:
             self.botaoAlert = Button(self.alerta, text='OK', width=10, bg='green', fg='white', command = lambda: self.fechar())
             self.botaoAlert.place(x=90,y=60)
 
-        except sqlite3.Error as erro:
-            print('Ero ao inserir no Banco de Dados:', erro)
+        except: #sqlite3.Error as erro:
+            print('Erro ao inserir no Banco de Dados:')#, erro)
     def fechar(self):
         self.alerta.destroy()
 
