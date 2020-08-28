@@ -6,7 +6,7 @@ import mysql.connector
 
 
 
-class LoginAdmnistração:
+class LoginAdmnistracao:
     #------------------------------- (Login Funcionário) - FUNÇÃO 2º A SER INVOCADA POR FUNÇÃO: verificar_login_adm() --------------------------
 
     def __init__(self):
@@ -240,35 +240,63 @@ class LoginAdmnistração:
             cursor = banco.cursor()
             #cursor.execute("CREATE DATABASE IF NOT EXISTS empresa_funcionarios")
             cursor.execute('USE empresa_funcionarios')
-            #cursor.execute("CREATE TABLE IF NOT EXISTS funcionarios(cpf int(11) NOT NULL, nome VARCHAR(30), senha int(8))")
-            cursor.execute("INSERT INTO funcionarios VALUES(id,'"+nome+"','"+cpf+"','"+senha+"')")
-            banco.commit()
-            comando = 1
-            
-            self.janelaCad.destroy()    
-            
-            self.alerta = Toplevel()
-            self.alerta.title('Alerta')
-            self.alerta.iconbitmap('icone2.ico')
-            self.alerta.resizable(False, False)
-            self.alerta.configure(background='white')
+            cursor.execute('select * from funcionarios where cpf = '+str(cpf))
+            valido = cursor.fetchall()
+            if len(valido) == 1: 
+                
+                self.alerta = Toplevel()
+                self.alerta.title('Alerta')
+                self.alerta.iconbitmap('icone2.ico')
+                self.alerta.resizable(False, False)
+                self.alerta.configure(background='white')
 
-            self.largura = 250
-            self.altura = 100
+                largura = 250
+                altura = 100
 
-            self.largura_screen = self.alerta.winfo_screenwidth()
-            self.altura_screen = self.alerta.winfo_screenheight()
+                largura_screen = self.alerta.winfo_screenwidth()
+                altura_screen = self.alerta.winfo_screenheight()
 
-            self.posicaoX = self.largura_screen/2 - self.largura/2
-            self.posicaoY = self.altura_screen/2 - self.altura/2
+                posicaoX = largura_screen/2 - largura/2
+                posicaoY = altura_screen/2 - altura/2
 
-            self.alerta.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))
+                self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
 
-            self.labelAlert = Label(self.alerta, text='Funcionário Cadastrado!', font=('arial', 10, 'bold'), fg='green', bg='white')
-            self.labelAlert.place(x=50,y=20)
+                labelAlert = Label(self.alerta, text='CPF já Cadastrado!', font=('arial', 10, 'bold'), fg='red', bg='white')
+                labelAlert.place(x=50,y=20)
 
-            self.botaoAlert = Button(self.alerta, text='OK', width=10, bg='green', fg='white', command = lambda: self.fechar())
-            self.botaoAlert.place(x=90,y=60)
+                botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+                botaoAlert.place(x=90,y=60)
+            else:
+                    
+                #cursor.execute("CREATE TABLE IF NOT EXISTS funcionarios(cpf int(11) NOT NULL, nome VARCHAR(30), senha int(8))")
+                cursor.execute("INSERT INTO funcionarios VALUES(id,'"+nome+"','"+cpf+"','"+senha+"')")
+                banco.commit()
+                comando = 1
+                
+                self.janelaCad.destroy()    
+                
+                self.alerta = Toplevel()
+                self.alerta.title('Alerta')
+                self.alerta.iconbitmap('icone2.ico')
+                self.alerta.resizable(False, False)
+                self.alerta.configure(background='white')
+
+                largura = 250
+                altura = 100
+
+                largura_screen = self.alerta.winfo_screenwidth()
+                altura_screen = self.alerta.winfo_screenheight()
+
+                posicaoX = largura_screen/2 - largura/2
+                posicaoY = altura_screen/2 - altura/2
+
+                self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+
+                labelAlert = Label(self.alerta, text='Funcionário Cadastrado!', font=('arial', 10, 'bold'), fg='green', bg='white')
+                labelAlert.place(x=50,y=20)
+
+                botaoAlert = Button(self.alerta, text='OK', width=10, bg='green', fg='white', command = lambda: self.fechar())
+                botaoAlert.place(x=90,y=60)
         
         except: #sqlite3.Error as erro:
             print('Erro ao inserir no Banco de Dados:')#, erro)
@@ -298,8 +326,17 @@ class LoginAdmnistração:
                     
                     valido = self.cursor.fetchall()
                     if len(valido) == 1:
-                        print(valido)
                         self.operador = valido[0][1]
+                        time = datetime.now().time()
+                        lista = [str(time)]
+                        recebe = ''
+                        for c in lista:
+                            for i in c:
+                                if i == '.':
+                                    break
+                                else:
+                                    recebe += i
+                        self.horaAtual = recebe
                         self.tela_de_operacao()
                     else:
                         print(valido)
@@ -382,9 +419,14 @@ class LoginAdmnistração:
 
         self.horaInicial = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='red', bg='#001333')
         self.horaInicial.place(x=10, y=60)
+        self.horaAtualUser = Label(self.frameTop, text=self.horaAtual, font=('arial', 13,'bold'), fg='red', bg='white')
+        self.horaAtualUser.place(x=150, y=60)
 
         self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('arial', 40,'bold'), fg='red', bg='black', width=15)
         self.multimolde.place(x=500, y=20)
+        
+        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='red', bg='white', width=5, command=lambda:self.sairTela())
+        self.sair.place(x=1180,y=20)
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO -----------------------------
 
@@ -469,4 +511,32 @@ class LoginAdmnistração:
 
         self.janelaOper.mainloop()
     
-instancia = LoginAdmnistração()
+    def sairTela(self):
+        if self.chaveFinalizar ==  True:
+            self.janelaOper.destroy()
+            self.__init__()
+        else:
+            self.alerta = Toplevel()
+            self.alerta.title('Alerta')
+            self.alerta.iconbitmap('icone2.ico')
+            self.alerta.resizable(False, False)
+            self.alerta.configure(background='yellow')
+
+            largura = 350
+            altura = 150
+
+            largura_screen = self.alerta.winfo_screenwidth()
+            altura_screen = self.alerta.winfo_screenheight()
+
+            posicaoX = largura_screen/2 - largura/2
+            posicaoY = altura_screen/2 - altura/2
+
+            self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+
+            labelAlert = Label(self.alerta, text='Sistema em operacação ainda!!', font=('arial', 15, 'bold'), fg='red', bg='yellow')
+            labelAlert.place(x=30,y=20)
+
+            botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+            botaoAlert.place(x=140,y=80)
+
+instancia = LoginAdmnistracao()
