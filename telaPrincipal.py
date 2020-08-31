@@ -7,7 +7,7 @@ import mysql.connector
 
 
 class LoginAdmnistracao:
-    #------------------------------- (Login Funcionário) - FUNÇÃO 2º A SER INVOCADA POR FUNÇÃO: verificar_login_adm() --------------------------
+    #------------------------------- (Login Funcionário) - FUNÇÃO 1º A SER INICIADA -------------------------
 
     def __init__(self):
         
@@ -57,7 +57,7 @@ class LoginAdmnistracao:
 
         self.janelaFuncio.mainloop()
     
-    #------------------------------- (Login Administração) - FUNÇÃO 1º A SER INVOCADA POR: botCadastrar ------------------------------- 
+    #------------------------------- (Login Administração) - FUNÇÃO 2º A SER INVOCADA POR: botCadastrar ------------------
 
     def tela_admin(self):
     
@@ -103,7 +103,7 @@ class LoginAdmnistracao:
 
         self.janelaADM.mainloop()
     
-    #------------------------------- (Login Administração) - FUNÇÃO 2º A SER INVOCADA POR: admBotaoPrincipal ------------------------------- 
+    #------------------------------- (Login Administração) - FUNÇÃO 3º A SER INVOCADA POR: admBotaoPrincipal -----------------
 
     def verificar_adm(self):
         if str(self.admSenhaPrincipal.get()).isnumeric():
@@ -121,7 +121,7 @@ class LoginAdmnistracao:
             self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
             self.labelErro2.place(x=157, y=233)
 
-    #------------------------------- (Tela Cadastrar) - FUNÇÃO 3º A SER INVOCADA POR FUNÇÃO: verificar_adm() -------------------------------
+    #------------------------------- (Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: verificar_adm() ------------------
 
     def tela_cadastrar(self):
         self.janelaCad = Toplevel()
@@ -173,42 +173,51 @@ class LoginAdmnistracao:
         self.cadastrar.place(x=230,y=370)
         self.janelaCad.mainloop()
 
-    #--------------------------- (Conferir Campos Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR: cadastrar -------------------------- 
+    #--------------------------- (Conferir Campos Tela Cadastrar) - FUNÇÃO 5º A SER INVOCADA POR: cadastrar ------------------
     
     def conferir_valores(self):
-
+        #CASO O CAMPO "NOME" DA TELA CADASTRO DO FUNCIONÁRIO ESTEJA VAZIA
         if self.campNome.get() == '':
             self.error = Label(self.janelaCad, text='Preencha o campo!', fg='red', bg='white', width=30)
             self.error.place(x=175, y=110)
+            
+        #CASO O CAMPO "NOME" DA TELA CADASTRO DO FUNCIONÁRIO SEJA DIGITADO NÚMEROS
         elif str(self.campNome.get()).isnumeric():
             self.error = Label(self.janelaCad, text='O uso de números é invalido!', fg='red', bg='white')
             self.error.place(x=210, y=110)
+            
+        #SENÃO O A MENSAGEM DE ERROS SUMIRA
         else:
             self.error = Label(self.janelaCad, text='', fg='red', bg='white', width=30)
             self.error.place(x=210, y=110)
-
+            
+        #CASO O CAMPO "CPF" DA TELA CADASTRO DO FUNCIONÁRIO ESTEJA VAZIA
         if self.campCpf.get() == '':
             self.error = Label(self.janelaCad, text='Preencha o campo!', fg='red', bg='white')
             self.error.place(x=230, y=180)
         
+        #CASO O CAMPO "CPF" DA TELA CADASTRO DO FUNCIONÁRIO SEJA DIGITADO LETRAS
         elif str(self.campCpf.get()).isnumeric() == False:
             self.error = Label(self.janelaCad, text='O campo precisa ser numérico', fg='red', bg='white')
             self.error.place(x=210, y=180)
-        
+            
+        #CASO O CAMPO "CPF" DA TELA CADASTRO DO FUNCIONÁRIO SEJA DIFERENTE DE 11 NÚMEROS
         elif len(self.campCpf.get()) != 11:
             print(len(self.campCpf.get()))
             self.error = Label(self.janelaCad, text='O CPF precisa conter 11 dígitos', fg='red', bg='white')
             self.error.place(x=210, y=180)
 
+        #SENÃO A MENSAGEM DE ERROS SUMIRÁ
         else:
             self.error = Label(self.janelaCad, text='', fg='red', bg='white', width=30)
             self.error.place(x=210, y=180)
         
+        #CASO O CAMPO "SENHA E CONFIRMAR SENHA" DA TELA CADASTRO DO FUNCIONÁRIO ESTEJA VAZIA
         if self.campSenha.get() == '' or self.confSenha.get() == '':
             self.error = Label(self.janelaCad, text='Preencha o campo!', fg='red', bg='white', width=30)
             self.error.place(x=175, y=325)
             
-
+        #PROCESSO DE VERIFICÇÃO SE AS SENHAS SÃO IGUAIS
         elif str(self.campSenha.get()).isnumeric() == True and str(self.confSenha.get()).isnumeric() == True and str(self.campSenha.get()).isnumeric() == str(self.confSenha.get()).isnumeric() :
             if len(self.campSenha.get()) != 4 or len(self.confSenha.get()) != 4:
                 self.error = Label(self.janelaCad, text='A senha precisa conter 4 dígitos', fg='red', bg='white', width=30)
@@ -221,11 +230,13 @@ class LoginAdmnistracao:
                 self.error = Label(self.janelaCad, text='', bg='white', width=30)
                 self.error.place(x=175, y=325)
                 self.banco_de_dados_cadastro()
+        
+        #CASO O CAMPO "SENHA E CONFIRMAR SENHJA" DA TELA CADASTRO DO FUNCIONÁRIO SEJA DIGITADO LETRAS
         else:
             self.error = Label(self.janelaCad, text='A senha precisa ser numérica', fg='red', bg='white', width=30)
             self.error.place(x=175, y=325)
 
-    #------------------------------- (Banco de Dados) - FUNÇÃO 5º A SER INVOCADA POR: conferir_valores() ------------------------------- 
+    #------------------------------- (Banco de Dados) - FUNÇÃO 6º A SER INVOCADA POR: conferir_valores() -------------------
 
     def banco_de_dados_cadastro(self):
         cpf = self.campCpf.get()
@@ -242,8 +253,11 @@ class LoginAdmnistracao:
             cursor.execute('USE empresa_funcionarios')
             cursor.execute('select * from funcionarios where cpf = '+str(cpf))
             valido = cursor.fetchall()
+            
+            #VERIFICANDO SE O CPF DO FUNCIONÁRIO JÁ ESTÁ CADASTRADO
             if len(valido) == 1: 
                 
+                #SE O CPF JÁ FOI CADASTRO APARECERÁ UM ALERTA
                 self.alerta = Toplevel()
                 self.alerta.title('Alerta')
                 self.alerta.iconbitmap('icone2.ico')
@@ -262,10 +276,12 @@ class LoginAdmnistracao:
                 self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
 
                 labelAlert = Label(self.alerta, text='CPF já Cadastrado!', font=('arial', 10, 'bold'), fg='red', bg='white')
-                labelAlert.place(x=50,y=20)
+                labelAlert.place(x=65,y=20)
 
                 botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
                 botaoAlert.place(x=90,y=60)
+            
+            #CADASTRANDO ENVIANDO DADOS DO FUNCIONÁRIO PRO BANCO DE DADOS
             else:
                     
                 #cursor.execute("CREATE TABLE IF NOT EXISTS funcionarios(cpf int(11) NOT NULL, nome VARCHAR(30), senha int(8))")
@@ -298,33 +314,41 @@ class LoginAdmnistracao:
                 botaoAlert = Button(self.alerta, text='OK', width=10, bg='green', fg='white', command = lambda: self.fechar())
                 botaoAlert.place(x=90,y=60)
         
-        except: #sqlite3.Error as erro:
+        #CASO O A LIGAÇÃO OU AS CONDIÇÕES NÃO TENHAM SIDO EXECUTADAS COM ÊXITOS
+        except:
             print('Erro ao inserir no Banco de Dados:')#, erro)
-            #self.banco.close()
+    
+    #FUNCÃO PARA DESTRUIR TODOS OS ALERTAS
     def fechar(self):
         self.alerta.destroy()
         
+    #------------------------------- (Banco de Dados) - FUNÇÃO 7º A SER INVOCADA POR: botao ------------------------------- 
     def confirmar_tela_funcionario(self):
+        
+        #verificando se o campo "login" é numérico e possui 11 caracteres
         if str(self.campoLogin.get()).isnumeric() and len(self.campoLogin.get()) == 11:
             self.user = self.campoLogin.get()
 
+            #verificando se a senha é númerica e possui 4 caracteres
             if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 4:
                 self.password = self.campoSenha.get()
                 users = self.campoLogin.get()
                 password = self.campoSenha.get()
                 
+                #tentamos conectar-se ao banco
                 try:
-                    banco = mysql.connector.connect(
+                    self.banco = mysql.connector.connect(
                         host = "localhost",
                         user = "root",
                         password = "")
                     
-                    self.cursor = banco.cursor()
+                    #verificando se usuário existe no banco de dados
+                    self.cursor = self.banco.cursor()
                     self.cursor.execute('use empresa_funcionarios')
-                    self.cursor.execute("select * from funcionarios where cpf = '"+str(users)+"' and senha = '"+str(password)+"'")
-                    
-                    
+                    self.cursor.execute("select * from funcionarios where cpf = '"+users+"' and senha = '"+password+"'")
                     valido = self.cursor.fetchall()
+                    
+                    #pegando hora atual de login caso encontrar resultado na busca
                     if len(valido) == 1:
                         self.operador = valido[0][1]
                         time = datetime.now().time()
@@ -336,13 +360,11 @@ class LoginAdmnistracao:
                                     break
                                 else:
                                     recebe += i
-                        self.horaAtual = recebe
+                        self.horaLogin = recebe
                         self.tela_de_operacao()
+                    
+                    #alerta caso o usuário não seja encontrado
                     else:
-                        print(valido)
-                        print('Não há nenhum cadastro parecido')
-                        print(str(users), str(password))
-                        
                         self.alerta = Toplevel()
                         self.alerta.title('Alerta')
                         self.alerta.iconbitmap('icone2.ico')
@@ -365,18 +387,27 @@ class LoginAdmnistracao:
 
                         self.botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command=lambda:self.fechar())
                         self.botaoAlert.place(x=90,y=60)
+                        
+                #mensaem de erro caso ocorra alguma excessão ao tentar logar
                 except:
                     print('Error ao tentar logar')
-
+            
+            #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
                 self.labelError = Label(self.janelaFuncio, text='Preencha o campo!', fg='#bf0606', bg='white', width=40)
                 self.labelError.place(x=100, y=165)   
+            
+            #caso o campo "senha" diferentee de 11 caracteres
             else:
                 self.labelError = Label(self.janelaFuncio, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40)
                 self.labelError.place(x=100, y=165)
+        
+        #caso o campo "login" esteja vazio
         elif self.campoSenha.get() == '':
             self.labelError = Label(self.janelaFuncio, text='Preencha o campo!', fg='#bf0606', bg='white', width=40)
             self.labelError.place(x=100, y=165) 
+        
+        #se caso o campo "login" seja diferente de 11 caracteres
         else:
             self.labelError = Label(self.janelaFuncio, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40)
             self.labelError.place(x=100, y=165)
@@ -385,7 +416,7 @@ class LoginAdmnistracao:
         #self.alerta.destroy()
         
 
-    #------------------------------- (Tela Operativa) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() -------------------------------
+    #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
     cont = 0
     valor = None
 
@@ -419,7 +450,7 @@ class LoginAdmnistracao:
 
         self.horaInicial = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='red', bg='#001333')
         self.horaInicial.place(x=10, y=60)
-        self.horaAtualUser = Label(self.frameTop, text=self.horaAtual, font=('arial', 13,'bold'), fg='red', bg='white')
+        self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 13,'bold'), fg='red', bg='white')
         self.horaAtualUser.place(x=150, y=60)
 
         self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('arial', 40,'bold'), fg='red', bg='black', width=15)
@@ -430,17 +461,31 @@ class LoginAdmnistracao:
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO -----------------------------
 
-        self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
-        self.codigoPeca.place(x=90, y=180)
-        self.campoPeca = Entry(self.frameLeft, width=30, font=('arial', 15))
-        self.campoPeca.place(x=300, y=180)
-        self.campoPeca.focus_force()
+        '''self.idLabel = Label(self.frameLeft, text='ID:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
+        self.idLabel.place(x=230, y=100)
+        self.campoId = Entry(self.frameLeft, width=30, font=('arial', 15))
+        self.campoId.place(x=300, y=100)
+        self.campoId.focus_force()'''
 
+        self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
+        self.ordemServico.place(x=70, y=100)
+        self.campoServico = Entry(self.frameLeft, width=30, font=('arial', 15), bg='white')
+        self.campoServico.place(x=300, y=100)
+        
+        self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
+        self.codigoPeca.place(x=90, y=200)
+        self.campoPeca = Entry(self.frameLeft, width=30, font=('arial', 15))
+        self.campoPeca.place(x=300, y=200)
+        
         self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
         self.tempoProgramado.place(x=60, y=300)
-        self.campoProgramado = Entry(self.frameLeft, width=30, font=('arial', 15))
+        self.campoProgramado = Label(self.frameLeft, width=30, font=('arial', 15), bg='white')
         self.campoProgramado.place(x=300, y=300)
-
+        
+        self.botConfirmar = Button(self.frameLeft, text='Confirmar', width=10, font=('arial', 15), bg='orange')
+        self.botConfirmar.place(x=400, y=400)
+        
+        
         def contagemFinalizada():
             
             self.chaveFinalizar = True
@@ -448,6 +493,28 @@ class LoginAdmnistracao:
                 self.botFinalizar.destroy()
                 self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado',  bg='green', fg='white', font=('arial', 25, 'bold'))
                 self.labFinalizar.place(x=100, y=150)
+                
+                time = datetime.now().time()
+                lista = [str(time)]
+                recebe = ''
+                for c in lista:
+                    for i in c:
+                        if i == '.':
+                            break
+                        else:
+                            recebe += i
+                horaFinal = recebe
+                
+                try:
+                    print('inicio')
+                    self.cursor.execute('use empresa_funcionarios')
+                    print('inicio2')
+                    self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','invalido','invalido','invalido','invalido','invalido')")
+                    print('inicio3')
+                    self.banco.commit()
+                    print('inicio4')
+                except:
+                    print('erro ao salvar informações')
 
         #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
 
@@ -462,6 +529,17 @@ class LoginAdmnistracao:
                 self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='green', fg='white', border=10, font=('arial', 25, 'bold'), width=15, command=contagemFinalizada)
                 self.botFinalizar.place(x=130, y=200)
                 self.botaoInciarContador.destroy()
+                time = datetime.now().time()
+                lista = [str(time)]
+                recebe = ''
+                for c in lista:
+                    for i in c:
+                        if i == '.':
+                            break
+                        else:
+                            recebe += i
+                self.horaInicial = recebe
+                
                 self.chaveControle = True
 
             if self.sec == None:
@@ -511,12 +589,16 @@ class LoginAdmnistracao:
 
         self.janelaOper.mainloop()
     
+    #------------------------------- (Tela Operativa) - FUNÇÃO 9º A SER INVOCADA POR: sair -----------------
     def sairTela(self):
         if self.chaveFinalizar ==  True:
             self.janelaOper.destroy()
             self.__init__()
+        elif self.chaveControle == False:
+            self.janelaOper.destroy()
+            self.__init__()
         else:
-            self.alerta = Toplevel()
+            self.alerta = Tk()
             self.alerta.title('Alerta')
             self.alerta.iconbitmap('icone2.ico')
             self.alerta.resizable(False, False)
