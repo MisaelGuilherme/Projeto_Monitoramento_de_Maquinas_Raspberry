@@ -417,9 +417,6 @@ class LoginAdmnistracao:
         
 
     #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
-    cont = 0
-    valor = None
-
     def tela_de_operacao(self):
         self.janelaFuncio.destroy()
 
@@ -482,92 +479,9 @@ class LoginAdmnistracao:
         self.campoProgramado = Label(self.frameLeft, width=30, font=('arial', 15), bg='white')
         self.campoProgramado.place(x=300, y=300)
         
-        self.botConfirmar = Button(self.frameLeft, text='Confirmar', width=10, font=('arial', 15), bg='orange')
+        self.botConfirmar = Button(self.frameLeft, text='Confirmar', width=10, font=('arial', 15), bg='orange', command=lambda:self.botaoConfirmarOS())
         self.botConfirmar.place(x=400, y=400)
         
-        
-        def contagemFinalizada():
-            
-            self.chaveFinalizar = True
-            if self.chaveFinalizar == True:
-                self.botFinalizar.destroy()
-                self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado',  bg='green', fg='white', font=('arial', 25, 'bold'))
-                self.labFinalizar.place(x=100, y=150)
-                
-                time = datetime.now().time()
-                lista = [str(time)]
-                recebe = ''
-                for c in lista:
-                    for i in c:
-                        if i == '.':
-                            break
-                        else:
-                            recebe += i
-                horaFinal = recebe
-                
-                try:
-                    print('inicio')
-                    self.cursor.execute('use empresa_funcionarios')
-                    print('inicio2')
-                    self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','invalido','invalido','invalido','invalido','invalido')")
-                    print('inicio3')
-                    self.banco.commit()
-                    print('inicio4')
-                except:
-                    print('erro ao salvar informações')
-
-        #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
-
-        self.sec = None
-        self.minu = None
-        self.hou = None
-
-        def botao_iniciar():
-
-            if self.chaveControle == False:
-                
-                self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='green', fg='white', border=10, font=('arial', 25, 'bold'), width=15, command=contagemFinalizada)
-                self.botFinalizar.place(x=130, y=200)
-                self.botaoInciarContador.destroy()
-                time = datetime.now().time()
-                lista = [str(time)]
-                recebe = ''
-                for c in lista:
-                    for i in c:
-                        if i == '.':
-                            break
-                        else:
-                            recebe += i
-                self.horaInicial = recebe
-                
-                self.chaveControle = True
-
-            if self.sec == None:
-                self.sec = 0
-            self.sec = self.sec + 1
-
-            if self.sec >= 59:
-                self.sec = 0
-
-                if self.minu == None:
-                    self.minu = 0
-                self.minu = self.minu + 1
-                if self.minu >= 59:
-                    self.minu = 0
-                
-                    if self.hou == None:
-                        self.hou = 0
-                    self.hou = self.hou + 1
-
-            self.seconds['text'] = self.sec
-            self.minutes['text'] = self.minu
-            self.hours['text'] = self.hou
-
-            if self.chaveFinalizar == False:
-                self.seconds.after(1000, botao_iniciar)
-            #else:
-            #    botFinalizar.destroy()
-            
         #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO ------------------------------------
 
         self.seconds = Label(self.frameRight, text='0', font=('arial',30), fg=('red'), width=2)
@@ -581,13 +495,110 @@ class LoginAdmnistracao:
         self.chaveControle = False
 
         
-        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='red', fg='white', border=10, font=('arial', 25, 'bold'), command = botao_iniciar)
+        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='red', fg='white', border=10, font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
         self.botaoInciarContador.place(x=205, y=200)
 
         
         self.chaveFinalizar = False
+        
+        self.sec = None
+        self.minu = None
+        self.hou = None
 
         self.janelaOper.mainloop()
+        
+    def botaoConfirmarOS(self):
+        peca = self.campoPeca.get()
+        try:
+            self.cursor.execute('use empresa_funcionarios')
+            self.cursor.execute("select * from pecas_codigo where codigo = "+str(peca))
+            valido = self.cursor.fetchall()
+            if len(valido) == 1:
+                self.tempHora = str(valido[0][4])
+                self.tempMin = str(valido[0][5])
+                self.numOS =  str(valido[0][2])
+                self.codP = str(valido[0][3])
+                
+                print(self.tempHora, self.tempMin)
+                self.campoProgramado['text'] = str(self.tempHora)+':'+str(self.tempMin)+':00'
+                
+                    
+        except:
+            print('ERRO NO BANCO DE DADOS, CONFIRMAR OS')
+
+    #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
+
+    def botao_iniciar(self):
+
+        if self.chaveControle == False:
+            
+            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='green', fg='white', border=10, font=('arial', 25, 'bold'), width=15, command = lambda: self.contagemFinalizada())
+            self.botFinalizar.place(x=130, y=200)
+            self.botaoInciarContador.destroy()
+            time = datetime.now().time()
+            lista = [str(time)]
+            recebe = ''
+            for c in lista:
+                for i in c:
+                    if i == '.':
+                        break
+                    else:
+                        recebe += i
+            self.horaInicial = recebe
+            
+            self.chaveControle = True
+
+        if self.sec == None:
+            self.sec = 0
+        self.sec = self.sec + 1
+
+        if self.sec >= 59:
+            self.sec = 0
+
+            if self.minu == None:
+                self.minu = 0
+            self.minu = self.minu + 1
+            if self.minu >= 59:
+                self.minu = 0
+            
+                if self.hou == None:
+                    self.hou = 0
+                self.hou = self.hou + 1
+
+        self.seconds['text'] = self.sec
+        self.minutes['text'] = self.minu
+        self.hours['text'] = self.hou
+
+        if self.chaveFinalizar == False:
+            self.seconds.after(1000, self.botao_iniciar)
+            
+    def contagemFinalizada(self):
+            
+        self.chaveFinalizar = True
+        if self.chaveFinalizar == True:
+            self.botFinalizar.destroy()
+            self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado',  bg='green', fg='white', font=('arial', 25, 'bold'))
+            self.labFinalizar.place(x=100, y=150)
+            
+            time = datetime.now().time()
+            lista = [str(time)]
+            recebe = ''
+            for c in lista:
+                for i in c:
+                    if i == '.':
+                        break
+                    else:
+                        recebe += i
+            horaFinal = recebe
+            
+            try:
+                self.cursor.execute('use empresa_funcionarios')
+                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','invalido','"+self.tempHora+"','"+self.codP+"','"+self.numOS+"','invalido','invalido')")
+                self.banco.commit()
+            except:
+                print('erro ao salvar informações da Tela de Operação')
+
+
     
     #------------------------------- (Tela Operativa) - FUNÇÃO 9º A SER INVOCADA POR: sair -----------------
     def sairTela(self):
