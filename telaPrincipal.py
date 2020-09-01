@@ -466,21 +466,17 @@ class LoginAdmnistracao:
 
         self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
         self.ordemServico.place(x=70, y=100)
-        self.campoServico = Entry(self.frameLeft, width=30, font=('arial', 15), bg='white')
+        self.campoServico = Entry(self.frameLeft, width=25, font=('arial', 15), bg='white')
         self.campoServico.place(x=300, y=100)
         
         self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
         self.codigoPeca.place(x=90, y=200)
-        self.campoPeca = Entry(self.frameLeft, width=30, font=('arial', 15))
+        self.campoPeca = Entry(self.frameLeft, width=25, font=('arial', 15))
         self.campoPeca.place(x=300, y=200)
         
-        self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
-        self.tempoProgramado.place(x=60, y=300)
-        self.campoProgramado = Label(self.frameLeft, width=30, font=('arial', 15), bg='white')
-        self.campoProgramado.place(x=300, y=300)
         
-        self.botConfirmar = Button(self.frameLeft, text='Confirmar', width=10, font=('arial', 15), bg='orange', command=lambda:self.botaoConfirmarOS())
-        self.botConfirmar.place(x=400, y=400)
+        self.botConfirmar = Button(self.frameLeft, text='Confirmar', width=10, font=('arial', 15), bg='orange', command=lambda:self.confirmarCampos())
+        self.botConfirmar.place(x=360, y=350)
         
         #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO ------------------------------------
 
@@ -495,10 +491,6 @@ class LoginAdmnistracao:
         self.chaveControle = False
 
         
-        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='red', fg='white', border=10, font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
-        self.botaoInciarContador.place(x=205, y=200)
-
-        
         self.chaveFinalizar = False
         
         self.sec = None
@@ -507,21 +499,88 @@ class LoginAdmnistracao:
 
         self.janelaOper.mainloop()
         
+    def confirmarCampos(self):
+        if self.campoServico.get() == '' or self.campoPeca.get() == '':
+            self.alerta = Tk()
+            self.alerta.title('Alerta')
+            self.alerta.iconbitmap('icone2.ico')
+            self.alerta.resizable(False, False)
+            self.alerta.configure(background='white')
+
+            largura = 350
+            altura = 150
+
+            largura_screen = self.alerta.winfo_screenwidth()
+            altura_screen = self.alerta.winfo_screenheight()
+
+            posicaoX = largura_screen/2 - largura/2
+            posicaoY = altura_screen/2 - altura/2
+
+            self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+
+            labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
+            labelAlert.place(x=75,y=20)
+
+            botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+            botaoAlert.place(x=130,y=90)
+        
+        else:
+            self.botaoConfirmarOS()
+            
+        
+        
     def botaoConfirmarOS(self):
         peca = self.campoPeca.get()
+        self.numOS = str(self.campoServico.get())
+        
         try:
             self.cursor.execute('use empresa_funcionarios')
             self.cursor.execute("select * from pecas_codigo where codigo = "+str(peca))
             valido = self.cursor.fetchall()
+            print('passo 1')
             if len(valido) == 1:
-                self.tempHora = str(valido[0][4])
-                self.tempMin = str(valido[0][5])
-                self.numOS =  str(valido[0][2])
-                self.codP = str(valido[0][3])
+                self.tempHora = str(valido[0][3])
+                self.tempMin = str(valido[0][4])
+                self.codP = str(valido[0][2])
+                
+                print('passo 2')
                 
                 print(self.tempHora, self.tempMin)
+                self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
+                self.tempoProgramado.place(x=60, y=300)
+                
+                self.campoProgramado = Label(self.frameLeft, width=15, font=('arial', 15, 'bold'), bg='white')
+                self.campoProgramado.place(x=300, y=300)
                 self.campoProgramado['text'] = str(self.tempHora)+':'+str(self.tempMin)+':00'
                 
+                self.botConfirmar.destroy()
+                
+                self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='red', fg='white', border=10, font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+                self.botaoInciarContador.place(x=205, y=200)
+            
+            else:
+                self.alerta = Tk()
+                self.alerta.title('Alerta')
+                self.alerta.iconbitmap('icone2.ico')
+                self.alerta.resizable(False, False)
+                self.alerta.configure(background='white')
+
+                largura = 350
+                altura = 150
+
+                largura_screen = self.alerta.winfo_screenwidth()
+                altura_screen = self.alerta.winfo_screenheight()
+
+                posicaoX = largura_screen/2 - largura/2
+                posicaoY = altura_screen/2 - altura/2
+
+                self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+
+                labelAlert = Label(self.alerta, text='Código não encontrado!', font=('arial', 15, 'bold'), fg='red', bg='white')
+                labelAlert.place(x=65,y=20)
+
+                botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+                botaoAlert.place(x=130,y=90)
                     
         except:
             print('ERRO NO BANCO DE DADOS, CONFIRMAR OS')

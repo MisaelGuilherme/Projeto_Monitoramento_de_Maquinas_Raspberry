@@ -5,8 +5,7 @@ from time import sleep
 class LoginAdmnistracao:
 
     #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
-    def tela_de_operacao(self):
-        self.janelaFuncio.destroy()
+    def __init__(self):
 
         self.janelaOper = Tk()
         self.janelaOper.title('Tela Operativa')
@@ -30,12 +29,12 @@ class LoginAdmnistracao:
 
         self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 12,'bold'), fg='red', bg='#001333')
         self.operadorNome.place(x=10, y=20)
-        self.operadorNomeUser = Label(self.frameTop, text=str(self.operador),font=('arial', 12,'bold'), fg='red', bg='#001333')
+        self.operadorNomeUser = Label(self.frameTop, text='kkkkk',font=('arial', 12,'bold'), fg='red', bg='#001333')
         self.operadorNomeUser.place(x=100, y=20)
 
         self.horaInicial = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='red', bg='#001333')
         self.horaInicial.place(x=10, y=60)
-        self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 13,'bold'), fg='red', bg='white')
+        self.horaAtualUser = Label(self.frameTop, text='kkkkk', font=('arial', 13,'bold'), fg='red', bg='white')
         self.horaAtualUser.place(x=150, y=60)
 
         self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('arial', 40,'bold'), fg='red', bg='black', width=15)
@@ -120,6 +119,7 @@ class LoginAdmnistracao:
         if self.sec == None:
             self.sec = 0
         self.sec = self.sec + 1
+        print(self.sec)
 
         if self.sec >= 59:
             self.sec = 0
@@ -127,6 +127,7 @@ class LoginAdmnistracao:
             if self.minu == None:
                 self.minu = 0
             self.minu = self.minu + 1
+            
             if self.minu >= 59:
                 self.minu = 0
             
