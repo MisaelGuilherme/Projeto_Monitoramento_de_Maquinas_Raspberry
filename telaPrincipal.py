@@ -480,11 +480,11 @@ class LoginAdmnistracao:
         
         #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO ------------------------------------
 
-        self.seconds = Label(self.frameRight, text='0', font=('arial',30), fg=('red'), width=2)
+        self.seconds = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
         self.seconds.place(x=315, y=50)
-        self.minutes = Label(self.frameRight, text='0', font=('arial',30), fg=('red'), width=2)
+        self.minutes = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
         self.minutes.place(x=260, y=50)
-        self.hours = Label(self.frameRight, text='0', font=('arial',30), fg=('red'), width=2)
+        self.hours = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
         self.hours.place(x=205, y=50)
 
     
@@ -537,21 +537,20 @@ class LoginAdmnistracao:
             self.cursor.execute('use empresa_funcionarios')
             self.cursor.execute("select * from pecas_codigo where codigo = "+str(peca))
             valido = self.cursor.fetchall()
-            print('passo 1')
             if len(valido) == 1:
                 self.tempHora = str(valido[0][3])
                 self.tempMin = str(valido[0][4])
+                self.tempSeg = str(valido[0][5])
+                
+                self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
                 self.codP = str(valido[0][2])
-                
-                print('passo 2')
-                
-                print(self.tempHora, self.tempMin)
+    
                 self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
                 self.tempoProgramado.place(x=60, y=300)
                 
                 self.campoProgramado = Label(self.frameLeft, width=15, font=('arial', 15, 'bold'), bg='white')
                 self.campoProgramado.place(x=300, y=300)
-                self.campoProgramado['text'] = str(self.tempHora)+':'+str(self.tempMin)+':00'
+                self.campoProgramado['text'] = self.tempProg
                 
                 self.botConfirmar.destroy()
                 
@@ -607,26 +606,54 @@ class LoginAdmnistracao:
             
             self.chaveControle = True
 
+        #Congfigurando o segundo do temporizador
         if self.sec == None:
             self.sec = 0
+            self.minuC = '00'
+            self.houC = '00'
+
         self.sec = self.sec + 1
+        if self.sec > 0 and self.sec < 10:
+            secA = self.sec / 100
+            secB = str(secA)
+            secC = secB[2:]
+        else: 
+            secC = str(self.sec)
 
-        if self.sec >= 59:
+        if self.sec > 59:
             self.sec = 0
-
+            secC = '00'
+            
+            #Congfigurando o minuto do temporizador
             if self.minu == None:
                 self.minu = 0
             self.minu = self.minu + 1
-            if self.minu >= 59:
-                self.minu = 0
+            if self.minu > 0 and self.minu < 10:
+                minuA = self.minu / 100
+                minuB = str(minuA)
+                self.minuC = minuB[2:]
+            else:
+                minuC = str(self.minu)
             
+            if self.minu > 59:
+                self.minu = 0
+                self.minuC = '00'
+                
+                #Congfigurando a hora do temporizador
                 if self.hou == None:
                     self.hou = 0
                 self.hou = self.hou + 1
+                if self.hou > 0 and self.minu < 10:
+                    houA = self.minu / 100
+                    houB = str(houA)
+                    self.houC = houB[2:]
+                else:
+                    houB = str(self.hou)
 
-        self.seconds['text'] = self.sec
-        self.minutes['text'] = self.minu
-        self.hours['text'] = self.hou
+        self.seconds['text'] = secC
+        self.minutes['text'] = self.minuC
+        self.hours['text'] = self.houC
+
 
         if self.chaveFinalizar == False:
             self.seconds.after(1000, self.botao_iniciar)
@@ -652,7 +679,7 @@ class LoginAdmnistracao:
             
             try:
                 self.cursor.execute('use empresa_funcionarios')
-                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','invalido','"+self.tempHora+"','"+self.codP+"','"+self.numOS+"','invalido','invalido')")
+                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','invalido','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','invalido','invalido')")
                 self.banco.commit()
             except:
                 print('erro ao salvar informações da Tela de Operação')
