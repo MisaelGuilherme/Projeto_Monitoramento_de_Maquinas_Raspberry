@@ -542,6 +542,87 @@ class LoginAdmnistracao:
                 self.tempMin = str(valido[0][4])
                 self.tempSeg = str(valido[0][5])
                 
+                if int(self.tempHora) == 0:
+                    ho = 0
+                    print(ho)
+                    if int(self.tempMin) == 0:
+                        mi = 0
+                        se = 0
+                        print(mi)
+                    elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
+                        mi = int(self.tempMin) // 2
+                        a = int(self.tempMin)/2
+                        b = str(a)
+                        c = int(b[-1])
+                        d = (c*10) - 20
+                        se = d
+                        print(mi)
+                    elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
+                        mi = int(self.tempMin) // 2
+                        se = d
+                        print(mi)
+                    elif int(self.tempMin) == 1:
+                        mi = 0
+                        se = (int(self.tempMin) * 60 ) // 2
+                        print(mi)
+                
+                elif int(self.tempHora) == 1:
+                    ho = 0
+                    print(ho)
+                    if int(self.tempMin) == 0:
+                        mi = (int(self.tempHora) * 60) // 2
+                        print(mi)
+                    elif int(self.tempMin) > 1:
+                        mi = (int(self.tempHora) * 60) // 2 + (int(self.tempMin) // 2)
+                        print(mi)
+                    elif int(self.tempMin) == 1:
+                        mi = (int(self.tempHora) * 60) // 2 
+                        se = (int(self.tempMin) * 60) // 2
+                        print(mi)
+                
+                elif int(self.tempHora) > 1 and int(self.tempHora % 2 == 0):
+                    ho = int(self.tempHora) // 2
+                    print(ho)
+                    if int(self.tempMin) == 0:
+                        mi = 0
+                        print(mi)
+                    elif int(self.tempMin) > 1:
+                        mi = int(self.tempMin) // 2
+                        print(mi)
+                    elif int(self.tempMin) == 1:
+                        mi = 0
+                        se = (int(self.tempMin) * 60) // 2
+                        print(mi)
+                elif int(self.tempHora) > 1 and int(self.tempHora % 2 != 0):
+                    ho = int(self.tempHora) // 2
+                    print(ho)
+                    a = int(self.tempHora)/2
+                    b = str(a)
+                    c = int(b[-1])
+                    d = (c*10) - 20
+                    
+                    if int(self.tempMin) == 0:
+                        mi = d
+                        print(mi)
+                    elif int(self.tempMin) > 1:
+                        mi = int(self.tempMin) // 2 + d
+                        print(mi)
+                    elif int(self.tempMin) == 1:
+                        mi = d
+                        se = (int(self.tempMin) * 60) // 2        
+                        print(mi)                
+        
+                
+                    
+                    
+                    
+                
+                s = self.tempHora+self.tempMin+self.tempSeg
+                #print(s)
+                self.porcent = int(s)
+                #print(self.porcent)
+                
+                
                 self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
                 self.codP = str(valido[0][2])
     
@@ -606,9 +687,10 @@ class LoginAdmnistracao:
             
             self.chaveControle = True
 
-        #Congfigurando o segundo do temporizador
+        #Congfigurando os segundos do temporizador
         if self.sec == None:
             self.sec = 0
+            self.secC = '00'
             self.minuC = '00'
             self.houC = '00'
 
@@ -616,13 +698,13 @@ class LoginAdmnistracao:
         if self.sec > 0 and self.sec < 10:
             secA = self.sec / 100
             secB = str(secA)
-            secC = secB[2:]
+            self.secC = secB[2:]
         else: 
-            secC = str(self.sec)
+            self.secC = str(self.sec)
 
         if self.sec > 59:
             self.sec = 0
-            secC = '00'
+            self.secC = '00'
             
             #Congfigurando o minuto do temporizador
             if self.minu == None:
@@ -633,7 +715,7 @@ class LoginAdmnistracao:
                 minuB = str(minuA)
                 self.minuC = minuB[2:]
             else:
-                minuC = str(self.minu)
+                self.minuC = str(self.minu)
             
             if self.minu > 59:
                 self.minu = 0
@@ -650,7 +732,19 @@ class LoginAdmnistracao:
                 else:
                     houB = str(self.hou)
 
-        self.seconds['text'] = secC
+        #print(f'hora {self.houC} minuto {self.minuC} segundo {self.secC}')
+        n = self.houC+self.minuC+self.secC
+        s = int(n)
+        
+        
+        '''if 50 * 60 / self.porcent == s:
+            self.frameLeft['bg'] = 'yellow'
+            self.frameLeft['bg'] = 'yellow'
+            self.frameRight['bg'] = 'yellow'''
+        
+        print(s, self.porcent)
+        
+        self.seconds['text'] = self.secC
         self.minutes['text'] = self.minuC
         self.hours['text'] = self.houC
 
@@ -677,9 +771,11 @@ class LoginAdmnistracao:
                         recebe += i
             horaFinal = recebe
             
+            self.tempGasto = self.houC+':'+self.minuC+':'+self.secC
+            
             try:
                 self.cursor.execute('use empresa_funcionarios')
-                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','invalido','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','invalido','invalido')")
+                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','invalido','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','"+self.tempGasto+"','invalido')")
                 self.banco.commit()
             except:
                 print('erro ao salvar informações da Tela de Operação')
