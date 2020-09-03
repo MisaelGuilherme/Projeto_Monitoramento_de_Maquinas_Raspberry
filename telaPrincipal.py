@@ -445,8 +445,8 @@ class LoginAdmnistracao:
         self.operadorNomeUser = Label(self.frameTop, text=str(self.operador),font=('arial', 12,'bold'), fg='red', bg='#001333')
         self.operadorNomeUser.place(x=100, y=20)
 
-        self.horaInicial = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='red', bg='#001333')
-        self.horaInicial.place(x=10, y=60)
+        self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='red', bg='#001333')
+        self.horaInicialLb.place(x=10, y=60)
         self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 13,'bold'), fg='red', bg='white')
         self.horaAtualUser.place(x=150, y=60)
 
@@ -538,85 +538,126 @@ class LoginAdmnistracao:
             self.cursor.execute("select * from pecas_codigo where codigo = "+str(peca))
             valido = self.cursor.fetchall()
             if len(valido) == 1:
+                self.mi = 0
+                self.se = 0
                 self.tempHora = str(valido[0][3])
                 self.tempMin = str(valido[0][4])
                 self.tempSeg = str(valido[0][5])
                 
                 if int(self.tempHora) == 0:
-                    ho = 0
-                    print(ho)
+                    self.ho = 0
+                    print(self.ho)
                     if int(self.tempMin) == 0:
-                        mi = 0
-                        se = 0
-                        print(mi)
+                        self.mi = 0
+                        self.se = 0
+                        print(self.mi)
                     elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
-                        mi = int(self.tempMin) // 2
+                        self.mi = int(self.tempMin) // 2
                         a = int(self.tempMin)/2
                         b = str(a)
                         c = int(b[-1])
                         d = (c*10) - 20
-                        se = d
-                        print(mi)
+                        self.se = d
+                        print(self.mi)
+                        print(self.se)
                     elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
-                        mi = int(self.tempMin) // 2
-                        se = d
-                        print(mi)
+                        self.mi = int(self.tempMin) // 2
+                        self.se = 0
+                        print(self.mi)
+                        print(self.se)
                     elif int(self.tempMin) == 1:
-                        mi = 0
-                        se = (int(self.tempMin) * 60 ) // 2
-                        print(mi)
+                        self.mi = 0
+                        self.se = (int(self.tempMin) * 60 ) // 2
+                        print(self.mi)
+                        print(self.se)
                 
                 elif int(self.tempHora) == 1:
-                    ho = 0
-                    print(ho)
+                    self.ho = 0
+                    print(self.ho)
                     if int(self.tempMin) == 0:
-                        mi = (int(self.tempHora) * 60) // 2
-                        print(mi)
-                    elif int(self.tempMin) > 1:
-                        mi = (int(self.tempHora) * 60) // 2 + (int(self.tempMin) // 2)
-                        print(mi)
+                        self.mi = (int(self.tempHora) * 60) // 2
+                        self.se = 0
+                        print(self.mi)
+                        print(self.se)
+                    elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
+                        self.mi = ((int(self.tempHora) * 60) // 2) + (int(self.tempMin) // 2)
+                        a = int(self.tempMin)/2
+                        b = str(a)
+                        c = int(b[-1])
+                        d = (c*10) - 20
+                        self.se = d
+                        print(self.mi)
+                        print(self.se)
+                    elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
+                        self.mi = ((int(self.tempHora) * 60) // 2) + (int(self.tempMin) // 2)
+                        self.se = 0
+                        print(self.mi)
+                        print(self.se)
                     elif int(self.tempMin) == 1:
-                        mi = (int(self.tempHora) * 60) // 2 
-                        se = (int(self.tempMin) * 60) // 2
-                        print(mi)
+                        self.mi = (int(self.tempHora) * 60) // 2 
+                        self.se = (int(self.tempMin) * 60) // 2
+                        print(self.mi)
+                        print(self.se)
                 
                 elif int(self.tempHora) > 1 and int(self.tempHora % 2 == 0):
-                    ho = int(self.tempHora) // 2
-                    print(ho)
+                    self.ho = int(self.tempHora) // 2
+                    print(self.ho)
                     if int(self.tempMin) == 0:
-                        mi = 0
-                        print(mi)
-                    elif int(self.tempMin) > 1:
-                        mi = int(self.tempMin) // 2
-                        print(mi)
+                        self.mi = 0
+                        self.se = 0
+                        print(self.mi)
+                        print(self.se)
+                    elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
+                        self.mi = int(self.tempMin) // 2
+                        a = int(self.tempMin)/2
+                        b = str(a)
+                        c = int(b[-1])
+                        d = (c*10) - 20
+                        self.se = d
+                        print(self.mi)
+                        print(self.se)
+                    elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
+                        self.mi = int(self.tempMin) // 2
+                        self.se = 0
+                        print(self.mi)
+                        print(self.se)
                     elif int(self.tempMin) == 1:
-                        mi = 0
-                        se = (int(self.tempMin) * 60) // 2
-                        print(mi)
+                        self.mi = 0
+                        self.se = (int(self.tempMin) * 60) // 2
+                        print(self.mi)
+                        print(self.se)
                 elif int(self.tempHora) > 1 and int(self.tempHora % 2 != 0):
-                    ho = int(self.tempHora) // 2
-                    print(ho)
-                    a = int(self.tempHora)/2
-                    b = str(a)
-                    c = int(b[-1])
-                    d = (c*10) - 20
+                    self.ho = int(self.tempHora) // 2
+                    print(self.ho)
+                    a1 = int(self.tempHora)/2
+                    b2 = str(a)
+                    c3 = int(b[-1])
+                    d4 = (c*10) - 20
                     
                     if int(self.tempMin) == 0:
-                        mi = d
-                        print(mi)
-                    elif int(self.tempMin) > 1:
-                        mi = int(self.tempMin) // 2 + d
-                        print(mi)
+                        self.mi = d4
+                        self.se = 0
+                        print(self.mi)
+                        print(self.se)
+                    elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
+                        self.mi = (d4) + (int(self.tempMin) // 2)
+                        a = int(self.tempMin)/2
+                        b = str(a)
+                        c = int(b[-1])
+                        d = (c*10) - 20
+                        self.se = d
+                        print(self.mi)
+                        print(self.se)
+                    elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
+                        self.mi = (d4) + (int(self.tempMin) // 2)
+                        self.se = 0
+                        print(self.mi)
+                        print(self.se)
                     elif int(self.tempMin) == 1:
-                        mi = d
-                        se = (int(self.tempMin) * 60) // 2        
-                        print(mi)                
-        
-                
-                    
-                    
-                    
-                
+                        self.mi = d4
+                        self.se = (int(self.tempMin) * 60) // 2        
+                        print(self.mi)                
+
                 s = self.tempHora+self.tempMin+self.tempSeg
                 #print(s)
                 self.porcent = int(s)
@@ -685,6 +726,17 @@ class LoginAdmnistracao:
                         recebe += i
             self.horaInicial = recebe
             
+            self.frameTop['bg'] = 'green'
+            self.frameLeft['bg'] = 'green'
+            self.frameRight['bg'] = 'green'
+            self.operadorNome['bg'] = 'green'
+            self.operadorNomeUser['bg'] = 'green'
+            self.horaInicialLb['bg'] = 'green'
+            self.multimolde['bg'] = 'green'
+            self.ordemServico['bg'] = 'green'
+            self.codigoPeca['bg'] = 'green'
+            self.tempoProgramado['bg'] = 'green'
+            
             self.chaveControle = True
 
         #Congfigurando os segundos do temporizador
@@ -732,17 +784,26 @@ class LoginAdmnistracao:
                 else:
                     houB = str(self.hou)
 
-        #print(f'hora {self.houC} minuto {self.minuC} segundo {self.secC}')
-        n = self.houC+self.minuC+self.secC
-        s = int(n)
+        print(f'hora {self.houC} minuto {self.minuC} segundo {self.secC}')
         
-        
-        '''if 50 * 60 / self.porcent == s:
+        h = int(self.houC)
+        m = int(self.minuC)
+        s = int(self.secC)
+        print(h,m,s)
+        print(self.ho,self.mi,self.se)
+        if self.se == s and self.mi == m and h == self.ho:
+
+            self.frameTop['bg'] = 'yellow'
             self.frameLeft['bg'] = 'yellow'
-            self.frameLeft['bg'] = 'yellow'
-            self.frameRight['bg'] = 'yellow'''
-        
-        print(s, self.porcent)
+            self.frameRight['bg'] = 'yellow'
+            self.operadorNome['bg'] = 'yellow'
+            self.operadorNomeUser['bg'] = 'yellow'
+            self.horaInicialLb['bg'] = 'yellow'
+            self.multimolde['bg'] = 'yellow'
+            self.ordemServico['bg'] = 'yellow'
+            self.codigoPeca['bg'] = 'yellow'
+            self.tempoProgramado['bg'] = 'yellow'
+            
         
         self.seconds['text'] = self.secC
         self.minutes['text'] = self.minuC
