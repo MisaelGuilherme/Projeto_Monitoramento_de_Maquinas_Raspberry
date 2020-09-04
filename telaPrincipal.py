@@ -851,11 +851,6 @@ class LoginAdmnistracao:
             self.codigoPeca['fg'] = 'white'
             self.tempoProgramado['fg'] = 'white'
             
-            self.imgRelo = PhotoImage(file="funcionario.png")
-            
-            self.imagemPricipalFun = Label(self.janelaFuncio, image=self.imgFun, bg='white')
-            self.imagemPricipalFun.place(x=170,y=10)
-            
         if int(self.tempHora) >= 1:
             #para contagens a partir de uma hora
             if h == int(self.tempHora) and m + 10 == int(self.tempMin) and s == 0:
