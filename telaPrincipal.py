@@ -1,12 +1,13 @@
+#Pogramador: Misael Jesus
+
 from datetime import *
 from tkinter import *
 from time import sleep
 #import sqlite3
 import mysql.connector
 
-
-
 class LoginAdmnistracao:
+    
     #------------------------------- (Login Funcionário) - FUNÇÃO 1º A SER INICIADA -------------------------
 
     def __init__(self):
@@ -423,19 +424,22 @@ class LoginAdmnistracao:
         self.janelaOper = Tk()
         self.janelaOper.title('Tela Operativa')
         self.janelaOper.iconbitmap('icone2.ico')
-        self.janelaOper.configure(background='white')
+        self.janelaOper.configure(background='#2e2e2e')
         self.janelaOper.geometry('500x500+200+100')
         self.janelaOper.state('zoomed')
 
         #(Tela Operativa) - FRAMES DA TELA DE OPERAÇÃO ------------------------------------
 
-        self.frameTop = Frame(self.janelaOper, width=1400, height=130, bg='#001333')
+        self.frameTop = Frame(self.janelaOper, width=1400, height=130, bg='#001333',highlightthickness=3,highlightcolor='black')
+        self.frameTop.config(highlightbackground='black')
         self.frameTop.pack(side=TOP)
 
-        self.frameLeft = Frame(self.janelaOper, width=800, height=550, bg='#001333')
+        self.frameLeft = Frame(self.janelaOper, width=800, bg='#001333', height=550,highlightthickness=3,highlightcolor='black')
+        self.frameLeft.config(highlightbackground='black')
         self.frameLeft.pack(side=LEFT)
 
-        self.frameRight = Frame(self.janelaOper, width=550, height=550, bg='#001333') ##c4c0c0
+        self.frameRight = Frame(self.janelaOper, width=550, height=550, bg='#001333',highlightthickness=3,highlightcolor='black') ##c4c0c0
+        self.frameRight.config(highlightbackground='black')
         self.frameRight.pack(side=RIGHT)
 
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - DADOS DO OPERADOR -----------------------------
@@ -448,12 +452,12 @@ class LoginAdmnistracao:
         self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='red', bg='#001333')
         self.horaInicialLb.place(x=10, y=60)
         self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 13,'bold'), fg='red', bg='white')
-        self.horaAtualUser.place(x=150, y=60)
+        self.horaAtualUser.place(x=160, y=60)
 
-        self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('arial', 40,'bold'), fg='red', bg='black', width=15)
+        self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('arial', 40,'bold'), fg='red', bg='#001333', width=15)
         self.multimolde.place(x=500, y=20)
         
-        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='red', bg='white', width=5, command=lambda:self.sairTela())
+        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', width=5, command=lambda:self.sairTela())
         self.sair.place(x=1180,y=20)
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO -----------------------------
@@ -468,6 +472,7 @@ class LoginAdmnistracao:
         self.ordemServico.place(x=70, y=100)
         self.campoServico = Entry(self.frameLeft, width=25, font=('arial', 15), bg='white')
         self.campoServico.place(x=300, y=100)
+        self.campoServico.focus_force()
         
         self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
         self.codigoPeca.place(x=90, y=200)
@@ -676,7 +681,7 @@ class LoginAdmnistracao:
                 
                 self.botConfirmar.destroy()
                 
-                self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='red', fg='white', border=10, font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+                self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
                 self.botaoInciarContador.place(x=205, y=200)
             
             else:
@@ -712,7 +717,7 @@ class LoginAdmnistracao:
 
         if self.chaveControle == False:
             
-            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='green', fg='white', border=10, font=('arial', 25, 'bold'), width=15, command = lambda: self.contagemFinalizada())
+            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), width=15, command = lambda: self.contagemFinalizada())
             self.botFinalizar.place(x=130, y=200)
             self.botaoInciarContador.destroy()
             time = datetime.now().time()
@@ -803,6 +808,29 @@ class LoginAdmnistracao:
             self.ordemServico['bg'] = 'yellow'
             self.codigoPeca['bg'] = 'yellow'
             self.tempoProgramado['bg'] = 'yellow'
+        
+        if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
+            self.frameTop['bg'] = '#cf0000'
+            self.frameLeft['bg'] = '#cf0000'
+            self.frameRight['bg'] = '#cf0000'
+            self.operadorNome['bg'] = '#cf0000'
+            self.operadorNomeUser['bg'] = '#cf0000'
+            self.horaInicialLb['bg'] = '#cf0000'
+            self.multimolde['bg'] = '#cf0000'
+            self.ordemServico['bg'] = '#cf0000'
+            self.codigoPeca['bg'] = '#cf0000'
+            self.tempoProgramado['bg'] = '#cf0000'
+            
+            self.operadorNome['fg'] = 'white'
+            self.operadorNomeUser['fg'] = 'white'
+            self.horaInicialLb['fg'] = 'white'
+            self.multimolde['fg'] = 'white'
+            self.ordemServico['fg'] = 'white'
+            self.codigoPeca['fg'] = 'white'
+            self.tempoProgramado['fg'] = 'white'
+            
+        
+        #if self.se == s and self.mi == m and h == self.ho:
             
         
         self.seconds['text'] = self.secC
