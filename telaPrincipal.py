@@ -250,7 +250,6 @@ class LoginAdmnistracao:
             password="")
             
             cursor = banco.cursor()
-            #cursor.execute("CREATE DATABASE IF NOT EXISTS empresa_funcionarios")
             cursor.execute('USE empresa_funcionarios')
             cursor.execute('select * from funcionarios where cpf = '+str(cpf))
             valido = cursor.fetchall()
@@ -285,7 +284,6 @@ class LoginAdmnistracao:
             #CADASTRANDO ENVIANDO DADOS DO FUNCIONÁRIO PRO BANCO DE DADOS
             else:
                     
-                #cursor.execute("CREATE TABLE IF NOT EXISTS funcionarios(cpf int(11) NOT NULL, nome VARCHAR(30), senha int(8))")
                 cursor.execute("INSERT INTO funcionarios VALUES(id,'"+nome+"','"+cpf+"','"+senha+"')")
                 banco.commit()
                 comando = 1
@@ -428,7 +426,7 @@ class LoginAdmnistracao:
         self.janelaOper.geometry('500x500+200+100')
         self.janelaOper.state('zoomed')
 
-        #(Tela Operativa) - FRAMES DA TELA DE OPERAÇÃO ------------------------------------
+        #(Tela Operativa) - FRAMES DA TELA DE OPERAÇÃO
 
         self.frameTop = Frame(self.janelaOper, width=1400, height=130, bg='#001333',highlightthickness=3,highlightcolor='black')
         self.frameTop.config(highlightbackground='black')
@@ -442,7 +440,7 @@ class LoginAdmnistracao:
         self.frameRight.config(highlightbackground='black')
         self.frameRight.pack(side=RIGHT)
 
-        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - DADOS DO OPERADOR -----------------------------
+        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - DADOS DO OPERADOR 
 
         self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 12,'bold'), fg='red', bg='#001333')
         self.operadorNome.place(x=10, y=20)
@@ -460,13 +458,7 @@ class LoginAdmnistracao:
         self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', width=5, command=lambda:self.sairTela())
         self.sair.place(x=1180,y=20)
         
-        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO -----------------------------
-
-        '''self.idLabel = Label(self.frameLeft, text='ID:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
-        self.idLabel.place(x=230, y=100)
-        self.campoId = Entry(self.frameLeft, width=30, font=('arial', 15))
-        self.campoId.place(x=300, y=100)
-        self.campoId.focus_force()'''
+        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
 
         self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
         self.ordemServico.place(x=70, y=100)
@@ -483,7 +475,7 @@ class LoginAdmnistracao:
         self.botConfirmar = Button(self.frameLeft, text='Confirmar', width=10, font=('arial', 15), bg='orange', command=lambda:self.confirmarCampos())
         self.botConfirmar.place(x=360, y=350)
         
-        #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO ------------------------------------
+        #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO
 
         self.seconds = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
         self.seconds.place(x=315, y=50)
@@ -492,16 +484,19 @@ class LoginAdmnistracao:
         self.hours = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
         self.hours.place(x=205, y=50)
 
-    
+        '''Chave de controle, respomsável de quando ser TRUE, informar que o botão INICIAR iniciou a contagem e em seguida
+        destrui-lo fazendo o botão FINALIZAR 0S aparecer'''
         self.chaveControle = False
 
-        
+        '''Chave finalizar, responsável de quando TRUE, informar que o botão FINALIZAR OS foi acionado, e destrui-lo, mostrando um label que o OS foi finalizado.'''
         self.chaveFinalizar = False
         
+        #variaveis que tornaram possiveis a contagem do cronômetro
         self.sec = None
         self.minu = None
         self.hou = None
 
+        #Encerra a janela de operação na parte de label, Campos de entradas e de Frames, as demais serão chamadas através de funções
         self.janelaOper.mainloop()
         
     def confirmarCampos(self):
@@ -789,13 +784,13 @@ class LoginAdmnistracao:
                 else:
                     houB = str(self.hou)
 
-        print(f'hora {self.houC} minuto {self.minuC} segundo {self.secC}')
+        #print(f'hora {self.houC} minuto {self.minuC} segundo {self.secC}')
         
         h = int(self.houC)
         m = int(self.minuC)
         s = int(self.secC)
-        print(h,m,s)
-        print(self.ho,self.mi,self.se)
+        #print(h,m,s)
+        #print(self.ho,self.mi,self.se)
         if self.se == s and self.mi == m and h == self.ho:
 
             self.frameTop['bg'] = 'yellow'
@@ -829,10 +824,57 @@ class LoginAdmnistracao:
             self.codigoPeca['fg'] = 'white'
             self.tempoProgramado['fg'] = 'white'
             
-        
-        #if self.se == s and self.mi == m and h == self.ho:
+            self.botFinalizar.destroy()
             
+            self.chaveFinalizar = True
+            
+            self.labFinalizar =  Label(self.frameRight, text='Tempo excedido!!',  bg='red', fg='white', font=('arial', 25, 'bold'))
+            self.labFinalizar.place(x=120, y=150)
         
+        def telaVermelha2():
+            self.frameTop['bg'] = 'red'
+            self.frameLeft['bg'] = 'red'
+            self.frameRight['bg'] = 'red'
+            self.operadorNome['bg'] = 'red'
+            self.operadorNomeUser['bg'] = 'red'
+            self.horaInicialLb['bg'] = 'red'
+            self.multimolde['bg'] = 'red'
+            self.ordemServico['bg'] = 'red'
+            self.codigoPeca['bg'] = 'red'
+            self.tempoProgramado['bg'] = 'red'
+            
+            self.operadorNome['fg'] = 'white'
+            self.operadorNomeUser['fg'] = 'white'
+            self.horaInicialLb['fg'] = 'white'
+            self.multimolde['fg'] = 'white'
+            self.ordemServico['fg'] = 'white'
+            self.codigoPeca['fg'] = 'white'
+            self.tempoProgramado['fg'] = 'white'
+            
+            self.imgRelo = PhotoImage(file="funcionario.png")
+            
+            self.imagemPricipalFun = Label(self.janelaFuncio, image=self.imgFun, bg='white')
+            self.imagemPricipalFun.place(x=170,y=10)
+            
+        if int(self.tempHora) >= 1:
+            #para contagens a partir de uma hora
+            if h == int(self.tempHora) and m + 10 == int(self.tempMin) and s == 0:
+                telaVermelha2()
+        elif int(self.tempHora) == 0:
+            print('Original: ',int(self.tempSeg), int(self.tempMin), int(self.tempHora))
+            print('falsos: ',s,m,h)
+            print('a: ', self.se, self.mi, self.ho)
+            
+            if int(self.tempMin) <= 30 and int(self.tempMin) > 10 and m + 5 == int(self.tempMin):
+                telaVermelha2()
+                
+            elif int(self.tempMin) <= 10 and int(self.tempMin) > 2 and m + 1 == int(self.tempMin):
+                telaVermelha2()
+                
+            elif int(self.tempMin) == 2 and m == self.mi and s + 30 == 60:
+                telaVermelha2()
+            elif int(self.tempMin) == 1 and m == self.mi and s + 10 == 60:
+                telaVermelha2()
         self.seconds['text'] = self.secC
         self.minutes['text'] = self.minuC
         self.hours['text'] = self.houC
