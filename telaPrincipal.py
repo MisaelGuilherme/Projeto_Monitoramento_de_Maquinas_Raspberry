@@ -160,10 +160,172 @@ class LoginAdmnistracao:
         mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
         mm.place(x=400,y=140)
         
-        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', fg='white')
+        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', fg='white', command= lambda: self.configurar_tempo_extra())
         bc.place(x=225,y=260)
         
+        self.hr = ll.get()
+        self.mt = mm.get()
+        
         self.janelaTempExtra.mainloop()
+
+    def configurar_tempo_extra(self):
+        
+        self.janelaTempExtra.destroy()
+        
+        self.seconds['text'] = '00'
+        self.minutes['text'] = '00'
+        self.hours['text'] = '00'
+        
+        self.chaveControle = False
+        self.chaveFinalizar = False
+
+        self.sec = None
+
+        self.minu = None
+
+        self.hou = None
+
+        self.tempHora = str(self.hr)
+        
+        self.tempMin = str(self.mt)
+        
+        self.tempSeg = '00'
+
+        self.botaoReabilitar.destroy()
+        
+        self.labFinalizar.destroy()
+        
+        self.mi = 0
+        self.se = 0
+        self.tempHora = 0
+        self.tempMin = 2
+        self.tempSeg = 0
+        
+        if int(self.tempHora) == 0:
+            self.ho = 0
+            print(self.ho)
+            if int(self.tempMin) == 0:
+                self.mi = 0
+                self.se = 0
+                print(self.mi)
+            elif int(self.tempMin) > 2 and int(self.tempMin) % 2 != 0:
+                self.mi = int(self.tempMin) // 2
+                a = int(self.tempMin)/2
+                b = str(a)
+                c = int(b[-1])
+                d = (c*10) - 20
+                self.se = d
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) > 2 and int(self.tempMin) % 2 == 0:
+                self.mi = int(self.tempMin) // 2
+                self.se = 0
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) == 1:
+                self.mi = 0
+                self.se = (int(self.tempMin) * 60 ) // 2
+                print(self.mi)
+                print(self.se)
+            #============================ ANALISAR O CODIGO =======================
+            elif int(self.tempMin) == 2:
+                self.mi = 1
+                self.se = 0
+                print(self.mi)
+                print(self.se)
+        
+        elif int(self.tempHora) == 1:
+            self.ho = 0
+            print(self.ho)
+            if int(self.tempMin) == 0:
+                self.mi = (int(self.tempHora) * 60) // 2
+                self.se = 0
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
+                self.mi = ((int(self.tempHora) * 60) // 2) + (int(self.tempMin) // 2)
+                a = int(self.tempMin)/2
+                b = str(a)
+                c = int(b[-1])
+                d = (c*10) - 20
+                self.se = d
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
+                self.mi = ((int(self.tempHora) * 60) // 2) + (int(self.tempMin) // 2)
+                self.se = 0
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) == 1:
+                self.mi = (int(self.tempHora) * 60) // 2 
+                self.se = (int(self.tempMin) * 60) // 2
+                print(self.mi)
+                print(self.se)
+        
+        elif int(self.tempHora) > 1 and int(self.tempHora % 2 == 0):
+            self.ho = int(self.tempHora) // 2
+            print(self.ho)
+            if int(self.tempMin) == 0:
+                self.mi = 0
+                self.se = 0
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
+                self.mi = int(self.tempMin) // 2
+                a = int(self.tempMin)/2
+                b = str(a)
+                c = int(b[-1])
+                d = (c*10) - 20
+                self.se = d
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
+                self.mi = int(self.tempMin) // 2
+                self.se = 0
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) == 1:
+                self.mi = 0
+                self.se = (int(self.tempMin) * 60) // 2
+                print(self.mi)
+                print(self.se)
+        elif int(self.tempHora) > 1 and int(self.tempHora % 2 != 0):
+            self.ho = int(self.tempHora) // 2
+            print(self.ho)
+            a1 = int(self.tempHora)/2
+            b2 = str(a)
+            c3 = int(b[-1])
+            d4 = (c*10) - 20
+            
+            if int(self.tempMin) == 0:
+                self.mi = d4
+                self.se = 0
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
+                self.mi = (d4) + (int(self.tempMin) // 2)
+                a = int(self.tempMin)/2
+                b = str(a)
+                c = int(b[-1])
+                d = (c*10) - 20
+                self.se = d
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
+                self.mi = (d4) + (int(self.tempMin) // 2)
+                self.se = 0
+                print(self.mi)
+                print(self.se)
+            elif int(self.tempMin) == 1:
+                self.mi = d4
+                self.se = (int(self.tempMin) * 60) // 2        
+                print(self.mi)                
+        
+        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', width=5, command=lambda:self.sairTela())
+        self.sair.place(x=1180,y=20)
+        
+        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+        self.botaoInciarContador.place(x=205, y=200)
             
     #------------------------------- (Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: verificar_adm() ------------------
 
@@ -577,18 +739,12 @@ class LoginAdmnistracao:
         self.numOS = str(self.campoServico.get())
         peca = self.campoPeca.get()
         
-        self.campoServico = Label(self.frameLeft, text=self.numOS, width=25, font=('arial', 15), bg='white')
-        self.campoServico.place(x=300, y=100)
-
-        self.campoPeca = Label(self.frameLeft, text=peca, width=25, font=('arial', 15))
-        self.campoPeca.place(x=300, y=200)
-        
-        
         try:
             self.cursor.execute('use empresa_funcionarios')
             self.cursor.execute("select * from pecas_codigo where codigo = "+str(peca))
             valido = self.cursor.fetchall()
             if len(valido) == 1:
+                
                 self.mi = 0
                 self.se = 0
                 self.tempHora = str(valido[0][3])
@@ -723,9 +879,16 @@ class LoginAdmnistracao:
                 
                 self.campoProgramado = Label(self.frameLeft, width=15, font=('arial', 15, 'bold'), bg='white')
                 self.campoProgramado.place(x=300, y=300)
+                
                 self.campoProgramado['text'] = self.tempProg
                 
                 self.botConfirmar.destroy()
+                
+                self.campoServico = Label(self.frameLeft, text=self.campoServico.get(), width=25, font=('arial', 15), bg='white')
+                self.campoServico.place(x=300, y=100)
+
+                self.campoPeca = Label(self.frameLeft, text=self.campoPeca.get(), width=25, font=('arial', 15))
+                self.campoPeca.place(x=300, y=200)
                 
                 self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
                 self.botaoInciarContador.place(x=205, y=200)
@@ -788,6 +951,14 @@ class LoginAdmnistracao:
             self.codigoPeca['bg'] = 'green'
             self.tempoProgramado['bg'] = 'green'
             
+            self.operadorNome['fg'] = 'red'
+            self.operadorNomeUser['fg'] = 'red'
+            self.horaInicialLb['fg'] = 'red'
+            self.multimolde['fg'] = 'red'
+            self.ordemServico['fg'] = 'red'
+            self.codigoPeca['fg'] = 'red'
+            self.tempoProgramado['fg'] = 'red' 
+            
             self.chaveControle = True
 
         #Congfigurando os segundos do temporizador
@@ -809,7 +980,7 @@ class LoginAdmnistracao:
             self.sec = 0
             self.secC = '00'
             
-            #Congfigurando o minuto do temporizador
+            #Configurando o minuto do temporizador
             if self.minu == None:
                 self.minu = 0
             self.minu = self.minu + 1
@@ -854,6 +1025,14 @@ class LoginAdmnistracao:
             self.ordemServico['bg'] = 'yellow'
             self.codigoPeca['bg'] = 'yellow'
             self.tempoProgramado['bg'] = 'yellow'
+            
+            self.operadorNome['fg'] = 'red'
+            self.operadorNomeUser['fg'] = 'red'
+            self.horaInicialLb['fg'] = 'red'
+            self.multimolde['fg'] = 'red'
+            self.ordemServico['fg'] = 'red'
+            self.codigoPeca['fg'] = 'red'
+            self.tempoProgramado['fg'] = 'red' 
         
         if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
             self.frameTop['bg'] = '#870000'
@@ -910,9 +1089,9 @@ class LoginAdmnistracao:
             if h == int(self.tempHora) and m + 10 == int(self.tempMin) and s == 0:
                 telaVermelha2()
         elif int(self.tempHora) == 0:
-            print('Original: ',int(self.tempSeg), int(self.tempMin), int(self.tempHora))
+            '''print('Original: ',int(self.tempSeg), int(self.tempMin), int(self.tempHora))
             print('falsos: ',s,m,h)
-            print('a: ', self.se, self.mi, self.ho)
+            print('a: ', self.se, self.mi, self.ho)'''
             
             if int(self.tempMin) <= 30 and int(self.tempMin) > 10 and m + 5 == int(self.tempMin):
                 telaVermelha2()
