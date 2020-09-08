@@ -53,14 +53,14 @@ class LoginAdmnistracao:
 
         self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
         self.lbCadastrar.place(x=340, y=410)
-        self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', bg='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin())
+        self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', bg='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
         self.botCadastrar.place(x=370, y=440)
 
         self.janelaFuncio.mainloop()
     
     #------------------------------- (Login Administração) - FUNÇÃO 2º A SER INVOCADA POR: botCadastrar ------------------
 
-    def tela_admin(self):
+    def tela_admin(self, botao):
     
         #------------------------------- (Login Administração) - Configurações da Janela ------------------------------- 
         #------------------------------- (Login Administração) - Dimensões da Janela -----------------------------------
@@ -99,19 +99,23 @@ class LoginAdmnistracao:
         self.admSenhaPrincipal.place(x=160,y=210)
         self.admSenhaPrincipal.focus_force()
 
-        self.admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.verificar_adm())
+        self.admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.verificar_adm(botao))
         self.admBotaoPrincipal.place(x=210,y=300)
 
         self.janelaADM.mainloop()
     
     #------------------------------- (Login Administração) - FUNÇÃO 3º A SER INVOCADA POR: admBotaoPrincipal -----------------
 
-    def verificar_adm(self):
+    def verificar_adm(self, contV):
         if str(self.admSenhaPrincipal.get()).isnumeric():
             self.valor = self.admSenhaPrincipal.get()
-            if self.valor == str(123):
+            if self.valor == str(123) and contV == 1:                
                 self.janelaADM.destroy()
                 self.tela_cadastrar()
+            elif self.valor == str(123) and contV == 2:
+                self.janelaADM.destroy()
+                self.tempo_extra()
+                
             else:
                 self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
                 self.labelErro2.place(x=157, y=233)
@@ -121,7 +125,46 @@ class LoginAdmnistracao:
         else:
             self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
             self.labelErro2.place(x=157, y=233)
+    def tempo_extra(self):
+        
+        self.janelaTempExtra = Tk()
+        self.janelaTempExtra.title('Tela Operativa')
+        self.janelaTempExtra.iconbitmap('icone2.ico')
+        self.janelaTempExtra.configure(background='#870000')
+        self.janelaTempExtra.geometry('550x350+200+100')
+        
+        self.largura = 550
+        self.altura = 350
 
+        self.largura_screen = self.janelaTempExtra.winfo_screenwidth()
+        self.altura_screen = self.janelaTempExtra.winfo_screenheight()
+
+        self.posicaoX = self.largura_screen/2 - self.largura/2
+        self.posicaoY = self.altura_screen/2 - self.altura/2
+
+        self.janelaTempExtra.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))
+        
+        lt = Label(self.janelaTempExtra, text='Tempo Extra', font=('arial',20,'bold'), bg='#870000', fg='white')
+        lt.place(x=195, y=10)
+        
+        lh = Label(self.janelaTempExtra, text='Horas:', font=('arial',20,'bold'), bg='#870000', fg='white')
+        lh.place(x=70, y=135)
+        lh.focus_force()
+        
+        ll = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
+        ll.place(x=170, y=140)
+        
+        lm = Label(self.janelaTempExtra, text='Minutos:', font=('arial',20,'bold'), bg='#870000', fg='white')
+        lm.place(x=270,y=135)
+        
+        mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
+        mm.place(x=400,y=140)
+        
+        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', fg='white')
+        bc.place(x=225,y=260)
+        
+        self.janelaTempExtra.mainloop()
+            
     #------------------------------- (Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: verificar_adm() ------------------
 
     def tela_cadastrar(self):
@@ -360,6 +403,7 @@ class LoginAdmnistracao:
                                 else:
                                     recebe += i
                         self.horaLogin = recebe
+                        self.janelaFuncio.destroy()
                         self.tela_de_operacao()
                     
                     #alerta caso o usuário não seja encontrado
@@ -417,7 +461,6 @@ class LoginAdmnistracao:
 
     #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
     def tela_de_operacao(self):
-        self.janelaFuncio.destroy()
 
         self.janelaOper = Tk()
         self.janelaOper.title('Tela Operativa')
@@ -530,8 +573,16 @@ class LoginAdmnistracao:
         
         
     def botaoConfirmarOS(self):
-        peca = self.campoPeca.get()
+        
         self.numOS = str(self.campoServico.get())
+        peca = self.campoPeca.get()
+        
+        self.campoServico = Label(self.frameLeft, text=self.numOS, width=25, font=('arial', 15), bg='white')
+        self.campoServico.place(x=300, y=100)
+
+        self.campoPeca = Label(self.frameLeft, text=peca, width=25, font=('arial', 15))
+        self.campoPeca.place(x=300, y=200)
+        
         
         try:
             self.cursor.execute('use empresa_funcionarios')
@@ -805,16 +856,16 @@ class LoginAdmnistracao:
             self.tempoProgramado['bg'] = 'yellow'
         
         if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
-            self.frameTop['bg'] = '#cf0000'
-            self.frameLeft['bg'] = '#cf0000'
-            self.frameRight['bg'] = '#cf0000'
-            self.operadorNome['bg'] = '#cf0000'
-            self.operadorNomeUser['bg'] = '#cf0000'
-            self.horaInicialLb['bg'] = '#cf0000'
-            self.multimolde['bg'] = '#cf0000'
-            self.ordemServico['bg'] = '#cf0000'
-            self.codigoPeca['bg'] = '#cf0000'
-            self.tempoProgramado['bg'] = '#cf0000'
+            self.frameTop['bg'] = '#870000'
+            self.frameLeft['bg'] = '#870000'
+            self.frameRight['bg'] = '#870000'
+            self.operadorNome['bg'] = '#870000'
+            self.operadorNomeUser['bg'] = '#870000'
+            self.horaInicialLb['bg'] = '#870000'
+            self.multimolde['bg'] = '#870000'
+            self.ordemServico['bg'] = '#870000'
+            self.codigoPeca['bg'] = '#870000'
+            self.tempoProgramado['bg'] = '#870000'
             
             self.operadorNome['fg'] = 'white'
             self.operadorNomeUser['fg'] = 'white'
@@ -822,14 +873,17 @@ class LoginAdmnistracao:
             self.multimolde['fg'] = 'white'
             self.ordemServico['fg'] = 'white'
             self.codigoPeca['fg'] = 'white'
-            self.tempoProgramado['fg'] = 'white'
+            self.tempoProgramado['fg'] = 'white'            
             
             self.botFinalizar.destroy()
-            
+            self.sair.destroy()
             self.chaveFinalizar = True
             
-            self.labFinalizar =  Label(self.frameRight, text='Tempo excedido!!',  bg='red', fg='white', font=('arial', 25, 'bold'))
-            self.labFinalizar.place(x=120, y=150)
+            self.labFinalizar =  Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
+            self.labFinalizar.place(x=150, y=150)
+            
+            self.botaoReabilitar = Button(self.frameRight, text='REABILITAR', bg='orange', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
+            self.botaoReabilitar.place(x=170, y=220)
         
         def telaVermelha2():
             self.frameTop['bg'] = 'red'
@@ -901,7 +955,7 @@ class LoginAdmnistracao:
             
             try:
                 self.cursor.execute('use empresa_funcionarios')
-                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','invalido','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','"+self.tempGasto+"','invalido')")
+                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','"+self.tempGasto+"','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','invalido','invalido')")
                 self.banco.commit()
             except:
                 print('erro ao salvar informações da Tela de Operação')
