@@ -151,24 +151,51 @@ class LoginAdmnistracao:
         lh.place(x=70, y=135)
         lh.focus_force()
         
-        ll = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
-        ll.place(x=170, y=140)
+        self.ll = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
+        self.ll.place(x=170, y=140)
         
         lm = Label(self.janelaTempExtra, text='Minutos:', font=('arial',20,'bold'), bg='#870000', fg='white')
         lm.place(x=270,y=135)
         
-        mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
-        mm.place(x=400,y=140)
+        self.mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
+        self.mm.place(x=400,y=140)
         
-        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', fg='white', command= lambda: self.configurar_tempo_extra())
+        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', fg='white', command= lambda: self.verificar_tempo_extra())
         bc.place(x=225,y=260)
-        
-        self.hr = ll.get()
-        self.mt = mm.get()
         
         self.janelaTempExtra.mainloop()
 
+    def verificar_tempo_extra(self):
+        if self.ll.get() == '' or self.mm.get() == '':
+            self.alerta = Toplevel()
+            self.alerta.title('Alerta')
+            self.alerta.iconbitmap('icone2.ico')
+            self.alerta.resizable(False, False)
+            self.alerta.configure(background='white')
+
+            largura = 350
+            altura = 150
+
+            largura_screen = self.alerta.winfo_screenwidth()
+            altura_screen = self.alerta.winfo_screenheight()
+
+            posicaoX = largura_screen/2 - largura/2
+            posicaoY = altura_screen/2 - altura/2
+
+            self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+
+            labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
+            labelAlert.place(x=75,y=20)
+
+            botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+            botaoAlert.place(x=130,y=90)
+        
+        else:
+            self.configurar_tempo_extra()
+
     def configurar_tempo_extra(self):
+        ll = self.ll.get()
+        mm = self.mm.get()
         
         self.janelaTempExtra.destroy()
         
@@ -185,21 +212,14 @@ class LoginAdmnistracao:
 
         self.hou = None
 
-        self.tempHora = str(self.hr)
-        
-        self.tempMin = str(self.mt)
-        
-        self.tempSeg = '00'
-
         self.botaoReabilitar.destroy()
         
         self.labFinalizar.destroy()
         
         self.mi = 0
         self.se = 0
-        self.tempHora = 0
-        self.tempMin = 2
-        self.tempSeg = 0
+        self.tempHora = ll
+        self.tempMin = mm
         
         if int(self.tempHora) == 0:
             self.ho = 0
@@ -208,7 +228,7 @@ class LoginAdmnistracao:
                 self.mi = 0
                 self.se = 0
                 print(self.mi)
-            elif int(self.tempMin) > 2 and int(self.tempMin) % 2 != 0:
+            elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
                 self.mi = int(self.tempMin) // 2
                 a = int(self.tempMin)/2
                 b = str(a)
@@ -217,7 +237,7 @@ class LoginAdmnistracao:
                 self.se = d
                 print(self.mi)
                 print(self.se)
-            elif int(self.tempMin) > 2 and int(self.tempMin) % 2 == 0:
+            elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
                 self.mi = int(self.tempMin) // 2
                 self.se = 0
                 print(self.mi)
@@ -228,11 +248,11 @@ class LoginAdmnistracao:
                 print(self.mi)
                 print(self.se)
             #============================ ANALISAR O CODIGO =======================
-            elif int(self.tempMin) == 2:
+            '''elif int(self.tempMin) == 2:
                 self.mi = 1
                 self.se = 0
                 print(self.mi)
-                print(self.se)
+                print(self.se)'''
         
         elif int(self.tempHora) == 1:
             self.ho = 0
@@ -319,11 +339,43 @@ class LoginAdmnistracao:
             elif int(self.tempMin) == 1:
                 self.mi = d4
                 self.se = (int(self.tempMin) * 60) // 2        
-                print(self.mi)                
+                print(self.mi) 
+
+        #Transformando a hora, minuto e segundo em decimal para exibir no label o tempo extra
+        if int(self.tempHora) > 0 and int(self.tempHora) < 10:
+            A = int(self.tempHora) / 100
+            B = str(A)
+            final1 = B[2:]
+        else: 
+            final1 = str(self.tempHora)
+            
+        if int(self.tempMin) > 0 and int(self.tempMin) < 10:
+            A = int(self.tempMin) / 100
+            B = str(A)
+            final2 = B[2:]
+        else: 
+            final2 = str(self.tempMin)
+            
+        if int(self.tempSeg) > 0 and int(self.tempSeg) < 10:
+            A = int(self.tempSeg) / 100
+            B = str(A)
+            final3 = B[2:]
+        else: 
+            final3 = str(self.tempSeg)
         
+        #Armazenando na variável já formatado
+        self.tempProgExt = final1+':'+final2+':'+final3
+        print(self.tempProgExt)
+        
+        #Exibindo no label o horário adcionado após o tempo ser esgotado
+        self.campoProExt = Label(self.frameLeft, text=self.tempProgExt, width=15, font=('arial', 15, 'bold'), bg='white', fg='red')
+        self.campoProExt.place(x=300, y=400)
+        
+        #Invocando o botão sair(login) após o horário ser adcionado
         self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', width=5, command=lambda:self.sairTela())
         self.sair.place(x=1180,y=20)
         
+        #Botão inciar a contagem do cronômetro
         self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
         self.botaoInciarContador.place(x=205, y=200)
             
@@ -1116,7 +1168,7 @@ class LoginAdmnistracao:
         self.chaveFinalizar = True
         if self.chaveFinalizar == True:
             self.botFinalizar.destroy()
-            self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado',  bg='green', fg='white', font=('arial', 25, 'bold'))
+            self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado!',  bg='red', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=100, y=150)
             
             time = datetime.now().time()
@@ -1132,6 +1184,9 @@ class LoginAdmnistracao:
             
             self.tempGasto = self.houC+':'+self.minuC+':'+self.secC
             
+            self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
+            self.botReiniciar.place(x=150, y=230)
+            
             try:
                 self.cursor.execute('use empresa_funcionarios')
                 self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','"+self.tempGasto+"','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','invalido','invalido')")
@@ -1140,7 +1195,10 @@ class LoginAdmnistracao:
                 print('erro ao salvar informações da Tela de Operação')
 
 
-    
+    def nova_tela_operacao(self):
+        self.janelaOper.destroy()
+        self.tela_de_operacao()
+        
     #------------------------------- (Tela Operativa) - FUNÇÃO 9º A SER INVOCADA POR: sair -----------------
     def sairTela(self):
         if self.chaveFinalizar ==  True:
