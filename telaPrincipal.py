@@ -282,7 +282,7 @@ class LoginAdmnistracao:
                 print(self.mi)
                 print(self.se)
         
-        elif int(self.tempHora) > 1 and int(self.tempHora % 2 == 0):
+        elif int(self.tempHora) > 1 and int(self.tempHora) % 2 == 0:
             self.ho = int(self.tempHora) // 2
             print(self.ho)
             if int(self.tempMin) == 0:
@@ -346,6 +346,8 @@ class LoginAdmnistracao:
             A = int(self.tempHora) / 100
             B = str(A)
             final1 = B[2:]
+        elif int(self.tempHora) == 0:
+            final1 = '00'
         else: 
             final1 = str(self.tempHora)
             
@@ -353,6 +355,8 @@ class LoginAdmnistracao:
             A = int(self.tempMin) / 100
             B = str(A)
             final2 = B[2:]
+        elif int(self.tempMin) == 0:
+            final2 = '00'
         else: 
             final2 = str(self.tempMin)
             
@@ -360,6 +364,8 @@ class LoginAdmnistracao:
             A = int(self.tempSeg) / 100
             B = str(A)
             final3 = B[2:]
+        elif int(self.tempSeg) == 0:
+            final3 = '00'
         else: 
             final3 = str(self.tempSeg)
         
@@ -858,7 +864,7 @@ class LoginAdmnistracao:
                         print(self.mi)
                         print(self.se)
                 
-                elif int(self.tempHora) > 1 and int(self.tempHora % 2 == 0):
+                elif int(self.tempHora) > 1 and int(self.tempHora) % 2 == 0:
                     self.ho = int(self.tempHora) // 2
                     print(self.ho)
                     if int(self.tempMin) == 0:
@@ -917,9 +923,9 @@ class LoginAdmnistracao:
                         self.se = (int(self.tempMin) * 60) // 2        
                         print(self.mi)                
 
-                s = self.tempHora+self.tempMin+self.tempSeg
+                #s = self.tempHora+self.tempMin+self.tempSeg
                 #print(s)
-                self.porcent = int(s)
+                #self.porcent = int(s)
                 #print(self.porcent)
                 
                 
@@ -1052,19 +1058,25 @@ class LoginAdmnistracao:
                     self.hou = 0
                 self.hou = self.hou + 1
                 if self.hou > 0 and self.minu < 10:
-                    houA = self.minu / 100
+                    houA = self.hou / 100
                     houB = str(houA)
                     self.houC = houB[2:]
                 else:
                     houB = str(self.hou)
 
         #print(f'hora {self.houC} minuto {self.minuC} segundo {self.secC}')
+        print(f'printando tempHora, tempMin, tempSeg: {self.tempHora}:{self.tempMin}:{self.tempSeg}')
+        
+        print(f'printando houc, minuc, secC: {self.houC}:{self.minuC}:{self.secC}')
         
         h = int(self.houC)
         m = int(self.minuC)
         s = int(self.secC)
+        
+        print(f'printando h, m, s: {h}:{m}:{s}')
         #print(h,m,s)
-        #print(self.ho,self.mi,self.se)
+        
+        print(f'printando ho, mi, se: {self.ho}:{self.mi}:{self.se}')
         if self.se == s and self.mi == m and h == self.ho:
 
             self.frameTop['bg'] = 'yellow'
@@ -1108,6 +1120,7 @@ class LoginAdmnistracao:
             
             self.botFinalizar.destroy()
             self.sair.destroy()
+            self.imagemTempRel.destroy()
             self.chaveFinalizar = True
             
             self.labFinalizar =  Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
@@ -1136,10 +1149,26 @@ class LoginAdmnistracao:
             self.codigoPeca['fg'] = 'white'
             self.tempoProgramado['fg'] = 'white'
             
-        if int(self.tempHora) >= 1:
+            self.imgRelogio = PhotoImage(file="relogio.png")
+
+            self.imagemTempRel = Label(self.frameRight, image=self.imgRelogio, bg='red')
+            self.imagemTempRel.place(x=20,y=10)
+            
+        if int(self.tempHora) > 1:
             #para contagens a partir de uma hora
             if h == int(self.tempHora) and m + 10 == int(self.tempMin) and s == 0:
                 telaVermelha2()
+            elif h == int(self.tempHora) - 1 and 0 == int(self.tempMin) and m + 10 == 60  and s == 0:
+                telaVermelha2()
+        
+        elif int(self.tempHora) == 1:
+            if m + 10 == int(self.tempMin) and s == 0:
+                print('Pegoouu 1')
+                telaVermelha2()
+            elif int(self.tempMin) == 0 and m + 10 == 60  and s == 0:
+                print('Pegoouu 2')
+                telaVermelha2()
+                
         elif int(self.tempHora) == 0:
             '''print('Original: ',int(self.tempSeg), int(self.tempMin), int(self.tempHora))
             print('falsos: ',s,m,h)
