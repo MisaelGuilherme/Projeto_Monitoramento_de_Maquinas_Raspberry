@@ -166,7 +166,7 @@ class LoginAdmnistracao:
         self.janelaTempExtra.mainloop()
 
     def verificar_tempo_extra(self):
-        if self.ll.get() == '' or self.mm.get() == '':
+        def alertaTE(vlr):
             self.alerta = Toplevel()
             self.alerta.title('Alerta')
             self.alerta.iconbitmap('icone2.ico')
@@ -183,13 +183,25 @@ class LoginAdmnistracao:
             posicaoY = altura_screen/2 - altura/2
 
             self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
-
-            labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
-            labelAlert.place(x=75,y=20)
-
+            
+            if vlr == 1:
+                labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
+                labelAlert.place(x=75,y=20)
+            elif vlr == 2:
+                labelAlert = Label(self.alerta, text='Valor mínimo: 5 minutos', font=('arial', 15, 'bold'), fg='red', bg='white')
+                labelAlert.place(x=75,y=20)
             botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
             botaoAlert.place(x=130,y=90)
         
+        if self.ll.get() == '' or self.mm.get() == '':
+            alertaTE(1)
+
+        
+        elif str(self.ll.get()).isnumeric() == False or str(self.mm.get()).isnumeric() == False:
+            alertaTE(1)
+        
+        elif int(self.mm.get()) < 5:
+            alertaTE(2)
         else:
             self.configurar_tempo_extra()
 
@@ -675,10 +687,6 @@ class LoginAdmnistracao:
             self.labelError = Label(self.janelaFuncio, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40)
             self.labelError.place(x=100, y=165)
 
-    #def fechar(self):
-        #self.alerta.destroy()
-        
-
     #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
     def tela_de_operacao(self):
 
@@ -923,12 +931,6 @@ class LoginAdmnistracao:
                         self.se = (int(self.tempMin) * 60) // 2        
                         print(self.mi)                
 
-                #s = self.tempHora+self.tempMin+self.tempSeg
-                #print(s)
-                #self.porcent = int(s)
-                #print(self.porcent)
-                
-                
                 self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
                 self.codP = str(valido[0][2])
     
@@ -1064,19 +1066,10 @@ class LoginAdmnistracao:
                 else:
                     houB = str(self.hou)
 
-        #print(f'hora {self.houC} minuto {self.minuC} segundo {self.secC}')
-        print(f'printando tempHora, tempMin, tempSeg: {self.tempHora}:{self.tempMin}:{self.tempSeg}')
-        
-        print(f'printando houc, minuc, secC: {self.houC}:{self.minuC}:{self.secC}')
-        
         h = int(self.houC)
         m = int(self.minuC)
         s = int(self.secC)
         
-        print(f'printando h, m, s: {h}:{m}:{s}')
-        #print(h,m,s)
-        
-        print(f'printando ho, mi, se: {self.ho}:{self.mi}:{self.se}')
         if self.se == s and self.mi == m and h == self.ho:
 
             self.frameTop['bg'] = 'yellow'
@@ -1097,37 +1090,6 @@ class LoginAdmnistracao:
             self.ordemServico['fg'] = 'red'
             self.codigoPeca['fg'] = 'red'
             self.tempoProgramado['fg'] = 'red' 
-        
-        if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
-            self.frameTop['bg'] = '#870000'
-            self.frameLeft['bg'] = '#870000'
-            self.frameRight['bg'] = '#870000'
-            self.operadorNome['bg'] = '#870000'
-            self.operadorNomeUser['bg'] = '#870000'
-            self.horaInicialLb['bg'] = '#870000'
-            self.multimolde['bg'] = '#870000'
-            self.ordemServico['bg'] = '#870000'
-            self.codigoPeca['bg'] = '#870000'
-            self.tempoProgramado['bg'] = '#870000'
-            
-            self.operadorNome['fg'] = 'white'
-            self.operadorNomeUser['fg'] = 'white'
-            self.horaInicialLb['fg'] = 'white'
-            self.multimolde['fg'] = 'white'
-            self.ordemServico['fg'] = 'white'
-            self.codigoPeca['fg'] = 'white'
-            self.tempoProgramado['fg'] = 'white'            
-            
-            self.botFinalizar.destroy()
-            self.sair.destroy()
-            self.imagemTempRel.destroy()
-            self.chaveFinalizar = True
-            
-            self.labFinalizar =  Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
-            self.labFinalizar.place(x=150, y=150)
-            
-            self.botaoReabilitar = Button(self.frameRight, text='REABILITAR', bg='orange', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
-            self.botaoReabilitar.place(x=170, y=220)
         
         def telaVermelha2():
             self.frameTop['bg'] = 'red'
@@ -1156,34 +1118,64 @@ class LoginAdmnistracao:
             
         if int(self.tempHora) > 1:
             #para contagens a partir de uma hora
-            if h == int(self.tempHora) and m + 10 == int(self.tempMin) and s == 0:
+            if h == int(self.tempHora) and m + 5 == int(self.tempMin) and s == 0:
                 telaVermelha2()
-            elif h == int(self.tempHora) - 1 and 0 == int(self.tempMin) and m + 10 == 60  and s == 0:
+            elif h == int(self.tempHora) - 1 and 0 == int(self.tempMin) and m + 5 == 60  and s == 0:
                 telaVermelha2()
         
         elif int(self.tempHora) == 1:
-            if m + 10 == int(self.tempMin) and s == 0:
-                print('Pegoouu 1')
+            
+            if m + 5 == int(self.tempMin) and s == 0:
                 telaVermelha2()
-            elif int(self.tempMin) == 0 and m + 10 == 60  and s == 0:
-                print('Pegoouu 2')
+            elif int(self.tempMin) == 0 and m + 5 == 60  and s == 0:
                 telaVermelha2()
                 
         elif int(self.tempHora) == 0:
-            '''print('Original: ',int(self.tempSeg), int(self.tempMin), int(self.tempHora))
-            print('falsos: ',s,m,h)
-            print('a: ', self.se, self.mi, self.ho)'''
-            
-            if int(self.tempMin) <= 30 and int(self.tempMin) > 10 and m + 5 == int(self.tempMin):
+
+            if int(self.tempMin) <= 30 and int(self.tempMin) > 10 and m + 5 == int(self.tempMin) and s == 0:
                 telaVermelha2()
                 
-            elif int(self.tempMin) <= 10 and int(self.tempMin) > 2 and m + 1 == int(self.tempMin):
+            #Falts configurar esta linha SABER O QUE FARÁ SE O TEMPO FOR >= A 5 E MENOR <= 10
+            elif int(self.tempMin) <= 10 and int(self.tempMin) > 2 and m + 1 == int(self.tempMin) and s == 0:
                 telaVermelha2()
-                
             elif int(self.tempMin) == 2 and m == self.mi and s + 30 == 60:
                 telaVermelha2()
             elif int(self.tempMin) == 1 and m == self.mi and s + 10 == 60:
                 telaVermelha2()
+        
+        if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
+            self.imagemTempRel['bg'] = '#870000'
+            self.imagemTempRel.destroy()
+            self.frameTop['bg'] = '#870000'
+            self.frameLeft['bg'] = '#870000'
+            self.frameRight['bg'] = '#870000'
+            self.operadorNome['bg'] = '#870000'
+            self.operadorNomeUser['bg'] = '#870000'
+            self.horaInicialLb['bg'] = '#870000'
+            self.multimolde['bg'] = '#870000'
+            self.ordemServico['bg'] = '#870000'
+            self.codigoPeca['bg'] = '#870000'
+            self.tempoProgramado['bg'] = '#870000'
+            
+            self.operadorNome['fg'] = 'white'
+            self.operadorNomeUser['fg'] = 'white'
+            self.horaInicialLb['fg'] = 'white'
+            self.multimolde['fg'] = 'white'
+            self.ordemServico['fg'] = 'white'
+            self.codigoPeca['fg'] = 'white'
+            self.tempoProgramado['fg'] = 'white'            
+            
+            self.botFinalizar.destroy()
+            self.sair.destroy()
+            
+            self.labFinalizar = Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
+            self.labFinalizar.place(x=150, y=150)
+            
+            self.botaoReabilitar = Button(self.frameRight, text='REABILITAR', bg='orange', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
+            self.botaoReabilitar.place(x=170, y=220)
+            
+            self.chaveFinalizar = True
+            
         self.seconds['text'] = self.secC
         self.minutes['text'] = self.minuC
         self.hours['text'] = self.houC
@@ -1191,16 +1183,24 @@ class LoginAdmnistracao:
 
         if self.chaveFinalizar == False:
             self.seconds.after(1000, self.botao_iniciar)
-            
+
+#------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------            
     def contagemFinalizada(self):
+        '''Função rensponsável por finalizar a contagem, informando
+        que o tempo foi atingido dentro do limite.'''
             
         self.chaveFinalizar = True
+        
+        #Se o cahveFinalizar foir verdadeira, o crobômetro para a contagem
         if self.chaveFinalizar == True:
             self.botFinalizar.destroy()
             self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado!',  bg='red', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=100, y=150)
             
+            #Pegando a hora atual em que o processo foi finalizado
             time = datetime.now().time()
+            
+            #Utilizando formula para não pegar os milisegundos
             lista = [str(time)]
             recebe = ''
             for c in lista:
@@ -1211,31 +1211,48 @@ class LoginAdmnistracao:
                         recebe += i
             horaFinal = recebe
             
+            #Tempo formatado para enviar ao banco
             self.tempGasto = self.houC+':'+self.minuC+':'+self.secC
             
+            #Botão caso o operado queira realizar outra S.O
             self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
             self.botReiniciar.place(x=150, y=230)
             
+            #Enviando todos os dados ao banco
             try:
                 self.cursor.execute('use empresa_funcionarios')
                 self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','"+self.tempGasto+"','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','invalido','invalido')")
                 self.banco.commit()
+            #Excessão caso ocorra de não conseguir salvar
             except:
                 print('erro ao salvar informações da Tela de Operação')
 
-
+    #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------
     def nova_tela_operacao(self):
+        '''Função responsável por apertar o botão "NOVO.OS" após finalizar a 
+        operação, caso o operador deseje executar uma nova tarefa'''
+        
         self.janelaOper.destroy()
         self.tela_de_operacao()
         
-    #------------------------------- (Tela Operativa) - FUNÇÃO 9º A SER INVOCADA POR: sair -----------------
+    #------------------------------- (Tela Operativa) - FUNÇÃO 9º A SER INVOCADA POR: sair -----------------    
     def sairTela(self):
+        '''Função responsavel por ao apertar o botão "Sair" no lado superior
+        direito o cronômetro estiver em contagem, abrirá automaticamente um 
+        alerta informando que o programa ainda está sendo executado, e só 
+        permitira sair ao encerrar a operação, '''
+            
+        #Se a chave for True significa que a operação foi finalizada
         if self.chaveFinalizar ==  True:
             self.janelaOper.destroy()
             self.__init__()
+        
+        #Se a chaveContre for False significa que a operação foi finalizada
         elif self.chaveControle == False:
             self.janelaOper.destroy()
             self.__init__()
+        
+        #Senão significa que o cronômetro ainda está em execução
         else:
             self.alerta = Tk()
             self.alerta.title('Alerta')
