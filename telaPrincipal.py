@@ -1129,21 +1129,44 @@ class LoginAdmnistracao:
                 telaVermelha2()
             elif int(self.tempMin) == 0 and m + 5 == 60  and s == 0:
                 telaVermelha2()
-                
+                        
         elif int(self.tempHora) == 0:
-
-            if int(self.tempMin) <= 30 and int(self.tempMin) > 10 and m + 5 == int(self.tempMin) and s == 0:
+            #print(self.tempHora, self.tempMin, self.tempSeg)
+            if int(self.tempMin) <= 59 and int(self.tempMin) >= 10 and m + 5 == int(self.tempMin) and s == 0:
                 telaVermelha2()
                 
-            #Falts configurar esta linha SABER O QUE FARÁ SE O TEMPO FOR >= A 5 E MENOR <= 10
-            elif int(self.tempMin) <= 10 and int(self.tempMin) > 2 and m + 1 == int(self.tempMin) and s == 0:
+            #Falta configurar esta linha SABER O QUE FARÁ SE O TEMPO FOR >= A 5 E MENOR <= 10
+            elif int(self.tempMin) <= 10 and int(self.tempMin) > 5 and m + 5 == int(self.tempMin) and s == 0:
                 telaVermelha2()
-            elif int(self.tempMin) == 2 and m == self.mi and s + 30 == 60:
-                telaVermelha2()
-            elif int(self.tempMin) == 1 and m == self.mi and s + 10 == 60:
-                telaVermelha2()
-        
+
+            for c in range(1, 6):
+                if int(self.tempMin) == c and m == 0 and s == 1:
+                    telaVermelha2()
+
+            #PROVISÓRIO ATÉ ACHAR OUTRA SOLUÇÃO MAIS CURTA =======================================================
+            '''if m + 1 == int(self.tempMin) and m == 0 or m != 0 and s == 1:
+                self.mensag = Label(self.frameRight, text='Restam 1 Minutos!!', bg='red', fg='white', font=('arial', 15, 'bold'))
+                self.mensag.place(x=180, y=400)
+            if m + 2 == int(self.tempMin) and m == 0 or m != 0 and s == 1:
+                self.mensag = Label(self.frameRight, text='Restam 2 Minutos!!', bg='red', fg='white', font=('arial', 15, 'bold'))
+                self.mensag.place(x=180, y=400)
+            if m + 3 == int(self.tempMin) and m == 0 or m != 0 and s == 1:
+                self.mensag = Label(self.frameRight, text='Restam 3 Minutos!!', bg='red', fg='white', font=('arial', 15, 'bold'))
+                self.mensag.place(x=180, y=400)
+            if m + 4 == int(self.tempMin) and m == 0 or m != 0 and s == 1:
+                self.mensag = Label(self.frameRight, text='Restam 4 Minutos!!', bg='red', fg='white', font=('arial', 15, 'bold'))
+                self.mensag.place(x=180, y=400)
+            if m + 5 == int(self.tempMin) and m == 0 or m != 0 and s == 1:
+                self.mensag = Label(self.frameRight, text='Restam 5 Minutos!!', bg='red', fg='white', font=('arial', 15, 'bold'))
+                self.mensag.place(x=180, y=400)'''
+
+            #self.mensag['txt'] = 'fsdfsdf'
+            '''for c in range(1, 6):
+                if m + c == int(self.tempMin):
+                    self.mensag['txt'] = 'Restam '+str(c)+' Minutos!!'''
+                    
         if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
+            self.mensag.destroy()
             self.imagemTempRel['bg'] = '#870000'
             self.imagemTempRel.destroy()
             self.frameTop['bg'] = '#870000'

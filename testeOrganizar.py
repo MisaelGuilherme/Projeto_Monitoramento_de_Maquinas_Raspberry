@@ -47,3 +47,15 @@ class LoginAdmnistracao:
         self.janelaTempExtra.mainloop()
 
 instancia = LoginAdmnistracao()            
+
+
+            if int(self.tempMin) <= 59 and int(self.tempMin) >= 10 and m + 5 == int(self.tempMin) and s == 0:
+                telaVermelha2()
+            #Falta configurar esta linha SABER O QUE FARÁ SE O TEMPO FOR >= A 5 E MENOR <= 10
+            elif int(self.tempMin) <= 9 and int(self.tempMin) >= 5 and m + 5 == int(self.tempMin) and s == 0:
+                telaVermelha2()
+                print('funcionouu')
+            #Condição a penas para testes
+            elif int(self.tempMin) <= 4 and int(self.tempMin) >= 1 and m == int(self.tempMin) and s + 30 == 60:
+                telaVermelha2()
+                print('funcionouu2')
