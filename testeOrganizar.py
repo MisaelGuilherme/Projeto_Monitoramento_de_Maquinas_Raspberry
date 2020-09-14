@@ -59,3 +59,11 @@ instancia = LoginAdmnistracao()
             elif int(self.tempMin) <= 4 and int(self.tempMin) >= 1 and m == int(self.tempMin) and s + 30 == 60:
                 telaVermelha2()
                 print('funcionouu2')
+                
+                
+            elif m + c == int(self.tempMin) and m != 0  and s == 0:
+                    print('ok1')
+                    for i in range(2, 6):
+                        if self.r == False:
+                            self.mensag['bg'] = 'blue'
+                    print('ok2') 
