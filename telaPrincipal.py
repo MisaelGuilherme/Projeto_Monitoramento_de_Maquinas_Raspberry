@@ -1070,7 +1070,7 @@ class LoginAdmnistracao:
         m = int(self.minuC)
         s = int(self.secC)
         
-        if self.se == s and self.mi == m and h == self.ho:
+        if self.se == s and self.mi == m and h == self.ho and int(self.tempMin) > 10:
 
             self.frameTop['bg'] = 'yellow'
             self.frameLeft['bg'] = 'yellow'
@@ -1146,71 +1146,43 @@ class LoginAdmnistracao:
 
             #PROVISÓRIO ATÉ ACHAR OUTRA SOLUÇÃO MAIS CURTA =======================================================
 
-
-        
-        
+        self.ativ = 0
         if int(self.tempHora) == 0:
-            self.teste = 0
-            for c in range(1, 6):
-                
-                if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 4:
-                    self.mensag = Label(self.frameRight, text='Restaaaam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 15, 'bold'))
-                    self.mensag.place(x=180, y=400)
-                    print('parte 1')
-                    print(c)
-                    self.chaveMostrar = True
-                elif m + c == int(self.tempMin) and m <= 4 and s == 1 and int(self.tempMin) <= 4 and self.chaveMostrar == True:
-                    for i in range(1,6):
-                        if i + m == int(self.tempMin):
-                            self.mensag['text'] = 'Restaaaam '+str(i)+' Minutos!!'
-                            print('FUNCIONOOUU 1')
-                
-                elif m + c == int(self.tempMin) and int(self.tempMin) - 5 == m and s == 1:
-                    self.mensag2 = Label(self.frameRight, text='Restam kk Minutos!!', bg='red', fg='white', font=('arial', 15, 'bold'))
-                    self.mensag2.place(x=180, y=400)
-                    print('parte 2')
-                    print(c)
-                    self.chaveMostrar2 = True
-                    
-                elif m + c == int(self.tempMin) and m >= 0 and s == 1 and int(self.tempMin) >= 5 and self.chaveMostrar2 == True:
-                    for i in range(1,6):
-                        if i + m == int(self.tempMin):
-                            self.mensag2['text'] = 'Restaaaam '+str(i)+' Minutos!!'
-                            print('FUNCIONOOUU 1')
-                
-                if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora) and self.chaveMostrar2 == True:
-                    self.mensag2.destroy()
-                    
-                '''elif m + c == int(self.tempMin) and int(self.tempMin) - 5 > m and s == 1:
-                    for i in range(1,6):
-                        if i + m == int(self.tempMin):
-                            self.mensag2['text'] = 'Restaaaam '+str(i)+' Minutos!!'
-                            print('FUNCIONOOUU 2')
-                            self.teste = 1'''
-            #if self.teste == 1:
-                #self.chaveMostrar2 = True
-                    
-        
-        '''if self.chaveMostrar == True:
-            for i in range(1,6):
-                if i + m == int(self.tempMin):
-                    self.mensag['text'] = 'Restaaaam '+str(i)+' Minutos!!
-            print('FUNCIONOOUU 1')
-        
-        elif self.chaveMostrar2 == True:
-            for i in range(1,6):
-                if i + m == int(self.tempMin):
-                    self.mensag2['text'] = 'Restaaaam '+str(i)+' Minutos!!'
-                    chaveMostar2 = False
-                    
-            print('FUNCIONOOUU 2')'''
-        
-        
-        
-        if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
-            self.mensag.destroy()
             
-            self.mensag2.destroy()
+            for c in range(1, 6):
+                if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
+                    self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag.place(x=160, y=400)
+                    self.ativ = 1
+                elif m + c == int(self.tempMin) and m <= 5 and s == 0 and int(self.tempMin) <= 5 and self.chaveMostrar == True:
+                    for i in range(1,6):
+                        
+                        if i + m == int(self.tempMin):
+                            self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
+
+                if m + c == int(self.tempMin) and int(self.tempMin) - 5 == m and s == 0 and int(self.tempMin) >=6:
+                    
+                    self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag2.place(x=160, y=400)
+                    self.ativ = 1                    
+                    
+                if m + c == int(self.tempMin) and int(self.tempMin) >= 6:
+                    
+                    for i in range(1,6):
+                                                
+                        if i + m == int(self.tempMin):
+                            self.mensag2['text'] = 'Restam '+str(i)+' Minutos!!'
+                            
+        if self.ativ == 1:
+            self.ativaMensagem = 2
+                
+        if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
+            
+            if self.ativaMensagem == 2 and int(self.tempMin) >= 6:
+                self.mensag2.destroy()
+            
+            elif int(self.tempMin) <= 5:
+                self.mensag.destroy()
                 
             self.imagemTempRel['bg'] = '#870000'
             self.imagemTempRel.destroy()
