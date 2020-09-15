@@ -67,3 +67,18 @@ instancia = LoginAdmnistracao()
                         if self.r == False:
                             self.mensag['bg'] = 'blue'
                     print('ok2') 
+                    
+        '''#caso os minutos for 00
+            if int(self.tempMin) == 0 and m + 5 == 60 and s == 1:
+                telaVermelha2()
+                self.mensag = Label(self.frameRight, text='Restam 5 Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                self.mensag.place(x=160, y=400)
+                self.ativ = 1            
+                    
+            for i in range(1,6):
+                if i + m == int(self.tempMin) and int(self.tempMin) == 0:
+                    self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'            
+                
+            #caso os minutos for maior que 00
+            if m + 5 == int(self.tempMin) and s == 0:
+                telaVermelha2()'''

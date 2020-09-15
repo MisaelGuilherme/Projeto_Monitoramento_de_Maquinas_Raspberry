@@ -185,13 +185,19 @@ class LoginAdmnistracao:
             self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
             
             if vlr == 1:
+                
                 labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
                 labelAlert.place(x=75,y=20)
+                
             elif vlr == 2:
-                labelAlert = Label(self.alerta, text='Valor mínimo: 5 minutos', font=('arial', 15, 'bold'), fg='red', bg='white')
-                labelAlert.place(x=75,y=20)
+                
+                labelAlert = Label(self.alerta, text='Valor Min: 5 minutos', font=('arial', 14, 'bold'), fg='red', bg='white')
+                labelAlert.place(x=78,y=5)
+                labelAlert = Label(self.alerta, text='Valor Max: 59 minutos', font=('arial', 14, 'bold'), fg='red', bg='white')
+                labelAlert.place(x=75,y=40)
+                
             botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
-            botaoAlert.place(x=130,y=90)
+            botaoAlert.place(x=130,y=87)
         
         if self.ll.get() == '' or self.mm.get() == '':
             alertaTE(1)
@@ -200,7 +206,7 @@ class LoginAdmnistracao:
         elif str(self.ll.get()).isnumeric() == False or str(self.mm.get()).isnumeric() == False:
             alertaTE(1)
         
-        elif int(self.mm.get()) < 5:
+        elif int(self.mm.get()) < 5 or int(self.mm.get()) > 59:
             alertaTE(2)
         else:
             self.configurar_tempo_extra()
@@ -1115,61 +1121,91 @@ class LoginAdmnistracao:
 
             self.imagemTempRel = Label(self.frameRight, image=self.imgRelogio, bg='red')
             self.imagemTempRel.place(x=20,y=10)
-            
+        
+        self.ativ = 0     
         if int(self.tempHora) > 1:
             #para contagens a partir de uma hora
-            if h == int(self.tempHora) and m + 5 == int(self.tempMin) and s == 0:
-                telaVermelha2()
-            elif h == int(self.tempHora) - 1 and 0 == int(self.tempMin) and m + 5 == 60  and s == 0:
-                telaVermelha2()
-        
-        elif int(self.tempHora) == 1:
-            
-            if m + 5 == int(self.tempMin) and s == 0:
-                telaVermelha2()
-            elif int(self.tempMin) == 0 and m + 5 == 60  and s == 0:
-                telaVermelha2()
-                        
-        elif int(self.tempHora) == 0:
-    
-            #print(self.tempHora, self.tempMin, self.tempSeg)
-            if int(self.tempMin) <= 59 and int(self.tempMin) >= 10 and m + 5 == int(self.tempMin) and s == 0:
-                telaVermelha2()
-                
-            #Falta configurar esta linha SABER O QUE FARÁ SE O TEMPO FOR >= A 5 E MENOR <= 10
-            elif int(self.tempMin) <= 10 and int(self.tempMin) > 5 and m + 5 == int(self.tempMin) and s == 0:
-                telaVermelha2()
-
-            for c in range(1, 6):
-                if int(self.tempMin) == c and m == 0 and s == 1:
+            for c in range(0, 6):
+                if c == 5 and h == int(self.tempHora) and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) <= 5:
                     telaVermelha2()
-
-            #PROVISÓRIO ATÉ ACHAR OUTRA SOLUÇÃO MAIS CURTA =======================================================
-
-        self.ativ = 0
-        if int(self.tempHora) == 0:
-            
-            for c in range(1, 6):
-                if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
-                elif m + c == int(self.tempMin) and m <= 5 and s == 0 and int(self.tempMin) <= 5 and self.chaveMostrar == True:
-                    for i in range(1,6):
-                        
+                
+                elif m + c == int(self.tempMin) and int(self.tempMin) <= 5:
+                    
+                    for i in range(0,6):
+                        if i + m == int(self.tempMin):
+                            self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'       
+
+                if c == 5 and h == int(self.tempHora) and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
+                    telaVermelha2()
+                    self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag2.place(x=160, y=400)
+                    self.ativ = 1
+                
+                elif m + c == int(self.tempMin) and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
+                    
+                    for i in range(0,6):
+                        if i + m == int(self.tempMin):
+                            self.mensag2['text'] = 'Restam '+str(i)+' Minutos!!'                                                 
+                
+                elif h == int(self.tempHora) - 1 and 0 == int(self.tempMin) and m + 5 == 60  and s == 0:
+                    telaVermelha2()
+        
+        elif int(self.tempHora) == 1:
+            for c in range(0, 6):
+                
+                if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
+                    telaVermelha2()
+                    self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag.place(x=160, y=400)
+                    self.ativ = 1
+                    
+                elif m + c == int(self.tempMin) and int(self.tempMin) <= 5:
+                    print('sim')
+                    for i in range(0,6):
                         if i + m == int(self.tempMin):
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
 
-                if m + c == int(self.tempMin) and int(self.tempMin) - 5 == m and s == 0 and int(self.tempMin) >=6:
-                    
+                if c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >=6 and int(self.tempMin) <= 59:
+                    telaVermelha2()
                     self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
-                    self.ativ = 1                    
+                    self.ativ = 1
                     
-                if m + c == int(self.tempMin) and int(self.tempMin) >= 6:
+                elif m + c == int(self.tempMin) and int(self.tempMin) >= 6:
+                    
+                    for i in range(0,6):
+                        if i + m == int(self.tempMin):
+                            self.mensag2['text'] = 'Restam '+str(i)+' Minutos!!'
+                     
+        elif int(self.tempHora) == 0:
+
+            for c in range(1, 6):
+                
+                if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
+                    telaVermelha2()
+                    self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag.place(x=160, y=400)
+                    self.ativ = 1
+                    
+                elif m + c == int(self.tempMin) and int(self.tempMin) <= 5:
+
+                    for i in range(1,6):
+                        if i + m == int(self.tempMin):
+                            self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
+
+                if c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
+
+                    telaVermelha2()
+                    self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag2.place(x=160, y=400)
+                    self.ativ = 1
+                    
+                elif m + c == int(self.tempMin) and int(self.tempMin) >= 6:
                     
                     for i in range(1,6):
-                                                
                         if i + m == int(self.tempMin):
                             self.mensag2['text'] = 'Restam '+str(i)+' Minutos!!'
                             
