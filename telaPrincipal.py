@@ -252,6 +252,9 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra.destroy()
         
+        #Configurando tempo Extra gasto caso o operador precise de mais tempo mais de uma vez
+        self.chaveTempExtra += 1
+        
         self.seconds['text'] = '00'
         self.minutes['text'] = '00'
         self.hours['text'] = '00'
@@ -397,7 +400,6 @@ class LoginAdmnistracao:
         
         #Armazenando na variável já formatado
         self.tempProgExt = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
-        print(self.tempProgExt)
         
         #Exibindo no label o horário adcionado após o tempo ser esgotado
         self.campoProExt = Label(self.frameLeft, text=self.tempProgExt, width=15, font=('arial', 15, 'bold'), bg='white', fg='red')
@@ -410,12 +412,6 @@ class LoginAdmnistracao:
         #Botão inciar a contagem do cronômetro
         self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
         self.botaoInciarContador.place(x=205, y=200)
-        
-        self.chaveTempExtra += 1
-        if self.chaveTempExtra >= 1:
-            
-            self.tempExtraGasto = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
-            print(f'Lógica pela função: {self.tempExtraGasto}, Chave: {self.chaveTempExtra}')
             
             
     #------------------------------- (Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: verificar_adm() ------------------
@@ -655,8 +651,7 @@ class LoginAdmnistracao:
                                     break
                                 else:
                                     recebe += i
-                        self.horaLogin = recebe
-                        self.chaveTempExtra = 0
+                        self.horaLogin = recebe                        
                         self.janelaFuncio.destroy()
                         self.tela_de_operacao()
                     
@@ -821,7 +816,6 @@ class LoginAdmnistracao:
             self.botaoConfirmarOS()
             
         
-        
     def botaoConfirmarOS(self):
         
         self.numOS = str(self.campoServico.get())
@@ -952,10 +946,18 @@ class LoginAdmnistracao:
                         self.mi = d4
                         self.se = (int(self.tempMin) * 60) // 2        
                         print(self.mi)                
-
+                
+                #Variáveis responsáveis caso o "tempo gasto" ultrapasse o "tempo programado"
+                self.chaveTempExtra = 0
+                self.tempExtraGastoA = int(self.tempHora)
+                self.tempExtraGastoB = int(self.tempMin)
+                self.tempExtraGastoC = int(self.tempSeg)
+                
+                #Formatando as varíaveis para encaixar no label - Tempo Programado
                 self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
                 self.codP = str(valido[0][2])
-    
+
+                #Mostrando o tempo Programado através do label
                 self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
                 self.tempoProgramado.place(x=60, y=300)
                 
@@ -966,6 +968,7 @@ class LoginAdmnistracao:
                 
                 self.botConfirmar.destroy()
                 
+                #Mudando os campos Entry para Labels para exibir na tela
                 self.campoServico = Label(self.frameLeft, text=self.campoServico.get(), width=25, font=('arial', 15), bg='white')
                 self.campoServico.place(x=300, y=100)
 
@@ -976,6 +979,8 @@ class LoginAdmnistracao:
                 self.botaoInciarContador.place(x=205, y=200)
             
             else:
+                
+                #Caso o código não exista no banco de dados
                 self.alerta = Tk()
                 self.alerta.title('Alerta')
                 self.alerta.iconbitmap('icone2.ico')
@@ -1320,11 +1325,25 @@ class LoginAdmnistracao:
             horaFinal = recebe
             
             #Tempo formatado para enviar ao banco
-            self.tempGasto = self.houC+':'+self.minuC+':'+self.secC
-
+            if self.chaveTempExtra == 0:
+                self.tempGasto = self.houC+':'+self.minuC+':'+self.secC
+                self.tempExtraGasto = '00:00:00'
+            else:
+                self.tempGasto = self.backup
+                
             if self.chaveTempExtra >= 1:
-                self.tempGasto = self.tempExtraGasto
             
+                self.tempExtraGastoA += int(self.tempHora)
+                self.tempExtraGastoB += int(self.tempMin)
+                if int(mm) + self.tempExtraGastoB >= 60:
+                    self.tempExtraGastoA += 1
+                    self.tempExtraGastoB -= int(mm)
+                self.tempExtraGastoC += int(self.tempSeg)
+                
+                self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
+                
+                print(f'Lógica pela função: {self.tempExtraGasto}, Chave: {self.chaveTempExtra}')
+                
             #Botão caso o operado queira realizar outra S.O
             self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
             self.botReiniciar.place(x=150, y=230)
@@ -1332,7 +1351,7 @@ class LoginAdmnistracao:
             #Enviando todos os dados ao banco
             try:
                 self.cursor.execute('use empresa_funcionarios')
-                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','"+self.tempGasto+"','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','invalido','invalido')")
+                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','"+self.tempGasto+"','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','"+str(self.tempExtraGasto)+"','"+str(self.chaveTempExtra)+"')")
                 self.banco.commit()
             #Excessão caso ocorra de não conseguir salvar
             except:
