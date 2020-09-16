@@ -55,7 +55,7 @@ class LoginAdmnistracao:
         self.lbCadastrar.place(x=340, y=410)
         self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', bg='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
         self.botCadastrar.place(x=370, y=440)
-
+        
         self.janelaFuncio.mainloop()
     
     #------------------------------- (Login Administração) - FUNÇÃO 2º A SER INVOCADA POR: botCadastrar ------------------
@@ -201,16 +201,51 @@ class LoginAdmnistracao:
         
         if self.ll.get() == '' or self.mm.get() == '':
             alertaTE(1)
-
+            print('erro 01')
         
         elif str(self.ll.get()).isnumeric() == False or str(self.mm.get()).isnumeric() == False:
             alertaTE(1)
-        
-        elif int(self.mm.get()) < 5 or int(self.mm.get()) > 59:
+            print('erro 02')
+        elif int(self.mm.get()) < 5 and int(self.ll.get()) <= 0:
             alertaTE(2)
+            
+        elif int(self.mm.get()) > 59 and int(self.ll.get()) <= 0:
+            alertaTE(2)
+        
         else:
             self.configurar_tempo_extra()
 
+    #Transformando a hora, minuto e segundo em decimal para exibir no label o tempo extra
+    def transformar_tempo_decimal(self, thora, tminu, tsegu):
+        if int(thora) > 0 and int(thora) < 10:
+            A = int(thora) / 100
+            B = str(A)
+            final1 = B[2:]
+        elif int(thora) == 0:
+            final1 = '00'
+        else: 
+            final1 = str(thora)
+            
+        if int(tminu) > 0 and int(tminu) < 10:
+            A = int(tminu) / 100
+            B = str(A)
+            final2 = B[2:]
+        elif int(tminu) == 0:
+            final2 = '00'
+        else: 
+            final2 = str(tminu)
+            
+        if int(tsegu) > 0 and int(tsegu) < 10:
+            A = int(tsegu) / 100
+            B = str(A)
+            final3 = B[2:]
+        elif int(tsegu) == 0:
+            final3 = '00'
+        else: 
+            final3 = str(tsegu)
+        
+        return final1+':'+final2+':'+final3
+    
     def configurar_tempo_extra(self):
         ll = self.ll.get()
         mm = self.mm.get()
@@ -327,13 +362,13 @@ class LoginAdmnistracao:
                 self.se = (int(self.tempMin) * 60) // 2
                 print(self.mi)
                 print(self.se)
-        elif int(self.tempHora) > 1 and int(self.tempHora % 2 != 0):
+        elif int(self.tempHora) > 1 and int(self.tempHora) % 2 != 0:
             self.ho = int(self.tempHora) // 2
             print(self.ho)
             a1 = int(self.tempHora)/2
-            b2 = str(a)
-            c3 = int(b[-1])
-            d4 = (c*10) - 20
+            b2 = str(a1)
+            c3 = int(b2[-1])
+            d4 = (c3*10) - 20
             
             if int(self.tempMin) == 0:
                 self.mi = d4
@@ -357,38 +392,11 @@ class LoginAdmnistracao:
             elif int(self.tempMin) == 1:
                 self.mi = d4
                 self.se = (int(self.tempMin) * 60) // 2        
-                print(self.mi) 
-
-        #Transformando a hora, minuto e segundo em decimal para exibir no label o tempo extra
-        if int(self.tempHora) > 0 and int(self.tempHora) < 10:
-            A = int(self.tempHora) / 100
-            B = str(A)
-            final1 = B[2:]
-        elif int(self.tempHora) == 0:
-            final1 = '00'
-        else: 
-            final1 = str(self.tempHora)
-            
-        if int(self.tempMin) > 0 and int(self.tempMin) < 10:
-            A = int(self.tempMin) / 100
-            B = str(A)
-            final2 = B[2:]
-        elif int(self.tempMin) == 0:
-            final2 = '00'
-        else: 
-            final2 = str(self.tempMin)
-            
-        if int(self.tempSeg) > 0 and int(self.tempSeg) < 10:
-            A = int(self.tempSeg) / 100
-            B = str(A)
-            final3 = B[2:]
-        elif int(self.tempSeg) == 0:
-            final3 = '00'
-        else: 
-            final3 = str(self.tempSeg)
+                print(self.mi)         
+        
         
         #Armazenando na variável já formatado
-        self.tempProgExt = final1+':'+final2+':'+final3
+        self.tempProgExt = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
         print(self.tempProgExt)
         
         #Exibindo no label o horário adcionado após o tempo ser esgotado
@@ -402,6 +410,13 @@ class LoginAdmnistracao:
         #Botão inciar a contagem do cronômetro
         self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
         self.botaoInciarContador.place(x=205, y=200)
+        
+        self.chaveTempExtra += 1
+        if self.chaveTempExtra >= 1:
+            
+            self.tempExtraGasto = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
+            print(f'Lógica pela função: {self.tempExtraGasto}, Chave: {self.chaveTempExtra}')
+            
             
     #------------------------------- (Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: verificar_adm() ------------------
 
@@ -641,6 +656,7 @@ class LoginAdmnistracao:
                                 else:
                                     recebe += i
                         self.horaLogin = recebe
+                        self.chaveTempExtra = 0
                         self.janelaFuncio.destroy()
                         self.tela_de_operacao()
                     
@@ -1076,26 +1092,26 @@ class LoginAdmnistracao:
         m = int(self.minuC)
         s = int(self.secC)
         
-        if self.se == s and self.mi == m and h == self.ho and int(self.tempMin) > 10:
-
-            self.frameTop['bg'] = 'yellow'
-            self.frameLeft['bg'] = 'yellow'
-            self.frameRight['bg'] = 'yellow'
-            self.operadorNome['bg'] = 'yellow'
-            self.operadorNomeUser['bg'] = 'yellow'
-            self.horaInicialLb['bg'] = 'yellow'
-            self.multimolde['bg'] = 'yellow'
-            self.ordemServico['bg'] = 'yellow'
-            self.codigoPeca['bg'] = 'yellow'
-            self.tempoProgramado['bg'] = 'yellow'
-            
-            self.operadorNome['fg'] = 'red'
-            self.operadorNomeUser['fg'] = 'red'
-            self.horaInicialLb['fg'] = 'red'
-            self.multimolde['fg'] = 'red'
-            self.ordemServico['fg'] = 'red'
-            self.codigoPeca['fg'] = 'red'
-            self.tempoProgramado['fg'] = 'red' 
+        if self.se == s and self.mi == m and h == self.ho:
+            if int(self.tempMin) > 10 or int(self.tempHora) >= 1:
+                self.frameTop['bg'] = 'yellow'
+                self.frameLeft['bg'] = 'yellow'
+                self.frameRight['bg'] = 'yellow'
+                self.operadorNome['bg'] = 'yellow'
+                self.operadorNomeUser['bg'] = 'yellow'
+                self.horaInicialLb['bg'] = 'yellow'
+                self.multimolde['bg'] = 'yellow'
+                self.ordemServico['bg'] = 'yellow'
+                self.codigoPeca['bg'] = 'yellow'
+                self.tempoProgramado['bg'] = 'yellow'
+                
+                self.operadorNome['fg'] = 'red'
+                self.operadorNomeUser['fg'] = 'red'
+                self.horaInicialLb['fg'] = 'red'
+                self.multimolde['fg'] = 'red'
+                self.ordemServico['fg'] = 'red'
+                self.codigoPeca['fg'] = 'red'
+                self.tempoProgramado['fg'] = 'red' 
         
         def telaVermelha2():
             self.frameTop['bg'] = 'red'
@@ -1132,7 +1148,7 @@ class LoginAdmnistracao:
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                 
-                elif m + c == int(self.tempMin) and int(self.tempMin) <= 5:
+                elif m + c == int(self.tempMin) and h == int(self.tempHora) and int(self.tempMin) <= 5:
                     
                     for i in range(0,6):
                         if i + m == int(self.tempMin):
@@ -1144,37 +1160,52 @@ class LoginAdmnistracao:
                     self.mensag2.place(x=160, y=400)
                     self.ativ = 1
                 
-                elif m + c == int(self.tempMin) and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
+                elif m + c == int(self.tempMin) and h == int(self.tempHora) and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
                     
                     for i in range(0,6):
                         if i + m == int(self.tempMin):
                             self.mensag2['text'] = 'Restam '+str(i)+' Minutos!!'                                                 
                 
-                elif h == int(self.tempHora) - 1 and 0 == int(self.tempMin) and m + 5 == 60  and s == 0:
-                    telaVermelha2()
+                #PRECISA DAR A CONDIÇÃO PARA ESTE CASO AINDA
+                '''elif h == int(self.tempHora) - 1 and 0 == int(self.tempMin) and m + 5 == 60  and s == 0:
+                    telaVermelha2()'''
         
         elif int(self.tempHora) == 1:
-            for c in range(0, 6):
+            for c in range(1, 6):
                 
-                if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
+                if c == 5 and int(self.tempMin) == 0 and m + 5 == 60 and s == 0:
+                    print('Parte 1')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                     
-                elif m + c == int(self.tempMin) and int(self.tempMin) <= 5:
-                    print('sim')
-                    for i in range(0,6):
+                elif int(self.tempMin) == 0 and m + c == 60:
+                    for i in range(1,6):
+                        if i + m == 60:
+                            self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
+                
+                if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
+                    print('Parte 2')
+                    telaVermelha2()
+                    self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag.place(x=160, y=400)
+                    self.ativ = 1
+                    
+                elif h == int(self.tempHora) and m + c == int(self.tempMin) and int(self.tempMin) <= 5 and int(self.tempMin) >= 1:
+                    
+                    for i in range(1,6):
                         if i + m == int(self.tempMin):
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
 
-                if c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >=6 and int(self.tempMin) <= 59:
+                if h == int(self.tempHora) and c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >=6 and int(self.tempMin) <= 59:
+                    print('Parte 3')
                     telaVermelha2()
                     self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
                     self.ativ = 1
                     
-                elif m + c == int(self.tempMin) and int(self.tempMin) >= 6:
+                elif h == int(self.tempHora) and m + c == int(self.tempMin) and int(self.tempMin) >= 6:
                     
                     for i in range(0,6):
                         if i + m == int(self.tempMin):
@@ -1290,6 +1321,9 @@ class LoginAdmnistracao:
             
             #Tempo formatado para enviar ao banco
             self.tempGasto = self.houC+':'+self.minuC+':'+self.secC
+
+            if self.chaveTempExtra >= 1:
+                self.tempGasto = self.tempExtraGasto
             
             #Botão caso o operado queira realizar outra S.O
             self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
