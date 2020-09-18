@@ -14,7 +14,7 @@ class LoginAdmnistracao:
         
         self.janelaFuncio = Tk()
         self.janelaFuncio.title('Login Funcionário')
-        self.janelaFuncio.iconbitmap('icone2.ico')
+        self.janelaFuncio.iconbitmap('img/icone2.ico')
         self.janelaFuncio.configure(background='white')
         self.janelaFuncio.resizable(False, False)
         self.janelaFuncio.geometry('500x500+200+100')
@@ -30,10 +30,10 @@ class LoginAdmnistracao:
 
         self.janelaFuncio.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))
         
-        self.imgFun = PhotoImage(file="funcionario.png")
+        self.imgFun = PhotoImage(file="img/trabalho1.png")
 
         self.imagemPricipalFun = Label(self.janelaFuncio, image=self.imgFun, bg='white')
-        self.imagemPricipalFun.place(x=170,y=10)
+        self.imagemPricipalFun.place(x=200,y=15)
 
         self.labelLogin = Label(self.janelaFuncio, text='Usuário', bg='white', fg='#3e8e94', font=('arial',11,'bold'))
         self.labelLogin.place(x=80, y=200)
@@ -70,7 +70,7 @@ class LoginAdmnistracao:
         #------------------------------- (Login Administração) - Imagem Logo da Empresa --------------------------------
         self.janelaADM = Toplevel()
         self.janelaADM.title('Login Administração')
-        self.janelaADM.iconbitmap('icone2.ico')
+        self.janelaADM.iconbitmap('img/icone2.ico')
         self.janelaADM.resizable(False, False)
         self.janelaADM.configure(background='white')
 
@@ -85,7 +85,7 @@ class LoginAdmnistracao:
 
         self.janelaADM.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))
 
-        self.imgAdm = PhotoImage(file="icone1.png")
+        self.imgAdm = PhotoImage(file="img/icone1.png")
 
         self.imagemPricipalAdm = Label(self.janelaADM, image=self.imgAdm, bg='white')
         self.imagemPricipalAdm.place(x=170,y=10)
@@ -105,20 +105,62 @@ class LoginAdmnistracao:
         self.janelaADM.mainloop()
     
     #------------------------------- (Login Administração) - FUNÇÃO 3º A SER INVOCADA POR: admBotaoPrincipal -----------------
+    def alerta_erro_servidor(self, parte):
+        
+        self.alerta = Tk()
+        self.alerta.title('Alerta')
+        self.alerta.iconbitmap('img/icone2.ico')
+        self.alerta.resizable(False, False)
+        self.alerta.configure(background='#ff2e2e')
 
+        largura = 350
+        altura = 150
+
+        largura_screen = self.alerta.winfo_screenwidth()
+        altura_screen = self.alerta.winfo_screenheight()
+
+        posicaoX = largura_screen/2 - largura/2
+        posicaoY = altura_screen/2 - altura/2
+
+        self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+
+        labelAlert = Label(self.alerta, text=parte, font=('arial', 12, 'bold'), fg='white', bg='#ff2e2e')
+        labelAlert.place(x=13,y=20)
+
+        botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+        botaoAlert.place(x=140,y=80)
+                
     def verificar_adm(self, contV):
         if str(self.admSenhaPrincipal.get()).isnumeric():
             self.valor = self.admSenhaPrincipal.get()
-            if self.valor == str(123) and contV == 1:                
-                self.janelaADM.destroy()
-                self.tela_cadastrar()
-            elif self.valor == str(123) and contV == 2:
-                self.janelaADM.destroy()
-                self.tempo_extra()
+            try:
+                banco = mysql.connector.connect(
+                    host = 'localhost',
+                    user = 'root',
+                    password = 'multimoldes'
+                )
+                cursor = banco.cursor()
+                cursor.execute('use empresa_funcionarios')
+                cursor.execute('select * from supervisor_admin where senha ='+str(self.valor))
+                valido = cursor.fetchall()     
+                if len(valido) == 1:
+                    
+                    senhaAdm = valido[0][0]
+                    if senhaAdm == str(self.valor) and contV == 1:
+                        self.janelaADM.destroy()
+                        self.tela_cadastrar()
+                        
+                    elif senhaAdm == str(self.valor) and contV == 2:
+                        self.janelaADM.destroy()
+                        self.tempo_extra()      
+
+                else:
+                    self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
+                    self.labelErro2.place(x=157, y=233)
+                                                      
+            except:
+                self.alerta_erro_servidor('01-Error-Servidor: Não acesso ao servidor')
                 
-            else:
-                self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
-                self.labelErro2.place(x=157, y=233)
         elif self.admSenhaPrincipal.get() == '':
             self.labelErro1 = Label(self.janelaADM, text='Preencha o campo!', bg='white', fg='#bf0606', width=26)
             self.labelErro1.place(x=160, y=233)
@@ -129,7 +171,7 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra = Tk()
         self.janelaTempExtra.title('Tela Operativa')
-        self.janelaTempExtra.iconbitmap('icone2.ico')
+        self.janelaTempExtra.iconbitmap('img/icone2.ico')
         self.janelaTempExtra.configure(background='#870000')
         self.janelaTempExtra.geometry('550x350+200+100')
         
@@ -169,7 +211,7 @@ class LoginAdmnistracao:
         def alertaTE(vlr):
             self.alerta = Toplevel()
             self.alerta.title('Alerta')
-            self.alerta.iconbitmap('icone2.ico')
+            self.alerta.iconbitmap('img/icone2.ico')
             self.alerta.resizable(False, False)
             self.alerta.configure(background='white')
 
@@ -201,11 +243,10 @@ class LoginAdmnistracao:
         
         if self.ll.get() == '' or self.mm.get() == '':
             alertaTE(1)
-            print('erro 01')
         
         elif str(self.ll.get()).isnumeric() == False or str(self.mm.get()).isnumeric() == False:
             alertaTE(1)
-            print('erro 02')
+
         elif int(self.mm.get()) < 5 and int(self.ll.get()) <= 0:
             alertaTE(2)
             
@@ -419,7 +460,7 @@ class LoginAdmnistracao:
     def tela_cadastrar(self):
         self.janelaCad = Toplevel()
         self.janelaCad.title('Cadastro')
-        self.janelaCad.iconbitmap('icone2.ico')
+        self.janelaCad.iconbitmap('img/icone2.ico')
         self.janelaCad.resizable(False, False)
         self.janelaCad.configure(background='white')
 
@@ -477,6 +518,11 @@ class LoginAdmnistracao:
         #CASO O CAMPO "NOME" DA TELA CADASTRO DO FUNCIONÁRIO SEJA DIGITADO NÚMEROS
         elif str(self.campNome.get()).isnumeric():
             self.error = Label(self.janelaCad, text='O uso de números é invalido!', fg='red', bg='white')
+            self.error.place(x=210, y=110)
+        
+        #CASO O CAMPO "NOME" MAIOR QUE 50 CARACTERES
+        elif len(str(self.campNome.get())) > 50:
+            self.error = Label(self.janelaCad, text='Valor máximo 50 caracteres', fg='red', bg='white')
             self.error.place(x=210, y=110)
             
         #SENÃO O A MENSAGEM DE ERROS SUMIRA
@@ -538,8 +584,8 @@ class LoginAdmnistracao:
         try:
             banco = mysql.connector.connect(
             host="localhost",
-            user="root",
-            password="")
+            user="MultimoldesClient",
+            password="123456")
             
             cursor = banco.cursor()
             cursor.execute('USE empresa_funcionarios')
@@ -552,7 +598,7 @@ class LoginAdmnistracao:
                 #SE O CPF JÁ FOI CADASTRO APARECERÁ UM ALERTA
                 self.alerta = Toplevel()
                 self.alerta.title('Alerta')
-                self.alerta.iconbitmap('icone2.ico')
+                self.alerta.iconbitmap('img/icone2.ico')
                 self.alerta.resizable(False, False)
                 self.alerta.configure(background='white')
 
@@ -584,7 +630,7 @@ class LoginAdmnistracao:
                 
                 self.alerta = Toplevel()
                 self.alerta.title('Alerta')
-                self.alerta.iconbitmap('icone2.ico')
+                self.alerta.iconbitmap('img/icone2.ico')
                 self.alerta.resizable(False, False)
                 self.alerta.configure(background='white')
 
@@ -607,7 +653,7 @@ class LoginAdmnistracao:
         
         #CASO O A LIGAÇÃO OU AS CONDIÇÕES NÃO TENHAM SIDO EXECUTADAS COM ÊXITOS
         except:
-            print('Erro ao inserir no Banco de Dados:')#, erro)
+            self.alerta_erro_servidor('02-Error-Servidor: Não acesso ao servidor')
     
     #FUNCÃO PARA DESTRUIR TODOS OS ALERTAS
     def fechar(self):
@@ -630,8 +676,8 @@ class LoginAdmnistracao:
                 try:
                     self.banco = mysql.connector.connect(
                         host = "localhost",
-                        user = "root",
-                        password = "")
+                        user = "MultimoldesClient",
+                        password = "123456")
                     
                     #verificando se usuário existe no banco de dados
                     self.cursor = self.banco.cursor()
@@ -659,7 +705,7 @@ class LoginAdmnistracao:
                     else:
                         self.alerta = Toplevel()
                         self.alerta.title('Alerta')
-                        self.alerta.iconbitmap('icone2.ico')
+                        self.alerta.iconbitmap('img/icone2.ico')
                         self.alerta.resizable(False, False)
                         self.alerta.configure(background='white')
 
@@ -682,7 +728,7 @@ class LoginAdmnistracao:
                         
                 #mensaem de erro caso ocorra alguma excessão ao tentar logar
                 except:
-                    print('Error ao tentar logar')
+                    self.alerta_erro_servidor('03-Error-Servidor: Não acesso ao servidor')
             
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
@@ -709,7 +755,7 @@ class LoginAdmnistracao:
 
         self.janelaOper = Tk()
         self.janelaOper.title('Tela Operativa')
-        self.janelaOper.iconbitmap('icone2.ico')
+        self.janelaOper.iconbitmap('img/icone2.ico')
         self.janelaOper.configure(background='#2e2e2e')
         self.janelaOper.geometry('500x500+200+100')
         self.janelaOper.state('zoomed')
@@ -791,7 +837,7 @@ class LoginAdmnistracao:
         if self.campoServico.get() == '' or self.campoPeca.get() == '':
             self.alerta = Tk()
             self.alerta.title('Alerta')
-            self.alerta.iconbitmap('icone2.ico')
+            self.alerta.iconbitmap('img/icone2.ico')
             self.alerta.resizable(False, False)
             self.alerta.configure(background='white')
 
@@ -952,6 +998,7 @@ class LoginAdmnistracao:
                 self.tempExtraGastoA = int(self.tempHora)
                 self.tempExtraGastoB = int(self.tempMin)
                 self.tempExtraGastoC = int(self.tempSeg)
+                self.backup = str(self.tempHora)+':'+str(self.tempMin)+':'+str(self.tempSeg)
                 
                 #Formatando as varíaveis para encaixar no label - Tempo Programado
                 self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
@@ -983,7 +1030,7 @@ class LoginAdmnistracao:
                 #Caso o código não exista no banco de dados
                 self.alerta = Tk()
                 self.alerta.title('Alerta')
-                self.alerta.iconbitmap('icone2.ico')
+                self.alerta.iconbitmap('img/icone2.ico')
                 self.alerta.resizable(False, False)
                 self.alerta.configure(background='white')
 
@@ -1005,7 +1052,7 @@ class LoginAdmnistracao:
                 botaoAlert.place(x=130,y=90)
                     
         except:
-            print('ERRO NO BANCO DE DADOS, CONFIRMAR OS')
+            self.alerta_erro_servidor('04-Error-Servidor: Não acesso ao servidor')            
 
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
 
@@ -1138,7 +1185,7 @@ class LoginAdmnistracao:
             self.codigoPeca['fg'] = 'white'
             self.tempoProgramado['fg'] = 'white'
             
-            self.imgRelogio = PhotoImage(file="relogio.png")
+            self.imgRelogio = PhotoImage(file="img/relogio.png")
 
             self.imagemTempRel = Label(self.frameRight, image=self.imgRelogio, bg='red')
             self.imagemTempRel.place(x=20,y=10)
@@ -1146,8 +1193,9 @@ class LoginAdmnistracao:
         self.ativ = 0     
         if int(self.tempHora) > 1:
             #para contagens a partir de uma hora
-            for c in range(0, 6):
-                if c == 5 and h == int(self.tempHora) and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) <= 5:
+            for c in range(1, 6):
+                if m + c == int(self.tempMin) and m == 0 and h == int(self.tempHora) and s == 0 and int(self.tempMin) <= 5:
+                    print('Parte 1 A')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
@@ -1155,11 +1203,12 @@ class LoginAdmnistracao:
                 
                 elif m + c == int(self.tempMin) and h == int(self.tempHora) and int(self.tempMin) <= 5:
                     
-                    for i in range(0,6):
+                    for i in range(1, 6):
                         if i + m == int(self.tempMin):
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'       
 
-                if c == 5 and h == int(self.tempHora) and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
+                if m + c == int(self.tempMin) and c == 5 and h == int(self.tempHora) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
+                    print('Parte 2 A')
                     telaVermelha2()
                     self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
@@ -1172,14 +1221,23 @@ class LoginAdmnistracao:
                             self.mensag2['text'] = 'Restam '+str(i)+' Minutos!!'                                                 
                 
                 #PRECISA DAR A CONDIÇÃO PARA ESTE CASO AINDA
-                '''elif h == int(self.tempHora) - 1 and 0 == int(self.tempMin) and m + 5 == 60  and s == 0:
-                    telaVermelha2()'''
-        
+                if c == 5 and h == int(self.tempHora) - 1 and int(self.tempMin) == 0 and m + 5 == 60  and s == 0:
+                    print('Parte 3 A')
+                    telaVermelha2()
+                    self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag.place(x=160, y=400)
+                    self.ativ = 1                  
+                
+                elif h == int(self.tempHora) - 1 and int(self.tempMin) == 0 and m + c == 60:
+                    for i in range(1, 6):
+                        if i + m == 60:
+                            self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
+                    
         elif int(self.tempHora) == 1:
             for c in range(1, 6):
                 
                 if c == 5 and int(self.tempMin) == 0 and m + 5 == 60 and s == 0:
-                    print('Parte 1')
+                    print('Parte 1 B')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
@@ -1191,7 +1249,7 @@ class LoginAdmnistracao:
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
                 
                 if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
-                    print('Parte 2')
+                    print('Parte 2 B')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
@@ -1204,7 +1262,7 @@ class LoginAdmnistracao:
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
 
                 if h == int(self.tempHora) and c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >=6 and int(self.tempMin) <= 59:
-                    print('Parte 3')
+                    print('Parte 3 B')
                     telaVermelha2()
                     self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
@@ -1221,6 +1279,7 @@ class LoginAdmnistracao:
             for c in range(1, 6):
                 
                 if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
+                    print('Parte 1 C')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
@@ -1233,7 +1292,7 @@ class LoginAdmnistracao:
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
 
                 if c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
-
+                    print('Parte 2 Co')
                     telaVermelha2()
                     self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
@@ -1308,7 +1367,7 @@ class LoginAdmnistracao:
         if self.chaveFinalizar == True:
             self.botFinalizar.destroy()
             self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado!',  bg='red', fg='white', font=('arial', 25, 'bold'))
-            self.labFinalizar.place(x=100, y=150)
+            self.labFinalizar.place(x=100, y=160)
             
             #Pegando a hora atual em que o processo foi finalizado
             time = datetime.now().time()
@@ -1333,16 +1392,14 @@ class LoginAdmnistracao:
                 
             if self.chaveTempExtra >= 1:
             
-                self.tempExtraGastoA += int(self.tempHora)
-                self.tempExtraGastoB += int(self.tempMin)
-                if int(mm) + self.tempExtraGastoB >= 60:
+                self.tempExtraGastoA += int(self.houC)
+                self.tempExtraGastoB += int(self.minuC)
+                if int(self.minuC) + self.tempExtraGastoB >= 60:
                     self.tempExtraGastoA += 1
-                    self.tempExtraGastoB -= int(mm)
-                self.tempExtraGastoC += int(self.tempSeg)
+                    self.tempExtraGastoB -= int(self.minuC)
+                self.tempExtraGastoC += int(self.secC)
                 
                 self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
-                
-                print(f'Lógica pela função: {self.tempExtraGasto}, Chave: {self.chaveTempExtra}')
                 
             #Botão caso o operado queira realizar outra S.O
             self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
@@ -1355,7 +1412,7 @@ class LoginAdmnistracao:
                 self.banco.commit()
             #Excessão caso ocorra de não conseguir salvar
             except:
-                print('erro ao salvar informações da Tela de Operação')
+                self.alerta_erro_servidor('05-Error-Servidor: Não acesso ao servidor')
 
     #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------
     def nova_tela_operacao(self):
@@ -1386,7 +1443,7 @@ class LoginAdmnistracao:
         else:
             self.alerta = Tk()
             self.alerta.title('Alerta')
-            self.alerta.iconbitmap('icone2.ico')
+            self.alerta.iconbitmap('img/icone2.ico')
             self.alerta.resizable(False, False)
             self.alerta.configure(background='yellow')
 
