@@ -1,4 +1,5 @@
 #Pogramador: Misael Jesus
+#Date: 18/08/2020
 
 from datetime import *
 from tkinter import *
@@ -438,7 +439,6 @@ class LoginAdmnistracao:
                 self.se = (int(self.tempMin) * 60) // 2        
                 print(self.mi)         
         
-        
         #Armazenando na variável já formatado
         self.tempProgExt = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
         
@@ -756,7 +756,7 @@ class LoginAdmnistracao:
         self.janelaOper = Tk()
         self.janelaOper.title('Tela Operativa')
         self.janelaOper.iconbitmap('img/icone2.ico')
-        self.janelaOper.configure(background='#2e2e2e')
+        self.janelaOper.configure(background='black')
         self.janelaOper.geometry('500x500+200+100')
         self.janelaOper.state('zoomed')
 
@@ -766,11 +766,11 @@ class LoginAdmnistracao:
         self.frameTop.config(highlightbackground='black')
         self.frameTop.pack(side=TOP)
 
-        self.frameLeft = Frame(self.janelaOper, width=800, bg='#001333', height=550,highlightthickness=3,highlightcolor='black')
+        self.frameLeft = Frame(self.janelaOper, width=800, bg='#001333', height=570,highlightthickness=3,highlightcolor='black')
         self.frameLeft.config(highlightbackground='black')
         self.frameLeft.pack(side=LEFT)
 
-        self.frameRight = Frame(self.janelaOper, width=550, height=550, bg='#001333',highlightthickness=3,highlightcolor='black') ##c4c0c0
+        self.frameRight = Frame(self.janelaOper, width=550, height=570, bg='#001333',highlightthickness=3,highlightcolor='black') ##c4c0c0
         self.frameRight.config(highlightbackground='black')
         self.frameRight.pack(side=RIGHT)
 
@@ -995,9 +995,9 @@ class LoginAdmnistracao:
                 
                 #Variáveis responsáveis caso o "tempo gasto" ultrapasse o "tempo programado"
                 self.chaveTempExtra = 0
-                self.tempExtraGastoA = int(self.tempHora)
-                self.tempExtraGastoB = int(self.tempMin)
-                self.tempExtraGastoC = int(self.tempSeg)
+                self.tempExtraGastoA = 0
+                self.tempExtraGastoB = 0
+                self.tempExtraGastoC = 0
                 self.backup = str(self.tempHora)+':'+str(self.tempMin)+':'+str(self.tempSeg)
                 
                 #Formatando as varíaveis para encaixar no label - Tempo Programado
@@ -1314,6 +1314,14 @@ class LoginAdmnistracao:
             
             elif int(self.tempMin) <= 5:
                 self.mensag.destroy()
+            
+                    
+            if self.chaveTempExtra >= 1:
+                self.tempExtraGastoA += int(self.tempHora)
+                self.tempExtraGastoB += int(self.tempMin)
+                self.tempExtraGastoC += 0
+                print('exemplo 1: tempgastoAB', self.tempExtraGastoB, self.tempExtraGastoC)
+                print('exemplo 1: tempos', self.tempHora, self.tempMin)
                 
             self.imagemTempRel['bg'] = '#870000'
             self.imagemTempRel.destroy()
@@ -1389,17 +1397,21 @@ class LoginAdmnistracao:
                 self.tempExtraGasto = '00:00:00'
             else:
                 self.tempGasto = self.backup
-                
-            if self.chaveTempExtra >= 1:
             
-                self.tempExtraGastoA += int(self.houC)
-                self.tempExtraGastoB += int(self.minuC)
+            if self.chaveTempExtra >= 1:
+                
+                print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
                 if int(self.minuC) + self.tempExtraGastoB >= 60:
                     self.tempExtraGastoA += 1
                     self.tempExtraGastoB -= int(self.minuC)
-                self.tempExtraGastoC += int(self.secC)
+                else:
+                    self.tempExtraGastoA += int(self.houC)
+                    self.tempExtraGastoB += int(self.minuC)    
+                    self.tempExtraGastoC += int(self.secC)
+                print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
                 
                 self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
+                print(self.tempExtraGasto)
                 
             #Botão caso o operado queira realizar outra S.O
             self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
