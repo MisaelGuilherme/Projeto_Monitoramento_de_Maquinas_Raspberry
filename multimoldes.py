@@ -4,7 +4,6 @@
 from datetime import *
 from tkinter import *
 from time import sleep
-#import sqlite3
 import mysql.connector
 
 class LoginAdmnistracao:
@@ -130,14 +129,15 @@ class LoginAdmnistracao:
 
         botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
         botaoAlert.place(x=140,y=80)
+        self.alerta.mainloop()
                 
     def verificar_adm(self, contV):
         if str(self.admSenhaPrincipal.get()).isnumeric():
             self.valor = self.admSenhaPrincipal.get()
             try:
                 banco = mysql.connector.connect(
-                    host = 'localhost',
-                    user = 'root',
+                    host = '10.0.0.65',
+                    user = 'multimoldesClient',
                     password = 'multimoldes'
                 )
                 cursor = banco.cursor()
@@ -241,6 +241,7 @@ class LoginAdmnistracao:
                 
             botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
             botaoAlert.place(x=130,y=87)
+            self.alerta.mainloop()
         
         if self.ll.get() == '' or self.mm.get() == '':
             alertaTE(1)
@@ -583,9 +584,9 @@ class LoginAdmnistracao:
         senha = self.campSenha.get()
         try:
             banco = mysql.connector.connect(
-            host="localhost",
-            user="MultimoldesClient",
-            password="123456")
+            host="10.0.0.65",
+            user="multimoldesClient",
+            password="multimoldes")
             
             cursor = banco.cursor()
             cursor.execute('USE empresa_funcionarios')
@@ -618,6 +619,7 @@ class LoginAdmnistracao:
 
                 botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
                 botaoAlert.place(x=90,y=60)
+                self.alerta.mainloop()
             
             #CADASTRANDO ENVIANDO DADOS DO FUNCIONÁRIO PRO BANCO DE DADOS
             else:
@@ -650,6 +652,7 @@ class LoginAdmnistracao:
 
                 botaoAlert = Button(self.alerta, text='OK', width=10, bg='green', fg='white', command = lambda: self.fechar())
                 botaoAlert.place(x=90,y=60)
+                self.alerta.mainloop()
         
         #CASO O A LIGAÇÃO OU AS CONDIÇÕES NÃO TENHAM SIDO EXECUTADAS COM ÊXITOS
         except:
@@ -675,10 +678,9 @@ class LoginAdmnistracao:
                 #tentamos conectar-se ao banco
                 try:
                     self.banco = mysql.connector.connect(
-                        host = "localhost",
-                        user = "MultimoldesClient",
-                        password = "123456")
-                    
+                        host = "10.0.0.65",
+                        user = "multimoldesClient",
+                        password = "multimoldes")
                     #verificando se usuário existe no banco de dados
                     self.cursor = self.banco.cursor()
                     self.cursor.execute('use empresa_funcionarios')
@@ -725,6 +727,7 @@ class LoginAdmnistracao:
 
                         self.botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command=lambda:self.fechar())
                         self.botaoAlert.place(x=90,y=60)
+                        self.alerta.mainloop()
                         
                 #mensaem de erro caso ocorra alguma excessão ao tentar logar
                 except:
@@ -1050,6 +1053,7 @@ class LoginAdmnistracao:
 
                 botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
                 botaoAlert.place(x=130,y=90)
+                self.alerta.mainloop()
                     
         except:
             self.alerta_erro_servidor('04-Error-Servidor: Não acesso ao servidor')            
@@ -1475,5 +1479,6 @@ class LoginAdmnistracao:
 
             botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
             botaoAlert.place(x=140,y=80)
+            self.alerta.mainloop()
 
 instancia = LoginAdmnistracao()
