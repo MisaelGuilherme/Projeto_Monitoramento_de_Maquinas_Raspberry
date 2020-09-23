@@ -860,6 +860,7 @@ class LoginAdmnistracao:
 
             botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
             botaoAlert.place(x=130,y=90)
+            self.alerta.mainloop()
         
         else:
             self.botaoConfirmarOS()
