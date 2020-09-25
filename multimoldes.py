@@ -1065,8 +1065,12 @@ class LoginAdmnistracao:
 
         if self.chaveControle == False:
             
-            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), width=15, command = lambda: self.contagemFinalizada())
-            self.botFinalizar.place(x=130, y=200)
+            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagemFinalizada())
+            self.botFinalizar.place(x=140, y=160)
+            
+            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.tentativa_pausar())
+            self.botPausar.place(x=140, y=260)            
+            
             self.botaoInciarContador.destroy()
             time = datetime.now().time()
             lista = [str(time)]
@@ -1193,7 +1197,7 @@ class LoginAdmnistracao:
             self.imgRelogio = PhotoImage(file="img/relogio.png")
 
             self.imagemTempRel = Label(self.frameRight, image=self.imgRelogio, bg='red')
-            self.imagemTempRel.place(x=20,y=10)
+            self.imagemTempRel.place(x=20,y=5)
         
         self.ativ = 0     
         if int(self.tempHora) > 1:
@@ -1350,6 +1354,7 @@ class LoginAdmnistracao:
             self.tempoProgramado['fg'] = 'white'            
             
             self.botFinalizar.destroy()
+            self.botPausar.destroy()
             self.sair.destroy()
             
             self.labFinalizar = Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
@@ -1379,6 +1384,8 @@ class LoginAdmnistracao:
         #Se o cahveFinalizar foir verdadeira, o crobômetro para a contagem
         if self.chaveFinalizar == True:
             self.botFinalizar.destroy()
+            self.botPausar.destroy()
+            
             self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado!',  bg='red', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=100, y=160)
             
@@ -1432,6 +1439,56 @@ class LoginAdmnistracao:
                 self.alerta_erro_servidor('05-Error-Servidor: Não acesso ao servidor')
 
     #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------
+    def tentativa_pausar(self):
+        self.janelaPause = Toplevel()
+        self.janelaPause.title('Relatório de Pausa')
+        self.janelaPause.iconbitmap('img/icone2.ico')
+        self.janelaPause.resizable(False, False)
+        self.janelaPause.configure(background='white')
+
+        self.largura = 500
+        self.altura = 500
+
+        self.largura_screen = self.janelaPause.winfo_screenwidth()
+        self.altura_screen = self.janelaPause.winfo_screenheight()
+
+        self.posicaoX = self.largura_screen/2 - self.largura/2
+        self.posicaoY = self.altura_screen/2 - self.altura/2
+
+        self.janelaPause.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))        
+        
+        motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 12, 'bold'), bg='white', fg='#3e8e94')
+        motivo.place(x=20, y=50)
+        
+        confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.contagem_pausada())
+        confirmar.place(x=210,y=400)
+        
+        self.janelaPause.mainloop()
+    
+    def contagem_pausada(self):
+        
+        self.janelaPause.destroy()
+        self.chaveFinalizar = True
+        self.botFinalizar.destroy()
+        self.botPausar.destroy()
+        
+        self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagem_despausar())
+        self.botDespausar.place(x=140, y=220)        
+    
+    def contagem_despausar(self):
+        self.botDespausar.destroy()
+        if self.chaveFinalizar == True:
+            self.chaveFinalizar = False
+            
+            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagemFinalizada())
+            self.botFinalizar.place(x=140, y=160)
+            
+            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.tentativa_pausar())
+            self.botPausar.place(x=140, y=260)
+            
+            self.botao_iniciar()
+            
+    
     def nova_tela_operacao(self):
         '''Função responsável por apertar o botão "NOVO.OS" após finalizar a 
         operação, caso o operador deseje executar uma nova tarefa'''
