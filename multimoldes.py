@@ -130,6 +130,32 @@ class LoginAdmnistracao:
         botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
         botaoAlert.place(x=140,y=80)
         self.alerta.mainloop()
+
+    def verificar_campo_alerta(self, alert):
+        
+        self.alerta = Tk()
+        self.alerta.title('Alerta')
+        self.alerta.iconbitmap('img/icone2.ico')
+        self.alerta.resizable(False, False)
+        self.alerta.configure(background='white')
+
+        largura = 350
+        altura = 150
+
+        largura_screen = self.alerta.winfo_screenwidth()
+        altura_screen = self.alerta.winfo_screenheight()
+
+        posicaoX = largura_screen/2 - largura/2
+        posicaoY = altura_screen/2 - altura/2
+
+        self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+
+        labelAlert = Label(self.alerta, text=alert, font=('arial', 15, 'bold'), fg='red', bg='white')
+        labelAlert.place(x=75,y=20)
+
+        botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+        botaoAlert.place(x=130,y=90)
+        self.alerta.mainloop()        
                 
     def verificar_adm(self, contV):
         if str(self.admSenhaPrincipal.get()).isnumeric():
@@ -830,6 +856,7 @@ class LoginAdmnistracao:
         
         '''tempoEsgotado, responsável de quando a janela de pause estiver abertar e o tempo esgotar, não poderá mais pausar'''
         self.tempoEsgotado = False
+        self.resultPausa = ''
         
         #variaveis que tornaram possiveis a contagem do cronômetro
         self.sec = None
@@ -841,29 +868,8 @@ class LoginAdmnistracao:
         
     def confirmarCampos(self):
         if self.campoServico.get() == '' or self.campoPeca.get() == '':
-            self.alerta = Tk()
-            self.alerta.title('Alerta')
-            self.alerta.iconbitmap('img/icone2.ico')
-            self.alerta.resizable(False, False)
-            self.alerta.configure(background='white')
-
-            largura = 350
-            altura = 150
-
-            largura_screen = self.alerta.winfo_screenwidth()
-            altura_screen = self.alerta.winfo_screenheight()
-
-            posicaoX = largura_screen/2 - largura/2
-            posicaoY = altura_screen/2 - altura/2
-
-            self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
-
-            labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
-            labelAlert.place(x=75,y=20)
-
-            botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
-            botaoAlert.place(x=130,y=90)
-            self.alerta.mainloop()
+            
+            self.verificar_campo_alerta('Verifique os Campos!')
         
         else:
             self.botaoConfirmarOS()
@@ -1486,15 +1492,15 @@ class LoginAdmnistracao:
         motivo.place(x=20, y=20)
         
         marcado1 = IntVar()
-        mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=(10))
+        mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=('arial',14,'bold'))
         mot1.place(x=30, y=100)
         
         marcado2 = IntVar()
-        mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=(10), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+        mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
         mot2.place(x=30, y=200)                
         
         marcado3 = IntVar()
-        mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=(10), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+        mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
         mot3.place(x=30, y=300)
         
         confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.analisar_pausa())
@@ -1502,30 +1508,75 @@ class LoginAdmnistracao:
         
         self.janelaPause.mainloop()
         
-    def analisar_pausa(self):
+    def analisar_pausa(self):        
+        
         if self.tempoEsgotado == True:
+
             self.alerta_erro_servidor('Tempo Esgotado! Impossível Pausar')
+        
+        elif self.resultPausa == '':
+            self.verificar_campo_alerta('Marque uma Opção!')
+            
         else:
-            self.cursor.execute('use empresa_funcionarios')
-            self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"++"','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','"+str(self.tempExtraGasto)+"','"+str(self.chaveTempExtra)+"')")
-            self.banco.commit()
-                        
             self.contagem_pausada()
-    
+        
     def contagem_pausada(self):
         
         self.janelaPause.destroy()
         self.chaveFinalizar = True
         self.botFinalizar.destroy()
         self.botPausar.destroy()
+        self.sair.destroy()
+        
+        try:
+            time = datetime.now().time()
+            lista = [str(time)]
+            recebe = ''
+            for c in lista:
+                for i in c:
+                    if i == '.':
+                        break
+                    else:
+                        recebe += i
+            self.horaPause = recebe                        
+            print(self.horaPause)
+            
+            self.cursor.execute('use empresa_funcionarios')
+            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0')")
+            self.banco.commit()     
+            
+        except:
+            self.alerta_erro_servidor('06-Error-Servidor: Não acesso ao servidor')            
         
         self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagem_despausar())
         self.botDespausar.place(x=140, y=220)        
     
     def contagem_despausar(self):
+        try:
+            time = datetime.now().time()
+            lista = [str(time)]
+            recebe = ''
+            for c in lista:
+                for i in c:
+                    if i == '.':
+                        break
+                    else:
+                        recebe += i
+            self.horaRetomada = recebe
+            print(self.horaRetomada)
+            self.cursor.execute('use empresa_funcionarios')
+            self.cursor.execute("update pausa_funcionarios set horaRetomada = '"+self.horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaPause = '"+self.horaPause+"' and horaRetomada = 0 ")
+            self.banco.commit()     
+            
+        except:
+            self.alerta_erro_servidor('07-Error-Servidor: Não acesso ao servidor')            
+            
         self.botDespausar.destroy()
         if self.chaveFinalizar == True:
             self.chaveFinalizar = False
+            
+            self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', width=5, command=lambda:self.sairTela())
+            self.sair.place(x=1180,y=20)            
             
             self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagemFinalizada())
             self.botFinalizar.place(x=140, y=160)
