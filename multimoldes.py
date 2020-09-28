@@ -821,12 +821,15 @@ class LoginAdmnistracao:
         self.hours = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
         self.hours.place(x=205, y=50)
 
-        '''Chave de controle, respomsável de quando ser TRUE, informar que o botão INICIAR iniciou a contagem e em seguida
+        '''Chave de controle, responsável de quando ser TRUE, informar que o botão INICIAR iniciou a contagem e em seguida
         destrui-lo fazendo o botão FINALIZAR 0S aparecer'''
         self.chaveControle = False
 
         '''Chave finalizar, responsável de quando TRUE, informar que o botão FINALIZAR OS foi acionado, e destrui-lo, mostrando um label que o OS foi finalizado.'''
         self.chaveFinalizar = False
+        
+        '''tempoEsgotado, responsável de quando a janela de pause estiver abertar e o tempo esgotar, não poderá mais pausar'''
+        self.tempoEsgotado = False
         
         #variaveis que tornaram possiveis a contagem do cronômetro
         self.sec = None
@@ -1317,6 +1320,7 @@ class LoginAdmnistracao:
             self.ativaMensagem = 2
                 
         if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
+            self.tempoEsgotado = True
             
             if self.ativaMensagem == 2 and int(self.tempMin) >= 6:
                 self.mensag2.destroy()
@@ -1457,13 +1461,56 @@ class LoginAdmnistracao:
 
         self.janelaPause.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))        
         
-        motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 12, 'bold'), bg='white', fg='#3e8e94')
-        motivo.place(x=20, y=50)
+        def ok():
+            if marcado1.get() == 1 or marcado2.get() == 1 or marcado3.get() == 1:
+                if marcado1.get() == 0:
+                    mot1['state'] = DISABLED
+                else:
+                    self.resultPausa = 'Horário de Almoço'
+                
+                if marcado2.get() == 0:
+                    mot2['state'] = DISABLED
+                else:
+                    self.resultPausa = 'Outras OS'
+                    
+                if marcado3.get() == 0:
+                    mot3['state'] = DISABLED
+                else:
+                    self.resultPausa = 'Final de Expediente'
+            else:
+                mot1['state'] = ACTIVE
+                mot2['state'] = ACTIVE
+                mot3['state'] = ACTIVE
+                                
+        motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 20, 'bold'), bg='white', fg='#3e8e94')
+        motivo.place(x=20, y=20)
         
-        confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.contagem_pausada())
+        marcado1 = IntVar()
+        mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=(10))
+        mot1.place(x=30, y=100)
+        
+        marcado2 = IntVar()
+        mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=(10), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+        mot2.place(x=30, y=200)                
+        
+        marcado3 = IntVar()
+        mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=(10), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+        mot3.place(x=30, y=300)
+        
+        confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.analisar_pausa())
         confirmar.place(x=210,y=400)
         
         self.janelaPause.mainloop()
+        
+    def analisar_pausa(self):
+        if self.tempoEsgotado == True:
+            self.alerta_erro_servidor('Tempo Esgotado! Impossível Pausar')
+        else:
+            self.cursor.execute('use empresa_funcionarios')
+            self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"++"','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','"+str(self.tempExtraGasto)+"','"+str(self.chaveTempExtra)+"')")
+            self.banco.commit()
+                        
+            self.contagem_pausada()
     
     def contagem_pausada(self):
         
