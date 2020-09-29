@@ -1,0 +1,5 @@
+user password
+
+multimoldesAdmin = multimoldes
+
+multimoldesClient = multimoldes

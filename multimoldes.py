@@ -861,9 +861,15 @@ class LoginAdmnistracao:
         #variaveis que tornaram possiveis a contagem do cronômetro
         self.sec = None
         self.minu = None
-        self.hou = None
-
-        #Encerra a janela de operação na parte de label, Campos de entradas e de Frames, as demais serão chamadas através de funções
+        self.hou = None     
+        
+        self.secOperacao = None
+        self.minuOperacao = None
+        self.houOperacao = None        
+        
+        self.chaveFinalizar2 = False
+        self.chaveControle2 = False
+        
         self.janelaOper.mainloop()
         
     def confirmarCampos(self):
@@ -1003,7 +1009,7 @@ class LoginAdmnistracao:
                         print(self.se)
                     elif int(self.tempMin) == 1:
                         self.mi = d4
-                        self.se = (int(self.tempMin) * 60) // 2        
+                        self.se = (int(self.tempMin) * 60) // 2
                         print(self.mi)                
                 
                 #Variáveis responsáveis caso o "tempo gasto" ultrapasse o "tempo programado"
@@ -1034,6 +1040,14 @@ class LoginAdmnistracao:
 
                 self.campoPeca = Label(self.frameLeft, text=self.campoPeca.get(), width=25, font=('arial', 15))
                 self.campoPeca.place(x=300, y=200)
+                
+                #Labals que imprimem o cronômetro que totaliza o tempo de operação do funcionário
+                self.segundos = Label(self.frameLeft, text='00', font=('arial',12,'bold'), width=2, fg='#023300')
+                self.segundos.place(x=167, y=450)
+                self.minutos = Label(self.frameLeft, text='00', font=('arial',12,'bold'), width=2, fg='#023300')
+                self.minutos.place(x=140, y=450)
+                self.horas = Label(self.frameLeft, text='00', font=('arial',12,'bold'), width=2, fg='#023300')
+                self.horas.place(x=113, y=450)
                 
                 self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
                 self.botaoInciarContador.place(x=205, y=200)
@@ -1071,13 +1085,15 @@ class LoginAdmnistracao:
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
 
     def botao_iniciar(self):
-
+        
         if self.chaveControle == False:
+            
+            self.iniciarContOper()
             
             self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagemFinalizada())
             self.botFinalizar.place(x=140, y=160)
             
-            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.tentativa_pausar())
+            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='#035700', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.tentativa_pausar())
             self.botPausar.place(x=140, y=260)            
             
             self.botaoInciarContador.destroy()
@@ -1151,7 +1167,7 @@ class LoginAdmnistracao:
                 if self.hou == None:
                     self.hou = 0
                 self.hou = self.hou + 1
-                if self.hou > 0 and self.minu < 10:
+                if self.hou > 0 and self.hou < 10:
                     houA = self.hou / 100
                     houB = str(houA)
                     self.houC = houB[2:]
@@ -1379,10 +1395,65 @@ class LoginAdmnistracao:
         self.seconds['text'] = self.secC
         self.minutes['text'] = self.minuC
         self.hours['text'] = self.houC
-
+        
 
         if self.chaveFinalizar == False:
             self.seconds.after(1000, self.botao_iniciar)
+            
+    def iniciarContOper(self):
+
+        #configurando os segundos para aparecer no label
+
+        if self.secOperacao == None:
+            self.secOperacao = 0
+            self.sC = '00'
+            self.mC = '00'
+            self.hC = '00'
+        self.secOperacao = self.secOperacao + 1
+        if self.secOperacao > 0 and self.secOperacao <10:
+            sA = self.secOperacao / 100
+            sB = str(sA)
+            self.sC = sB[2:]
+        else:
+            self.sC = str(self.secOperacao)
+        if self.secOperacao > 59:
+            self.secOperacao = 0
+            self.sC = '00'
+
+            #configurando os minutos para aparecer no label
+            if self.minuOperacao == None:
+                self.minuOperacao = 0
+            self.minuOperacao = self.minuOperacao + 1
+
+            if self.minuOperacao > 0 and self.minuOperacao <10:
+                mA = self.minuOperacao / 100
+                mB = str(mA)
+                self.mC = mB[2:]
+            else:
+                self.mC = str(self.minuOperacao)            
+
+            if self.minuOperacao > 59:
+                self.minuOperacao = 0
+                self.minuC = '00'
+
+                #configurando a hora do temporizador
+                if self.houOperacao == None:
+                    self.houOperacao = 0
+                self.houOperacao = self.houOperacao + 1
+
+                if self.houOperacao > 0 and self.houOperacao < 10:
+                    hA = self.houOperacao / 100
+                    hB = str(hA)
+                    self.hC = hB[2:]
+                else:
+                    hC = str(self.houOperacao)
+
+        self.segundos['text'] = self.sC
+        self.minutos['text'] = self.mC
+        self.horas['text'] = self.hC
+
+        if self.chaveFinalizar2 == False:
+            self.segundos.after(1000, self.iniciarContOper)
 
 #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------            
     def contagemFinalizada(self):
@@ -1487,7 +1558,7 @@ class LoginAdmnistracao:
                 mot1['state'] = ACTIVE
                 mot2['state'] = ACTIVE
                 mot3['state'] = ACTIVE
-                                
+
         motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 20, 'bold'), bg='white', fg='#3e8e94')
         motivo.place(x=20, y=20)
         
