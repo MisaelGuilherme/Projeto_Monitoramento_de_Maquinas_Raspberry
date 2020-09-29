@@ -478,7 +478,7 @@ class LoginAdmnistracao:
         self.sair.place(x=1180,y=20)
         
         #Botão inciar a contagem do cronômetro
-        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#023300', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
         self.botaoInciarContador.place(x=205, y=200)
             
             
@@ -885,7 +885,7 @@ class LoginAdmnistracao:
         
         self.numOS = str(self.campoServico.get())
         peca = self.campoPeca.get()
-        
+    
         try:
             self.cursor.execute('use empresa_funcionarios')
             self.cursor.execute("select * from pecas_codigo where codigo = "+str(peca))
@@ -1049,6 +1049,8 @@ class LoginAdmnistracao:
                 self.horas = Label(self.frameLeft, text='00', font=('arial',12,'bold'), width=2, fg='#023300')
                 self.horas.place(x=113, y=450)
                 
+                self.tempOperando = '00:00:00'
+                
                 self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
                 self.botaoInciarContador.place(x=205, y=200)
             
@@ -1086,9 +1088,10 @@ class LoginAdmnistracao:
 
     def botao_iniciar(self):
         
-        if self.chaveControle == False:
-            
+        if self.chaveControle2 == True:
             self.iniciarContOper()
+                    
+        if self.chaveControle == False:
             
             self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagemFinalizada())
             self.botFinalizar.place(x=140, y=160)
@@ -1403,7 +1406,6 @@ class LoginAdmnistracao:
     def iniciarContOper(self):
 
         #configurando os segundos para aparecer no label
-
         if self.secOperacao == None:
             self.secOperacao = 0
             self.sC = '00'
@@ -1447,13 +1449,15 @@ class LoginAdmnistracao:
                     self.hC = hB[2:]
                 else:
                     hC = str(self.houOperacao)
-
+        
         self.segundos['text'] = self.sC
         self.minutos['text'] = self.mC
         self.horas['text'] = self.hC
 
-        if self.chaveFinalizar2 == False:
-            self.segundos.after(1000, self.iniciarContOper)
+        self.tempOperando = self.hC+':'+self.mC+':'+self.sC 
+        
+        '''if self.chaveFinalizar2 == False:
+            self.segundos.after(1000, self.iniciarContOper)'''
 
 #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------            
     def contagemFinalizada(self):
@@ -1507,13 +1511,24 @@ class LoginAdmnistracao:
                 print(self.tempExtraGasto)
                 
             #Botão caso o operado queira realizar outra S.O
-            self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
+            self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='#023300', fg='white',border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
             self.botReiniciar.place(x=150, y=230)
             
             #Enviando todos os dados ao banco
             try:
                 self.cursor.execute('use empresa_funcionarios')
-                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"+str(self.operador)+"','"+str(self.horaLogin)+"','"+str(self.horaInicial)+"','"+str(horaFinal)+"','"+self.tempGasto+"','"+str(self.tempProg)+"','"+self.codP+"','"+self.numOS+"','"+str(self.tempExtraGasto)+"','"+str(self.chaveTempExtra)+"')")
+                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"
+                                    +str(self.operador)+"','"
+                                    +str(self.horaLogin)+"','"
+                                    +str(self.horaInicial)+"','"
+                                    +str(horaFinal)+"','"
+                                    +self.tempGasto+"','"
+                                    +str(self.tempProg)+"','"
+                                    +self.codP+"','"
+                                    +self.numOS+"','"
+                                    +str(self.tempExtraGasto)+"','"
+                                    +str(self.chaveTempExtra)+"','"
+                                    +self.tempOperando+"')")
                 self.banco.commit()
             #Excessão caso ocorra de não conseguir salvar
             except:
@@ -1610,7 +1625,6 @@ class LoginAdmnistracao:
                     else:
                         recebe += i
             self.horaPause = recebe                        
-            print(self.horaPause)
             
             self.cursor.execute('use empresa_funcionarios')
             self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0')")
