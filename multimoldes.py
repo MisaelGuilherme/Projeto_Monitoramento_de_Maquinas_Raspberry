@@ -474,11 +474,11 @@ class LoginAdmnistracao:
         self.campoProExt.place(x=300, y=400)
         
         #Invocando o botão sair(login) após o horário ser adcionado
-        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', width=5, command=lambda:self.sairTela())
+        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
         self.sair.place(x=1180,y=20)
         
         #Botão inciar a contagem do cronômetro
-        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#023300', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
         self.botaoInciarContador.place(x=205, y=200)
             
             
@@ -818,7 +818,7 @@ class LoginAdmnistracao:
         self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('arial', 40,'bold'), fg='red', bg='#001333', width=15)
         self.multimolde.place(x=500, y=20)
         
-        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', width=5, command=lambda:self.sairTela())
+        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
         self.sair.place(x=1180,y=20)
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
@@ -834,9 +834,37 @@ class LoginAdmnistracao:
         self.campoPeca = Entry(self.frameLeft, width=25, font=('arial', 15))
         self.campoPeca.place(x=300, y=200)
         
+        def ok():
+            print('ok')
+            if self.os1.get() == 1 or self.os2.get() == 1:
+                if self.os1.get() == 0:
+                    self.novoOS['state'] = DISABLED
+                else:
+                    self.resultComand = 'Nova OS'
+                    self.novoOS['selectcolor'] = 'green'
+                
+                if self.os2.get() == 0:
+                    self.retrabalhoOS['state'] = DISABLED
+                else:
+                    self.resultComand = 'Retrabalhar OS'
+                    self.retrabalhoOS['selectcolor'] = 'green'
+            else:
+                self.novoOS['state'] = ACTIVE
+                self.retrabalhoOS['state'] = ACTIVE
+                self.novoOS['selectcolor'] = '#001333'
+                self.retrabalhoOS['selectcolor'] = '#001333'
+                self.resultComand = ''
+
+        self.os1 = IntVar()
+        self.novoOS = Checkbutton(self.frameLeft, text='Nova OS', font=('arial',10,'bold'), bg='#001333', fg='white', activebackground='#001333', activeforeground='white', variable = self.os1, command=lambda:ok())
+        self.novoOS.place(x=320, y=250)
         
-        self.botConfirmar = Button(self.frameLeft, text='Confirmar', width=10, font=('arial', 15), bg='orange', command=lambda:self.confirmarCampos())
-        self.botConfirmar.place(x=360, y=350)
+        self.os2 = IntVar()
+        self.retrabalhoOS = Checkbutton(self.frameLeft, text='Retrabalhar OS', font=('arial',10,'bold'),bg='#001333', fg='white', activebackground='#001333', activeforeground='white', variable = self.os2, command=lambda:ok())
+        self.retrabalhoOS.place(x=450, y=250)
+        
+        self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos())
+        self.botConfirmar.place(x=370, y=350)
         
         #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO
 
@@ -1051,7 +1079,7 @@ class LoginAdmnistracao:
                 
                 self.tempOperando = '00:00:00'
                 
-                self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='green', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+                self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
                 self.botaoInciarContador.place(x=205, y=200)
             
             else:
@@ -1121,6 +1149,9 @@ class LoginAdmnistracao:
             self.ordemServico['bg'] = 'green'
             self.codigoPeca['bg'] = 'green'
             self.tempoProgramado['bg'] = 'green'
+            
+            self.novoOS['bg'] = 'green'
+            self.retrabalho['bg'] = 'green'
             
             self.operadorNome['fg'] = 'red'
             self.operadorNomeUser['fg'] = 'red'
@@ -1194,6 +1225,9 @@ class LoginAdmnistracao:
                 self.codigoPeca['bg'] = 'yellow'
                 self.tempoProgramado['bg'] = 'yellow'
                 
+                self.novoOS['bg'] = 'yellow'
+                self.retrabalho['bg'] = 'yellow'
+                
                 self.operadorNome['fg'] = 'red'
                 self.operadorNomeUser['fg'] = 'red'
                 self.horaInicialLb['fg'] = 'red'
@@ -1213,6 +1247,9 @@ class LoginAdmnistracao:
             self.ordemServico['bg'] = 'red'
             self.codigoPeca['bg'] = 'red'
             self.tempoProgramado['bg'] = 'red'
+            
+            self.novoOS['bg'] = 'red'
+            self.retrabalho['bg'] = 'red'
             
             self.operadorNome['fg'] = 'white'
             self.operadorNomeUser['fg'] = 'white'
@@ -1374,6 +1411,9 @@ class LoginAdmnistracao:
             self.codigoPeca['bg'] = '#870000'
             self.tempoProgramado['bg'] = '#870000'
             
+            self.novoOS['bg'] = '#870000'
+            self.retrabalho['bg'] = '#870000'
+            
             self.operadorNome['fg'] = 'white'
             self.operadorNomeUser['fg'] = 'white'
             self.horaInicialLb['fg'] = 'white'
@@ -1511,7 +1551,7 @@ class LoginAdmnistracao:
                 print(self.tempExtraGasto)
                 
             #Botão caso o operado queira realizar outra S.O
-            self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='#023300', fg='white',border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
+            self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
             self.botReiniciar.place(x=150, y=230)
             
             #Enviando todos os dados ao banco
@@ -1660,7 +1700,7 @@ class LoginAdmnistracao:
         if self.chaveFinalizar == True:
             self.chaveFinalizar = False
             
-            self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', width=5, command=lambda:self.sairTela())
+            self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
             self.sair.place(x=1180,y=20)            
             
             self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagemFinalizada())
