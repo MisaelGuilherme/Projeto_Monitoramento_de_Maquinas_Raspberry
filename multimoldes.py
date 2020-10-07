@@ -127,36 +127,39 @@ class LoginAdmnistracao:
         labelAlert = Label(self.alerta, text=parte, font=('arial', 12, 'bold'), fg='white', bg='#ff2e2e')
         labelAlert.place(x=13,y=20)
 
-        botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+        botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar1())
         botaoAlert.place(x=140,y=80)
         self.alerta.mainloop()
 
     def verificar_campo_alerta(self, alert):
         
-        self.alerta = Tk()
-        self.alerta.title('Alerta')
-        self.alerta.iconbitmap('img/icone2.ico')
-        self.alerta.resizable(False, False)
-        self.alerta.configure(background='white')
+        self.alertaCamp = Tk()
+        self.alertaCamp.title('Alerta')
+        self.alertaCamp.iconbitmap('img/icone2.ico')
+        self.alertaCamp.resizable(False, False)
+        self.alertaCamp.configure(background='white')
 
         largura = 350
         altura = 150
 
-        largura_screen = self.alerta.winfo_screenwidth()
-        altura_screen = self.alerta.winfo_screenheight()
+        largura_screen = self.alertaCamp.winfo_screenwidth()
+        altura_screen = self.alertaCamp.winfo_screenheight()
 
         posicaoX = largura_screen/2 - largura/2
         posicaoY = altura_screen/2 - altura/2
 
-        self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+        self.alertaCamp.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
 
-        labelAlert = Label(self.alerta, text=alert, font=('arial', 15, 'bold'), fg='red', bg='white')
+        labelAlert = Label(self.alertaCamp, text=alert, font=('arial', 15, 'bold'), fg='red', bg='white')
         labelAlert.place(x=75,y=20)
 
-        botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+        botaoAlert = Button(self.alertaCamp, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar_camp_alerta())
         botaoAlert.place(x=130,y=90)
-        self.alerta.mainloop()        
-                
+        self.alertaCamp.mainloop()        
+
+    def fechar_camp_alerta(self):
+        self.alertaCamp.destroy()
+
     def verificar_adm(self, contV):
         if str(self.admSenhaPrincipal.get()).isnumeric():
             self.valor = self.admSenhaPrincipal.get()
@@ -835,25 +838,25 @@ class LoginAdmnistracao:
         self.campoPeca.place(x=300, y=200)
         
         def ok():
-            print('ok')
+
             if self.os1.get() == 1 or self.os2.get() == 1:
                 if self.os1.get() == 0:
                     self.novoOS['state'] = DISABLED
                 else:
-                    self.resultComand = 'Nova OS'
+                    self.tipo = 'Nova OS'
                     self.novoOS['selectcolor'] = 'green'
                 
                 if self.os2.get() == 0:
                     self.retrabalhoOS['state'] = DISABLED
                 else:
-                    self.resultComand = 'Retrabalhar OS'
+                    self.tipo = 'Retrabalhar OS'
                     self.retrabalhoOS['selectcolor'] = 'green'
             else:
                 self.novoOS['state'] = ACTIVE
                 self.retrabalhoOS['state'] = ACTIVE
                 self.novoOS['selectcolor'] = '#001333'
                 self.retrabalhoOS['selectcolor'] = '#001333'
-                self.resultComand = ''
+                self.tipo = ''
 
         self.os1 = IntVar()
         self.novoOS = Checkbutton(self.frameLeft, text='Nova OS', font=('arial',10,'bold'), bg='#001333', fg='white', activebackground='#001333', activeforeground='white', variable = self.os1, command=lambda:ok())
@@ -905,11 +908,20 @@ class LoginAdmnistracao:
             
             self.verificar_campo_alerta('Verifique os Campos!')
         
+        elif self.os1.get() == 0 and self.os2.get() == 0:
+            
+            self.verificar_campo_alerta('Marque uma Opção!')
+            
         else:
             self.botaoConfirmarOS()
             
         
     def botaoConfirmarOS(self):
+        if self.os1.get() == 1:
+            self.novoOS['state'] = DISABLED
+
+        else:
+            self.retrabalhoOS['state'] = DISABLED
         
         self.numOS = str(self.campoServico.get())
         peca = self.campoPeca.get()
@@ -1151,7 +1163,7 @@ class LoginAdmnistracao:
             self.tempoProgramado['bg'] = 'green'
             
             self.novoOS['bg'] = 'green'
-            self.retrabalho['bg'] = 'green'
+            self.retrabalhoOS['bg'] = 'green'
             
             self.operadorNome['fg'] = 'red'
             self.operadorNomeUser['fg'] = 'red'
@@ -1226,7 +1238,7 @@ class LoginAdmnistracao:
                 self.tempoProgramado['bg'] = 'yellow'
                 
                 self.novoOS['bg'] = 'yellow'
-                self.retrabalho['bg'] = 'yellow'
+                self.retrabalhoOS['bg'] = 'yellow'
                 
                 self.operadorNome['fg'] = 'red'
                 self.operadorNomeUser['fg'] = 'red'
@@ -1249,7 +1261,7 @@ class LoginAdmnistracao:
             self.tempoProgramado['bg'] = 'red'
             
             self.novoOS['bg'] = 'red'
-            self.retrabalho['bg'] = 'red'
+            self.retrabalhoOS['bg'] = 'red'
             
             self.operadorNome['fg'] = 'white'
             self.operadorNomeUser['fg'] = 'white'
@@ -1412,7 +1424,7 @@ class LoginAdmnistracao:
             self.tempoProgramado['bg'] = '#870000'
             
             self.novoOS['bg'] = '#870000'
-            self.retrabalho['bg'] = '#870000'
+            self.retrabalhoOS['bg'] = '#870000'
             
             self.operadorNome['fg'] = 'white'
             self.operadorNomeUser['fg'] = 'white'
@@ -1568,7 +1580,9 @@ class LoginAdmnistracao:
                                     +self.numOS+"','"
                                     +str(self.tempExtraGasto)+"','"
                                     +str(self.chaveTempExtra)+"','"
-                                    +self.tempOperando+"')")
+                                    +self.tempOperando+"','"
+                                    +self.tipo+"')")
+                                    
                 self.banco.commit()
             #Excessão caso ocorra de não conseguir salvar
             except:
