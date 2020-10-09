@@ -8,17 +8,22 @@ import mysql.connector
 
 class LoginAdmnistracao:
     
-    #------------------------------- (Login Funcionário) - FUNÇÃO 1º A SER INICIADA -------------------------
+    #------------------------------- (Centralizando Janelas) - FUNÇÃO REUTILIZÁVEL --------------------------
     def centraliza_tela(self, larg, alt, jane):
+                
+        # Dimensões da Janela
         largura = larg
         altura = alt
         
+        # Resolução do Sistema
         largura_screen = jane.winfo_screenwidth()
         altura_screen = jane.winfo_screenheight()
         
+        # Definição da Janela
         posicaoX = largura_screen / 2 - largura / 2
         posicaoY = altura_screen / 2 - altura / 2
         
+        # Posicão da Tela 
         return jane.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
 
     #------------------------------- (Criando Janelas-Alerta-Servidor) - FUNÇÃO REUTILIZÁVEL -----------------
@@ -39,7 +44,59 @@ class LoginAdmnistracao:
         botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
         botaoAlert.place(x=140,y=80)
         self.alerta.mainloop()
-                
+        
+    #------------------------------- (Criando Alerta-Mensagens) - FUNÇÃO REUTILIZÁVEL ------------------------
+    def alerta_mensagem(self, alert):
+        
+        self.alertaCamp = Tk()
+        self.alertaCamp.title('Alerta')
+        self.alertaCamp.iconbitmap('img/icone2.ico')
+        self.alertaCamp.resizable(False, False)
+        self.alertaCamp.configure(background='white')
+
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(350, 150, self.alertaCamp)
+
+        labelAlert = Label(self.alertaCamp, text=alert, font=('arial', 15, 'bold'), fg='red', bg='white')
+        labelAlert.place(x=75,y=20)
+
+        botaoAlert = Button(self.alertaCamp, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar_camp_alerta())
+        botaoAlert.place(x=130,y=90)
+        self.alertaCamp.mainloop()         
+        
+    #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
+    def tela_admin(self, botao):
+    
+        self.janelaADM = Toplevel()
+        self.janelaADM.title('Login Administração')
+        self.janelaADM.iconbitmap('img/icone2.ico')
+        self.janelaADM.resizable(False, False)
+        self.janelaADM.configure(background='white')
+        
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(500, 500, self.janelaADM)
+        
+        #Adcionando Logo na Janela ADM
+        self.imgAdm = PhotoImage(file="img/icone1.png")
+
+        self.imagemPricipalAdm = Label(self.janelaADM, image=self.imgAdm, bg='white')
+        self.imagemPricipalAdm.place(x=170,y=10)
+
+        #------------------------------- Label e campo da Tela de Administração-------------------------------
+
+        self.admLabelPrincipal = Label(self.janelaADM, text='Senha Admin', fg='#3e8e94', font=('arial', 12, 'bold'), bg='white')
+        self.admLabelPrincipal.place(x=40,y=210)
+
+        self.admSenhaPrincipal = Entry(self.janelaADM, width=30, border=2, show='*')
+        self.admSenhaPrincipal.place(x=160,y=210)
+        self.admSenhaPrincipal.focus_force()
+
+        self.admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.verificar_adm(botao))
+        self.admBotaoPrincipal.place(x=210,y=300)
+
+        self.janelaADM.mainloop()        
+
+    #------------------------------- (Login Funcionário) - FUNÇÃO 1º A SER INICIADA --------------------------                
     def __init__(self):
         
         self.janelaFuncio = Tk()
@@ -80,64 +137,8 @@ class LoginAdmnistracao:
         
         self.janelaFuncio.mainloop()
     
-    #------------------------------- (Login Administração) - FUNÇÃO 2º A SER INVOCADA POR: botCadastrar ------------------
-
-    def tela_admin(self, botao):
-    
-        #------------------------------- (Login Administração) - Configurações da Janela ------------------------------- 
-        #------------------------------- (Login Administração) - Dimensões da Janela -----------------------------------
-        #------------------------------- (Login Administração) - Resolução do Sistema ----------------------------------
-        #------------------------------- (Login Administração) - Posicão da Tela ---------------------------------------
-        #------------------------------- (Login Administração) - Definição da Janela -----------------------------------
-        #------------------------------- (Login Administração) - Imagem Logo da Empresa --------------------------------
-        self.janelaADM = Toplevel()
-        self.janelaADM.title('Login Administração')
-        self.janelaADM.iconbitmap('img/icone2.ico')
-        self.janelaADM.resizable(False, False)
-        self.janelaADM.configure(background='white')
-        
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(500, 500, self.janelaADM)
-        
-        #Adcionando Logo na Janela ADM
-        self.imgAdm = PhotoImage(file="img/icone1.png")
-
-        self.imagemPricipalAdm = Label(self.janelaADM, image=self.imgAdm, bg='white')
-        self.imagemPricipalAdm.place(x=170,y=10)
-
-        #------------------------------- Label e campo da Tela Login Administração-------------------------------
-
-        self.admLabelPrincipal = Label(self.janelaADM, text='Senha Admin', fg='#3e8e94', font=('arial', 12, 'bold'), bg='white')
-        self.admLabelPrincipal.place(x=40,y=210)
-
-        self.admSenhaPrincipal = Entry(self.janelaADM, width=30, border=2, show='*')
-        self.admSenhaPrincipal.place(x=160,y=210)
-        self.admSenhaPrincipal.focus_force()
-
-        self.admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.verificar_adm(botao))
-        self.admBotaoPrincipal.place(x=210,y=300)
-
-        self.janelaADM.mainloop()
-    
     #------------------------------- (Login Administração) - FUNÇÃO 3º A SER INVOCADA POR: admBotaoPrincipal -----------------
-
-    def verificar_campo_alerta(self, alert):
-        
-        self.alertaCamp = Tk()
-        self.alertaCamp.title('Alerta')
-        self.alertaCamp.iconbitmap('img/icone2.ico')
-        self.alertaCamp.resizable(False, False)
-        self.alertaCamp.configure(background='white')
-
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(350, 150, self.alertaCamp)
-
-        labelAlert = Label(self.alertaCamp, text=alert, font=('arial', 15, 'bold'), fg='red', bg='white')
-        labelAlert.place(x=75,y=20)
-
-        botaoAlert = Button(self.alertaCamp, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar_camp_alerta())
-        botaoAlert.place(x=130,y=90)
-        self.alertaCamp.mainloop()        
+       
 
     def fechar_camp_alerta(self):
         self.alertaCamp.destroy()
@@ -840,11 +841,11 @@ class LoginAdmnistracao:
     def confirmarCampos(self):
         if self.campoServico.get() == '' or self.campoPeca.get() == '':
             
-            self.verificar_campo_alerta('Verifique os Campos!')
+            self.alerta_mensagem('Verifique os Campos!')
         
         elif self.os1.get() == 0 and self.os2.get() == 0:
             
-            self.verificar_campo_alerta('Marque uma Opção!')
+            self.alerta_mensagem('Marque uma Opção!')
             
         else:
             self.botaoConfirmarOS()
@@ -1573,7 +1574,7 @@ class LoginAdmnistracao:
             self.alerta_erro_servidor('Tempo Esgotado! Impossível Pausar')
         
         elif self.resultPausa == '':
-            self.verificar_campo_alerta('Marque uma Opção!')
+            self.alerta_mensagem('Marque uma Opção!')
             
         else:
             self.contagem_pausada()
