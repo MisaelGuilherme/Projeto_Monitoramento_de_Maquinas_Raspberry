@@ -69,7 +69,7 @@ class LoginAdmnistracao:
         
     #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
     def tela_admin(self, botao):
-    
+        
         self.janelaADM = Toplevel()
         self.janelaADM.title('Login Administração')
         self.janelaADM.iconbitmap('img/icone2.ico')
@@ -80,22 +80,59 @@ class LoginAdmnistracao:
         self.centraliza_tela(500, 500, self.janelaADM)
         
         #Adcionando Logo na Janela ADM
-        self.imgAdm = PhotoImage(file="img/icone1.png")
+        imgAdm = PhotoImage(file="img/icone1.png")
 
-        self.imagemPricipalAdm = Label(self.janelaADM, image=self.imgAdm, bg='white')
-        self.imagemPricipalAdm.place(x=170,y=10)
+        def verificar_adm(contV, senha):
+            
+            if str(senha).isnumeric():
+                
+                try:
+                    banco = mysql.connector.connect(
+                        host = '10.0.0.65',
+                        user = 'multimoldesClient',
+                        password = 'multimoldes'
+                    )
+                    cursor = banco.cursor()
+                    cursor.execute('use empresa_funcionarios')
+                    cursor.execute('select * from supervisor_admin where senha ='+str(senha))
+                    valido = cursor.fetchall()     
+                    if len(valido) == 1:
+                        
+                        senhaAdm = valido[0][0]
+                        if senhaAdm == str(senha) and contV == 1:
+                            self.janelaADM.destroy()
+                            self.tela_cadastrar()
+                            
+                        elif senhaAdm == str(senha) and contV == 2:
+                            self.janelaADM.destroy()
+                            self.tempo_extra()      
 
-        #------------------------------- Label e campo da Tela de Administração-------------------------------
+                    else:
+                        self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
+                        self.labelErro2.place(x=157, y=233)
+                                                        
+                except:
+                    self.alerta_erro_servidor('01-Error-Servidor: Não acesso ao servidor')
+                    
+            elif senha == '':
+                self.labelErro1 = Label(self.janelaADM, text='Preencha o campo!', bg='white', fg='#bf0606', width=26)
+                self.labelErro1.place(x=160, y=233)
+            else:
+                self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
+                self.labelErro2.place(x=157, y=233)
 
-        self.admLabelPrincipal = Label(self.janelaADM, text='Senha Admin', fg='#3e8e94', font=('arial', 12, 'bold'), bg='white')
-        self.admLabelPrincipal.place(x=40,y=210)
+        imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
+        imagemPricipalAdm.place(x=170,y=10)
 
-        self.admSenhaPrincipal = Entry(self.janelaADM, width=30, border=2, show='*')
-        self.admSenhaPrincipal.place(x=160,y=210)
-        self.admSenhaPrincipal.focus_force()
+        admLabelPrincipal = Label(self.janelaADM, text='Senha Admin', fg='#3e8e94', font=('arial', 12, 'bold'), bg='white')
+        admLabelPrincipal.place(x=40,y=210)
 
-        self.admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.verificar_adm(botao))
-        self.admBotaoPrincipal.place(x=210,y=300)
+        admSenhaPrincipal = Entry(self.janelaADM, width=30, border=2, show='*')
+        admSenhaPrincipal.place(x=160,y=210)
+        admSenhaPrincipal.focus_force()
+
+        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda: verificar_adm(botao, admSenhaPrincipal.get()))
+        admBotaoPrincipal.place(x=210,y=300)
 
         self.janelaADM.mainloop()        
 
@@ -142,43 +179,6 @@ class LoginAdmnistracao:
     
     #------------------------------- (Login Administração) - FUNÇÃO 3º A SER INVOCADA POR: admBotaoPrincipal -----------------
 
-    def verificar_adm(self, contV):
-        if str(self.admSenhaPrincipal.get()).isnumeric():
-            self.valor = self.admSenhaPrincipal.get()
-            try:
-                banco = mysql.connector.connect(
-                    host = '10.0.0.65',
-                    user = 'multimoldesClient',
-                    password = 'multimoldes'
-                )
-                cursor = banco.cursor()
-                cursor.execute('use empresa_funcionarios')
-                cursor.execute('select * from supervisor_admin where senha ='+str(self.valor))
-                valido = cursor.fetchall()     
-                if len(valido) == 1:
-                    
-                    senhaAdm = valido[0][0]
-                    if senhaAdm == str(self.valor) and contV == 1:
-                        self.janelaADM.destroy()
-                        self.tela_cadastrar()
-                        
-                    elif senhaAdm == str(self.valor) and contV == 2:
-                        self.janelaADM.destroy()
-                        self.tempo_extra()      
-
-                else:
-                    self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
-                    self.labelErro2.place(x=157, y=233)
-                                                      
-            except:
-                self.alerta_erro_servidor('01-Error-Servidor: Não acesso ao servidor')
-                
-        elif self.admSenhaPrincipal.get() == '':
-            self.labelErro1 = Label(self.janelaADM, text='Preencha o campo!', bg='white', fg='#bf0606', width=26)
-            self.labelErro1.place(x=160, y=233)
-        else:
-            self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
-            self.labelErro2.place(x=157, y=233)
     def tempo_extra(self):
         
         self.janelaTempExtra = Tk()
