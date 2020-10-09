@@ -76,18 +76,11 @@ class LoginAdmnistracao:
         self.janelaADM.iconbitmap('img/icone2.ico')
         self.janelaADM.resizable(False, False)
         self.janelaADM.configure(background='white')
-
-        self.largura = 500
-        self.altura = 500
-
-        self.largura_screen = self.janelaADM.winfo_screenwidth()
-        self.altura_screen = self.janelaADM.winfo_screenheight()
-
-        self.posicaoX = self.largura_screen/2 - self.largura/2
-        self.posicaoY = self.altura_screen/2 - self.altura/2
-
-        self.janelaADM.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))
-
+        
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(500, 500, self.janelaADM)
+        
+        #Adcionando Logo na Janela ADM
         self.imgAdm = PhotoImage(file="img/icone1.png")
 
         self.imagemPricipalAdm = Label(self.janelaADM, image=self.imgAdm, bg='white')
@@ -116,16 +109,8 @@ class LoginAdmnistracao:
         self.alerta.resizable(False, False)
         self.alerta.configure(background='#ff2e2e')
 
-        largura = 350
-        altura = 150
-
-        largura_screen = self.alerta.winfo_screenwidth()
-        altura_screen = self.alerta.winfo_screenheight()
-
-        posicaoX = largura_screen/2 - largura/2
-        posicaoY = altura_screen/2 - altura/2
-
-        self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(350, 150, self.alerta)
 
         labelAlert = Label(self.alerta, text=parte, font=('arial', 12, 'bold'), fg='white', bg='#ff2e2e')
         labelAlert.place(x=13,y=20)
@@ -142,16 +127,8 @@ class LoginAdmnistracao:
         self.alertaCamp.resizable(False, False)
         self.alertaCamp.configure(background='white')
 
-        largura = 350
-        altura = 150
-
-        largura_screen = self.alertaCamp.winfo_screenwidth()
-        altura_screen = self.alertaCamp.winfo_screenheight()
-
-        posicaoX = largura_screen/2 - largura/2
-        posicaoY = altura_screen/2 - altura/2
-
-        self.alertaCamp.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(350, 150, self.alertaCamp)
 
         labelAlert = Label(self.alertaCamp, text=alert, font=('arial', 15, 'bold'), fg='red', bg='white')
         labelAlert.place(x=75,y=20)
