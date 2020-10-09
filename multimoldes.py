@@ -86,6 +86,7 @@ class LoginAdmnistracao:
             
             if str(senha).isnumeric():
                 
+                # Se a senha for numérica irá verificar no banco de dados
                 try:
                     banco = mysql.connector.connect(
                         host = '10.0.0.65',
@@ -96,13 +97,18 @@ class LoginAdmnistracao:
                     cursor.execute('use empresa_funcionarios')
                     cursor.execute('select * from supervisor_admin where senha ='+str(senha))
                     valido = cursor.fetchall()     
+                    
+                    #Se (valido) == 1 significa que encontrou resultado
                     if len(valido) == 1:
                         
                         senhaAdm = valido[0][0]
+                        
+                        # Confirmando se senha for verdadeira, se (contV) for igual a 1, abrir tela de cadastro
                         if senhaAdm == str(senha) and contV == 1:
                             self.janelaADM.destroy()
                             self.tela_cadastrar()
-                            
+                        
+                        # Confirmando se senha for verdadeira, se (contV) for igual a 2, abrir tela de tempo extra
                         elif senhaAdm == str(senha) and contV == 2:
                             self.janelaADM.destroy()
                             self.tempo_extra()      
@@ -176,9 +182,8 @@ class LoginAdmnistracao:
         self.botCadastrar.place(x=370, y=440)
         
         self.janelaFuncio.mainloop()
-    
-    #------------------------------- (Login Administração) - FUNÇÃO 3º A SER INVOCADA POR: admBotaoPrincipal -----------------
-
+        
+    #------------------------------- (Janela de Tempo Extra) - FUNÇÃO 2--------------------------
     def tempo_extra(self):
         
         self.janelaTempExtra = Tk()
@@ -211,6 +216,7 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra.mainloop()
 
+    #------------------------------- (Janela de Verificação de Tempo Extra) - FUNÇÃO 3 --------------------------
     def verificar_tempo_extra(self):
         def alertaTE(vlr):
             self.alerta = Toplevel()
@@ -223,7 +229,7 @@ class LoginAdmnistracao:
             self.centraliza_tela(350, 150, self.alertaCamp)
             
             if vlr == 1:
-                
+                    
                 labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
                 labelAlert.place(x=75,y=20)
                 
@@ -454,6 +460,7 @@ class LoginAdmnistracao:
     #------------------------------- (Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: verificar_adm() ------------------
 
     def tela_cadastrar(self):
+        
         self.janelaCad = Toplevel()
         self.janelaCad.title('Cadastro')
         self.janelaCad.iconbitmap('img/icone2.ico')
@@ -584,21 +591,7 @@ class LoginAdmnistracao:
             if len(valido) == 1:
                 
                 #SE O CPF JÁ FOI CADASTRO APARECERÁ UM ALERTA
-                self.alerta = Toplevel()
-                self.alerta.title('Alerta')
-                self.alerta.iconbitmap('img/icone2.ico')
-                self.alerta.resizable(False, False)
-                self.alerta.configure(background='white')
-
-                #Chamando Função Para Centralizar a Tela
-                self.centraliza_tela(250, 100, self.alerta)
-
-                labelAlert = Label(self.alerta, text='CPF já Cadastrado!', font=('arial', 10, 'bold'), fg='red', bg='white')
-                labelAlert.place(x=65,y=20)
-
-                botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
-                botaoAlert.place(x=90,y=60)
-                self.alerta.mainloop()
+                self.alerta_mensagem('CPF já Cadastrado!', 10, 65, 20)
             
             #CADASTRANDO ENVIANDO DADOS DO FUNCIONÁRIO PRO BANCO DE DADOS
             else:
@@ -676,21 +669,7 @@ class LoginAdmnistracao:
                     
                     #alerta caso o usuário não seja encontrado
                     else:
-                        self.alerta = Toplevel()
-                        self.alerta.title('Alerta')
-                        self.alerta.iconbitmap('img/icone2.ico')
-                        self.alerta.resizable(False, False)
-                        self.alerta.configure(background='white')
-
-                        #Chamando Função Para Centralizar a Tela
-                        self.centraliza_tela(250, 100, self.alerta)
-
-                        self.labelAlert = Label(self.alerta, text='Login Não Existe!', font=('arial', 10, 'bold'), fg='red', bg='white')
-                        self.labelAlert.place(x=70,y=20)
-
-                        self.botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command=lambda:self.fechar())
-                        self.botaoAlert.place(x=90,y=60)
-                        self.alerta.mainloop()
+                        self.alerta_mensagem('Login Não Existe!', 10, 70, 20)
                         
                 #mensaem de erro caso ocorra alguma excessão ao tentar logar
                 except:
@@ -1031,27 +1010,36 @@ class LoginAdmnistracao:
             else:
                 
                 #Caso o código não exista no banco de dados
-                self.alerta = Tk()
-                self.alerta.title('Alerta')
-                self.alerta.iconbitmap('img/icone2.ico')
-                self.alerta.resizable(False, False)
-                self.alerta.configure(background='white')
-
-                #Chamando Função Para Centralizar a Tela
-                self.centraliza_tela(350, 150, self.alerta)
-
-                labelAlert = Label(self.alerta, text='Código não encontrado!', font=('arial', 15, 'bold'), fg='red', bg='white')
-                labelAlert.place(x=65,y=20)
-
-                botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
-                botaoAlert.place(x=130,y=90)
-                self.alerta.mainloop()
+                self.alerta_mensagem('Código não Encontrados!', 15, 65, 20)
                     
         except:
             self.alerta_erro_servidor('04-Error-Servidor: Não acesso ao servidor')            
 
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
-
+    def objetos_cores(self, cor1, cor2):
+        
+        self.frameTop['bg'] = cor1
+        self.frameLeft['bg'] = cor1
+        self.frameRight['bg'] = cor1
+        self.operadorNome['bg'] = cor1
+        self.operadorNomeUser['bg'] = cor1
+        self.horaInicialLb['bg'] = cor1
+        self.multimolde['bg'] = cor1
+        self.ordemServico['bg'] = cor1
+        self.codigoPeca['bg'] = cor1
+        self.tempoProgramado['bg'] = cor1
+        
+        self.novoOS['bg'] = cor1
+        self.retrabalhoOS['bg'] = cor1
+        
+        self.operadorNome['fg'] = cor2
+        self.operadorNomeUser['fg'] = cor2
+        self.horaInicialLb['fg'] = cor2
+        self.multimolde['fg'] = cor2
+        self.ordemServico['fg'] = cor2
+        self.codigoPeca['fg'] = cor2
+        self.tempoProgramado['fg'] = cor2
+                
     def botao_iniciar(self):
         
         if self.chaveControle2 == True:
@@ -1077,27 +1065,7 @@ class LoginAdmnistracao:
                         recebe += i
             self.horaInicial = recebe
             
-            self.frameTop['bg'] = 'green'
-            self.frameLeft['bg'] = 'green'
-            self.frameRight['bg'] = 'green'
-            self.operadorNome['bg'] = 'green'
-            self.operadorNomeUser['bg'] = 'green'
-            self.horaInicialLb['bg'] = 'green'
-            self.multimolde['bg'] = 'green'
-            self.ordemServico['bg'] = 'green'
-            self.codigoPeca['bg'] = 'green'
-            self.tempoProgramado['bg'] = 'green'
-            
-            self.novoOS['bg'] = 'green'
-            self.retrabalhoOS['bg'] = 'green'
-            
-            self.operadorNome['fg'] = 'red'
-            self.operadorNomeUser['fg'] = 'red'
-            self.horaInicialLb['fg'] = 'red'
-            self.multimolde['fg'] = 'red'
-            self.ordemServico['fg'] = 'red'
-            self.codigoPeca['fg'] = 'red'
-            self.tempoProgramado['fg'] = 'red' 
+            self.objetos_cores('green', 'red')
             
             self.chaveControle = True
 
@@ -1152,51 +1120,13 @@ class LoginAdmnistracao:
         
         if self.se == s and self.mi == m and h == self.ho:
             if int(self.tempMin) > 10 or int(self.tempHora) >= 1:
-                self.frameTop['bg'] = 'yellow'
-                self.frameLeft['bg'] = 'yellow'
-                self.frameRight['bg'] = 'yellow'
-                self.operadorNome['bg'] = 'yellow'
-                self.operadorNomeUser['bg'] = 'yellow'
-                self.horaInicialLb['bg'] = 'yellow'
-                self.multimolde['bg'] = 'yellow'
-                self.ordemServico['bg'] = 'yellow'
-                self.codigoPeca['bg'] = 'yellow'
-                self.tempoProgramado['bg'] = 'yellow'
                 
-                self.novoOS['bg'] = 'yellow'
-                self.retrabalhoOS['bg'] = 'yellow'
-                
-                self.operadorNome['fg'] = 'red'
-                self.operadorNomeUser['fg'] = 'red'
-                self.horaInicialLb['fg'] = 'red'
-                self.multimolde['fg'] = 'red'
-                self.ordemServico['fg'] = 'red'
-                self.codigoPeca['fg'] = 'red'
-                self.tempoProgramado['fg'] = 'red' 
+                self.objetos_cores('yellow', 'red')
         
         def telaVermelha2():
-            self.frameTop['bg'] = 'red'
-            self.frameLeft['bg'] = 'red'
-            self.frameRight['bg'] = 'red'
-            self.operadorNome['bg'] = 'red'
-            self.operadorNomeUser['bg'] = 'red'
-            self.horaInicialLb['bg'] = 'red'
-            self.multimolde['bg'] = 'red'
-            self.ordemServico['bg'] = 'red'
-            self.codigoPeca['bg'] = 'red'
-            self.tempoProgramado['bg'] = 'red'
             
-            self.novoOS['bg'] = 'red'
-            self.retrabalhoOS['bg'] = 'red'
-            
-            self.operadorNome['fg'] = 'white'
-            self.operadorNomeUser['fg'] = 'white'
-            self.horaInicialLb['fg'] = 'white'
-            self.multimolde['fg'] = 'white'
-            self.ordemServico['fg'] = 'white'
-            self.codigoPeca['fg'] = 'white'
-            self.tempoProgramado['fg'] = 'white'
-            
+            self.objetos_cores('red', 'white')
+            print('vezes')
             self.imgRelogio = PhotoImage(file="img/relogio.png")
 
             self.imagemTempRel = Label(self.frameRight, image=self.imgRelogio, bg='red')
@@ -1335,31 +1265,9 @@ class LoginAdmnistracao:
                 self.tempExtraGastoC += 0
                 print('exemplo 1: tempgastoAB', self.tempExtraGastoB, self.tempExtraGastoC)
                 print('exemplo 1: tempos', self.tempHora, self.tempMin)
-                
-            self.imagemTempRel['bg'] = '#870000'
-            self.imagemTempRel.destroy()
-            self.frameTop['bg'] = '#870000'
-            self.frameLeft['bg'] = '#870000'
-            self.frameRight['bg'] = '#870000'
-            self.operadorNome['bg'] = '#870000'
-            self.operadorNomeUser['bg'] = '#870000'
-            self.horaInicialLb['bg'] = '#870000'
-            self.multimolde['bg'] = '#870000'
-            self.ordemServico['bg'] = '#870000'
-            self.codigoPeca['bg'] = '#870000'
-            self.tempoProgramado['bg'] = '#870000'
             
-            self.novoOS['bg'] = '#870000'
-            self.retrabalhoOS['bg'] = '#870000'
-            
-            self.operadorNome['fg'] = 'white'
-            self.operadorNomeUser['fg'] = 'white'
-            self.horaInicialLb['fg'] = 'white'
-            self.multimolde['fg'] = 'white'
-            self.ordemServico['fg'] = 'white'
-            self.codigoPeca['fg'] = 'white'
-            self.tempoProgramado['fg'] = 'white'            
-            
+            self.objetos_cores('#870000', 'white')
+            self.imagemTempRel.destroy()                      
             self.botFinalizar.destroy()
             self.botPausar.destroy()
             self.sair.destroy()
@@ -1679,17 +1587,6 @@ class LoginAdmnistracao:
 
             #Chamando Função Para Centralizar a Tela
             self.centraliza_tela(350, 150, self.alerta)
-            
-            largura = 350
-            altura = 150
-
-            largura_screen = self.alerta.winfo_screenwidth()
-            altura_screen = self.alerta.winfo_screenheight()
-
-            posicaoX = largura_screen/2 - largura/2
-            posicaoY = altura_screen/2 - altura/2
-
-            self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
 
             labelAlert = Label(self.alerta, text='Sistema em operacação ainda!!', font=('arial', 15, 'bold'), fg='red', bg='yellow')
             labelAlert.place(x=30,y=20)
