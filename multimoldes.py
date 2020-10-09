@@ -184,17 +184,9 @@ class LoginAdmnistracao:
         self.janelaTempExtra.iconbitmap('img/icone2.ico')
         self.janelaTempExtra.configure(background='#870000')
         self.janelaTempExtra.geometry('550x350+200+100')
-        
-        self.largura = 550
-        self.altura = 350
 
-        self.largura_screen = self.janelaTempExtra.winfo_screenwidth()
-        self.altura_screen = self.janelaTempExtra.winfo_screenheight()
-
-        self.posicaoX = self.largura_screen/2 - self.largura/2
-        self.posicaoY = self.altura_screen/2 - self.altura/2
-
-        self.janelaTempExtra.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(550, 350, self.janelaTempExtra)
         
         lt = Label(self.janelaTempExtra, text='Tempo Extra', font=('arial',20,'bold'), bg='#870000', fg='white')
         lt.place(x=195, y=10)
@@ -225,16 +217,8 @@ class LoginAdmnistracao:
             self.alerta.resizable(False, False)
             self.alerta.configure(background='white')
 
-            largura = 350
-            altura = 150
-
-            largura_screen = self.alerta.winfo_screenwidth()
-            altura_screen = self.alerta.winfo_screenheight()
-
-            posicaoX = largura_screen/2 - largura/2
-            posicaoY = altura_screen/2 - altura/2
-
-            self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+            #Chamando Função Para Centralizar a Tela
+            self.centraliza_tela(350, 150, self.alertaCamp)
             
             if vlr == 1:
                 
@@ -474,16 +458,8 @@ class LoginAdmnistracao:
         self.janelaCad.resizable(False, False)
         self.janelaCad.configure(background='white')
 
-        self.largura = 500
-        self.altura = 500
-
-        self.largura_screen = self.janelaCad.winfo_screenwidth()
-        self.altura_screen = self.janelaCad.winfo_screenheight()
-
-        self.posicaoX = self.largura_screen/2 - self.largura/2
-        self.posicaoY = self.altura_screen/2 - self.altura/2
-
-        self.janelaCad.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(500, 500, self.janelaCad)
 
         self.lbtitle = Label(self.janelaCad, text='Cadastrar Funcionário', font=('arial', 15, 'bold'), bg='white', fg='#3e8e94')
         self.lbtitle.place(x=170,y=10)
@@ -603,7 +579,7 @@ class LoginAdmnistracao:
             valido = cursor.fetchall()
             
             #VERIFICANDO SE O CPF DO FUNCIONÁRIO JÁ ESTÁ CADASTRADO
-            if len(valido) == 1: 
+            if len(valido) == 1:
                 
                 #SE O CPF JÁ FOI CADASTRO APARECERÁ UM ALERTA
                 self.alerta = Toplevel()
@@ -612,16 +588,8 @@ class LoginAdmnistracao:
                 self.alerta.resizable(False, False)
                 self.alerta.configure(background='white')
 
-                largura = 250
-                altura = 100
-
-                largura_screen = self.alerta.winfo_screenwidth()
-                altura_screen = self.alerta.winfo_screenheight()
-
-                posicaoX = largura_screen/2 - largura/2
-                posicaoY = altura_screen/2 - altura/2
-
-                self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+                #Chamando Função Para Centralizar a Tela
+                self.centraliza_tela(250, 100, self.alerta)
 
                 labelAlert = Label(self.alerta, text='CPF já Cadastrado!', font=('arial', 10, 'bold'), fg='red', bg='white')
                 labelAlert.place(x=65,y=20)
@@ -645,16 +613,8 @@ class LoginAdmnistracao:
                 self.alerta.resizable(False, False)
                 self.alerta.configure(background='white')
 
-                largura = 250
-                altura = 100
-
-                largura_screen = self.alerta.winfo_screenwidth()
-                altura_screen = self.alerta.winfo_screenheight()
-
-                posicaoX = largura_screen/2 - largura/2
-                posicaoY = altura_screen/2 - altura/2
-
-                self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+                #Chamando Função Para Centralizar a Tela
+                self.centraliza_tela(250, 100, self.alerta)    
 
                 labelAlert = Label(self.alerta, text='Funcionário Cadastrado!', font=('arial', 10, 'bold'), fg='green', bg='white')
                 labelAlert.place(x=50,y=20)
@@ -720,16 +680,8 @@ class LoginAdmnistracao:
                         self.alerta.resizable(False, False)
                         self.alerta.configure(background='white')
 
-                        self.largura = 250
-                        self.altura = 100
-
-                        self.largura_screen = self.alerta.winfo_screenwidth()
-                        self.altura_screen = self.alerta.winfo_screenheight()
-
-                        self.posicaoX = self.largura_screen/2 - self.largura/2
-                        self.posicaoY = self.altura_screen/2 - self.altura/2
-
-                        self.alerta.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))
+                        #Chamando Função Para Centralizar a Tela
+                        self.centraliza_tela(250, 100, self.alerta)
 
                         self.labelAlert = Label(self.alerta, text='Login Não Existe!', font=('arial', 10, 'bold'), fg='red', bg='white')
                         self.labelAlert.place(x=70,y=20)
@@ -1083,16 +1035,8 @@ class LoginAdmnistracao:
                 self.alerta.resizable(False, False)
                 self.alerta.configure(background='white')
 
-                largura = 350
-                altura = 150
-
-                largura_screen = self.alerta.winfo_screenwidth()
-                altura_screen = self.alerta.winfo_screenheight()
-
-                posicaoX = largura_screen/2 - largura/2
-                posicaoY = altura_screen/2 - altura/2
-
-                self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+                #Chamando Função Para Centralizar a Tela
+                self.centraliza_tela(350, 150, self.alerta)
 
                 labelAlert = Label(self.alerta, text='Código não encontrado!', font=('arial', 15, 'bold'), fg='red', bg='white')
                 labelAlert.place(x=65,y=20)
@@ -1576,16 +1520,8 @@ class LoginAdmnistracao:
         self.janelaPause.resizable(False, False)
         self.janelaPause.configure(background='white')
 
-        self.largura = 500
-        self.altura = 500
-
-        self.largura_screen = self.janelaPause.winfo_screenwidth()
-        self.altura_screen = self.janelaPause.winfo_screenheight()
-
-        self.posicaoX = self.largura_screen/2 - self.largura/2
-        self.posicaoY = self.altura_screen/2 - self.altura/2
-
-        self.janelaPause.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))        
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(500, 500, self.janelaPause)
         
         def ok():
             if marcado1.get() == 1 or marcado2.get() == 1 or marcado3.get() == 1:
@@ -1738,16 +1674,8 @@ class LoginAdmnistracao:
             self.alerta.resizable(False, False)
             self.alerta.configure(background='yellow')
 
-            largura = 350
-            altura = 150
-
-            largura_screen = self.alerta.winfo_screenwidth()
-            altura_screen = self.alerta.winfo_screenheight()
-
-            posicaoX = largura_screen/2 - largura/2
-            posicaoY = altura_screen/2 - altura/2
-
-            self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+            #Chamando Função Para Centralizar a Tela
+            self.centraliza_tela(350, 150, self.alerta)
 
             labelAlert = Label(self.alerta, text='Sistema em operacação ainda!!', font=('arial', 15, 'bold'), fg='red', bg='yellow')
             labelAlert.place(x=30,y=20)
