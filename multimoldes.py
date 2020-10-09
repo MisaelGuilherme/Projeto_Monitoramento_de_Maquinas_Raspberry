@@ -9,7 +9,18 @@ import mysql.connector
 class LoginAdmnistracao:
     
     #------------------------------- (Login Funcionário) - FUNÇÃO 1º A SER INICIADA -------------------------
-
+    def centraliza_tela(self, larg, alt, jane):
+        largura = larg
+        altura = alt
+        
+        largura_screen = jane.winfo_screenwidth()
+        altura_screen = jane.winfo_screenheight()
+        
+        posicaoX = largura_screen / 2 - largura / 2
+        posicaoY = altura_screen / 2 - altura / 2
+        
+        return jane.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+        
     def __init__(self):
         
         self.janelaFuncio = Tk()
@@ -17,19 +28,11 @@ class LoginAdmnistracao:
         self.janelaFuncio.iconbitmap('img/icone2.ico')
         self.janelaFuncio.configure(background='white')
         self.janelaFuncio.resizable(False, False)
-        self.janelaFuncio.geometry('500x500+200+100')
         
-        self.largura = 500
-        self.altura = 500
-
-        self.largura_screen = self.janelaFuncio.winfo_screenwidth()
-        self.altura_screen = self.janelaFuncio.winfo_screenheight()
-
-        self.posicaoX = self.largura_screen/2 - self.largura/2
-        self.posicaoY = self.altura_screen/2 - self.altura/2
-
-        self.janelaFuncio.geometry('%dx%d+%d+%d' % (self.largura, self.altura, self.posicaoX, self.posicaoY))
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(500, 500, self.janelaFuncio)
         
+        #Adcionando Logo na Janela de Funcionário
         self.imgFun = PhotoImage(file="img/trabalho1.png")
 
         self.imagemPricipalFun = Label(self.janelaFuncio, image=self.imgFun, bg='white')
