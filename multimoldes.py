@@ -20,7 +20,26 @@ class LoginAdmnistracao:
         posicaoY = altura_screen / 2 - altura / 2
         
         return jane.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
+
+    #------------------------------- (Criando Janelas-Alerta-Servidor) - FUNÇÃO REUTILIZÁVEL -----------------
+    def alerta_erro_servidor(self, parte):
         
+        self.alerta = Tk()
+        self.alerta.title('Alerta')
+        self.alerta.iconbitmap('img/icone2.ico')
+        self.alerta.resizable(False, False)
+        self.alerta.configure(background='#ff2e2e')
+
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(350, 150, self.alerta)
+
+        labelAlert = Label(self.alerta, text=parte, font=('arial', 12, 'bold'), fg='white', bg='#ff2e2e')
+        labelAlert.place(x=13,y=20)
+
+        botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+        botaoAlert.place(x=140,y=80)
+        self.alerta.mainloop()
+                
     def __init__(self):
         
         self.janelaFuncio = Tk()
@@ -101,23 +120,6 @@ class LoginAdmnistracao:
         self.janelaADM.mainloop()
     
     #------------------------------- (Login Administração) - FUNÇÃO 3º A SER INVOCADA POR: admBotaoPrincipal -----------------
-    def alerta_erro_servidor(self, parte):
-        
-        self.alerta = Tk()
-        self.alerta.title('Alerta')
-        self.alerta.iconbitmap('img/icone2.ico')
-        self.alerta.resizable(False, False)
-        self.alerta.configure(background='#ff2e2e')
-
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(350, 150, self.alerta)
-
-        labelAlert = Label(self.alerta, text=parte, font=('arial', 12, 'bold'), fg='white', bg='#ff2e2e')
-        labelAlert.place(x=13,y=20)
-
-        botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar1())
-        botaoAlert.place(x=140,y=80)
-        self.alerta.mainloop()
 
     def verificar_campo_alerta(self, alert):
         
@@ -1676,6 +1678,17 @@ class LoginAdmnistracao:
 
             #Chamando Função Para Centralizar a Tela
             self.centraliza_tela(350, 150, self.alerta)
+            
+            largura = 350
+            altura = 150
+
+            largura_screen = self.alerta.winfo_screenwidth()
+            altura_screen = self.alerta.winfo_screenheight()
+
+            posicaoX = largura_screen/2 - largura/2
+            posicaoY = altura_screen/2 - altura/2
+
+            self.alerta.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
 
             labelAlert = Label(self.alerta, text='Sistema em operacação ainda!!', font=('arial', 15, 'bold'), fg='red', bg='yellow')
             labelAlert.place(x=30,y=20)
