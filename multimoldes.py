@@ -46,23 +46,26 @@ class LoginAdmnistracao:
         self.alerta.mainloop()
         
     #------------------------------- (Criando Alerta-Mensagens) - FUNÇÃO REUTILIZÁVEL ------------------------
-    def alerta_mensagem(self, alert):
+    def alerta_mensagem(self, text, tam, ladX, ladY):
         
-        self.alertaCamp = Tk()
-        self.alertaCamp.title('Alerta')
-        self.alertaCamp.iconbitmap('img/icone2.ico')
-        self.alertaCamp.resizable(False, False)
-        self.alertaCamp.configure(background='white')
+        alertaMensage = Tk()
+        alertaMensage.title('Alerta')
+        alertaMensage.iconbitmap('img/icone2.ico')
+        alertaMensage.resizable(False, False)
+        alertaMensage.configure(background='white')
 
         #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(350, 150, self.alertaCamp)
+        self.centraliza_tela(350, 150, alertaMensage)
+        
+        def fechar_alerta_Mensage():
+            alertaMensage.destroy()        
 
-        labelAlert = Label(self.alertaCamp, text=alert, font=('arial', 15, 'bold'), fg='red', bg='white')
-        labelAlert.place(x=75,y=20)
+        labelAlert = Label(alertaMensage, text=text, font=('arial', tam, 'bold'), fg='red', bg='white')
+        labelAlert.place(x=ladX, y=ladY)
 
-        botaoAlert = Button(self.alertaCamp, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar_camp_alerta())
+        botaoAlert = Button(alertaMensage, text='OK', width=10, bg='red', fg='white', command = fechar_alerta_Mensage)
         botaoAlert.place(x=130,y=90)
-        self.alertaCamp.mainloop()         
+        alertaMensage.mainloop()         
         
     #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
     def tela_admin(self, botao):
@@ -138,10 +141,6 @@ class LoginAdmnistracao:
         self.janelaFuncio.mainloop()
     
     #------------------------------- (Login Administração) - FUNÇÃO 3º A SER INVOCADA POR: admBotaoPrincipal -----------------
-       
-
-    def fechar_camp_alerta(self):
-        self.alertaCamp.destroy()
 
     def verificar_adm(self, contV):
         if str(self.admSenhaPrincipal.get()).isnumeric():
@@ -841,11 +840,11 @@ class LoginAdmnistracao:
     def confirmarCampos(self):
         if self.campoServico.get() == '' or self.campoPeca.get() == '':
             
-            self.alerta_mensagem('Verifique os Campos!')
+            self.alerta_mensagem('Verifique os Campos!', 15, 75, 20)
         
         elif self.os1.get() == 0 and self.os2.get() == 0:
             
-            self.alerta_mensagem('Marque uma Opção!')
+            self.alerta_mensagem('Marque uma Opção!', 15, 75, 20)
             
         else:
             self.botaoConfirmarOS()
@@ -1574,7 +1573,8 @@ class LoginAdmnistracao:
             self.alerta_erro_servidor('Tempo Esgotado! Impossível Pausar')
         
         elif self.resultPausa == '':
-            self.alerta_mensagem('Marque uma Opção!')
+            
+            self.alerta_mensagem('Marque uma Opção!', 15, 75, 20)
             
         else:
             self.contagem_pausada()
