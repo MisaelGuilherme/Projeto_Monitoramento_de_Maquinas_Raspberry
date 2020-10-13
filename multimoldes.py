@@ -64,7 +64,7 @@ class LoginAdmnistracao:
         labelAlert.place(x=ladX, y=ladY)
 
         botaoAlert = Button(alertaMensage, text='OK', width=10, bg='red', fg='white', command = fechar_alerta_Mensage)
-        botaoAlert.place(x=130,y=90)
+        botaoAlert.place(x=135,y=90)
         alertaMensage.mainloop()         
         
     #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
@@ -669,7 +669,7 @@ class LoginAdmnistracao:
                     
                     #alerta caso o usuário não seja encontrado
                     else:
-                        self.alerta_mensagem('Login Não Existe!', 10, 70, 20)
+                        self.alerta_mensagem('Login Não Existe!', 15, 90, 20)
                         
                 #mensaem de erro caso ocorra alguma excessão ao tentar logar
                 except:
