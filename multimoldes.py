@@ -106,8 +106,9 @@ class LoginAdmnistracao:
         self.admSenhaPrincipal.focus_force()
         self.admSenhaPrincipal.bind("<Return>", self.transicao)
         
-        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, admSenhaPrincipal.get()))
+        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get()))
         admBotaoPrincipal.place(x=210,y=300)
+        admBotaoPrincipal.bind("<Return>", self.transicao)
 
         self.janelaADM.mainloop()        
     
@@ -188,18 +189,22 @@ class LoginAdmnistracao:
         self.campoLogin = Entry(self.janelaFuncio, width=30)
         self.campoLogin.place(x=150, y=200)
         self.campoLogin.focus_force()
+        self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.labelSenha = Label(self.janelaFuncio, text='Senha', bg='white', fg='#3e8e94', font=('arial',11,'bold'))
         self.labelSenha.place(x=80, y=250)
 
         self.campoSenha = Entry(self.janelaFuncio, width=30, show='*')
         self.campoSenha.place(x=150, y=250)
+        self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
-        self.botao = Button(self.janelaFuncio, text='Confirmar', fg='white', bg='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario())
+        self.botao = Button(self.janelaFuncio, text='Confirmar', fg='white', bg='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
         self.botao.place(x=200, y=300)
+        self.botao.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
         self.lbCadastrar.place(x=340, y=410)
+        
         self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', bg='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
         self.botCadastrar.place(x=370, y=440)
         
@@ -645,7 +650,7 @@ class LoginAdmnistracao:
             self.alerta_erro_servidor('02-Error-Servidor: Não acesso ao servidor')
         
     #------------------------------- (Banco de Dados) - FUNÇÃO 7º A SER INVOCADA POR: botao ------------------------------- 
-    def confirmar_tela_funcionario(self):
+    def confirmar_tela_funcionario(self, event):
         
         #verificando se o campo "login" é numérico e possui 11 caracteres
         if str(self.campoLogin.get()).isnumeric() and len(self.campoLogin.get()) == 11:
@@ -803,6 +808,7 @@ class LoginAdmnistracao:
         
         self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
         self.botConfirmar.place(x=370, y=350)
+        self.botConfirmar.bind("<Return>", self.confirmarCampos)
         
         #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO
 
@@ -1030,9 +1036,9 @@ class LoginAdmnistracao:
                 self.botaoInciarContador.place(x=205, y=200)
             
             else:
-                
+
                 #Caso o código não exista no banco de dados
-                self.alerta_mensagem('Código não Encontrados!', 15, 65, 20)
+                self.alerta_mensagem('Código não Encontrado!', 15, 65, 20)
                     
         except:
             self.alerta_erro_servidor('04-Error-Servidor: Não acesso ao servidor')            
