@@ -27,6 +27,7 @@ class LoginAdmnistracao:
         return jane.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
 
     #------------------------------- (Criando Janelas-Alerta-Servidor) - FUNÇÃO REUTILIZÁVEL -----------------
+    
     def alerta_erro_servidor(self, parte):
         
         self.alerta = Tk()
@@ -43,9 +44,16 @@ class LoginAdmnistracao:
 
         botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
         botaoAlert.place(x=140,y=80)
+        botaoAlert.focus_force()
+        botaoAlert.bind("<Return>", self.fechar)
         self.alerta.mainloop()
-        
+
+    #FUNCÃO PARA DESTRUIR TODOS OS ALERTAS
+    def fechar(self, event):
+        self.alerta.destroy()
+                
     #------------------------------- (Criando Alerta-Mensagens) - FUNÇÃO REUTILIZÁVEL ------------------------
+    
     def alerta_mensagem(self, text, tam, ladX, ladY):
         
         alertaMensage = Tk()
@@ -57,7 +65,7 @@ class LoginAdmnistracao:
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(350, 150, alertaMensage)
         
-        def fechar_alerta_Mensage():
+        def fechar_alerta_Mensage(event):
             alertaMensage.destroy()        
 
         labelAlert = Label(alertaMensage, text=text, font=('arial', tam, 'bold'), fg='red', bg='white')
@@ -65,6 +73,9 @@ class LoginAdmnistracao:
 
         botaoAlert = Button(alertaMensage, text='OK', width=10, bg='red', fg='white', command = fechar_alerta_Mensage)
         botaoAlert.place(x=135,y=90)
+        botaoAlert.focus_force()
+        botaoAlert.bind("<Return>", fechar_alerta_Mensage)
+        
         alertaMensage.mainloop()         
         
     #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
@@ -621,10 +632,6 @@ class LoginAdmnistracao:
         #CASO O A LIGAÇÃO OU AS CONDIÇÕES NÃO TENHAM SIDO EXECUTADAS COM ÊXITOS
         except:
             self.alerta_erro_servidor('02-Error-Servidor: Não acesso ao servidor')
-    
-    #FUNCÃO PARA DESTRUIR TODOS OS ALERTAS
-    def fechar(self):
-        self.alerta.destroy()
         
     #------------------------------- (Banco de Dados) - FUNÇÃO 7º A SER INVOCADA POR: botao ------------------------------- 
     def confirmar_tela_funcionario(self):
@@ -744,11 +751,13 @@ class LoginAdmnistracao:
         self.campoServico = Entry(self.frameLeft, width=25, font=('arial', 15), bg='white')
         self.campoServico.place(x=300, y=100)
         self.campoServico.focus_force()
+        self.campoServico.bind("<Return>", self.confirmarCampos)
         
         self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 16, 'bold'), bg='#001333', fg='red')
         self.codigoPeca.place(x=90, y=200)
         self.campoPeca = Entry(self.frameLeft, width=25, font=('arial', 15))
         self.campoPeca.place(x=300, y=200)
+        self.campoPeca.bind("<Return>", self.confirmarCampos)
         
         def ok():
 
@@ -758,12 +767,14 @@ class LoginAdmnistracao:
                 else:
                     self.tipo = 'Nova OS'
                     self.novoOS['selectcolor'] = 'green'
+                    self.novoOS.bind("<Return>", self.confirmarCampos)
                 
                 if self.os2.get() == 0:
                     self.retrabalhoOS['state'] = DISABLED
                 else:
                     self.tipo = 'Retrabalhar OS'
                     self.retrabalhoOS['selectcolor'] = 'green'
+                    self.retrabalhoOS.bind("<Return>", self.confirmarCampos)
             else:
                 self.novoOS['state'] = ACTIVE
                 self.retrabalhoOS['state'] = ACTIVE
@@ -816,7 +827,7 @@ class LoginAdmnistracao:
         
         self.janelaOper.mainloop()
         
-    def confirmarCampos(self):
+    def confirmarCampos(self, event):
         if self.campoServico.get() == '' or self.campoPeca.get() == '':
             
             self.alerta_mensagem('Verifique os Campos!', 15, 75, 20)
