@@ -45,7 +45,7 @@ class LoginAdmnistracao:
         botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
         botaoAlert.place(x=140,y=80)
         botaoAlert.focus_force()
-        botaoAlert.bind("<Return>", self.fechar)
+        botaoAlert.bind("<Return>", self.fechar(self.fechar))
         self.alerta.mainloop()
 
     #FUNCÃO PARA DESTRUIR TODOS OS ALERTAS
@@ -71,7 +71,7 @@ class LoginAdmnistracao:
         labelAlert = Label(alertaMensage, text=text, font=('arial', tam, 'bold'), fg='red', bg='white')
         labelAlert.place(x=ladX, y=ladY)
 
-        botaoAlert = Button(alertaMensage, text='OK', width=10, bg='red', fg='white', command = fechar_alerta_Mensage)
+        botaoAlert = Button(alertaMensage, text='OK', width=10, bg='red', fg='white', command = lambda: fechar_alerta_Mensage(fechar_alerta_Mensage))
         botaoAlert.place(x=135,y=90)
         botaoAlert.focus_force()
         botaoAlert.bind("<Return>", fechar_alerta_Mensage)
@@ -93,65 +93,76 @@ class LoginAdmnistracao:
         #Adcionando Logo na Janela ADM
         imgAdm = PhotoImage(file="img/icone1.png")
 
-        def verificar_adm(contV, senha):
-            
-            if str(senha).isnumeric():
-                
-                # Se a senha for numérica irá verificar no banco de dados
-                try:
-                    banco = mysql.connector.connect(
-                        host = '10.0.0.65',
-                        user = 'multimoldesClient',
-                        password = 'multimoldes'
-                    )
-                    cursor = banco.cursor()
-                    cursor.execute('use empresa_funcionarios')
-                    cursor.execute('select * from supervisor_admin where senha ='+str(senha))
-                    valido = cursor.fetchall()     
-                    
-                    #Se (valido) == 1 significa que encontrou resultado
-                    if len(valido) == 1:
-                        
-                        senhaAdm = valido[0][0]
-                        
-                        # Confirmando se senha for verdadeira, se (contV) for igual a 1, abrir tela de cadastro
-                        if senhaAdm == str(senha) and contV == 1:
-                            self.janelaADM.destroy()
-                            self.tela_cadastrar()
-                        
-                        # Confirmando se senha for verdadeira, se (contV) for igual a 2, abrir tela de tempo extra
-                        elif senhaAdm == str(senha) and contV == 2:
-                            self.janelaADM.destroy()
-                            self.tempo_extra()      
-
-                    else:
-                        self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
-                        self.labelErro2.place(x=157, y=233)
-                                                        
-                except:
-                    self.alerta_erro_servidor('01-Error-Servidor: Não acesso ao servidor')
-                    
-            elif senha == '':
-                self.labelErro1 = Label(self.janelaADM, text='Preencha o campo!', bg='white', fg='#bf0606', width=26)
-                self.labelErro1.place(x=160, y=233)
-            else:
-                self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
-                self.labelErro2.place(x=157, y=233)
-
         imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
         imagemPricipalAdm.place(x=170,y=10)
 
         admLabelPrincipal = Label(self.janelaADM, text='Senha Admin', fg='#3e8e94', font=('arial', 12, 'bold'), bg='white')
         admLabelPrincipal.place(x=40,y=210)
 
-        admSenhaPrincipal = Entry(self.janelaADM, width=30, border=2, show='*')
-        admSenhaPrincipal.place(x=160,y=210)
-        admSenhaPrincipal.focus_force()
+        self.valorBotao = botao
 
-        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda: verificar_adm(botao, admSenhaPrincipal.get()))
+        self.admSenhaPrincipal = Entry(self.janelaADM, width=30, border=2, show='*')
+        self.admSenhaPrincipal.place(x=160,y=210)
+        self.admSenhaPrincipal.focus_force()
+        self.admSenhaPrincipal.bind("<Return>", self.transicao)
+        
+        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, admSenhaPrincipal.get()))
         admBotaoPrincipal.place(x=210,y=300)
 
         self.janelaADM.mainloop()        
+    
+    def transicao(self, event):
+        
+        a = self.valorBotao
+        b = self.admSenhaPrincipal.get()
+        
+        self.verificar_adm(a, b)
+    
+    def verificar_adm(self, contV, senha):
+        
+        if str(senha).isnumeric():
+            
+            # Se a senha for numérica irá verificar no banco de dados
+            try:
+                banco = mysql.connector.connect(
+                    host = '10.0.0.65',
+                    user = 'multimoldesClient',
+                    password = 'multimoldes'
+                )
+                cursor = banco.cursor()
+                cursor.execute('use empresa_funcionarios')
+                cursor.execute('select * from supervisor_admin where senha ='+str(senha))
+                valido = cursor.fetchall()     
+                
+                #Se (valido) == 1 significa que encontrou resultado
+                if len(valido) == 1:
+                    
+                    senhaAdm = valido[0][0]
+                    
+                    # Confirmando se senha for verdadeira, se (contV) for igual a 1, abrir tela de cadastro
+                    if senhaAdm == str(senha) and contV == 1:
+                        self.janelaADM.destroy()
+                        self.tela_cadastrar()
+                    
+                    # Confirmando se senha for verdadeira, se (contV) for igual a 2, abrir tela de tempo extra
+                    elif senhaAdm == str(senha) and contV == 2:
+                        self.janelaADM.destroy()
+                        self.tempo_extra()      
+
+                else:
+                    self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
+                    self.labelErro2.place(x=157, y=233)
+                                                    
+            except:
+                self.alerta_erro_servidor('01-Error-Servidor: Não acesso ao servidor')
+                
+        elif senha == '':
+            self.labelErro1 = Label(self.janelaADM, text='Preencha o campo!', bg='white', fg='#bf0606', width=26)
+            self.labelErro1.place(x=160, y=233)
+        else:
+            self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
+            self.labelErro2.place(x=157, y=233)
+        
 
     #------------------------------- (Login Funcionário) - FUNÇÃO 1º A SER INICIADA --------------------------                
     def __init__(self):
@@ -790,7 +801,7 @@ class LoginAdmnistracao:
         self.retrabalhoOS = Checkbutton(self.frameLeft, text='Retrabalhar OS', font=('arial',10,'bold'),bg='#001333', fg='white', activebackground='#001333', activeforeground='white', variable = self.os2, command=lambda:ok())
         self.retrabalhoOS.place(x=450, y=250)
         
-        self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos())
+        self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
         self.botConfirmar.place(x=370, y=350)
         
         #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO
