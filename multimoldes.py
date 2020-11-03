@@ -4,6 +4,7 @@
 from datetime import *
 from tkinter import *
 from time import sleep
+from tkinter import messagebox
 import mysql.connector
 
 class LoginAdmnistracao:
@@ -1608,20 +1609,7 @@ class LoginAdmnistracao:
         
         #Senão significa que o cronômetro ainda está em execução
         else:
-            self.alerta = Tk()
-            self.alerta.title('Alerta')
-            self.alerta.iconbitmap('img/icone2.ico')
-            self.alerta.resizable(False, False)
-            self.alerta.configure(background='yellow')
-
-            #Chamando Função Para Centralizar a Tela
-            self.centraliza_tela(350, 150, self.alerta)
-
-            labelAlert = Label(self.alerta, text='Sistema em operacação ainda!!', font=('arial', 15, 'bold'), fg='red', bg='yellow')
-            labelAlert.place(x=30,y=20)
-
-            botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
-            botaoAlert.place(x=140,y=80)
-            self.alerta.mainloop()
+            
+            messagebox.showerror('Alerta', 'Sistema em Operação Ainda')
 
 instancia = LoginAdmnistracao()
