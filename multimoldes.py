@@ -248,42 +248,34 @@ class LoginAdmnistracao:
     def verificar_tempo_extra(self):
         
         def alertaTE(vlr):
-            self.alerta = Toplevel()
-            self.alerta.title('Alerta')
-            self.alerta.iconbitmap('img/icone2.ico')
-            self.alerta.resizable(False, False)
-            self.alerta.configure(background='white')
 
-            #Chamando Função Para Centralizar a Tela
-            self.centraliza_tela(350, 150, self.alerta)
-            
             if vlr == 1:
+                
+                messagebox.showwarning('Alerta', 'Verifique os Campos.')
+                
                     
-                labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
-                labelAlert.place(x=75,y=20)
+                '''labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
+                labelAlert.place(x=75,y=20)'''
                 
             elif vlr == 2:
                 
-                labelAlert = Label(self.alerta, text='Valor Min: 5 minutos', font=('arial', 14, 'bold'), fg='red', bg='white')
-                labelAlert.place(x=78,y=5)
-                labelAlert = Label(self.alerta, text='Valor Max: 59 minutos', font=('arial', 14, 'bold'), fg='red', bg='white')
-                labelAlert.place(x=75,y=40)
-            
-            botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
-            botaoAlert.place(x=130,y=87)
-            self.alerta.mainloop()
+                messagebox.showwarning('Alerta', 'Valor Min: 5 minutos\nValor Max: 59 minutos')
         
         if self.ll.get() == '' or self.mm.get() == '':
-            alertaTE(1)
+            
+            messagebox.showwarning('Alerta', 'Verifique os Campos.')
         
         elif str(self.ll.get()).isnumeric() == False or str(self.mm.get()).isnumeric() == False:
-            alertaTE(1)
-
-        elif int(self.mm.get()) < 5 and int(self.ll.get()) <= 0:
-            alertaTE(2)
             
-        elif int(self.mm.get()) > 59 and int(self.ll.get()) <= 0:
-            alertaTE(2)
+            messagebox.showwarning('Alerta', 'Verifique os Campos.')
+
+        elif int(self.mm.get()) < 5 or int(self.ll.get()) < 0:
+            
+            messagebox.showwarning('Alerta', 'Valor Min: 0 Horas\nValor Min: 5 Minutos')
+            
+        elif int(self.mm.get()) > 59 or int(self.ll.get()) > 24:
+            
+            messagebox.showwarning('Alerta', 'Valor Max: 24 Horas\nValor Max: 59 Minutos')
         
         else:
             self.configurar_tempo_extra()
