@@ -238,7 +238,7 @@ class LoginAdmnistracao:
         self.mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
         self.mm.place(x=400,y=140)
         
-        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', fg='white', command= lambda: self.verificar_tempo_extra())
+        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', fg='white', command = self.verificar_tempo_extra)
         bc.place(x=225,y=260)
         
         self.janelaTempExtra.mainloop()
@@ -246,30 +246,30 @@ class LoginAdmnistracao:
     #------------------------------- (Janela de Verificação de Tempo Extra) - FUNÇÃO 3 --------------------------
     def verificar_tempo_extra(self):
         def alertaTE(vlr):
-            self.alerta = Toplevel()
-            self.alerta.title('Alerta')
-            self.alerta.iconbitmap('img/icone2.ico')
-            self.alerta.resizable(False, False)
-            self.alerta.configure(background='white')
+            self.alertaExtra = Toplevel()
+            self.alertaExtra.title('AlertaExtra')
+            self.alertaExtra.iconbitmap('img/icone2.ico')
+            self.alertaExtra.resizable(False, False)
+            self.alertaExtra.configure(background='white')
 
             #Chamando Função Para Centralizar a Tela
-            self.centraliza_tela(350, 150, self.alertaCamp)
+            self.centraliza_tela(350, 150, self.alertaExtra)
             
             if vlr == 1:
                     
-                labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
+                labelAlert = Label(self.alertaExtra, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
                 labelAlert.place(x=75,y=20)
                 
             elif vlr == 2:
                 
-                labelAlert = Label(self.alerta, text='Valor Min: 5 minutos', font=('arial', 14, 'bold'), fg='red', bg='white')
+                labelAlert = Label(self.alertaExtra, text='Valor Min: 5 minutos', font=('arial', 14, 'bold'), fg='red', bg='white')
                 labelAlert.place(x=78,y=5)
-                labelAlert = Label(self.alerta, text='Valor Max: 59 minutos', font=('arial', 14, 'bold'), fg='red', bg='white')
+                labelAlert = Label(self.alertaExtra, text='Valor Max: 59 minutos', font=('arial', 14, 'bold'), fg='red', bg='white')
                 labelAlert.place(x=75,y=40)
                 
-            botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
+            botaoAlert = Button(self.alertaExtra, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
             botaoAlert.place(x=130,y=87)
-            self.alerta.mainloop()
+            self.alertaExtra.mainloop()
         
         if self.ll.get() == '' or self.mm.get() == '':
             alertaTE(1)
