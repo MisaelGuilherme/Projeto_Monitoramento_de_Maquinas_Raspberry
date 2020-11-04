@@ -598,7 +598,8 @@ class LoginAdmnistracao:
             if len(valido) == 1:
                 
                 #SE O CPF JÁ FOI CADASTRO APARECERÁ UM ALERTA
-                self.alerta_mensagem('CPF já Cadastrado!', 10, 65, 20)
+                #self.alerta_mensagem('CPF já Cadastrado!', 10, 65, 20)
+                messagebox.showerror('Alerta','CPF já Cadastrado!')
             
             #CADASTRANDO ENVIANDO DADOS DO FUNCIONÁRIO PRO BANCO DE DADOS
             else:
@@ -609,21 +610,7 @@ class LoginAdmnistracao:
                 
                 self.janelaCad.destroy()    
                 
-                self.alerta = Toplevel()
-                self.alerta.title('Alerta')
-                self.alerta.iconbitmap('img/icone2.ico')
-                self.alerta.resizable(False, False)
-                self.alerta.configure(background='white')
-
-                #Chamando Função Para Centralizar a Tela
-                self.centraliza_tela(250, 100, self.alerta)    
-
-                labelAlert = Label(self.alerta, text='Funcionário Cadastrado!', font=('arial', 10, 'bold'), fg='green', bg='white')
-                labelAlert.place(x=50,y=20)
-
-                botaoAlert = Button(self.alerta, text='OK', width=10, bg='green', fg='white', command = lambda: self.fechar())
-                botaoAlert.place(x=90,y=60)
-                self.alerta.mainloop()
+                messagebox.showinfo('Alerta','Funcionário Cadastrado!')
         
         #CASO O A LIGAÇÃO OU AS CONDIÇÕES NÃO TENHAM SIDO EXECUTADAS COM ÊXITOS
         except:
