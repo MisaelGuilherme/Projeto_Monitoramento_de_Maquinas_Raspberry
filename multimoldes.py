@@ -659,7 +659,7 @@ class LoginAdmnistracao:
                     
                     #alerta caso o usuário não seja encontrado
                     else:
-                        self.alerta_mensagem('Login Não Existe!', 15, 90, 20)
+                        messagebox.showerror('Alerta','Login não Existe!')
                         
                 #mensaem de erro caso ocorra alguma excessão ao tentar logar
                 except:
