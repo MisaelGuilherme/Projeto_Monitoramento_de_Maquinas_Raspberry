@@ -49,10 +49,6 @@ class LoginAdmnistracao:
         botaoAlert.bind("<Return>", self.fechar(self.fechar))
         self.alerta.mainloop()
 
-    #FUNCÃO PARA DESTRUIR TODOS OS ALERTAS
-    def fechar(self):
-        self.alerta.destroy()
-        
     #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
     def tela_admin(self, botao):
         
