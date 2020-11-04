@@ -27,28 +27,6 @@ class LoginAdmnistracao:
         # Posicão da Tela 
         return jane.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
 
-    #------------------------------- (Criando Janelas-Alerta-Servidor) - FUNÇÃO REUTILIZÁVEL -----------------
-    
-    def alerta_erro_servidor(self, parte):
-        
-        self.alerta = Tk()
-        self.alerta.title('Alerta')
-        self.alerta.iconbitmap('img/icone2.ico')
-        self.alerta.resizable(False, False)
-        self.alerta.configure(background='#ff2e2e')
-
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(350, 150, self.alerta)
-
-        labelAlert = Label(self.alerta, text=parte, font=('arial', 12, 'bold'), fg='white', bg='#ff2e2e')
-        labelAlert.place(x=13,y=20)
-
-        botaoAlert = Button(self.alerta, text='OK', width=10, bg='red', fg='white', command = lambda: self.fechar())
-        botaoAlert.place(x=140,y=80)
-        botaoAlert.focus_force()
-        botaoAlert.bind("<Return>", self.fechar(self.fechar))
-        self.alerta.mainloop()
-
     #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
     def tela_admin(self, botao):
         
@@ -126,7 +104,8 @@ class LoginAdmnistracao:
                     self.labelErro2.place(x=157, y=233)
                                                     
             except:
-                self.alerta_erro_servidor('01-Error-Servidor: Não acesso ao servidor')
+                
+                messagebox.showerror('01-Error-Servidor', '01-Error: Não acesso ao servidor.')
                 
         elif senha == '':
             self.labelErro1 = Label(self.janelaADM, text='Preencha o campo!', bg='white', fg='#bf0606', width=26)
@@ -584,7 +563,8 @@ class LoginAdmnistracao:
         
         #CASO O A LIGAÇÃO OU AS CONDIÇÕES NÃO TENHAM SIDO EXECUTADAS COM ÊXITOS
         except:
-            self.alerta_erro_servidor('02-Error-Servidor: Não acesso ao servidor')
+            
+            messagebox.showerror('02-Error-Servidor', '02-Error: Não acesso ao servidor.')
         
     #------------------------------- (Banco de Dados) - FUNÇÃO 7º A SER INVOCADA POR: botao ------------------------------- 
     def confirmar_tela_funcionario(self, event):
@@ -633,7 +613,8 @@ class LoginAdmnistracao:
                         
                 #mensaem de erro caso ocorra alguma excessão ao tentar logar
                 except:
-                    self.alerta_erro_servidor('03-Error-Servidor: Não acesso ao servidor')
+                    
+                    messagebox.showerror('03-Error-Servidor', '03-Error: Não acesso ao servidor.')
             
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
@@ -978,7 +959,8 @@ class LoginAdmnistracao:
                 messagebox.showerror('Alerta','Código não Encontrado!')
                     
         except:
-            self.alerta_erro_servidor('04-Error-Servidor: Não acesso ao servidor')            
+            
+            messagebox.showerror('04-Error-Servidor', '04-Error: Não acesso ao servidor.')
 
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
     def objetos_cores(self, cor1, cor2):
@@ -1250,7 +1232,7 @@ class LoginAdmnistracao:
         self.minutes['text'] = self.minuC
         self.hours['text'] = self.houC
         
-
+        
         if self.chaveFinalizar == False:
             self.seconds.after(1000, self.botao_iniciar)
             
@@ -1383,9 +1365,11 @@ class LoginAdmnistracao:
                                     +self.tipo+"')")
                                     
                 self.banco.commit()
+            
             #Excessão caso ocorra de não conseguir salvar
             except:
-                self.alerta_erro_servidor('05-Error-Servidor: Não acesso ao servidor')
+                
+                messagebox.showerror('05-Error-Servidor', '05-Error: Não acesso ao servidor.')
 
     #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------
     def tentativa_pausar(self):
@@ -1477,7 +1461,8 @@ class LoginAdmnistracao:
             self.banco.commit()     
             
         except:
-            self.alerta_erro_servidor('06-Error-Servidor: Não acesso ao servidor')            
+            
+            messagebox.showerror('06-Error-Servidor', '06-Error: Não acesso ao servidor.')
         
         self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagem_despausar())
         self.botDespausar.place(x=140, y=220)        
@@ -1500,7 +1485,8 @@ class LoginAdmnistracao:
             self.banco.commit()     
             
         except:
-            self.alerta_erro_servidor('07-Error-Servidor: Não acesso ao servidor')            
+            
+            messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
             
         self.botDespausar.destroy()
         if self.chaveFinalizar == True:
