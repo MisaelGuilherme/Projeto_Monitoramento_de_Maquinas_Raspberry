@@ -1236,6 +1236,11 @@ class LoginAdmnistracao:
         if self.chaveFinalizar == False:
             self.seconds.after(1000, self.botao_iniciar)
             
+            def close():
+                messagebox.showwarning('Alerta', 'Sistema em Operação Ainda.')
+            
+            self.janelaOper.protocol('WM_DELETE_WINDOW', close)
+            
     def iniciarContOper(self):
 
         #configurando os segundos para aparecer no label
