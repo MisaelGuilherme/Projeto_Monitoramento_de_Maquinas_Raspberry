@@ -814,11 +814,11 @@ class LoginAdmnistracao:
     def confirmarCampos(self, event):
         if self.campoServico.get() == '' or self.campoPeca.get() == '':
             
-            self.alerta_mensagem('Verifique os Campos!', 15, 75, 20)
+            messagebox.showerror('Alerta','Verifique os Campos!')
         
         elif self.os1.get() == 0 and self.os2.get() == 0:
             
-            self.alerta_mensagem('Marque uma Opção!', 15, 75, 20)
+            messagebox.showerror('Alerta','Marque uma Opção!')
             
         else:
             self.botaoConfirmarOS()
