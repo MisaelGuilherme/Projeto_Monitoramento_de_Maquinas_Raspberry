@@ -693,6 +693,15 @@ class LoginAdmnistracao:
         self.campoPeca.place(x=300, y=200)
         self.campoPeca.bind("<Return>", self.confirmarCampos)
         
+        
+        def close():
+            if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+                
+                self.janelaOper.destroy()
+                self.__init__()
+        
+        self.janelaOper.protocol('WM_DELETE_WINDOW', close)        
+        
         def ok():
 
             if self.os1.get() == 1 or self.os2.get() == 1:
@@ -1232,7 +1241,7 @@ class LoginAdmnistracao:
         self.minutes['text'] = self.minuC
         self.hours['text'] = self.houC
         
-        
+        #Se a chave for false significar que ainda está em operação
         if self.chaveFinalizar == False:
             self.seconds.after(1000, self.botao_iniciar)
             
@@ -1240,7 +1249,18 @@ class LoginAdmnistracao:
                 messagebox.showwarning('Alerta', 'Sistema em Operação Ainda.')
             
             self.janelaOper.protocol('WM_DELETE_WINDOW', close)
+        
+        else:
+        
+            def close():
+                if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+                    
+                    self.janelaOper.destroy()
+                    self.__init__()
             
+            self.janelaOper.protocol('WM_DELETE_WINDOW', close)
+
+
     def iniciarContOper(self):
 
         #configurando os segundos para aparecer no label
@@ -1525,13 +1545,19 @@ class LoginAdmnistracao:
             
         #Se a chave for True significa que a operação foi finalizada
         if self.chaveFinalizar ==  True:
-            self.janelaOper.destroy()
-            self.__init__()
+            
+            if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+                
+                self.janelaOper.destroy()
+                self.__init__()
         
         #Se a chaveContre for False significa que a operação foi finalizada
         elif self.chaveControle == False:
-            self.janelaOper.destroy()
-            self.__init__()
+
+            if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+                
+                self.janelaOper.destroy()
+                self.__init__()
         
         #Senão significa que o cronômetro ainda está em execução
         else:
