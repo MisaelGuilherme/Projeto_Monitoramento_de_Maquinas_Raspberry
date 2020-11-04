@@ -247,20 +247,6 @@ class LoginAdmnistracao:
     #------------------------------- (Janela de Verificação de Tempo Extra) - FUNÇÃO 3 --------------------------
     def verificar_tempo_extra(self):
         
-        def alertaTE(vlr):
-
-            if vlr == 1:
-                
-                messagebox.showwarning('Alerta', 'Verifique os Campos.')
-                
-                    
-                '''labelAlert = Label(self.alerta, text='Verifique os Campos!', font=('arial', 15, 'bold'), fg='red', bg='white')
-                labelAlert.place(x=75,y=20)'''
-                
-            elif vlr == 2:
-                
-                messagebox.showwarning('Alerta', 'Valor Min: 5 minutos\nValor Max: 59 minutos')
-        
         if self.ll.get() == '' or self.mm.get() == '':
             
             messagebox.showwarning('Alerta', 'Verifique os Campos.')
@@ -1602,6 +1588,6 @@ class LoginAdmnistracao:
         #Senão significa que o cronômetro ainda está em execução
         else:
             
-            messagebox.showerror('Alerta', 'Sistema em Operação Ainda')
+            messagebox.showwarning('Alerta', 'Sistema em Operação Ainda.')
 
 instancia = LoginAdmnistracao()
