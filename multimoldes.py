@@ -1031,8 +1031,10 @@ class LoginAdmnistracao:
             self.secC = '00'
             self.minuC = '00'
             self.houC = '00'
-
-        self.sec = self.sec + 1
+        
+        if self.chaveFinalizar == False:
+            self.sec = self.sec + 1
+        
         if self.sec > 0 and self.sec < 10:
             secA = self.sec / 100
             secB = str(secA)
@@ -1047,7 +1049,10 @@ class LoginAdmnistracao:
             #Configurando o minuto do temporizador
             if self.minu == None:
                 self.minu = 0
-            self.minu = self.minu + 1
+            
+            if self.chaveFinalizar == False:
+                self.minu = self.minu + 1
+                
             if self.minu > 0 and self.minu < 10:
                 minuA = self.minu / 100
                 minuB = str(minuA)
@@ -1062,7 +1067,10 @@ class LoginAdmnistracao:
                 #Congfigurando a hora do temporizador
                 if self.hou == None:
                     self.hou = 0
-                self.hou = self.hou + 1
+                
+                if self.chaveFinalizar == False:
+                    self.hou = self.hou + 1
+                
                 if self.hou > 0 and self.hou < 10:
                     houA = self.hou / 100
                     houB = str(houA)
