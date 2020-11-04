@@ -1005,7 +1005,7 @@ class LoginAdmnistracao:
             else:
 
                 #Caso o código não exista no banco de dados
-                self.alerta_mensagem('Código não Encontrado!', 15, 65, 20)
+                messagebox.showerror('Alerta','Código não Encontrado!')
                     
         except:
             self.alerta_erro_servidor('04-Error-Servidor: Não acesso ao servidor')            
@@ -1473,11 +1473,11 @@ class LoginAdmnistracao:
         
         if self.tempoEsgotado == True:
 
-            self.alerta_erro_servidor('Tempo Esgotado! Impossível Pausar')
+            messagebox.showerror('Alerta','Tempo Esgotado! Impossível Pausar.')
         
         elif self.resultPausa == '':
             
-            self.alerta_mensagem('Marque uma Opção!', 15, 75, 20)
+            messagebox.showerror('Alerta','Marque uma Opção!')
             
         else:
             self.contagem_pausada()
