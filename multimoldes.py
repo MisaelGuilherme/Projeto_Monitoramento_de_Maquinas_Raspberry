@@ -52,32 +52,6 @@ class LoginAdmnistracao:
     #FUNCÃO PARA DESTRUIR TODOS OS ALERTAS
     def fechar(self):
         self.alerta.destroy()
-                
-    #------------------------------- (Criando Alerta-Mensagens) - FUNÇÃO REUTILIZÁVEL ------------------------
-    
-    def alerta_mensagem(self, text, tam, ladX, ladY):
-        
-        alertaMensage = Tk()
-        alertaMensage.title('Alerta')
-        alertaMensage.iconbitmap('img/icone2.ico')
-        alertaMensage.resizable(False, False)
-        alertaMensage.configure(background='white')
-
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(350, 150, alertaMensage)
-        
-        def fechar_alerta_Mensage(event):
-            alertaMensage.destroy()        
-
-        labelAlert = Label(alertaMensage, text=text, font=('arial', tam, 'bold'), fg='red', bg='white')
-        labelAlert.place(x=ladX, y=ladY)
-
-        botaoAlert = Button(alertaMensage, text='OK', width=10, bg='red', fg='white', command = lambda: fechar_alerta_Mensage(fechar_alerta_Mensage))
-        botaoAlert.place(x=135,y=90)
-        botaoAlert.focus_force()
-        botaoAlert.bind("<Return>", fechar_alerta_Mensage)
-        
-        alertaMensage.mainloop()         
         
     #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
     def tela_admin(self, botao):
