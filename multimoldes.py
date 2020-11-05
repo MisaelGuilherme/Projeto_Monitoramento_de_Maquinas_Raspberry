@@ -204,7 +204,7 @@ class LoginAdmnistracao:
             
             messagebox.showwarning('Alerta', 'Verifique os Campos.')
 
-        elif int(self.mm.get()) < 5 or int(self.ll.get()) < 0:
+        elif int(self.mm.get()) < 5 and int(self.ll.get()) == 0:
             
             messagebox.showwarning('Alerta', 'Valor Min: 0 Horas\nValor Min: 5 Minutos')
             
@@ -259,6 +259,7 @@ class LoginAdmnistracao:
         self.minutes['text'] = '00'
         self.hours['text'] = '00'
         
+        self.tempoEsgotado = False
         self.chaveControle = False
         self.chaveFinalizar = False
 
@@ -691,16 +692,7 @@ class LoginAdmnistracao:
         self.codigoPeca.place(x=90, y=200)
         self.campoPeca = Entry(self.frameLeft, width=25, font=('arial', 15))
         self.campoPeca.place(x=300, y=200)
-        self.campoPeca.bind("<Return>", self.confirmarCampos)
-        
-        
-        def close():
-            if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
-                
-                self.janelaOper.destroy()
-                self.__init__()
-        
-        self.janelaOper.protocol('WM_DELETE_WINDOW', close)        
+        self.campoPeca.bind("<Return>", self.confirmarCampos)        
         
         def ok():
 
@@ -785,6 +777,7 @@ class LoginAdmnistracao:
             
         
     def botaoConfirmarOS(self):
+        
         if self.os1.get() == 1:
             self.novoOS['state'] = DISABLED
 
@@ -1243,31 +1236,34 @@ class LoginAdmnistracao:
             self.botaoReabilitar.place(x=170, y=220)
             
             self.chaveFinalizar = True
-        
-        
+            
         self.seconds['text'] = self.secC
         self.minutes['text'] = self.minuC
-        self.hours['text'] = self.houC
+        self.hours['text'] = self.houC    
         
-        #Se a chave for false significar que ainda está em operação
-        if self.chaveFinalizar == False:
-            self.seconds.after(1000, self.botao_iniciar)
+        
+        #Sub-função: Caso o usuário tente fechar o programa no X enquanto o mesmo ainda estiver executando, ou quando o tempo estiver esgotado. Porém se ele tiver finalizado a OS ele poderá sair e fechar o programa.
+        def close():
             
-            def close():
+            #Se o tempoesgotado for == True significa que o tempo esgotou, se chavefinalizar for == False ainda está em operação
+            if self.tempoEsgotado == True or self.chaveFinalizar == False:
+
                 messagebox.showwarning('Alerta', 'Sistema em Operação Ainda.')
             
-            self.janelaOper.protocol('WM_DELETE_WINDOW', close)
-        
-        else:
-        
-            def close():
+            #Se o tempoesgotado for == False significa que o tempo não esgotou, se chavefinalizar for == True não está mais em operação
+            if self.tempoEsgotado == False and self.chaveFinalizar == True:
+                
                 if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                     
                     self.janelaOper.destroy()
                     self.__init__()
             
-            self.janelaOper.protocol('WM_DELETE_WINDOW', close)
-
+        self.janelaOper.protocol('WM_DELETE_WINDOW', close)        
+        
+        
+        #Se a chave for false significar que ainda está em operação
+        if self.chaveFinalizar == False:
+            self.seconds.after(1000, self.botao_iniciar)
 
     def iniciarContOper(self):
 
@@ -1561,7 +1557,7 @@ class LoginAdmnistracao:
         
         #Se a chaveContre for False significa que a operação foi finalizada
         elif self.chaveControle == False:
-
+        
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
