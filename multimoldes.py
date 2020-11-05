@@ -177,10 +177,10 @@ class LoginAdmnistracao:
         
         lh = Label(self.janelaTempExtra, text='Horas:', font=('arial',20,'bold'), bg='#870000', fg='white')
         lh.place(x=70, y=135)
-        lh.focus_force()
         
         self.ll = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
         self.ll.place(x=170, y=140)
+        self.ll.focus_force()
         
         lm = Label(self.janelaTempExtra, text='Minutos:', font=('arial',20,'bold'), bg='#870000', fg='white')
         lm.place(x=270,y=135)
