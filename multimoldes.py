@@ -761,6 +761,23 @@ class LoginAdmnistracao:
         self.chaveFinalizar2 = False
         self.chaveControle2 = False
         
+        #Variáveis responsáveis caso o "tempo gasto" ultrapasse o "tempo programado"
+        self.chaveTempExtra = 0
+        self.tempExtraGastoA = 0
+        self.tempExtraGastoB = 0
+        self.tempExtraGastoC = 0        
+        
+        def close():
+            
+            if self.sec == None:
+                
+                if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+                        
+                    self.janelaOper.destroy()
+                    self.__init__()
+            
+        self.janelaOper.protocol('WM_DELETE_WINDOW', close)
+        
         self.janelaOper.mainloop()
         
     def confirmarCampos(self, event):
@@ -913,11 +930,7 @@ class LoginAdmnistracao:
                         self.se = (int(self.tempMin) * 60) // 2
                         print(self.mi)                
                 
-                #Variáveis responsáveis caso o "tempo gasto" ultrapasse o "tempo programado"
-                self.chaveTempExtra = 0
-                self.tempExtraGastoA = 0
-                self.tempExtraGastoB = 0
-                self.tempExtraGastoC = 0
+
                 self.backup = str(self.tempHora)+':'+str(self.tempMin)+':'+str(self.tempSeg)
                 
                 #Formatando as varíaveis para encaixar no label - Tempo Programado
@@ -1248,11 +1261,11 @@ class LoginAdmnistracao:
             #Se o tempoesgotado for == True significa que o tempo esgotou, se chavefinalizar for == False ainda está em operação
             if self.tempoEsgotado == True or self.chaveFinalizar == False:
 
-                messagebox.showwarning('Alerta', 'Sistema em Operação Ainda.')
+                messagebox.showwarning('Alerta', 'Sistema em Operação.')
             
             #Se o tempoesgotado for == False significa que o tempo não esgotou, se chavefinalizar for == True não está mais em operação
             if self.tempoEsgotado == False and self.chaveFinalizar == True:
-                
+
                 if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                     
                     self.janelaOper.destroy()
@@ -1456,7 +1469,7 @@ class LoginAdmnistracao:
         
         if self.tempoEsgotado == True:
 
-            messagebox.showerror('Alerta','Tempo Esgotado! Impossível Pausar.')
+            messagebox.showerror('Alerta','Tempo Esgotado. Impossível Pausar!')
         
         elif self.resultPausa == '':
             
@@ -1556,8 +1569,8 @@ class LoginAdmnistracao:
                 self.__init__()
         
         #Se a chaveContre for False significa que a operação foi finalizada
-        elif self.chaveControle == False:
-        
+        elif self.chaveControle == False and self.chaveTempExtra == 0:
+            
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
@@ -1566,6 +1579,6 @@ class LoginAdmnistracao:
         #Senão significa que o cronômetro ainda está em execução
         else:
             
-            messagebox.showwarning('Alerta', 'Sistema em Operação Ainda.')
+            messagebox.showwarning('Alerta', 'Sistema em Operação.')
 
 instancia = LoginAdmnistracao()
