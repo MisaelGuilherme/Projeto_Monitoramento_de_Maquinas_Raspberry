@@ -1147,7 +1147,7 @@ class LoginAdmnistracao:
                         if i + m == 60:
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
                 
-                if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
+                if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 0 and int(self.tempMin) <= 5:
                     print('Parte 2 B')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
