@@ -188,6 +188,7 @@ class LoginAdmnistracao:
         
         self.mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
         self.mm.place(x=400,y=140)
+        self.mm.bind('<Return>', self.verificar_tempo_extra)
         
         bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', fg='white', command = self.verificar_tempo_extra)
         bc.place(x=225,y=260)
