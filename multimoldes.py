@@ -262,6 +262,7 @@ class LoginAdmnistracao:
         self.minutes['text'] = '00'
         self.hours['text'] = '00'
         
+        self.tempoPausado = False
         self.tempoEsgotado = False
         self.chaveControle = False
         self.chaveFinalizar = False
@@ -778,7 +779,7 @@ class LoginAdmnistracao:
                         
                     self.janelaOper.destroy()
                     self.__init__()
-            
+                
         self.janelaOper.protocol('WM_DELETE_WINDOW', close)
         
         self.janelaOper.mainloop()
@@ -1262,17 +1263,20 @@ class LoginAdmnistracao:
         def close():
             
             #Se o tempoesgotado for == True significa que o tempo esgotou, se chavefinalizar for == False ainda está em operação
-            if self.tempoEsgotado == True or self.chaveFinalizar == False:
+            '''if self.tempoEsgotado == True or self.chaveFinalizar == False:
 
-                messagebox.showwarning('Alerta', 'Sistema em Operação.')
+                messagebox.showwarning('Alerta', 'Sistema em Operação.')'''
             
             #Se o tempoesgotado for == False significa que o tempo não esgotou, se chavefinalizar for == True não está mais em operação
-            if self.tempoEsgotado == False and self.chaveFinalizar == True:
-
+            if self.tempoEsgotado == False and self.chaveFinalizar == True and self.tempoPausado == False:
+                
                 if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                     
                     self.janelaOper.destroy()
                     self.__init__()
+            else:
+                print('TESTE 2')
+                messagebox.showwarning('Alerta', 'Sistema em Operação.')
             
         self.janelaOper.protocol('WM_DELETE_WINDOW', close)        
         
@@ -1341,7 +1345,7 @@ class LoginAdmnistracao:
     def contagemFinalizada(self):
         '''Função rensponsável por finalizar a contagem, informando
         que o tempo foi atingido dentro do limite.'''
-            
+        self.tempoPausado = False
         self.chaveFinalizar = True
         
         #Se o cahveFinalizar foir verdadeira, o crobômetro para a contagem
@@ -1484,6 +1488,7 @@ class LoginAdmnistracao:
     def contagem_pausada(self):
         
         self.janelaPause.destroy()
+        self.tempoPausado = True
         self.chaveFinalizar = True
         self.botFinalizar.destroy()
         self.botPausar.destroy()
@@ -1514,6 +1519,7 @@ class LoginAdmnistracao:
     
     def contagem_despausar(self):
         try:
+            
             time = datetime.now().time()
             lista = [str(time)]
             recebe = ''
@@ -1534,7 +1540,9 @@ class LoginAdmnistracao:
             messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
             
         self.botDespausar.destroy()
+        
         if self.chaveFinalizar == True:
+            
             self.chaveFinalizar = False
             
             self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
@@ -1564,7 +1572,7 @@ class LoginAdmnistracao:
         permitira sair ao encerrar a operação, '''
             
         #Se a chave for True significa que a operação foi finalizada
-        if self.chaveFinalizar ==  True:
+        if self.chaveFinalizar == True:
             
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
