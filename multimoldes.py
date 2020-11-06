@@ -794,7 +794,17 @@ class LoginAdmnistracao:
             messagebox.showerror('Alerta','Marque uma Opção!')
             
         else:
-            self.botaoConfirmarOS()
+            try:
+                banco = mysql.connector.connect(
+                    user='multimoldesClient',
+                    password='multimoldes',
+                    host='10.0.0.65'
+                )
+                
+                self.botaoConfirmarOS()
+            
+            except:
+                messagebox.showerror('Alerta', 'FASE DE TESTE, ERRO')
             
         
     def botaoConfirmarOS(self):
