@@ -1461,11 +1461,15 @@ class LoginAdmnistracao:
         
         marcado2 = IntVar()
         mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-        mot2.place(x=30, y=200)                
+        mot2.place(x=30, y=170)                
         
         marcado3 = IntVar()
         mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-        mot3.place(x=30, y=300)
+        mot3.place(x=30, y=240)
+        
+        marcado4 = IntVar()
+        mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+        mot4.place(x=30, y=320)
         
         confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.analisar_pausa())
         confirmar.place(x=210,y=400)
