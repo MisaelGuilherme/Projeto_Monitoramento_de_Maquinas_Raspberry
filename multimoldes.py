@@ -1432,7 +1432,7 @@ class LoginAdmnistracao:
         self.centraliza_tela(500, 500, self.janelaPause)
         
         def ok():
-            if marcado1.get() == 1 or marcado2.get() == 1 or marcado3.get() == 1:
+            if marcado1.get() == 1 or marcado2.get() == 1 or marcado3.get() == 1 or marcado4.get() == 1:
                 if marcado1.get() == 0:
                     mot1['state'] = DISABLED
                 else:
@@ -1447,10 +1447,17 @@ class LoginAdmnistracao:
                     mot3['state'] = DISABLED
                 else:
                     self.resultPausa = 'Final de Expediente'
+                    
+                if marcado4.get() == 0:
+                    mot4['state'] = DISABLED
+                else:
+                    self.resultPausa = 'Intervalo Rápido'
+                    
             else:
                 mot1['state'] = ACTIVE
                 mot2['state'] = ACTIVE
                 mot3['state'] = ACTIVE
+                mot4['state'] = ACTIVE
 
         motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 20, 'bold'), bg='white', fg='#3e8e94')
         motivo.place(x=20, y=20)
