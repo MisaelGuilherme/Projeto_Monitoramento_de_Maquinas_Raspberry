@@ -703,6 +703,7 @@ class LoginAdmnistracao:
             if self.os1.get() == 1 or self.os2.get() == 1:
                 if self.os1.get() == 0:
                     self.novoOS['state'] = DISABLED
+
                 else:
                     self.tipo = 'Nova OS'
                     self.novoOS['selectcolor'] = 'green'
@@ -710,6 +711,7 @@ class LoginAdmnistracao:
                 
                 if self.os2.get() == 0:
                     self.retrabalhoOS['state'] = DISABLED
+                
                 else:
                     self.tipo = 'Retrabalhar OS'
                     self.retrabalhoOS['selectcolor'] = 'green'
@@ -801,7 +803,21 @@ class LoginAdmnistracao:
                     host='10.0.0.65'
                 )
                 
-                self.botaoConfirmarOS()
+                cursor = banco.cursor()
+                cursor.execute('use empresa_funcionarios')
+                cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
+                valido = cursor.fetchall()
+                
+                if len(valido) == 0:
+                    print('NOVA OS')
+                    self.botaoConfirmarOS()
+                    
+                else:
+                    print('OS DE RETRABALHO')
+                    self.botaoConfirmarOS()
+                    
+                print(len(valido))
+            
             
             except:
                 messagebox.showerror('Alerta', 'FASE DE TESTE, ERRO')
