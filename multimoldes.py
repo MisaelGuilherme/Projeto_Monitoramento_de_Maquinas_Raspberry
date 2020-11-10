@@ -698,7 +698,7 @@ class LoginAdmnistracao:
         self.campoPeca.place(x=300, y=200)
         self.campoPeca.bind("<Return>", self.confirmarCampos)        
         
-        def ok():
+        '''def ok():
 
             if self.os1.get() == 1 or self.os2.get() == 1:
                 if self.os1.get() == 0:
@@ -722,14 +722,20 @@ class LoginAdmnistracao:
                 self.novoOS['selectcolor'] = '#001333'
                 self.retrabalhoOS['selectcolor'] = '#001333'
                 self.tipo = ''
-
-        self.os1 = IntVar()
-        self.novoOS = Checkbutton(self.frameLeft, text='Nova OS', font=('arial',10,'bold'), bg='#001333', fg='white', activebackground='#001333', activeforeground='white', variable = self.os1, command=lambda:ok())
-        self.novoOS.place(x=320, y=250)
+        '''
+        self.check = PhotoImage(file='img/verifica.png')
         
-        self.os2 = IntVar()
-        self.retrabalhoOS = Checkbutton(self.frameLeft, text='Retrabalhar OS', font=('arial',10,'bold'),bg='#001333', fg='white', activebackground='#001333', activeforeground='white', variable = self.os2, command=lambda:ok())
-        self.retrabalhoOS.place(x=450, y=250)
+        self.framenovoOS = Frame(self.frameLeft, bg='#001333', width=85, height=20)
+        self.framenovoOS.place(x=320, y=250)
+        
+        self.novoOS = Label(self.framenovoOS, text='Nova OS', font=('arial',10,'bold'), bg='#001333', fg='white')
+        self.novoOS.place(x=0, y=0)
+        
+        self.frameRetrabalho = Frame(self.frameLeft, bg='#001333', width=125, height=20)
+        self.frameRetrabalho.place(x=450, y=250)
+        
+        self.retrabalhoOS = Label(self.frameRetrabalho,  text='Retrabalhar OS', font=('arial',10,'bold'),bg='#001333', fg='white')
+        self.retrabalhoOS.place(x=0, y=0)
         
         self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
         self.botConfirmar.place(x=370, y=350)
@@ -787,15 +793,13 @@ class LoginAdmnistracao:
         self.janelaOper.mainloop()
         
     def confirmarCampos(self, event):
+        
         if self.campoServico.get() == '' or self.campoPeca.get() == '':
             
             messagebox.showerror('Alerta','Verifique os Campos!')
-        
-        elif self.os1.get() == 0 and self.os2.get() == 0:
-            
-            messagebox.showerror('Alerta','Marque uma Opção!')
             
         else:
+
             try:
                 banco = mysql.connector.connect(
                     user='multimoldesClient',
@@ -808,29 +812,40 @@ class LoginAdmnistracao:
                 cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
                 valido = cursor.fetchall()
                 
+                self.escolha = len(valido)
+                print('1 OU 0: ',self.escolha)
+                
                 if len(valido) == 0:
-                    print('NOVA OS')
-                    self.botaoConfirmarOS()
                     
+                    self.novoSelect = Label(self.framenovoOS, image=self.check, font=('arial',10,'bold'), bg='#001333', fg='white')
+                    self.novoSelect.place(x=62, y=0)
+                    self.tipo = 'Nova OS'
+                    
+                    self.botaoConfirmarOS()
+                        
                 else:
-                    print('OS DE RETRABALHO')
-                    self.botaoConfirmarOS()
                     
-                print(len(valido))
-            
-            
+                    self.retrabalhoSelect = Label(self.frameRetrabalho, image=self.check, font=('arial',10,'bold'),bg='#001333', fg='white')
+                    self.retrabalhoSelect.place(x=105, y=0)
+                    self.tipo = 'Retrabalhar OS'
+                    
+                    self.botaoConfirmarOS()
+                
+                
+
             except:
+                
                 messagebox.showerror('Alerta', 'FASE DE TESTE, ERRO')
-            
+  
         
     def botaoConfirmarOS(self):
-        
+        '''
         if self.os1.get() == 1:
             self.novoOS['state'] = DISABLED
 
         else:
             self.retrabalhoOS['state'] = DISABLED
-        
+        '''
         self.numOS = str(self.campoServico.get())
         peca = self.campoPeca.get()
     
@@ -1021,8 +1036,16 @@ class LoginAdmnistracao:
         self.codigoPeca['bg'] = cor1
         self.tempoProgramado['bg'] = cor1
         
+        self.framenovoOS['bg'] = cor1
         self.novoOS['bg'] = cor1
+        
+        self.frameRetrabalho['bg'] = cor1
         self.retrabalhoOS['bg'] = cor1
+        
+        if self.escolha == 0:
+            self.novoSelect['bg'] = cor1
+        else:
+            self.retrabalhoSelect['bg'] = cor1
         
         self.operadorNome['fg'] = cor2
         self.operadorNomeUser['fg'] = cor2
