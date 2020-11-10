@@ -133,23 +133,23 @@ class LoginAdmnistracao:
         self.imagemPricipalFun = Label(self.janelaFuncio, image=self.imgFun, bg='white')
         self.imagemPricipalFun.place(x=200,y=15)
 
-        self.labelLogin = Label(self.janelaFuncio, text='Usuário', bg='white', fg='#3e8e94', font=('arial',11,'bold'))
-        self.labelLogin.place(x=80, y=200)
+        self.labelLogin = Label(self.janelaFuncio, text='Usuário', bg='white', fg='#3e8e94', font=('arial',12,'bold'))
+        self.labelLogin.place(x=80, y=198)
 
-        self.campoLogin = Entry(self.janelaFuncio, width=30)
+        self.campoLogin = Entry(self.janelaFuncio, width=25, font=('arial', 11))
         self.campoLogin.place(x=150, y=200)
         self.campoLogin.focus_force()
         self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
 
-        self.labelSenha = Label(self.janelaFuncio, text='Senha', bg='white', fg='#3e8e94', font=('arial',11,'bold'))
-        self.labelSenha.place(x=80, y=250)
+        self.labelSenha = Label(self.janelaFuncio, text='Senha', bg='white', fg='#3e8e94', font=('arial',12,'bold'))
+        self.labelSenha.place(x=80, y=248)
 
-        self.campoSenha = Entry(self.janelaFuncio, width=30, show='*')
+        self.campoSenha = Entry(self.janelaFuncio, width=25, show='*', font=('arial', 11))
         self.campoSenha.place(x=150, y=250)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.botao = Button(self.janelaFuncio, text='Confirmar', fg='white', bg='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
-        self.botao.place(x=200, y=300)
+        self.botao.place(x=210, y=300)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
