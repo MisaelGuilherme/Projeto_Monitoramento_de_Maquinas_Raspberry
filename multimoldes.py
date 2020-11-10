@@ -723,7 +723,7 @@ class LoginAdmnistracao:
                 self.retrabalhoOS['selectcolor'] = '#001333'
                 self.tipo = ''
         '''
-        self.check = PhotoImage(file='img/verifica.png')
+        self.checkVazio = PhotoImage(file='img/verificaVazio.png')
         
         self.framenovoOS = Frame(self.frameLeft, bg='#001333', width=85, height=20)
         self.framenovoOS.place(x=320, y=250)
@@ -731,11 +731,17 @@ class LoginAdmnistracao:
         self.novoOS = Label(self.framenovoOS, text='Nova OS', font=('arial',10,'bold'), bg='#001333', fg='white')
         self.novoOS.place(x=0, y=0)
         
+        self.novoSelect = Label(self.framenovoOS, image=self.checkVazio, bg='#001333', fg='white')
+        self.novoSelect.place(x=62, y=0)        
+        
         self.frameRetrabalho = Frame(self.frameLeft, bg='#001333', width=125, height=20)
         self.frameRetrabalho.place(x=450, y=250)
         
         self.retrabalhoOS = Label(self.frameRetrabalho,  text='Retrabalhar OS', font=('arial',10,'bold'),bg='#001333', fg='white')
         self.retrabalhoOS.place(x=0, y=0)
+        
+        self.retrabalhoSelect = Label(self.frameRetrabalho, image=self.checkVazio, bg='#001333', fg='white')
+        self.retrabalhoSelect.place(x=105, y=0)
         
         self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
         self.botConfirmar.place(x=370, y=350)
@@ -812,27 +818,23 @@ class LoginAdmnistracao:
                 cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
                 valido = cursor.fetchall()
                 
-                self.escolha = len(valido)
-                print('1 OU 0: ',self.escolha)
+                self.checkSelect = PhotoImage(file='img/verifica.png')
                 
                 if len(valido) == 0:
                     
-                    self.novoSelect = Label(self.framenovoOS, image=self.check, font=('arial',10,'bold'), bg='#001333', fg='white')
-                    self.novoSelect.place(x=62, y=0)
+                    self.novoSelect['image'] = self.checkSelect
                     self.tipo = 'Nova OS'
                     
                     self.botaoConfirmarOS()
                         
                 else:
                     
-                    self.retrabalhoSelect = Label(self.frameRetrabalho, image=self.check, font=('arial',10,'bold'),bg='#001333', fg='white')
-                    self.retrabalhoSelect.place(x=105, y=0)
+                    self.retrabalhoSelect['image'] = self.checkSelect
                     self.tipo = 'Retrabalhar OS'
                     
                     self.botaoConfirmarOS()
                 
                 
-
             except:
                 
                 messagebox.showerror('Alerta', 'FASE DE TESTE, ERRO')
@@ -1038,14 +1040,11 @@ class LoginAdmnistracao:
         
         self.framenovoOS['bg'] = cor1
         self.novoOS['bg'] = cor1
+        self.novoSelect['bg'] = cor1
         
         self.frameRetrabalho['bg'] = cor1
         self.retrabalhoOS['bg'] = cor1
-        
-        if self.escolha == 0:
-            self.novoSelect['bg'] = cor1
-        else:
-            self.retrabalhoSelect['bg'] = cor1
+        self.retrabalhoSelect['bg'] = cor1
         
         self.operadorNome['fg'] = cor2
         self.operadorNomeUser['fg'] = cor2
