@@ -785,6 +785,8 @@ class LoginAdmnistracao:
         self.tempExtraGastoB = 0
         self.tempExtraGastoC = 0        
         
+        self.b = 5
+        
         def close():
             
             if self.sec == None:
@@ -1211,6 +1213,17 @@ class LoginAdmnistracao:
                     for i in range(1,6):
                         if i + m == 60:
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
+                
+                '''if h == 0 and int(self.tempMin) == 4 and m == 59 and s == 0 and c == 5:
+                        telaVermelha2()
+                        self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                        self.mensag.place(x=160, y=400)
+                    
+                    elif h == 0 and int(self.tempMin) == 4 and m == 59 and c == 5:
+                        if s == 0:
+                            self.b -= 1
+                            self.mensag['text'] = 'Restam '+self.b+' Minutos!!'
+                '''
                 
                 if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 0 and int(self.tempMin) <= 5:
                     print('Parte 2 B')
