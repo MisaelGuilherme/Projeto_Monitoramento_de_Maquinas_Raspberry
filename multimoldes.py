@@ -785,7 +785,7 @@ class LoginAdmnistracao:
         self.tempExtraGastoB = 0
         self.tempExtraGastoC = 0        
         
-        self.b = 5
+        self.bteste = 5
         
         def close():
             
@@ -1198,53 +1198,65 @@ class LoginAdmnistracao:
                     for i in range(1, 6):
                         if i + m == 60:
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
-                    
+        
+        #Se a hora programada for == 1 entrará nessa condição para aparecer a mensagem com precedênciares, restam 5 minutos
         elif int(self.tempHora) == 1:
             for c in range(1, 6):
                 
+                #Se a hora for == 1 e os minutos programado for == 0 ex: (01:00:00)
                 if c == 5 and int(self.tempMin) == 0 and m + 5 == 60 and s == 0:
                     print('Parte 1 B')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
-                    
+
+                
+                #Condição responsável por verificar a cada segundo quantos minutos falta
                 elif int(self.tempMin) == 0 and m + c == 60:
                     for i in range(1,6):
                         if i + m == 60:
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
                 
-                '''if h == 0 and int(self.tempMin) == 4 and m == 59 and s == 0 and c == 5:
-                        telaVermelha2()
-                        self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
-                        self.mensag.place(x=160, y=400)
-                    
-                    elif h == 0 and int(self.tempMin) == 4 and m == 59 and c == 5:
-                        if s == 0:
-                            self.b -= 1
-                            self.mensag['text'] = 'Restam '+self.b+' Minutos!!'
-                '''
+                #Se a hora for == 1 e os minutos programado for == 4 ex: (01:04:00)
+                if h == 0 and int(self.tempMin) == 4 and m == 59 and s == 0 and c == 5:
+                    print('PARTE 1 DO TESTE FEITO')
+                    telaVermelha2()
+                    self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag.place(x=160, y=400)
                 
-                if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 0 and int(self.tempMin) <= 5:
+                #Condição responsável por verificar a cada segundo quantos minutos falta
+                elif h == 0 and int(self.tempMin) == 4 and m == 59 and c == 5 or h == 1 and int(self.tempMin) == 4 and m >= 0 and m <= 4 and c == 5:
+                    print('PARTE 2 DO TESTE FEITO')
+                    if s == 0:
+                        print('PARTE 3333333333 DO TESTE FEITO')
+                        self.bteste -= 1
+                        self.mensag['text'] = 'Restam '+str(self.bteste)+' Minutos!!'
+                
+                #Se a hora for == 1 e os minutos programado for == 5 ex: (01:05:00)
+                if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 0 and int(self.tempMin) == 5:
                     print('Parte 2 B')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                     
-                elif h == int(self.tempHora) and m + c == int(self.tempMin) and int(self.tempMin) <= 5 and int(self.tempMin) >= 1:
+                #Condição responsável por verificar a cada segundo quantos minutos falta
+                elif h == int(self.tempHora) and m + c == int(self.tempMin) and int(self.tempMin) == 5 :
                     
                     for i in range(1,6):
                         if i + m == int(self.tempMin):
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
-
+                
+                #Se a hora for == 1 e os minutos programado for > ou == 6 ex: (01:06:00)
                 if h == int(self.tempHora) and c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >=6 and int(self.tempMin) <= 59:
                     print('Parte 3 B')
                     telaVermelha2()
                     self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
                     self.ativ = 1
-                    
+                
+                #Condição responsável por verificar a cada segundo quantos minutos falta
                 elif h == int(self.tempHora) and m + c == int(self.tempMin) and int(self.tempMin) >= 6:
                     
                     for i in range(0,6):
