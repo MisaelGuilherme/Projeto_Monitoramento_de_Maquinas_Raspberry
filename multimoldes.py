@@ -32,7 +32,7 @@ class LoginAdmnistracao:
         
         self.janelaADM = Toplevel()
         self.janelaADM.title('Login Administração')
-        self.janelaADM.iconbitmap('img/icone2.ico')
+        #self.janelaADM.iconbitmap('img/icone2.ico')
         self.janelaADM.resizable(False, False)
         self.janelaADM.configure(background='white')
         
@@ -75,9 +75,9 @@ class LoginAdmnistracao:
             # Se a senha for numérica irá verificar no banco de dados
             try:
                 banco = mysql.connector.connect(
-                    host = '10.0.0.65',
-                    user = 'multimoldesClient',
-                    password = 'multimoldes'
+                    host = 'localhost',
+                    user = 'root',
+                    password = '123'
                 )
                 cursor = banco.cursor()
                 cursor.execute('use empresa_funcionarios')
@@ -103,8 +103,8 @@ class LoginAdmnistracao:
                     self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
                     self.labelErro2.place(x=157, y=233)
                                                     
-            except:
-                
+            except Exception as erro:
+                print(erro)
                 messagebox.showerror('01-Error-Servidor', '01-Error: Não acesso ao servidor.')
                 
         elif senha == '':
@@ -120,7 +120,7 @@ class LoginAdmnistracao:
         
         self.janelaFuncio = Tk()
         self.janelaFuncio.title('Login Funcionário')
-        self.janelaFuncio.iconbitmap('img/icone2.ico')
+        #self.janelaFuncio.iconbitmap('img/icone2.ico')
         self.janelaFuncio.configure(background='white')
         self.janelaFuncio.resizable(False, False)
         
@@ -165,7 +165,7 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra = Tk()
         self.janelaTempExtra.title('Tela Operativa')
-        self.janelaTempExtra.iconbitmap('img/icone2.ico')
+        #self.janelaTempExtra.iconbitmap('img/icone2.ico')
         self.janelaTempExtra.configure(background='#870000')
         self.janelaTempExtra.geometry('550x350+200+100')
 
@@ -424,7 +424,7 @@ class LoginAdmnistracao:
         
         self.janelaCad = Toplevel()
         self.janelaCad.title('Cadastro')
-        self.janelaCad.iconbitmap('img/icone2.ico')
+        #self.janelaCad.iconbitmap('img/icone2.ico')
         self.janelaCad.resizable(False, False)
         self.janelaCad.configure(background='white')
 
@@ -539,9 +539,9 @@ class LoginAdmnistracao:
         senha = self.campSenha.get()
         try:
             banco = mysql.connector.connect(
-            host="10.0.0.65",
-            user="multimoldesClient",
-            password="multimoldes")
+            host="localhost",
+            user="root",
+            password="123")
             
             cursor = banco.cursor()
             cursor.execute('USE empresa_funcionarios')
@@ -567,8 +567,8 @@ class LoginAdmnistracao:
                 messagebox.showinfo('Alerta','Funcionário Cadastrado!')
         
         #CASO O A LIGAÇÃO OU AS CONDIÇÕES NÃO TENHAM SIDO EXECUTADAS COM ÊXITOS
-        except:
-            
+        except Exception as erro:
+            print(erro)
             messagebox.showerror('02-Error-Servidor', '02-Error: Não acesso ao servidor.')
         
     #------------------------------- (Banco de Dados) - FUNÇÃO 7º A SER INVOCADA POR: botao ------------------------------- 
@@ -587,9 +587,10 @@ class LoginAdmnistracao:
                 #tentamos conectar-se ao banco
                 try:
                     self.banco = mysql.connector.connect(
-                        host = "10.0.0.65",
-                        user = "multimoldesClient",
-                        password = "multimoldes")
+                        host = "localhost",
+                        user = "root",
+                        password = "123")
+                    print('Ok')
                     #verificando se usuário existe no banco de dados
                     self.cursor = self.banco.cursor()
                     self.cursor.execute('use empresa_funcionarios')
@@ -617,8 +618,8 @@ class LoginAdmnistracao:
                         messagebox.showerror('Alerta','Login não Existe!')
                         
                 #mensaem de erro caso ocorra alguma excessão ao tentar logar
-                except:
-                    
+                except Exception as erro:
+                    print(erro)
                     messagebox.showerror('03-Error-Servidor', '03-Error: Não acesso ao servidor.')
             
             #caso o campo "senha" esteja vazio
@@ -646,7 +647,7 @@ class LoginAdmnistracao:
 
         self.janelaOper = Tk()
         self.janelaOper.title('Tela Operativa')
-        self.janelaOper.iconbitmap('img/icone2.ico')
+        #self.janelaOper.iconbitmap('img/icone2.ico')
         self.janelaOper.configure(background='black')
         self.janelaOper.geometry('500x500+200+100')
         self.janelaOper.state('zoomed')
@@ -810,9 +811,9 @@ class LoginAdmnistracao:
 
             try:
                 banco = mysql.connector.connect(
-                    user='multimoldesClient',
-                    password='multimoldes',
-                    host='10.0.0.65'
+                    user='root',
+                    password='123',
+                    host='localhost'
                 )
                 
                 cursor = banco.cursor()
@@ -837,8 +838,8 @@ class LoginAdmnistracao:
                     self.botaoConfirmarOS()
                 
                 
-            except:
-                
+            except Exception as erro:
+                print(erro)
                 messagebox.showerror('Alerta', 'FASE DE TESTE, ERRO')
   
         
@@ -1022,8 +1023,8 @@ class LoginAdmnistracao:
                 #Caso o código não exista no banco de dados
                 messagebox.showerror('Alerta','Código não Encontrado!')
                     
-        except:
-            
+        except Exception as erro:
+            print(erro)
             messagebox.showerror('04-Error-Servidor', '04-Error: Não acesso ao servidor.')
 
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
@@ -1489,15 +1490,15 @@ class LoginAdmnistracao:
                 self.banco.commit()
             
             #Excessão caso ocorra de não conseguir salvar
-            except:
-                
+            except Exception as erro:
+                print(erro)
                 messagebox.showerror('05-Error-Servidor', '05-Error: Não acesso ao servidor.')
 
     #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------
     def tentativa_pausar(self):
         self.janelaPause = Toplevel()
         self.janelaPause.title('Relatório de Pausa')
-        self.janelaPause.iconbitmap('img/icone2.ico')
+        #self.janelaPause.iconbitmap('img/icone2.ico')
         self.janelaPause.resizable(False, False)
         self.janelaPause.configure(background='white')
 
@@ -1594,8 +1595,8 @@ class LoginAdmnistracao:
             self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0')")
             self.banco.commit()     
             
-        except:
-            
+        except Exception as erro:
+            print(erro)
             messagebox.showerror('06-Error-Servidor', '06-Error: Não acesso ao servidor.')
         
         self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagem_despausar())
@@ -1619,8 +1620,8 @@ class LoginAdmnistracao:
             self.cursor.execute("update pausa_funcionarios set horaRetomada = '"+self.horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaPause = '"+self.horaPause+"' and horaRetomada = 0 ")
             self.banco.commit()     
             
-        except:
-            
+        except Exception as erro:
+            print(erro)
             messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
             
         self.botDespausar.destroy()
