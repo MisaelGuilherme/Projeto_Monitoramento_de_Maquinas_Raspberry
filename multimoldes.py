@@ -587,10 +587,11 @@ class LoginAdmnistracao:
                 #tentamos conectar-se ao banco
                 try:
                     self.banco = mysql.connector.connect(
+                        
                         host = "localhost",
                         user = "root",
                         password = "123")
-                    print('Ok')
+                    
                     #verificando se usuário existe no banco de dados
                     self.cursor = self.banco.cursor()
                     self.cursor.execute('use empresa_funcionarios')
