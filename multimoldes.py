@@ -656,15 +656,17 @@ class LoginAdmnistracao:
         
         self.janelaOper.geometry(str(largura)+'x'+str(altura))
         
+        largLeft = largura / 1.6
+        
         print(str(largura)+'x'+str(altura))
 
         #(Tela Operativa) - FRAMES DA TELA DE OPERAÇÃO
 
-        self.frameTop = Frame(self.janelaOper, width=1400, height=130, bg='#001333',highlightthickness=3,highlightcolor='black')
+        self.frameTop = Frame(self.janelaOper, width=largura, height=130, bg='#001333',highlightthickness=3,highlightcolor='black')
         self.frameTop.config(highlightbackground='black')
         self.frameTop.pack(side=TOP)
 
-        self.frameLeft = Frame(self.janelaOper, width=800, bg='#001333', height=570,highlightthickness=3,highlightcolor='black')
+        self.frameLeft = Frame(self.janelaOper, width=largLeft, bg='#001333', height=570,highlightthickness=3,highlightcolor='black')
         self.frameLeft.config(highlightbackground='black')
         self.frameLeft.pack(side=LEFT)
 
