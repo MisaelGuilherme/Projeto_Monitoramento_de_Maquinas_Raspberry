@@ -656,24 +656,26 @@ class LoginAdmnistracao:
         
         self.janelaOper.geometry(str(largura)+'x'+str(altura))
         
+        #Configurando a largura dos frames esquerdo e direito
         largLeft = largura / 1.6
         largRight = largura / 2.324
-        
-        print(largRight)
-        
-        print(str(largura)+'x'+str(altura))
 
+        #Configurando a Altura dos frames esquerdo e direito
+        altTop = altura / 5.5
+        altLeft = altura / 1.261
+        altRight = altura / 1.261
+        
         #(Tela Operativa) - FRAMES DA TELA DE OPERAÇÃO
 
-        self.frameTop = Frame(self.janelaOper, width=largura, height=130, bg='#001333',highlightthickness=3,highlightcolor='black')
+        self.frameTop = Frame(self.janelaOper, width=largura, height=altTop, bg='#001333',highlightthickness=3,highlightcolor='black')
         self.frameTop.config(highlightbackground='black')
         self.frameTop.pack(side=TOP)
 
-        self.frameLeft = Frame(self.janelaOper, width=largLeft, bg='#001333', height=570,highlightthickness=3,highlightcolor='black')
+        self.frameLeft = Frame(self.janelaOper, width=largLeft, bg='#001333', height=altLeft,highlightthickness=3,highlightcolor='black')
         self.frameLeft.config(highlightbackground='black')
         self.frameLeft.pack(side=LEFT)
 
-        self.frameRight = Frame(self.janelaOper, width=largRight, height=570, bg='#001333',highlightthickness=3,highlightcolor='black') ##c4c0c0
+        self.frameRight = Frame(self.janelaOper, width=largRight, height=altRight, bg='#001333',highlightthickness=3,highlightcolor='black') ##c4c0c0
         self.frameRight.config(highlightbackground='black')
         self.frameRight.pack(side=RIGHT)
 
