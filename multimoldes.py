@@ -657,6 +657,9 @@ class LoginAdmnistracao:
         self.janelaOper.geometry(str(largura)+'x'+str(altura))
         
         largLeft = largura / 1.6
+        largRight = largura / 2.324
+        
+        print(largRight)
         
         print(str(largura)+'x'+str(altura))
 
@@ -670,7 +673,7 @@ class LoginAdmnistracao:
         self.frameLeft.config(highlightbackground='black')
         self.frameLeft.pack(side=LEFT)
 
-        self.frameRight = Frame(self.janelaOper, width=550, height=570, bg='#001333',highlightthickness=3,highlightcolor='black') ##c4c0c0
+        self.frameRight = Frame(self.janelaOper, width=largRight, height=570, bg='#001333',highlightthickness=3,highlightcolor='black') ##c4c0c0
         self.frameRight.config(highlightbackground='black')
         self.frameRight.pack(side=RIGHT)
 
