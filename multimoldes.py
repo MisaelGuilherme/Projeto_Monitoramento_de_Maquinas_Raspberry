@@ -696,7 +696,7 @@ class LoginAdmnistracao:
         self.multimolde.place(x=500, y=20)
         
         self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
-        self.sair.place(x=1180,y=20)
+        self.sair.place(x=largura/1.084, y=altura/36) #x = 1180 , y = 20
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
 
