@@ -650,11 +650,13 @@ class LoginAdmnistracao:
         self.janelaOper.title('Tela Operativa')
         #self.janelaOper.iconbitmap('img/icone2.ico')
         self.janelaOper.configure(background='black')
+        self.janelaOper.resizable(False, False)
         
         largura = self.janelaOper.winfo_screenwidth()
         altura = self.janelaOper.winfo_screenheight()
         
-        self.janelaOper.geometry(str(largura)+'x'+str(altura))
+        #self.janelaOper.geometry(str(largura)+'x'+str(altura))
+        self.janelaOper.geometry('1280x720')
         
         #Configurando a largura dos frames esquerdo e direito
         largLeft = largura / 1.6
@@ -696,7 +698,9 @@ class LoginAdmnistracao:
         self.multimolde.place(x=500, y=20)
         
         self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
-        self.sair.place(x=largura/1.084, y=altura/36) #x = 1180 , y = 20
+        self.sair.place(x=1180,y=20)
+        #self.sair.place(x=largura/1.084, y=altura/36) #x = 1180 , y = 20
+
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
 
