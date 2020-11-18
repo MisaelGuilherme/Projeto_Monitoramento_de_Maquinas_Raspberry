@@ -669,15 +669,16 @@ class LoginAdmnistracao:
 
         self.frameTop = Frame(self.janelaOper, width=largura, height=altTop, bg='#001333',highlightthickness=3,highlightcolor='black')
         self.frameTop.config(highlightbackground='black')
-        self.frameTop.pack(side=TOP)
-
+        self.frameTop.place(x=0, y=0)                   #self.frameTop.pack(side=TOP)
+        
         self.frameLeft = Frame(self.janelaOper, width=largLeft, bg='#001333', height=altLeft,highlightthickness=3,highlightcolor='black')
         self.frameLeft.config(highlightbackground='black')
-        self.frameLeft.pack(side=LEFT)
+        self.frameLeft.place(x=0, y=altTop)             #self.frameLeft.pack(side=LEFT)
 
         self.frameRight = Frame(self.janelaOper, width=largRight, height=altRight, bg='#001333',highlightthickness=3,highlightcolor='black') ##c4c0c0
         self.frameRight.config(highlightbackground='black')
-        self.frameRight.pack(side=RIGHT)
+        self.frameRight.place(x=largLeft, y=altTop)     #self.frameRight.pack(side=RIGHT)
+        
 
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - DADOS DO OPERADOR 
 
