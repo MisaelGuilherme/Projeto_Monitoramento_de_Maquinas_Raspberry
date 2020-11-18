@@ -650,8 +650,13 @@ class LoginAdmnistracao:
         self.janelaOper.title('Tela Operativa')
         #self.janelaOper.iconbitmap('img/icone2.ico')
         self.janelaOper.configure(background='black')
-        self.janelaOper.geometry('500x500+200+100')
-        self.janelaOper.state('zoomed')
+        
+        largura = self.janelaOper.winfo_screenwidth()
+        altura = self.janelaOper.winfo_screenheight()
+        
+        self.janelaOper.geometry(str(largura)+'x'+str(altura))
+        
+        print(str(largura)+'x'+str(altura))
 
         #(Tela Operativa) - FRAMES DA TELA DE OPERAÇÃO
 
