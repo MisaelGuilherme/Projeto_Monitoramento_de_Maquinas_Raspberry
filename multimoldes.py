@@ -728,31 +728,6 @@ class LoginAdmnistracao:
         self.campoPeca.place(x=300, y=200)
         self.campoPeca.bind("<Return>", self.confirmarCampos)        
         
-        '''def ok():
-
-            if self.os1.get() == 1 or self.os2.get() == 1:
-                if self.os1.get() == 0:
-                    self.novoOS['state'] = DISABLED
-
-                else:
-                    self.tipo = 'Nova OS'
-                    self.novoOS['selectcolor'] = 'green'
-                    self.novoOS.bind("<Return>", self.confirmarCampos)
-                
-                if self.os2.get() == 0:
-                    self.retrabalhoOS['state'] = DISABLED
-                
-                else:
-                    self.tipo = 'Retrabalhar OS'
-                    self.retrabalhoOS['selectcolor'] = 'green'
-                    self.retrabalhoOS.bind("<Return>", self.confirmarCampos)
-            else:
-                self.novoOS['state'] = ACTIVE
-                self.retrabalhoOS['state'] = ACTIVE
-                self.novoOS['selectcolor'] = '#001333'
-                self.retrabalhoOS['selectcolor'] = '#001333'
-                self.tipo = ''
-        '''
         self.checkVazio = PhotoImage(file='img/verificaVazio.png')
         
         self.framenovoOS = Frame(self.frameLeft, bg='#001333', width=85, height=20)
@@ -873,13 +848,7 @@ class LoginAdmnistracao:
   
         
     def botaoConfirmarOS(self):
-        '''
-        if self.os1.get() == 1:
-            self.novoOS['state'] = DISABLED
 
-        else:
-            self.retrabalhoOS['state'] = DISABLED
-        '''
         self.numOS = str(self.campoServico.get())
         peca = self.campoPeca.get()
     
