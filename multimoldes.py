@@ -652,11 +652,21 @@ class LoginAdmnistracao:
         self.janelaOper.configure(background='black')
         self.janelaOper.resizable(False, False)
         
+        #Obtendo medidas da tela
         largura = self.janelaOper.winfo_screenwidth()
         altura = self.janelaOper.winfo_screenheight()
         
+        qq = largura - 1280
+        zz = qq / 2
+        aa = 1280 + int(zz)
+        print(aa)
+        
+        
         #self.janelaOper.geometry(str(largura)+'x'+str(altura))
-        self.janelaOper.geometry('1280x720')
+        self.janelaOper.geometry(str(aa)+'x720')
+        
+        #Centralizando janela
+        self.centraliza_tela(aa, 720, self.janelaOper)
         
         #Configurando a largura dos frames esquerdo e direito
         largLeft = largura / 1.6
@@ -700,6 +710,7 @@ class LoginAdmnistracao:
         self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
         self.sair.place(x=1180,y=20)
         #self.sair.place(x=largura/1.084, y=altura/36) #x = 1180 , y = 20
+        #self.sair.place(x=aa/1.084, y=altura/36) #x = 1180 , y = 20
 
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
