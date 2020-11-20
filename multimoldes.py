@@ -807,41 +807,45 @@ class LoginAdmnistracao:
         
     def confirmarCampos(self, event):
         
+        #Verificando se algum campo está em branco
         if self.campoServico.get() == '' or self.campoPeca.get() == '':
             
             messagebox.showerror('Alerta','Verifique os Campos!')
-            
-        else:
+        
+        elif True:
 
             try:
-                banco = mysql.connector.connect(
-                    user='root',
-                    password='123',
-                    host='localhost'
-                )
                 
-                cursor = banco.cursor()
-                cursor.execute('use empresa_funcionarios')
-                cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
-                valido = cursor.fetchall()
-                
-                self.checkSelect = PhotoImage(file='img/verifica.png')
+                self.cursor.execute("select * from pecas_codigo where codigo = "+self.campoPeca.get())
+                valido = self.cursor.fetchall()
                 
                 if len(valido) == 0:
                     
-                    self.novoSelect['image'] = self.checkSelect
-                    self.tipo = 'Nova OS'
-                    
-                    self.botaoConfirmarOS()
-                        
+                    #caso o código não exista no banco de dados
+                    messagebox.showerror('Alerta','Código não Encontrado!')
+                
                 else:
-                    
-                    self.retrabalhoSelect['image'] = self.checkSelect
-                    self.tipo = 'Retrabalhar OS'
-                    
-                    self.botaoConfirmarOS()
                 
-                
+                    self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
+                    valido = self.cursor.fetchall()
+                    
+                    self.checkSelect = PhotoImage(file='img/verifica.png')
+                    
+                    if len(valido) == 0:
+                        
+                        self.novoSelect['image'] = self.checkSelect
+                        self.tipo = 'Nova OS'
+                        
+                        self.botaoConfirmarOS()
+                            
+                    else:
+                        
+                        self.retrabalhoSelect['image'] = self.checkSelect
+                        self.tipo = 'Retrabalhar OS'
+                        
+                        self.botaoConfirmarOS()
+                    
+                    
             except Exception as erro:
                 print(erro)
                 messagebox.showerror('Alerta', 'FASE DE TESTE, ERRO')
