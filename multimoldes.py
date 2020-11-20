@@ -848,7 +848,7 @@ class LoginAdmnistracao:
                     
             except Exception as erro:
                 print(erro)
-                messagebox.showerror('Alerta', 'FASE DE TESTE, ERRO')
+                messagebox.showerror('04-Error-Servidor', '04-Error: Não acesso ao servidor.')
   
         
     def botaoConfirmarOS(self):
@@ -1021,7 +1021,7 @@ class LoginAdmnistracao:
                     
         except Exception as erro:
             print(erro)
-            messagebox.showerror('04-Error-Servidor', '04-Error: Não acesso ao servidor.')
+            messagebox.showerror('05-Error-Servidor', '05-Error: Não acesso ao servidor.')
 
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
     def objetos_cores(self, cor1, cor2):
@@ -1488,7 +1488,7 @@ class LoginAdmnistracao:
             #Excessão caso ocorra de não conseguir salvar
             except Exception as erro:
                 print(erro)
-                messagebox.showerror('05-Error-Servidor', '05-Error: Não acesso ao servidor.')
+                messagebox.showerror('06-Error-Servidor', '06-Error: Não acesso ao servidor.')
 
     #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------
     def tentativa_pausar(self):
@@ -1593,7 +1593,7 @@ class LoginAdmnistracao:
             
         except Exception as erro:
             print(erro)
-            messagebox.showerror('06-Error-Servidor', '06-Error: Não acesso ao servidor.')
+            messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
         
         self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagem_despausar())
         self.botDespausar.place(x=140, y=220)        
@@ -1618,7 +1618,7 @@ class LoginAdmnistracao:
             
         except Exception as erro:
             print(erro)
-            messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
+            messagebox.showerror('08-Error-Servidor', '08-Error: Não acesso ao servidor.')
             
         self.botDespausar.destroy()
         
