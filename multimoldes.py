@@ -136,7 +136,7 @@ class LoginAdmnistracao:
         self.labelLogin = Label(self.janelaFuncio, text='Usuário', bg='white', fg='#3e8e94', font=('arial',12,'bold'))
         self.labelLogin.place(x=80, y=198)
 
-        self.campoLogin = Entry(self.janelaFuncio, width=25, font=('arial', 11))
+        self.campoLogin = Entry(self.janelaFuncio, width=25, font=('arial', 11), border=2, relief=GROOVE)
         self.campoLogin.place(x=150, y=200)
         self.campoLogin.focus_force()
         self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
@@ -144,7 +144,7 @@ class LoginAdmnistracao:
         self.labelSenha = Label(self.janelaFuncio, text='Senha', bg='white', fg='#3e8e94', font=('arial',12,'bold'))
         self.labelSenha.place(x=80, y=248)
 
-        self.campoSenha = Entry(self.janelaFuncio, width=25, show='*', font=('arial', 11))
+        self.campoSenha = Entry(self.janelaFuncio, width=25, show='*', font=('arial', 11), border=2, relief=GROOVE)
         self.campoSenha.place(x=150, y=250)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
@@ -626,22 +626,22 @@ class LoginAdmnistracao:
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
                 self.labelError = Label(self.janelaFuncio, text='Preencha o campo!', fg='#bf0606', bg='white', width=40)
-                self.labelError.place(x=100, y=165)   
+                self.labelError.place(x=110, y=273)   
             
             #caso o campo "senha" diferentee de 11 caracteres
             else:
                 self.labelError = Label(self.janelaFuncio, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40)
-                self.labelError.place(x=100, y=165)
+                self.labelError.place(x=110, y=273)
         
         #caso o campo "login" esteja vazio
         elif self.campoSenha.get() == '':
             self.labelError = Label(self.janelaFuncio, text='Preencha o campo!', fg='#bf0606', bg='white', width=40)
-            self.labelError.place(x=100, y=165) 
+            self.labelError.place(x=110, y=273) 
         
         #se caso o campo "login" seja diferente de 11 caracteres
         else:
             self.labelError = Label(self.janelaFuncio, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40)
-            self.labelError.place(x=100, y=165)
+            self.labelError.place(x=110, y=273)
 
     #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
     def tela_de_operacao(self):
