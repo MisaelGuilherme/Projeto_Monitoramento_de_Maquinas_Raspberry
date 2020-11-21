@@ -128,10 +128,10 @@ class LoginAdmnistracao:
         self.centraliza_tela(500, 500, self.janelaFuncio)
         
         #Adcionando Logo na Janela de Funcionário
-        self.imgFun = PhotoImage(file="img/trabalho1.png")
+        self.imgFun = PhotoImage(file="img/logo-multimoldes.png")
 
         self.imagemPricipalFun = Label(self.janelaFuncio, image=self.imgFun, bg='white')
-        self.imagemPricipalFun.place(x=200,y=15)
+        self.imagemPricipalFun.place(x=190,y=15)
 
         self.labelLogin = Label(self.janelaFuncio, text='Usuário', bg='white', fg='#3e8e94', font=('arial',12,'bold'))
         self.labelLogin.place(x=80, y=198)
@@ -659,8 +659,6 @@ class LoginAdmnistracao:
         qq = largura - 1280
         zz = qq / 2
         aa = 1280 + int(zz)
-        print(aa)
-        
         
         #self.janelaOper.geometry(str(largura)+'x'+str(altura))
         self.janelaOper.geometry(str(aa)+'x720')
