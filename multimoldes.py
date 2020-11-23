@@ -414,8 +414,8 @@ class LoginAdmnistracao:
         self.sair.place(x=1180,y=20)
         
         #Botão inciar a contagem do cronômetro
-        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
-        self.botaoInciarContador.place(x=205, y=200)
+        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+        self.botaoInciarContador.place(x=220, y=200)
             
             
     #------------------------------- (Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: verificar_adm() ------------------
@@ -694,16 +694,20 @@ class LoginAdmnistracao:
 
         self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 12,'bold'), fg='white', bg='#135565')
         self.operadorNome.place(x=10, y=20)
-        self.operadorNomeUser = Label(self.frameTop, text=str(self.operador),font=('arial', 12,'bold'), fg='black', bg='#135565')
+        
+        self.operador = self.operador.upper()
+        
+        self.operadorNomeUser = Label(self.frameTop, text=self.operador,font=('arial', 12,'bold'), fg='white', bg='#135565')
         self.operadorNomeUser.place(x=100, y=20)
 
         self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='white', bg='#135565')
         self.horaInicialLb.place(x=10, y=60)
+        
         self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 13,'bold'), fg='black', bg='white')
         self.horaAtualUser.place(x=160, y=60)
 
-        self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('arial', 40,'bold'), fg='white', bg='#135565', width=15)
-        self.multimolde.place(x=500, y=20)
+        self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('play pretend', 40), fg='white', bg='#135565', width=15)
+        self.multimolde.place(x=450, y=20)
         
         self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
         self.sair.place(x=1180,y=20)
@@ -856,7 +860,8 @@ class LoginAdmnistracao:
   
         
     def botaoConfirmarOS(self):
-
+        
+        self.logoMarcaRight.destroy()
         self.numOS = str(self.campoServico.get())
     
         try:
@@ -1019,8 +1024,8 @@ class LoginAdmnistracao:
             
             self.tempOperando = '00:00:00'
             
-            self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
-            self.botaoInciarContador.place(x=205, y=200)
+            self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+            self.botaoInciarContador.place(x=220, y=200)
             
                     
         except Exception as erro:
@@ -1064,11 +1069,11 @@ class LoginAdmnistracao:
                     
         if self.chaveControle == False:
             
-            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagemFinalizada())
-            self.botFinalizar.place(x=140, y=160)
+            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='#b30000', fg='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
+            self.botFinalizar.place(x=182, y=160)
             
-            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='#035700', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.tentativa_pausar())
-            self.botPausar.place(x=140, y=260)            
+            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
+            self.botPausar.place(x=182, y=260)
             
             self.botaoInciarContador.destroy()
             time = datetime.now().time()
@@ -1082,7 +1087,7 @@ class LoginAdmnistracao:
                         recebe += i
             self.horaInicial = recebe
             
-            self.objetos_cores('green', 'red')
+            self.objetos_cores('green', 'white')
             
             self.chaveControle = True
 
@@ -1146,7 +1151,7 @@ class LoginAdmnistracao:
         if self.se == s and self.mi == m and h == self.ho:
             if int(self.tempMin) > 10 or int(self.tempHora) >= 1:
                 
-                self.objetos_cores('yellow', 'red')
+                self.objetos_cores('yellow', 'white')
         
         def telaVermelha2():
             
@@ -1323,8 +1328,8 @@ class LoginAdmnistracao:
             self.labFinalizar = Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=150, y=150)
             
-            self.botaoReabilitar = Button(self.frameRight, text='REABILITAR', bg='orange', fg='white',border=5, relief='ridge', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
-            self.botaoReabilitar.place(x=170, y=220)
+            self.botaoReabilitar = Button(self.frameRight, text='REABILITAR', bg='orange', fg='white', relief='flat', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
+            self.botaoReabilitar.place(x=180, y=220)
             
             self.chaveFinalizar = True
             
@@ -1467,8 +1472,8 @@ class LoginAdmnistracao:
                 print(self.tempExtraGasto)
                 
             #Botão caso o operado queira realizar outra S.O
-            self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', border=5, relief='ridge', font=('arial', 20, 'bold'), width=15, command = lambda: self.nova_tela_operacao())
-            self.botReiniciar.place(x=150, y=230)
+            self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 20, 'bold'), width=12, command = lambda: self.nova_tela_operacao())
+            self.botReiniciar.place(x=187, y=230)
             
             #Enviando todos os dados ao banco
             try:
