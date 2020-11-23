@@ -692,17 +692,17 @@ class LoginAdmnistracao:
 
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - DADOS DO OPERADOR 
 
-        self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 12,'bold'), fg='red', bg='#135565')
+        self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 12,'bold'), fg='white', bg='#135565')
         self.operadorNome.place(x=10, y=20)
-        self.operadorNomeUser = Label(self.frameTop, text=str(self.operador),font=('arial', 12,'bold'), fg='red', bg='#135565')
+        self.operadorNomeUser = Label(self.frameTop, text=str(self.operador),font=('arial', 12,'bold'), fg='black', bg='#135565')
         self.operadorNomeUser.place(x=100, y=20)
 
-        self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='red', bg='#135565')
+        self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='white', bg='#135565')
         self.horaInicialLb.place(x=10, y=60)
-        self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 13,'bold'), fg='red', bg='white')
+        self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 13,'bold'), fg='black', bg='white')
         self.horaAtualUser.place(x=160, y=60)
 
-        self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('arial', 40,'bold'), fg='red', bg='#135565', width=15)
+        self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('arial', 40,'bold'), fg='white', bg='#135565', width=15)
         self.multimolde.place(x=500, y=20)
         
         self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
@@ -713,14 +713,14 @@ class LoginAdmnistracao:
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
 
-        self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 16, 'bold'), bg='#135565', fg='red')
+        self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
         self.ordemServico.place(x=70, y=100)
         self.campoServico = Entry(self.frameLeft, width=25, font=('arial', 15), bg='white')
         self.campoServico.place(x=300, y=100)
         self.campoServico.focus_force()
         self.campoServico.bind("<Return>", self.confirmarCampos)
         
-        self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 16, 'bold'), bg='#135565', fg='red')
+        self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
         self.codigoPeca.place(x=90, y=200)
         self.campoPeca = Entry(self.frameLeft, width=25, font=('arial', 15))
         self.campoPeca.place(x=300, y=200)
@@ -986,7 +986,7 @@ class LoginAdmnistracao:
             self.codP = str(valido[0][2])
 
             #Mostrando o tempo Programado através do label
-            self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#135565', fg='red')
+            self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
             self.tempoProgramado.place(x=60, y=300)
             
             self.campoProgramado = Label(self.frameLeft, width=15, font=('arial', 15, 'bold'), bg='white')
