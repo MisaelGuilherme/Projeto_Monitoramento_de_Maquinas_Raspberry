@@ -40,12 +40,12 @@ class LoginAdmnistracao:
         self.centraliza_tela(500, 500, self.janelaADM)
         
         #Adcionando Logo na Janela ADM
-        imgAdm = PhotoImage(file="img/adm.png")
+        imgAdm = PhotoImage(file="img/admin.png")
 
         imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
-        imagemPricipalAdm.place(x=170,y=10)
+        imagemPricipalAdm.place(x=180,y=10)
 
-        admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#3e8e94', font=('arial', 14, 'bold'), bg='white')
+        admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 14, 'bold'), bg='white')
         admLabelPrincipal.place(x=85,y=208)
 
         self.valorBotao = botao
@@ -55,7 +55,7 @@ class LoginAdmnistracao:
         self.admSenhaPrincipal.focus_force()
         self.admSenhaPrincipal.bind("<Return>", self.transicao)
         
-        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get()))
+        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', fg='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
         admBotaoPrincipal.place(x=210,y=300)
         admBotaoPrincipal.bind("<Return>", self.transicao)
 
