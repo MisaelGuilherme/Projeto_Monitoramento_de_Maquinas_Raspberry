@@ -40,18 +40,18 @@ class LoginAdmnistracao:
         self.centraliza_tela(500, 500, self.janelaADM)
         
         #Adcionando Logo na Janela ADM
-        imgAdm = PhotoImage(file="img/icone1.png")
+        imgAdm = PhotoImage(file="img/adm.png")
 
         imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
         imagemPricipalAdm.place(x=170,y=10)
 
-        admLabelPrincipal = Label(self.janelaADM, text='Senha Admin', fg='#3e8e94', font=('arial', 12, 'bold'), bg='white')
-        admLabelPrincipal.place(x=40,y=210)
+        admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#3e8e94', font=('arial', 14, 'bold'), bg='white')
+        admLabelPrincipal.place(x=85,y=208)
 
         self.valorBotao = botao
 
-        self.admSenhaPrincipal = Entry(self.janelaADM, width=30, border=2, show='*')
-        self.admSenhaPrincipal.place(x=160,y=210)
+        self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 11, 'bold'), border=2, relief=GROOVE)
+        self.admSenhaPrincipal.place(x=160,y=211)
         self.admSenhaPrincipal.focus_force()
         self.admSenhaPrincipal.bind("<Return>", self.transicao)
         
@@ -136,7 +136,7 @@ class LoginAdmnistracao:
         self.labelLogin = Label(self.janelaFuncio, text='Usuário', bg='white', fg='#3e8e94', font=('arial',12,'bold'))
         self.labelLogin.place(x=80, y=198)
 
-        self.campoLogin = Entry(self.janelaFuncio, width=25, font=('arial', 11), border=2, relief=GROOVE)
+        self.campoLogin = Entry(self.janelaFuncio, width=26, font=('arial', 11), border=2, relief=GROOVE)
         self.campoLogin.place(x=150, y=200)
         self.campoLogin.focus_force()
         self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
@@ -144,7 +144,7 @@ class LoginAdmnistracao:
         self.labelSenha = Label(self.janelaFuncio, text='Senha', bg='white', fg='#3e8e94', font=('arial',12,'bold'))
         self.labelSenha.place(x=80, y=248)
 
-        self.campoSenha = Entry(self.janelaFuncio, width=25, show='*', font=('arial', 11), border=2, relief=GROOVE)
+        self.campoSenha = Entry(self.janelaFuncio, width=13, show='l', font=('wingdings', 11), border=2, relief=GROOVE)
         self.campoSenha.place(x=150, y=250)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
