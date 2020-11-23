@@ -752,12 +752,12 @@ class LoginAdmnistracao:
         
         #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO
 
-        self.seconds = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
-        self.seconds.place(x=315, y=50)
-        self.minutes = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
+        self.seconds = Label(self.frameRight, text='00', font=('alarm clock',35, 'bold'), fg=('red'), width=2)
+        self.seconds.place(x=328, y=50)
+        self.minutes = Label(self.frameRight, text='00', font=('alarm clock',35, 'bold'), fg=('red'), width=2)
         self.minutes.place(x=260, y=50)
-        self.hours = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
-        self.hours.place(x=205, y=50)
+        self.hours = Label(self.frameRight, text='00', font=('alarm clock',35, 'bold'), fg=('red'), width=2)
+        self.hours.place(x=192, y=50)
         
         logoMarca = PhotoImage(file='img/logoAzul.png')
         
@@ -1010,11 +1010,11 @@ class LoginAdmnistracao:
             self.campoPeca.place(x=300, y=200)
             
             #Labals que imprimem o cronômetro que totaliza o tempo de operação do funcionário
-            self.segundos = Label(self.frameLeft, text='00', font=('arial',12,'bold'), width=2, fg='#023300')
+            self.segundos = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
             self.segundos.place(x=167, y=450)
-            self.minutos = Label(self.frameLeft, text='00', font=('arial',12,'bold'), width=2, fg='#023300')
+            self.minutos = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
             self.minutos.place(x=140, y=450)
-            self.horas = Label(self.frameLeft, text='00', font=('arial',12,'bold'), width=2, fg='#023300')
+            self.horas = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
             self.horas.place(x=113, y=450)
             
             self.tempOperando = '00:00:00'
