@@ -758,6 +758,12 @@ class LoginAdmnistracao:
         self.minutes.place(x=260, y=50)
         self.hours = Label(self.frameRight, text='00', font=('arial',30), fg=('red'), width=2)
         self.hours.place(x=205, y=50)
+        
+        logoMarca = PhotoImage(file='img/logoAzul.png')
+        
+        self.logoMarcaRight = Label(self.frameRight, image=logoMarca, bg='#135565')
+        self.logoMarcaRight.place(x=215, y=200)
+        
 
         '''Chave de controle, responsável de quando ser TRUE, informar que o botão INICIAR iniciou a contagem e em seguida
         destrui-lo fazendo o botão FINALIZAR 0S aparecer'''
