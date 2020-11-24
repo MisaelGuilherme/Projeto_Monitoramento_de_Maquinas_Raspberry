@@ -55,7 +55,7 @@ class LoginAdmnistracao:
         self.admSenhaPrincipal.focus_force()
         self.admSenhaPrincipal.bind("<Return>", self.transicao)
         
-        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', fg='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
+        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
         admBotaoPrincipal.place(x=210,y=300)
         admBotaoPrincipal.bind("<Return>", self.transicao)
 
@@ -148,14 +148,14 @@ class LoginAdmnistracao:
         self.campoSenha.place(x=150, y=250)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
-        self.botao = Button(self.janelaFuncio, text='Confirmar', fg='white', bg='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
+        self.botao = Button(self.janelaFuncio, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
         self.botao.place(x=210, y=300)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
         self.lbCadastrar.place(x=340, y=410)
         
-        self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', bg='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
+        self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
         self.botCadastrar.place(x=370, y=440)
         
         self.janelaFuncio.mainloop()
@@ -190,7 +190,7 @@ class LoginAdmnistracao:
         self.mm.place(x=400,y=140)
         self.mm.bind('<Return>', self.verificar_tempo_extra)
         
-        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', fg='white', command = lambda: self.verificar_tempo_extra(self.verificar_tempo_extra))
+        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', activebackground='orange', fg='white', activeforeground='white', command = lambda: self.verificar_tempo_extra(self.verificar_tempo_extra))
         bc.place(x=225,y=260)
         bc.bind('<Return>', self.verificar_tempo_extra)
         
@@ -423,7 +423,7 @@ class LoginAdmnistracao:
     def tela_cadastrar(self):
         
         self.janelaCad = Toplevel()
-        self.janelaCad.title('Cadastro')
+        self.janelaCad.title('Tela Cadastro')
         #self.janelaCad.iconbitmap('img/icone2.ico')
         self.janelaCad.resizable(False, False)
         self.janelaCad.configure(background='white')
@@ -435,31 +435,31 @@ class LoginAdmnistracao:
         self.lbtitle.place(x=170,y=10)
 
         self.lbNome = Label(self.janelaCad, text='Nome:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
-        self.lbNome.place(x=90, y=80)
+        self.lbNome.place(x=110, y=80)
 
         self.lbCpf = Label(self.janelaCad, text='CPF:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
-        self.lbCpf.place(x=100, y=150)
+        self.lbCpf.place(x=120, y=150)
 
         self.lbSenha = Label(self.janelaCad, text='Senha:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
-        self.lbSenha.place(x=90, y=220)
+        self.lbSenha.place(x=105, y=220)
 
         self.lbConfSenha = Label(self.janelaCad, text='Confirme a Senha:', font=('arial',12,'bold'),  bg='white', fg='#3e8e94')
         self.lbConfSenha.place(x=20, y=300)
 
-        self.campNome = Entry(self.janelaCad, width=25, font=12)
+        self.campNome = Entry(self.janelaCad, width=25, font=12, border=2, relief='groove')
         self.campNome.place(x=180, y=80)
         self.campNome.focus_force()
 
-        self.campCpf = Entry(self.janelaCad, width=25, font=12)
+        self.campCpf = Entry(self.janelaCad, width=25, font=12, border=2, relief='groove')
         self.campCpf.place(x=180, y=150)
 
-        self.campSenha = Entry(self.janelaCad, width=25, font=12, show='*')
+        self.campSenha = Entry(self.janelaCad, width=25, font=12, show='*', border=2, relief='groove')
         self.campSenha.place(x=180, y=220)
 
-        self.confSenha = Entry(self.janelaCad, width=25, font=12, show='*')
+        self.confSenha = Entry(self.janelaCad, width=25, font=12, show='*', border=2, relief='groove')
         self.confSenha.place(x=180, y=300)
 
-        self.cadastrar = Button(self.janelaCad, text='Cadastrar', font=12, command = lambda: self.conferir_valores(),bg='#3e8e94', fg='white')
+        self.cadastrar = Button(self.janelaCad, text='Cadastrar', font=12, bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', relief='flat', border=0, command = lambda: self.conferir_valores())
         self.cadastrar.place(x=230,y=370)
         self.janelaCad.mainloop()
 
@@ -647,7 +647,7 @@ class LoginAdmnistracao:
     def tela_de_operacao(self):
 
         self.janelaOper = Tk()
-        self.janelaOper.title('Tela Operativa')
+        self.janelaOper.title('Tela de Monitoramento')
         #self.janelaOper.iconbitmap('img/icone2.ico')
         self.janelaOper.configure(background='black')
         self.janelaOper.resizable(False, False)
@@ -1328,7 +1328,7 @@ class LoginAdmnistracao:
             self.labFinalizar = Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=150, y=150)
             
-            self.botaoReabilitar = Button(self.frameRight, text='REABILITAR', bg='orange', fg='white', relief='flat', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
+            self.botaoReabilitar = Button(self.frameRight, text='REABILITAR', bg='orange', activebackground='orange', fg='white', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
             self.botaoReabilitar.place(x=180, y=220)
             
             self.chaveFinalizar = True
@@ -1557,7 +1557,7 @@ class LoginAdmnistracao:
         mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
         mot4.place(x=30, y=320)
         
-        confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', fg='white', border=0, font=('arial', 12), width=10, command = lambda:self.analisar_pausa())
+        confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', border=0, relief='flat', font=('arial', 12), width=10, command = lambda:self.analisar_pausa())
         confirmar.place(x=210,y=400)
         
         self.janelaPause.mainloop()
@@ -1604,8 +1604,8 @@ class LoginAdmnistracao:
             print(erro)
             messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
         
-        self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagem_despausar())
-        self.botDespausar.place(x=140, y=220)        
+        self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar())
+        self.botDespausar.place(x=172, y=220)        
     
     def contagem_despausar(self):
         try:
@@ -1638,11 +1638,11 @@ class LoginAdmnistracao:
             self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
             self.sair.place(x=1180,y=20)            
             
-            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='red', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.contagemFinalizada())
-            self.botFinalizar.place(x=140, y=160)
+            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='#b30000', activebackground='#b30000', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
+            self.botFinalizar.place(x=182, y=160)
             
-            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='green', fg='white',border=5, relief='ridge', font=('arial', 22, 'bold'), width=15, command = lambda: self.tentativa_pausar())
-            self.botPausar.place(x=140, y=260)
+            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
+            self.botPausar.place(x=182, y=260)
             
             self.botao_iniciar()
             
