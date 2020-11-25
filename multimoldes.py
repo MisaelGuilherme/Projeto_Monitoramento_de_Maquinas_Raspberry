@@ -33,10 +33,14 @@ class LoginAdmnistracao:
         if self.foco is None:
             self.janelaADM = Toplevel()
             self.janelaADM.title('Login Administração')
-            #self.janelaADM.iconbitmap('img/icone2.ico')
             self.janelaADM.resizable(False, False)
             self.janelaADM.configure(background='white')
             self.janelaADM.protocol("WM_DELETE_WINDOW", self.fechar_janela)
+            
+            try:
+                self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
+            except:
+                pass
             
             #Chamando Função Para Centralizar a Tela
             self.centraliza_tela(500, 500, self.janelaADM)
@@ -129,9 +133,13 @@ class LoginAdmnistracao:
         
         self.janelaFuncio = Tk()
         self.janelaFuncio.title('Login Funcionário')
-        #self.janelaFuncio.iconbitmap('img/icone2.ico')
         self.janelaFuncio.configure(background='white')
         self.janelaFuncio.resizable(False, False)
+        
+        try:
+            self.janelaFuncio.iconbitmap('img/multimoldes-icon.ico')
+        except:
+            pass        
         
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(500, 500, self.janelaFuncio)
@@ -176,9 +184,14 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra = Tk()
         self.janelaTempExtra.title('Tela Operativa')
-        #self.janelaTempExtra.iconbitmap('img/icone2.ico')
+        self.janelaTempExtra.iconbitmap('img/multimoldes-icon.ico')
         self.janelaTempExtra.configure(background='#870000')
         self.janelaTempExtra.geometry('550x350+200+100')
+
+        try:
+            self.janelaTempExtra.iconbitmap('img/multimoldes-icon.ico')
+        except:
+            pass
 
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(550, 350, self.janelaTempExtra)
@@ -440,9 +453,14 @@ class LoginAdmnistracao:
         
         self.janelaCad = Toplevel()
         self.janelaCad.title('Tela Cadastro')
-        #self.janelaCad.iconbitmap('img/icone2.ico')
+        self.janelaCad.iconbitmap('img/multimoldes-icon.ico')
         self.janelaCad.resizable(False, False)
         self.janelaCad.configure(background='white')
+
+        try:
+            self.janelaCad.iconbitmap('img/multimoldes-icon.ico')
+        except:
+            pass
 
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(500, 500, self.janelaCad)
@@ -664,9 +682,14 @@ class LoginAdmnistracao:
 
         self.janelaOper = Tk()
         self.janelaOper.title('Tela de Monitoramento')
-        #self.janelaOper.iconbitmap('img/icone2.ico')
+        self.janelaOper.iconbitmap('img/multimoldes-icon.ico')
         self.janelaOper.configure(background='black')
         self.janelaOper.resizable(False, False)
+        
+        try:
+            self.janelaOper.iconbitmap('img/multimoldes-icon.ico')
+        except:
+            pass
         
         #Obtendo medidas da tela
         largura = self.janelaOper.winfo_screenwidth()
@@ -1557,9 +1580,14 @@ class LoginAdmnistracao:
     def tentativa_pausar(self):
         self.janelaPause = Toplevel()
         self.janelaPause.title('Relatório de Pausa')
-        #self.janelaPause.iconbitmap('img/icone2.ico')
+        self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
         self.janelaPause.resizable(False, False)
         self.janelaPause.configure(background='white')
+        
+        try:
+            self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
+        except:
+            pass
 
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(500, 500, self.janelaPause)
