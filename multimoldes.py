@@ -255,6 +255,8 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra.destroy()
         
+        self.bteste = 5
+        
         #Configurando tempo Extra gasto caso o operador precise de mais tempo mais de uma vez
         self.chaveTempExtra += 1
         
@@ -1226,18 +1228,51 @@ class LoginAdmnistracao:
                 
                 #Se a hora for == 1 e os minutos programado for == 4 ex: (01:04:00)
                 if h == 0 and int(self.tempMin) == 4 and m == 59 and s == 0 and c == 5:
-                    print('PARTE 1 DO TESTE FEITO')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                 
                 #Condição responsável por verificar a cada segundo quantos minutos falta
                 elif h == 0 and int(self.tempMin) == 4 and m == 59 and c == 5 or h == 1 and int(self.tempMin) == 4 and m >= 0 and m <= 4 and c == 5:
-                    print('PARTE 2 DO TESTE FEITO')
                     if s == 0:
-                        print('PARTE 3333333333 DO TESTE FEITO')
                         self.bteste -= 1
                         self.mensag['text'] = 'Restam '+str(self.bteste)+' Minutos!!'
+
+                #Se a hora for == 1 e os minutos programado for == 3 ex: (01:03:00) ----------------------------
+                if h == 0 and int(self.tempMin) == 3 and m == 58 and s == 0 and c == 5:
+                    telaVermelha2()
+                    self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag.place(x=160, y=400)
+                
+                #Condição responsável por verificar a cada segundo quantos minutos falta
+                elif h == 0 and int(self.tempMin) == 3 and m >= 58 and c == 5 or h == 1 and int(self.tempMin) == 3 and m >= 0 and m <= 3 and c == 5:
+                    if s == 0:
+                        self.bteste -= 1
+                        self.mensag['text'] = 'Restam '+str(self.bteste)+' Minutos!!'
+                
+                #Se a hora for == 1 e os minutos programado for == 2 ex: (01:02:00) ----------------------------
+                if h == 0 and int(self.tempMin) == 2 and m == 57 and s == 0 and c == 5:
+                    telaVermelha2()
+                    self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag.place(x=160, y=400)
+                
+                #Condição responsável por verificar a cada segundo quantos minutos falta
+                elif h == 0 and int(self.tempMin) == 2 and m >= 57 and c == 5 or h == 1 and int(self.tempMin) == 2 and m >= 0 and m <= 2 and c == 5:
+                    if s == 0:
+                        self.bteste -= 1
+                        self.mensag['text'] = 'Restam '+str(self.bteste)+' Minutos!!'                
+                
+                #Se a hora for == 1 e os minutos programado for == 1 ex: (01:01:00) ----------------------------
+                if h == 0 and int(self.tempMin) == 1 and m == 56 and s == 0 and c == 5:
+                    telaVermelha2()
+                    self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag.place(x=160, y=400)
+                
+                #Condição responsável por verificar a cada segundo quantos minutos falta
+                elif h == 0 and int(self.tempMin) == 1 and m >= 56 and c == 5 or h == 1 and int(self.tempMin) == 1 and m >= 0 and m <= 1 and c == 5:
+                    if s == 0:
+                        self.bteste -= 1
+                        self.mensag['text'] = 'Restam '+str(self.bteste)+' Minutos!!'   
                 
                 #Se a hora for == 1 e os minutos programado for == 5 ex: (01:05:00)
                 if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 0 and int(self.tempMin) == 5:
