@@ -407,6 +407,9 @@ class LoginAdmnistracao:
         #Armazenando na variável já formatado
         self.tempProgExt = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
         
+        self.vezes = Label(self.frameLeft, text=str(self.chaveTempExtra)+'X', width=2, font=('arial', 15, 'bold'), bg='#870000', fg='white')
+        self.vezes.place(x=250, y=400)
+        
         #Exibindo no label o horário adcionado após o tempo ser esgotado
         self.campoProExt = Label(self.frameLeft, text=self.tempProgExt, width=15, font=('arial', 15, 'bold'), bg='white', fg='red')
         self.campoProExt.place(x=300, y=400)
@@ -1056,6 +1059,10 @@ class LoginAdmnistracao:
         self.retrabalhoOS['bg'] = cor1
         self.retrabalhoSelect['bg'] = cor1
         
+        if self.chaveTempExtra >= 1:
+            self.vezes['bg'] = cor1
+            self.vezes['fg'] = cor2
+        
         self.operadorNome['fg'] = cor2
         self.operadorNomeUser['fg'] = cor2
         self.horaInicialLb['fg'] = cor2
@@ -1071,10 +1078,10 @@ class LoginAdmnistracao:
                     
         if self.chaveControle == False:
             
-            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='#b30000', fg='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
+            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='#b30000', activebackground='#b30000', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
             self.botFinalizar.place(x=182, y=160)
             
-            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
+            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
             self.botPausar.place(x=182, y=260)
             
             self.botaoInciarContador.destroy()
@@ -1365,6 +1372,7 @@ class LoginAdmnistracao:
             
             self.botaoReabilitar = Button(self.frameRight, text='REABILITAR', bg='orange', activebackground='orange', fg='white', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
             self.botaoReabilitar.place(x=180, y=220)
+            self.foco = None
             
             self.chaveFinalizar = True
             
