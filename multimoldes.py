@@ -30,36 +30,45 @@ class LoginAdmnistracao:
     #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
     def tela_admin(self, botao):
         
-        self.janelaADM = Toplevel()
-        self.janelaADM.title('Login Administração')
-        #self.janelaADM.iconbitmap('img/icone2.ico')
-        self.janelaADM.resizable(False, False)
-        self.janelaADM.configure(background='white')
-        
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(500, 500, self.janelaADM)
-        
-        #Adcionando Logo na Janela ADM
-        imgAdm = PhotoImage(file="img/admin.png")
+        if self.foco is None:
+            self.janelaADM = Toplevel()
+            self.janelaADM.title('Login Administração')
+            #self.janelaADM.iconbitmap('img/icone2.ico')
+            self.janelaADM.resizable(False, False)
+            self.janelaADM.configure(background='white')
+            self.janelaADM.protocol("WM_DELETE_WINDOW", self.fechar_janela)
+            
+            #Chamando Função Para Centralizar a Tela
+            self.centraliza_tela(500, 500, self.janelaADM)
+            
+            #Adcionando Logo na Janela ADM
+            imgAdm = PhotoImage(file="img/admin.png")
 
-        imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
-        imagemPricipalAdm.place(x=180,y=10)
+            imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
+            imagemPricipalAdm.place(x=180,y=10)
 
-        admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 14, 'bold'), bg='white')
-        admLabelPrincipal.place(x=85,y=208)
+            admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 14, 'bold'), bg='white')
+            admLabelPrincipal.place(x=85,y=208)
 
-        self.valorBotao = botao
+            self.valorBotao = botao
 
-        self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 11, 'bold'), border=2, relief=GROOVE)
-        self.admSenhaPrincipal.place(x=160,y=211)
-        self.admSenhaPrincipal.focus_force()
-        self.admSenhaPrincipal.bind("<Return>", self.transicao)
-        
-        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
-        admBotaoPrincipal.place(x=210,y=300)
-        admBotaoPrincipal.bind("<Return>", self.transicao)
-
-        self.janelaADM.mainloop()        
+            self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 11, 'bold'), border=2, relief=GROOVE)
+            self.admSenhaPrincipal.place(x=160,y=211)
+            self.admSenhaPrincipal.focus_force()
+            self.admSenhaPrincipal.bind("<Return>", self.transicao)
+            
+            admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
+            admBotaoPrincipal.place(x=210,y=300)
+            admBotaoPrincipal.bind("<Return>", self.transicao)
+            self.foco = True
+            self.janelaADM.mainloop()
+            
+        else:
+            self.janelaADM.lift()
+    
+    def fechar_janela(self):
+        self.janelaADM.destroy()
+        self.foco = None
     
     def transicao(self, event):
         
@@ -157,6 +166,8 @@ class LoginAdmnistracao:
         
         self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
         self.botCadastrar.place(x=370, y=440)
+        
+        self.foco = None
         
         self.janelaFuncio.mainloop()
         
