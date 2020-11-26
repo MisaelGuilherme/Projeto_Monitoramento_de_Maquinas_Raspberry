@@ -1620,6 +1620,7 @@ class LoginAdmnistracao:
                 mot2['state'] = ACTIVE
                 mot3['state'] = ACTIVE
                 mot4['state'] = ACTIVE
+                self.resultPausa = ''
         
         
         if self.focojanelaPause is None:
@@ -1671,6 +1672,7 @@ class LoginAdmnistracao:
     def close_janela_pause(self):
         self.janelaPause.destroy()
         self.focojanelaPause = None
+        self.resultPausa = ''
         
     def analisar_pausa(self):        
         
@@ -1760,6 +1762,8 @@ class LoginAdmnistracao:
             
             self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
             self.botPausar.pack()
+            
+            self.focojanelaPause = None
             
             self.botao_iniciar()
             
