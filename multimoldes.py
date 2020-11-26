@@ -1130,6 +1130,8 @@ class LoginAdmnistracao:
             self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
             self.botPausar.pack()
             
+            self.focojanelaPause = None
+            
             self.frameBotIniciar.destroy()
             time = datetime.now().time()
             lista = [str(time)]
@@ -1590,19 +1592,6 @@ class LoginAdmnistracao:
 
     #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------
     def tentativa_pausar(self):
-        self.janelaPause = Toplevel()
-        self.janelaPause.title('Relatório de Pausa')
-        self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
-        self.janelaPause.resizable(False, False)
-        self.janelaPause.configure(background='white')
-        
-        try:
-            self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
-        except:
-            pass
-
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(500, 500, self.janelaPause)
         
         def ok():
             if marcado1.get() == 1 or marcado2.get() == 1 or marcado3.get() == 1 or marcado4.get() == 1:
@@ -1631,30 +1620,57 @@ class LoginAdmnistracao:
                 mot2['state'] = ACTIVE
                 mot3['state'] = ACTIVE
                 mot4['state'] = ACTIVE
+        
+        
+        if self.focojanelaPause is None:
+            
+            self.janelaPause = Toplevel()
+            self.janelaPause.title('Relatório de Pausa')
+            self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
+            self.janelaPause.resizable(False, False)
+            self.janelaPause.configure(background='white')
+            self.janelaPause.protocol("WM_DELETE_WINDOW", self.close_janela_pause)
+            
+            try:
+                self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
+            except:
+                pass
 
-        motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 20, 'bold'), bg='white', fg='#3e8e94')
-        motivo.place(x=20, y=20)
+            #Chamando Função Para Centralizar a Tela
+            self.centraliza_tela(500, 500, self.janelaPause)
+            
+            motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 20, 'bold'), bg='white', fg='#3e8e94')
+            motivo.place(x=20, y=20)
+            
+            marcado1 = IntVar()
+            mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=('arial',14,'bold'))
+            mot1.place(x=30, y=100)
+            
+            marcado2 = IntVar()
+            mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot2.place(x=30, y=170)                
+            
+            marcado3 = IntVar()
+            mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot3.place(x=30, y=240)
+            
+            marcado4 = IntVar()
+            mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot4.place(x=30, y=320)
+            
+            confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', border=0, relief='flat', font=('arial', 12), width=10, command = lambda:self.analisar_pausa())
+            confirmar.place(x=210,y=400)
+            
+            self.focojanelaPause = True
+            
+            self.janelaPause.mainloop()
         
-        marcado1 = IntVar()
-        mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=('arial',14,'bold'))
-        mot1.place(x=30, y=100)
-        
-        marcado2 = IntVar()
-        mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-        mot2.place(x=30, y=170)                
-        
-        marcado3 = IntVar()
-        mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-        mot3.place(x=30, y=240)
-        
-        marcado4 = IntVar()
-        mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-        mot4.place(x=30, y=320)
-        
-        confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', border=0, relief='flat', font=('arial', 12), width=10, command = lambda:self.analisar_pausa())
-        confirmar.place(x=210,y=400)
-        
-        self.janelaPause.mainloop()
+        else:
+            self.janelaPause.lift()
+    
+    def close_janela_pause(self):
+        self.janelaPause.destroy()
+        self.focojanelaPause = None
         
     def analisar_pausa(self):        
         
@@ -1664,7 +1680,8 @@ class LoginAdmnistracao:
         
         elif self.resultPausa == '':
             
-            messagebox.showerror('Alerta','Marque uma Opção!')
+            if messagebox.showerror('Alerta','Marque uma Opção!'):
+                self.janelaPause.lift()
             
         else:
             self.contagem_pausada()
