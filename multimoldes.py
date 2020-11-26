@@ -442,9 +442,12 @@ class LoginAdmnistracao:
         self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
         self.sair.place(x=1180,y=20)
         
+        self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=3)
+        self.frameBotIniciar.place(x=220, y=200)        
+        
         #Botão inciar a contagem do cronômetro
-        self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
-        self.botaoInciarContador.place(x=220, y=200)
+        self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+        self.botaoInciarContador.pack()
             
             
     #------------------------------- (Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: verificar_adm() ------------------
@@ -1063,8 +1066,11 @@ class LoginAdmnistracao:
             
             self.tempOperando = '00:00:00'
             
-            self.botaoInciarContador = Button(self.frameRight, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
-            self.botaoInciarContador.place(x=220, y=200)
+            self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=3)
+            self.frameBotIniciar.place(x=220, y=200)
+            
+            self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+            self.botaoInciarContador.pack()
             
                     
         except Exception as erro:
@@ -1112,13 +1118,19 @@ class LoginAdmnistracao:
                     
         if self.chaveControle == False:
             
-            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='#b30000', activebackground='#b30000', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
-            self.botFinalizar.place(x=182, y=160)
+            self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=3)
+            self.botFrameFinalizar.place(x=182, y=160)
             
-            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
-            self.botPausar.place(x=182, y=260)
+            self.botFinalizar = Button(self.botFrameFinalizar, text='FINALIZAR.OS', bg='#b30000', activebackground='#b30000', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
+            self.botFinalizar.pack()
             
-            self.botaoInciarContador.destroy()
+            self.botFramePausar = Frame(self.frameRight, highlightbackground='black', highlightthickness=3)
+            self.botFramePausar.place(x=182, y=260)
+            
+            self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
+            self.botPausar.pack()
+            
+            self.frameBotIniciar.destroy()
             time = datetime.now().time()
             lista = [str(time)]
             recebe = ''
@@ -1397,8 +1409,8 @@ class LoginAdmnistracao:
             
             self.objetos_cores('#870000', 'white')
             self.imagemTempRel.destroy()                      
-            self.botFinalizar.destroy()
-            self.botPausar.destroy()
+            self.botFrameFinalizar.destroy()
+            self.botFramePausar.destroy()
             self.sair.destroy()
             
             self.labFinalizar = Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
@@ -1506,8 +1518,8 @@ class LoginAdmnistracao:
         
         #Se o cahveFinalizar foir verdadeira, o crobômetro para a contagem
         if self.chaveFinalizar == True:
-            self.botFinalizar.destroy()
-            self.botPausar.destroy()
+            self.botFrameFinalizar.destroy()
+            self.botFramePausar.destroy()
             
             self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado!',  bg='red', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=100, y=160)
@@ -1662,8 +1674,8 @@ class LoginAdmnistracao:
         self.janelaPause.destroy()
         self.tempoPausado = True
         self.chaveFinalizar = True
-        self.botFinalizar.destroy()
-        self.botPausar.destroy()
+        self.botFrameFinalizar.destroy()
+        self.botFramePausar.destroy()
         self.sair.destroy()
         
         try:
@@ -1720,11 +1732,17 @@ class LoginAdmnistracao:
             self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
             self.sair.place(x=1180,y=20)            
             
-            self.botFinalizar = Button(self.frameRight, text='FINALIZAR.OS', bg='#b30000', activebackground='#b30000', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
-            self.botFinalizar.place(x=182, y=160)
+            self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=3)
+            self.botFrameFinalizar.place(x=182, y=160)            
             
-            self.botPausar = Button(self.frameRight, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
-            self.botPausar.place(x=182, y=260)
+            self.botFinalizar = Button(self.botFrameFinalizar, text='FINALIZAR.OS', bg='#b30000', activebackground='#b30000', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
+            self.botFinalizar.pack()
+            
+            self.botFramePausar = Frame(self.frameRight, highlightbackground='black', highlightthickness=3)
+            self.botFramePausar.place(x=182, y=260)            
+            
+            self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
+            self.botPausar.pack()
             
             self.botao_iniciar()
             
