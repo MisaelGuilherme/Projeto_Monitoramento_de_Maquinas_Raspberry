@@ -1594,7 +1594,7 @@ class LoginAdmnistracao:
     def tentativa_pausar(self):
         
         def ok():
-            if marcado1.get() == 1 or marcado2.get() == 1 or marcado3.get() == 1 or marcado4.get() == 1:
+            if marcado1.get() == 1 or marcado2.get() == 1 or marcado3.get() == 1 or marcado4.get() == 1 or marcado5.get() == 1:
                 if marcado1.get() == 0:
                     mot1['state'] = DISABLED
                 else:
@@ -1614,14 +1614,19 @@ class LoginAdmnistracao:
                     mot4['state'] = DISABLED
                 else:
                     self.resultPausa = 'Intervalo Rápido'
+                
+                if marcado5.get() == 0:
+                    mot5['state'] = DISABLED
+                else:
+                    self.resultPausa = 'Falta Matéria Prima'
                     
             else:
                 mot1['state'] = ACTIVE
                 mot2['state'] = ACTIVE
                 mot3['state'] = ACTIVE
                 mot4['state'] = ACTIVE
+                mot5['state'] = ACTIVE
                 self.resultPausa = ''
-        
         
         if self.focojanelaPause is None:
             
@@ -1644,20 +1649,24 @@ class LoginAdmnistracao:
             motivo.place(x=20, y=20)
             
             marcado1 = IntVar()
-            mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=('arial',14,'bold'))
+            mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=('arial',12,'bold'))
             mot1.place(x=30, y=100)
             
             marcado2 = IntVar()
-            mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot2.place(x=30, y=170)                
+            mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',12,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot2.place(x=30, y=150)                
             
             marcado3 = IntVar()
-            mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot3.place(x=30, y=240)
+            mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',12,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot3.place(x=30, y=200)
             
             marcado4 = IntVar()
-            mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',14,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot4.place(x=30, y=320)
+            mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',12,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot4.place(x=30, y=250)
+            
+            marcado5 = IntVar()
+            mot5 = Checkbutton(self.janelaPause, text='Parada (Falta de Matéria Prima)', variable=marcado5, command=ok, font=('arial', 12, 'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot5.place(x=30, y=300)
             
             confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', border=0, relief='flat', font=('arial', 12), width=10, command = lambda:self.analisar_pausa())
             confirmar.place(x=210,y=400)
@@ -1670,6 +1679,7 @@ class LoginAdmnistracao:
             self.janelaPause.lift()
     
     def close_janela_pause(self):
+        
         self.janelaPause.destroy()
         self.focojanelaPause = None
         self.resultPausa = ''
