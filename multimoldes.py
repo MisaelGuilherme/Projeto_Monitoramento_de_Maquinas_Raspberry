@@ -438,9 +438,12 @@ class LoginAdmnistracao:
         self.campoProExt = Label(self.frameLeft, text=self.tempProgExt, width=15, font=('arial', 15, 'bold'), bg='white', fg='red')
         self.campoProExt.place(x=300, y=400)
         
+        self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
+        self.frameBotSair.place(x=1180, y=20)
+        
         #Invocando o botão sair(login) após o horário ser adcionado
-        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
-        self.sair.place(x=1180,y=20)
+        self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
+        self.sair.pack()
         
         self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
         self.frameBotIniciar.place(x=220, y=200)        
@@ -751,8 +754,11 @@ class LoginAdmnistracao:
         self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('play pretend', 40), fg='white', bg='#135565', width=15)
         self.multimolde.place(x=450, y=20)
         
-        self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
-        self.sair.place(x=1180,y=20)
+        self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
+        self.frameBotSair.place(x=1180, y=20)
+        
+        self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
+        self.sair.pack()
         #self.sair.place(x=largura/1.084, y=altura/36) #x = 1180 , y = 20
         #self.sair.place(x=aa/1.084, y=altura/36) #x = 1180 , y = 20
 
@@ -1413,7 +1419,7 @@ class LoginAdmnistracao:
             self.imagemTempRel.destroy()                      
             self.botFrameFinalizar.destroy()
             self.botFramePausar.destroy()
-            self.sair.destroy()
+            self.frameBotSair.destroy()
             
             self.labFinalizar = Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=150, y=150)
@@ -1705,7 +1711,7 @@ class LoginAdmnistracao:
         self.chaveFinalizar = True
         self.botFrameFinalizar.destroy()
         self.botFramePausar.destroy()
-        self.sair.destroy()
+        self.frameBotSair.destroy()
         
         try:
             time = datetime.now().time()
@@ -1758,8 +1764,11 @@ class LoginAdmnistracao:
             
             self.chaveFinalizar = False
             
-            self.sair = Button(self.frameTop, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', border=1, width=5, command=lambda:self.sairTela())
-            self.sair.place(x=1180,y=20)            
+            self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
+            self.frameBotSair.place(x=1180, y=20)
+            
+            self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
+            self.sair.pack()                     
             
             self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
             self.botFrameFinalizar.place(x=182, y=160)            
