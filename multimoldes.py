@@ -621,8 +621,6 @@ class LoginAdmnistracao:
             #verificando se a senha é númerica e possui 4 caracteres
             if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 4:
                 self.password = self.campoSenha.get()
-                users = self.campoLogin.get()
-                password = self.campoSenha.get()
                 
                 #tentamos conectar-se ao banco
                 try:
@@ -635,7 +633,7 @@ class LoginAdmnistracao:
                     #verificando se usuário existe no banco de dados
                     self.cursor = self.banco.cursor()
                     self.cursor.execute('use empresa_funcionarios')
-                    self.cursor.execute("select * from funcionarios where cpf = '"+users+"' and senha = '"+password+"'")
+                    self.cursor.execute("select * from funcionarios where cpf = '"+self.user+"' and senha = '"+self.password+"'")
                     valido = self.cursor.fetchall()
                     
                     #pegando hora atual de login caso encontrar resultado na busca
@@ -1729,7 +1727,7 @@ class LoginAdmnistracao:
             self.horaPause = recebe                        
             
             self.cursor.execute('use empresa_funcionarios')
-            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0')")
+            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0')")
             self.banco.commit()     
             
         except Exception as erro:
@@ -1818,7 +1816,7 @@ class LoginAdmnistracao:
         #Se a chaveControle for False significa que a operação foi finalizada e chaveTempExtra == 0: Significa que o usuário
         #ainda pode sair da tela mesmo tendo confirmado a OS antes de apertar o botão INICIAR
         elif self.chaveControle == False and self.chaveTempExtra == 0:
-            print('2')
+            
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
