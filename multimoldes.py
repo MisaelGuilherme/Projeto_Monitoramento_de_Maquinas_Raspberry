@@ -691,6 +691,7 @@ class LoginAdmnistracao:
         self.janelaOper.iconbitmap('img/multimoldes-icon.ico')
         self.janelaOper.configure(background='black')
         self.janelaOper.resizable(False, False)
+        self.janelaOper.overrideredirect(True)
         
         try:
             self.janelaOper.iconbitmap('img/multimoldes-icon.ico')
@@ -716,7 +717,7 @@ class LoginAdmnistracao:
         largRight = largura / 2.324
 
         #Configurando a Altura dos frames esquerdo e direito
-        altTop = altura / 5.5
+        altTop = altura / 5.0
         altLeft = altura / 1.261
         altRight = altura / 1.261
         
@@ -839,6 +840,8 @@ class LoginAdmnistracao:
         
         self.chaveFinalizar2 = False
         self.chaveControle2 = False
+        self.tempoPausado = False
+        self.osfinalizada = False
         
         #Variáveis responsáveis caso o "tempo gasto" ultrapasse o "tempo programado"
         self.chaveTempExtra = 0
@@ -1523,6 +1526,7 @@ class LoginAdmnistracao:
         que o tempo foi atingido dentro do limite.'''
         self.tempoPausado = False
         self.chaveFinalizar = True
+        self.osfinalizada = True
         
         #Se o cahveFinalizar foir verdadeira, o crobômetro para a contagem
         if self.chaveFinalizar == True:
@@ -1711,8 +1715,7 @@ class LoginAdmnistracao:
         self.chaveFinalizar = True
         self.botFrameFinalizar.destroy()
         self.botFramePausar.destroy()
-        self.frameBotSair.destroy()
-        
+                
         try:
             time = datetime.now().time()
             lista = [str(time)]
@@ -1762,13 +1765,7 @@ class LoginAdmnistracao:
         
         if self.chaveFinalizar == True:
             
-            self.chaveFinalizar = False
-            
-            self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
-            self.frameBotSair.place(x=1180, y=20)
-            
-            self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
-            self.sair.pack()                     
+            self.chaveFinalizar = False               
             
             self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
             self.botFrameFinalizar.place(x=182, y=160)            
@@ -1781,6 +1778,7 @@ class LoginAdmnistracao:
             
             self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
             self.botPausar.pack()
+            self.tempoPausado = False
             
             self.focojanelaPause = None
             
@@ -1801,21 +1799,31 @@ class LoginAdmnistracao:
         alerta informando que o programa ainda está sendo executado, e só 
         permitira sair ao encerrar a operação, '''
             
-        #Se a chave for True significa que a operação foi finalizada
-        if self.chaveFinalizar == True:
+        #Se a chaveFinalizar for True e osfinalizada for True significa que o operário conclui/finalizou a peça e poderá sair
+        if self.chaveFinalizar == True and self.osfinalizada == True:
             
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
                 self.__init__()
         
-        #Se a chaveContre for False significa que a operação foi finalizada
-        elif self.chaveControle == False and self.chaveTempExtra == 0:
+        #Se a chaveFinalizar and tempoPausado for True significa que o tempo foi pausado, e operário poderá sair
+        elif self.chaveFinalizar and self.tempoPausado == True:
             
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
+                self.__init__()        
+        
+        #Se a chaveControle for False significa que a operação foi finalizada e chaveTempExtra == 0: Significa que o usuário
+        #ainda pode sair da tela mesmo tendo confirmado a OS antes de apertar o botão INICIAR
+        elif self.chaveControle == False and self.chaveTempExtra == 0:
+            print('2')
+            if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+                
+                self.janelaOper.destroy()
                 self.__init__()
+
         
         #Senão significa que o cronômetro ainda está em execução
         else:
