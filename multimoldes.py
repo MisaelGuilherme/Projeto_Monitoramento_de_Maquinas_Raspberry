@@ -3,6 +3,7 @@
 
 from datetime import *
 from tkinter import *
+from tkinter import ttk
 from time import sleep
 from tkinter import messagebox
 import mysql.connector
@@ -685,16 +686,9 @@ class LoginAdmnistracao:
     def tela_de_operacao(self):
 
         self.janelaOper = Tk()
-        self.janelaOper.title('Tela de Monitoramento')
-        self.janelaOper.iconbitmap('img/multimoldes-icon.ico')
         self.janelaOper.configure(background='black')
         self.janelaOper.resizable(False, False)
         self.janelaOper.overrideredirect(True)
-        
-        try:
-            self.janelaOper.iconbitmap('img/multimoldes-icon.ico')
-        except:
-            pass
         
         #Obtendo medidas da tela
         largura = self.janelaOper.winfo_screenwidth()
@@ -860,7 +854,14 @@ class LoginAdmnistracao:
                 
         self.janelaOper.protocol('WM_DELETE_WINDOW', close)
         
-        self.janelaOper.mainloop()
+        self.cursor.execute("use empresa_funcionarios")
+        self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
+        valido = self.cursor.fetchall()
+        if len(valido) >= 1:
+            if messagebox.askyesno('OS Pendente', 'Você tem OS pendente, Deseja Ver?'):
+                self.verificação_de_OS()
+        
+
         
     def confirmarCampos(self, event):
         
