@@ -864,47 +864,65 @@ class LoginAdmnistracao:
         self.janelaOper.mainloop()
     
     def verificação_de_OS(self):
+        
+        #Criando janela e configurando
         self.janelaOsPendente = Toplevel()
         self.janelaOsPendente.title('OS Pausadas')
         self.janelaOsPendente.geometry('400x400')
-        #self.janelaOsPendente.resizable(False, False)
+        self.janelaOsPendente.resizable(False, False)
         self.janelaOsPendente.configure(background='white')
         
+        #Invocando função para centralizar a janela ao centro
         self.centraliza_tela(400, 400, self.janelaOsPendente)
         
+        #criando um list box onde irá ficar armazenado as OS com pendências
         lista = Listbox(self.janelaOsPendente, font=('arial', 10, 'bold'), width=25)
         lista.pack(side='right', fill='y')
         
+        #titulo central da janela
         titulo = Label(self.janelaOsPendente, text='OS Pendentes', bg='white', fg='#135565', font=('arial', 20, 'bold'))
         titulo.place(x=15, y=20)
         
+        #armazenando logo da empresa em uma variável
         image = PhotoImage(file='img/logo-multimoldes.png')
+        
+        #exibindo label com a imagem já carregada
         logo = Label(self.janelaOsPendente, image=image, bg='white')
         logo.place(x=40, y=130)
         
+        #criando lista onde irá capturar as os e numéros de pelas para exibir na list box
         pendente = []
         
-        
+        #executando cursor com o banco de dados para verificar novamente se existe os pausadas não finalizadas
         self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
         valido = self.cursor.fetchall()
+        
+        #se valido for igual a 1 ou mais, significa que o funcionário possui
         if len(valido) >= 1:        
             for c in range(0, len(valido)):
+                
+                #extraindo do banco de dados as informações e armazenando nas variáveis
                 os = valido[0][4]
                 peca = valido[0][3]
                 trabalho = valido[0][5]
                 juntos = ' '+os+' '+peca+' '+trabalho
+                
+                #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
                 pendente.append(juntos)
-        
+
+            #utilizando estrutura de repetição para inserir os dados obtidos já armazenado na lista pendente para o list box
             for os in pendente:
                 lista.insert(END, os)
         
         def os_select():
             a = lista.get(ACTIVE)
             print(a.split())
-                
+        
+        #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
         botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 12, 'bold'), command=os_select)
         botaoConfirmar.place(x=60, y=320)
         
+        #finalizando o loop da janela
         self.janelaOsPendente.mainloop()
             
         
