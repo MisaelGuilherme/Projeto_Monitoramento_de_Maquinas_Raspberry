@@ -861,7 +861,52 @@ class LoginAdmnistracao:
             if messagebox.askyesno('OS Pendente', 'Você tem OS pendente, Deseja Ver?'):
                 self.verificação_de_OS()
         
-
+        self.janelaOper.mainloop()
+    
+    def verificação_de_OS(self):
+        self.janelaOsPendente = Toplevel()
+        self.janelaOsPendente.title('OS Pausadas')
+        self.janelaOsPendente.geometry('400x400')
+        #self.janelaOsPendente.resizable(False, False)
+        self.janelaOsPendente.configure(background='white')
+        
+        self.centraliza_tela(400, 400, self.janelaOsPendente)
+        
+        lista = Listbox(self.janelaOsPendente, font=('arial', 10, 'bold'), width=25)
+        lista.pack(side='right', fill='y')
+        
+        titulo = Label(self.janelaOsPendente, text='OS Pendentes', bg='white', fg='#135565', font=('arial', 20, 'bold'))
+        titulo.place(x=15, y=20)
+        
+        image = PhotoImage(file='img/logo-multimoldes.png')
+        logo = Label(self.janelaOsPendente, image=image, bg='white')
+        logo.place(x=40, y=130)
+        
+        pendente = []
+        
+        
+        self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
+        valido = self.cursor.fetchall()
+        if len(valido) >= 1:        
+            for c in range(0, len(valido)):
+                os = valido[0][4]
+                peca = valido[0][3]
+                trabalho = valido[0][5]
+                juntos = ' '+os+' '+peca+' '+trabalho
+                pendente.append(juntos)
+        
+            for os in pendente:
+                lista.insert(END, os)
+        
+        def os_select():
+            a = lista.get(ACTIVE)
+            print(a.split())
+                
+        botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 12, 'bold'), command=os_select)
+        botaoConfirmar.place(x=60, y=320)
+        
+        self.janelaOsPendente.mainloop()
+            
         
     def confirmarCampos(self, event):
         
