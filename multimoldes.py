@@ -926,7 +926,27 @@ class LoginAdmnistracao:
             #Armazenando o Código da Peça selecionado em uma variável e inserindo em um campo de texto
             self.campoPeca.insert(0, d)
             
-
+            #Usando o banco empresa funcionário
+            self.cursor.execute('use empresa_funcionarios')
+            
+            #buscando o nº de OS e o Código da Peça
+            self.cursor.execute('select * from monitoria_funcionarios where OS = '+str(c)+' and codigoPeca = '+d)
+            valido = self.cursor.fetchall()
+            
+            #Armazenando imagem com visto - Imagem de Selecionado
+            self.checkSelect = PhotoImage(file='img/verifica.png')
+            
+            #Se valido for igual a 0 significa que não uma OS finalizada, então a imagem selecionará como Nova OS
+            if len(valido) == 0:
+                        
+                self.novoSelect['image'] = self.checkSelect
+                self.tipo = 'Nova OS'
+            
+            #Se valido for diferente de 0 significa que já possui uma OS finalizada, então a imagem selecionará Retrabalho
+            else:
+                        
+                self.retrabalhoSelect['image'] = self.checkSelect
+                self.tipo = 'Retrabalhar OS'
                 
             
             self.janelaOsPendente.destroy()
