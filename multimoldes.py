@@ -902,10 +902,10 @@ class LoginAdmnistracao:
             for c in range(0, len(valido)):
                 
                 #extraindo do banco de dados as informações e armazenando nas variáveis
-                os = valido[0][4]
-                peca = valido[0][3]
-                trabalho = valido[0][5]
-                juntos = ' '+os+' '+peca+' '+trabalho
+                os = valido[c][4]
+                peca = valido[c][3]
+                servico = valido[c][5]
+                juntos = ' '+os+' '+peca+' '+servico
                 
                 #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
                 pendente.append(juntos)
@@ -915,8 +915,21 @@ class LoginAdmnistracao:
                 lista.insert(END, os)
         
         def os_select():
+            #Lógica para pegar a OS selecionada
             a = lista.get(ACTIVE)
-            print(a.split())
+            b = a.split()
+            c = b[0]
+            #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
+            self.campoServico.insert(0, c)
+            
+            d = b[1]
+            #Armazenando o Código da Peça selecionado em uma variável e inserindo em um campo de texto
+            self.campoPeca.insert(0, d)
+            
+
+                
+            
+            self.janelaOsPendente.destroy()
         
         #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
         botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 12, 'bold'), command=os_select)
