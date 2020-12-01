@@ -639,17 +639,10 @@ class LoginAdmnistracao:
                     
                     #pegando hora atual de login caso encontrar resultado na busca
                     if len(valido) == 1:
+                        
                         self.operador = valido[0][1]
-                        time = datetime.now().time()
-                        lista = [str(time)]
-                        recebe = ''
-                        for c in lista:
-                            for i in c:
-                                if i == '.':
-                                    break
-                                else:
-                                    recebe += i
-                        self.horaLogin = recebe                        
+                        time = datetime.now().time().strftime('%H:%M:%S')
+                        self.horaLogin = time
                         self.janelaFuncio.destroy()
                         self.tela_de_operacao()
                     
@@ -992,7 +985,7 @@ class LoginAdmnistracao:
                         self.tipo = 'Nova OS'
                         
                         #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
-                        self.botaoConfirmarOS(1)
+                        self.botaoConfirmarOS()
                             
                     else:
                         
@@ -1000,7 +993,7 @@ class LoginAdmnistracao:
                         self.tipo = 'Retrabalhar OS'
                         
                         #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
-                        self.botaoConfirmarOS(1)
+                        self.botaoConfirmarOS()
                     
                     
             except Exception as erro:
@@ -1240,16 +1233,9 @@ class LoginAdmnistracao:
             self.focojanelaPause = None
             
             self.frameBotIniciar.destroy()
-            time = datetime.now().time()
-            lista = [str(time)]
-            recebe = ''
-            for c in lista:
-                for i in c:
-                    if i == '.':
-                        break
-                    else:
-                        recebe += i
-            self.horaInicial = recebe
+            
+            time = datetime.now().time().strftime('%H:%M:%S')
+            self.horaInicial = time
             
             self.objetos_cores('green', 'white')
             
@@ -1635,18 +1621,9 @@ class LoginAdmnistracao:
             self.labFinalizar.place(x=100, y=160)
             
             #Pegando a hora atual em que o processo foi finalizado
-            time = datetime.now().time()
+            time = datetime.now().time().strftime('%H:%M:%S')
             
-            #Utilizando formula para não pegar os milisegundos
-            lista = [str(time)]
-            recebe = ''
-            for c in lista:
-                for i in c:
-                    if i == '.':
-                        break
-                    else:
-                        recebe += i
-            horaFinal = recebe
+            horaFinal = time
             
             #Tempo formatado para enviar ao banco
             if self.chaveTempExtra == 0:
@@ -1815,16 +1792,9 @@ class LoginAdmnistracao:
         self.botFramePausar.destroy()
                 
         try:
-            time = datetime.now().time()
-            lista = [str(time)]
-            recebe = ''
-            for c in lista:
-                for i in c:
-                    if i == '.':
-                        break
-                    else:
-                        recebe += i
-            self.horaPause = recebe                        
+            time = datetime.now().time().strftime('%H:%M:%S')
+            
+            self.horaPause = time
             
             self.cursor.execute('use empresa_funcionarios')
             self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0')")
@@ -1840,16 +1810,9 @@ class LoginAdmnistracao:
     def contagem_despausar(self):
         try:
             
-            time = datetime.now().time()
-            lista = [str(time)]
-            recebe = ''
-            for c in lista:
-                for i in c:
-                    if i == '.':
-                        break
-                    else:
-                        recebe += i
-            self.horaRetomada = recebe
+            time = datetime.now().time().strftime('%H:%M:%S')
+            
+            self.horaRetomada = time
             print(self.horaRetomada)
             self.cursor.execute('use empresa_funcionarios')
             self.cursor.execute("update pausa_funcionarios set horaRetomada = '"+self.horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaPause = '"+self.horaPause+"' and horaRetomada = 0 ")
