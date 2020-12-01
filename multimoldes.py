@@ -1522,6 +1522,9 @@ class LoginAdmnistracao:
         self.minutes['text'] = self.minuC
         self.hours['text'] = self.houC    
         
+        #Amarzenado tempo caso der pausa no cronômetro, os dados serão enviados ao banco para tabela pausa_funcionarios
+        self.tempoMarcado = self.houC+':'+self.minuC+':'+self.secC
+        
         
         #Sub-função: Caso o usuário tente fechar o programa no X enquanto o mesmo ainda estiver executando, ou quando o tempo estiver esgotado. Porém se ele tiver finalizado a OS ele poderá sair e fechar o programa.
         def close():
@@ -1802,7 +1805,7 @@ class LoginAdmnistracao:
             dateInicial = datetime.now().date().strftime('%d/%m/%Y')
             
             self.cursor.execute('use empresa_funcionarios')
-            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0', '"+str(dateInicial)+"')")
+            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0', '"+str(dateInicial)+"','"+self.tempoMarcado+"')")
             self.banco.commit()     
             
         except Exception as erro:
