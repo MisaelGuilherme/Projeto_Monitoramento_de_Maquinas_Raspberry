@@ -915,10 +915,12 @@ class LoginAdmnistracao:
                 lista.insert(END, os)
         
         def os_select():
+            
             #Lógica para pegar a OS selecionada
             a = lista.get(ACTIVE)
             b = a.split()
             c = b[0]
+            
             #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
             self.campoServico.insert(0, c)
             
@@ -948,7 +950,6 @@ class LoginAdmnistracao:
                 self.retrabalhoSelect['image'] = self.checkSelect
                 self.tipo = 'Retrabalhar OS'
                 
-            
             self.janelaOsPendente.destroy()
         
         #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
@@ -990,14 +991,16 @@ class LoginAdmnistracao:
                         self.novoSelect['image'] = self.checkSelect
                         self.tipo = 'Nova OS'
                         
-                        self.botaoConfirmarOS()
+                        #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
+                        self.botaoConfirmarOS(1)
                             
                     else:
                         
                         self.retrabalhoSelect['image'] = self.checkSelect
                         self.tipo = 'Retrabalhar OS'
                         
-                        self.botaoConfirmarOS()
+                        #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
+                        self.botaoConfirmarOS(1)
                     
                     
             except Exception as erro:
