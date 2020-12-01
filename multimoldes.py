@@ -861,15 +861,15 @@ class LoginAdmnistracao:
         #Criando janela e configurando
         self.janelaOsPendente = Toplevel()
         self.janelaOsPendente.title('OS Pausadas')
-        self.janelaOsPendente.geometry('400x400')
+        self.janelaOsPendente.geometry('550x400')
         self.janelaOsPendente.resizable(False, False)
         self.janelaOsPendente.configure(background='white')
         
         #Invocando função para centralizar a janela ao centro
-        self.centraliza_tela(400, 400, self.janelaOsPendente)
+        self.centraliza_tela(550, 400, self.janelaOsPendente)
         
         #criando um list box onde irá ficar armazenado as OS com pendências
-        lista = Listbox(self.janelaOsPendente, font=('arial', 10, 'bold'), width=25)
+        lista = Listbox(self.janelaOsPendente, font=('arial', 10, 'bold'), width=45)
         lista.pack(side='right', fill='y')
         
         #titulo central da janela
@@ -898,7 +898,9 @@ class LoginAdmnistracao:
                 os = valido[c][4]
                 peca = valido[c][3]
                 servico = valido[c][5]
-                juntos = ' '+os+' '+peca+' '+servico
+                tempMarcado = valido[c][9]
+                data = valido[c][8]
+                juntos = ' '+os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+')'
                 
                 #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
                 pendente.append(juntos)
