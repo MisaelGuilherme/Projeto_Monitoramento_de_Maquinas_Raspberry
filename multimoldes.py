@@ -1234,8 +1234,9 @@ class LoginAdmnistracao:
             
             self.frameBotIniciar.destroy()
             
-            time = datetime.now().time().strftime('%H:%M:%S')
-            self.horaInicial = time
+            #Atribuindo a Hora Incial atual e a Data Inicial atual nas respectivas variáveis
+            self.horaInicial = time = datetime.now().time().strftime('%H:%M:%S')
+            self.dateInicial = datetime.now().date().strftime('%d/%m/%Y')
             
             self.objetos_cores('green', 'white')
             
@@ -1623,7 +1624,9 @@ class LoginAdmnistracao:
             #Pegando a hora atual em que o processo foi finalizado
             time = datetime.now().time().strftime('%H:%M:%S')
             
+            #Atribuindo a Hora Final atual e a Data Final atual nas respectivas variáveis
             horaFinal = time
+            dateFinal = datetime.now().date().strftime('%d/%m/%Y')
             
             #Tempo formatado para enviar ao banco
             if self.chaveTempExtra == 0:
@@ -1658,7 +1661,9 @@ class LoginAdmnistracao:
                                     +str(self.operador)+"','"
                                     +str(self.horaLogin)+"','"
                                     +str(self.horaInicial)+"','"
+                                    +str(self.dateInicial)+"','"
                                     +str(horaFinal)+"','"
+                                    +str(dateFinal)+"','"
                                     +self.tempGasto+"','"
                                     +str(self.tempProg)+"','"
                                     +self.codP+"','"
@@ -1792,12 +1797,12 @@ class LoginAdmnistracao:
         self.botFramePausar.destroy()
                 
         try:
-            time = datetime.now().time().strftime('%H:%M:%S')
-            
-            self.horaPause = time
+            #Capturando a hora inicial e a data atual em que o modo pause foi iniciado, em seguida inserir no banco de dados
+            self.horaPause = datetime.now().time().strftime('%H:%M:%S')
+            dateInicial = datetime.now().date().strftime('%d/%m/%Y')
             
             self.cursor.execute('use empresa_funcionarios')
-            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0')")
+            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0', '"+str(dateInicial)+"')")
             self.banco.commit()     
             
         except Exception as erro:
