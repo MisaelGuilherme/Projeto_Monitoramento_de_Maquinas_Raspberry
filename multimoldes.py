@@ -900,7 +900,7 @@ class LoginAdmnistracao:
                 servico = valido[c][5]
                 tempMarcado = valido[c][10]
                         
-                data = valido[c][8]
+                data = valido[c][7]
                 juntos = os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+')'
 
                 #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
@@ -1831,7 +1831,7 @@ class LoginAdmnistracao:
             dateInicial = datetime.now().date().strftime('%d/%m/%Y')
             
             self.cursor.execute('use empresa_funcionarios')
-            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+horaPause+"','0', '"+str(dateInicial)+"', '0' ,'"+self.tempoMarcado+"')")
+            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+horaPause+"', '"+str(dateInicial)+"', '0', '0' ,'"+self.tempoMarcado+"')")
             self.banco.commit()
             
         except Exception as erro:
@@ -1850,36 +1850,48 @@ class LoginAdmnistracao:
             
             self.cursor.execute('use empresa_funcionarios')
             
+            #Atualizando banco de dados com a data retomada após a função responsável por despausar for invocada
             self.cursor.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
             self.banco.commit()
             
+            #Atualizando banco de dados com a hora retomada após a função responsável por despausar for invocada
             self.cursor.execute("update pausa_funcionarios set horaRetomada = '"+horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
             self.banco.commit()
             
-            
+        #Excessão carro algum erro ocorra um mensagebox aparecerá informando o corrido
         except Exception as erro:
             print(erro)
             messagebox.showerror('08-Error-Servidor', '08-Error: Não acesso ao servidor.')
-            
+        
+        #Destruindo botão despausar devido a função despausar foi invocada
         self.botDespausar.destroy()
         
+        #Enquanto a chaveFinalizar estiver True significa que o tempo está parado
         if self.chaveFinalizar == True:
             
+            #com a função despausar invocada, chaveFinalizar fica True e o tempo pode continuar cronometrando
             self.chaveFinalizar = False               
             
+            #Criando frame para fazer uma borda pro botão botFinalizar
             self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
             self.botFrameFinalizar.place(x=182, y=160)            
             
+            #Criando botão Finalizar para concluir a OS
             self.botFinalizar = Button(self.botFrameFinalizar, text='FINALIZAR.OS', bg='#b30000', activebackground='#b30000', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
             self.botFinalizar.pack()
             
+            #Criando frame para fazer uma borda pro botão botPausar
             self.botFramePausar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
             self.botFramePausar.place(x=182, y=260)            
             
+            #Criando botão Pausar para parar a OS 
             self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
             self.botPausar.pack()
+            
+            #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
             
+            #Variável responsável por fazer o controle da janela Motivo da Pause, quando None significa que não há janela em foco
             self.focojanelaPause = None
             
             #self.botao_iniciar()
