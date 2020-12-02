@@ -898,7 +898,7 @@ class LoginAdmnistracao:
                 os = valido[c][4]
                 peca = valido[c][3]
                 servico = valido[c][5]
-                tempMarcado = valido[c][9]
+                tempMarcado = valido[c][10]
                         
                 data = valido[c][8]
                 juntos = os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+')'
@@ -917,7 +917,6 @@ class LoginAdmnistracao:
                     self.tempoDePauseObtido += c
                 else:
                     self.tempoDePauseObtido +=' '
-            self.tempoDePauseObtido = self.tempoDePauseObtido.split()
             
         def os_select():
             
@@ -1192,9 +1191,10 @@ class LoginAdmnistracao:
                 
                 #Configurando o tempo do cronômetro para o tempo exato de uma OS Pausada em pendência caso a função tenha sido chamada pela janela de OS pausadas ainda pendente
                 
-                self.hours['text'] = self.tempoDePauseObtido[0]
-                self.minutes['text'] = self.tempoDePauseObtido[1]
-                self.seconds['text'] = self.tempoDePauseObtido[2]
+                vetor = self.tempoDePauseObtido.split()
+                self.hours['text'] = vetor[0]
+                self.minutes['text'] = vetor[1]
+                self.seconds['text'] = vetor[2]
                 
                 self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar())
                 self.botDespausar.place(x=172, y=220)                
@@ -1827,12 +1827,12 @@ class LoginAdmnistracao:
                 
         try:
             #Capturando a hora inicial e a data atual em que o modo pause foi iniciado, em seguida inserir no banco de dados
-            self.horaPause = datetime.now().time().strftime('%H:%M:%S')
+            horaPause = datetime.now().time().strftime('%H:%M:%S')
             dateInicial = datetime.now().date().strftime('%d/%m/%Y')
             
             self.cursor.execute('use empresa_funcionarios')
-            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+self.horaPause+"','0', '"+str(dateInicial)+"','"+self.tempoMarcado+"')")
-            self.banco.commit()     
+            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+horaPause+"','0', '"+str(dateInicial)+"', '0' ,'"+self.tempoMarcado+"')")
+            self.banco.commit()
             
         except Exception as erro:
             print(erro)
@@ -1844,13 +1844,18 @@ class LoginAdmnistracao:
     def contagem_despausar(self):
         try:
             
-            time = datetime.now().time().strftime('%H:%M:%S')
+            #Capturando a hora e a data atual em que a OS foi despausada, em seguida inserir no banco de dados
+            horaRetomada = datetime.now().time().strftime('%H:%M:%S')
+            dateFinal = datetime.now().date().strftime('%d/%m/%Y')
             
-            self.horaRetomada = time
-            print(self.horaRetomada)
             self.cursor.execute('use empresa_funcionarios')
-            self.cursor.execute("update pausa_funcionarios set horaRetomada = '"+self.horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaPause = '"+self.horaPause+"' and horaRetomada = 0 ")
-            self.banco.commit()     
+            
+            self.cursor.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
+            self.banco.commit()
+            
+            self.cursor.execute("update pausa_funcionarios set horaRetomada = '"+horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
+            self.banco.commit()
+            
             
         except Exception as erro:
             print(erro)
@@ -1877,7 +1882,7 @@ class LoginAdmnistracao:
             
             self.focojanelaPause = None
             
-            self.botao_iniciar()
+            #self.botao_iniciar()
             
     
     def nova_tela_operacao(self):
