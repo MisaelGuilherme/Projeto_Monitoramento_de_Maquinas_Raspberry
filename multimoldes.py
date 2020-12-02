@@ -899,16 +899,26 @@ class LoginAdmnistracao:
                 peca = valido[c][3]
                 servico = valido[c][5]
                 tempMarcado = valido[c][9]
+                        
                 data = valido[c][8]
-                juntos = ' '+os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+')'
-                
+                juntos = os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+')'
+
                 #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
                 pendente.append(juntos)
 
             #utilizando estrutura de repetição para inserir os dados obtidos já armazenado na lista pendente para o list box
             for os in pendente:
                 lista.insert(END, os)
-        
+
+            #Lógica para obter o tempo marcado no momento da pause de forma formatada para configurar o tempo de retomada
+            self.tempoDePauseObtido = ''
+            for c in tempMarcado:
+                if c != ':':
+                    self.tempoDePauseObtido += c
+                else:
+                    self.tempoDePauseObtido +=' '
+            self.tempoDePauseObtido = self.tempoDePauseObtido.split()
+            
         def os_select():
             
             #Lógica para pegar a OS selecionada
@@ -919,7 +929,7 @@ class LoginAdmnistracao:
             #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
             self.campoServico.insert(0, c)
             
-            d = b[1]
+            d = b[2]
             #Armazenando o Código da Peça selecionado em uma variável e inserindo em um campo de texto
             self.campoPeca.insert(0, d)
             
@@ -944,7 +954,9 @@ class LoginAdmnistracao:
                         
                 self.retrabalhoSelect['image'] = self.checkSelect
                 self.tipo = 'Retrabalhar OS'
-                
+            
+            self.botaoConfirmarOS(2)
+            
             self.janelaOsPendente.destroy()
         
         #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
@@ -987,7 +999,7 @@ class LoginAdmnistracao:
                         self.tipo = 'Nova OS'
                         
                         #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
-                        self.botaoConfirmarOS()
+                        self.botaoConfirmarOS(1)
                             
                     else:
                         
@@ -995,7 +1007,7 @@ class LoginAdmnistracao:
                         self.tipo = 'Retrabalhar OS'
                         
                         #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
-                        self.botaoConfirmarOS()
+                        self.botaoConfirmarOS(1)
                     
                     
             except Exception as erro:
@@ -1003,7 +1015,7 @@ class LoginAdmnistracao:
                 messagebox.showerror('04-Error-Servidor', '04-Error: Não acesso ao servidor.')
   
         
-    def botaoConfirmarOS(self):
+    def botaoConfirmarOS(self, opcao):
         
         self.logoMarcaRight.destroy()
         self.numOS = str(self.campoServico.get())
@@ -1168,12 +1180,24 @@ class LoginAdmnistracao:
             
             self.tempOperando = '00:00:00'
             
-            self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
-            self.frameBotIniciar.place(x=220, y=200)
+            if opcao == 1:
             
-            self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
-            self.botaoInciarContador.pack()
+                self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
+                self.frameBotIniciar.place(x=220, y=200)
+                
+                self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+                self.botaoInciarContador.pack()
             
+            elif opcao == 2:
+                
+                #Configurando o tempo do cronômetro para o tempo exato de uma OS Pausada em pendência caso a função tenha sido chamada pela janela de OS pausadas ainda pendente
+                
+                self.hours['text'] = self.tempoDePauseObtido[0]
+                self.minutes['text'] = self.tempoDePauseObtido[1]
+                self.seconds['text'] = self.tempoDePauseObtido[2]
+                
+                self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar())
+                self.botDespausar.place(x=172, y=220)                
                     
         except Exception as erro:
             print(erro)
@@ -1815,7 +1839,7 @@ class LoginAdmnistracao:
             messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
         
         self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar())
-        self.botDespausar.place(x=172, y=220)        
+        self.botDespausar.place(x=172, y=220)
     
     def contagem_despausar(self):
         try:
