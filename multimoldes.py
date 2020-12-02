@@ -450,7 +450,7 @@ class LoginAdmnistracao:
         self.frameBotIniciar.place(x=220, y=200)        
         
         #Botão inciar a contagem do cronômetro
-        self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+        self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar(1))
         self.botaoInciarContador.pack()
             
             
@@ -1184,7 +1184,7 @@ class LoginAdmnistracao:
                 self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
                 self.frameBotIniciar.place(x=220, y=200)
                 
-                self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar())
+                self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar(1))
                 self.botaoInciarContador.pack()
             
             elif opcao == 2:
@@ -1195,6 +1195,8 @@ class LoginAdmnistracao:
                 self.hours['text'] = vetor[0]
                 self.minutes['text'] = vetor[1]
                 self.seconds['text'] = vetor[2]
+                
+                self.chaveFinalizar = True
                 
                 self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar())
                 self.botDespausar.place(x=172, y=220)                
@@ -1237,7 +1239,7 @@ class LoginAdmnistracao:
         self.codigoPeca['fg'] = cor2
         self.tempoProgramado['fg'] = cor2
                 
-    def botao_iniciar(self):
+    def botao_iniciar(self, iniciaCont):
         
         if self.chaveControle2 == True:
             self.iniciarContOper()
@@ -1267,7 +1269,7 @@ class LoginAdmnistracao:
             self.objetos_cores('green', 'white')
             
             self.chaveControle = True
-
+        
         #Congfigurando os segundos do temporizador
         if self.sec == None:
             self.sec = 0
@@ -1576,7 +1578,7 @@ class LoginAdmnistracao:
         
         #Se a chave for false significar que ainda está em operação
         if self.chaveFinalizar == False:
-            self.seconds.after(1000, self.botao_iniciar)
+            self.seconds.after(1000, self.botao_iniciar, iniciaCont)
 
     def iniciarContOper(self):
 
@@ -1894,7 +1896,7 @@ class LoginAdmnistracao:
             #Variável responsável por fazer o controle da janela Motivo da Pause, quando None significa que não há janela em foco
             self.focojanelaPause = None
             
-            #self.botao_iniciar()
+            #self.botao_iniciar(2)
             
     
     def nova_tela_operacao(self):
