@@ -1198,7 +1198,7 @@ class LoginAdmnistracao:
                 
                 self.chaveFinalizar = True
                 
-                self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar())
+                self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(2))
                 self.botDespausar.place(x=172, y=220)                
                     
         except Exception as erro:
@@ -1260,16 +1260,29 @@ class LoginAdmnistracao:
             
             self.focojanelaPause = None
             
-            self.frameBotIniciar.destroy()
+            if iniciaCont == 1:
+                
+                self.frameBotIniciar.destroy()
+                
+                #Atribuindo a Hora Incial atual e a Data Inicial atual nas respectivas variáveis
+                self.horaInicial = time = datetime.now().time().strftime('%H:%M:%S')
+                self.dateInicial = datetime.now().date().strftime('%d/%m/%Y')
+                
+                self.objetos_cores('green', 'white')
+                
+                self.horaInit = 0
+                self.minuInit = 0
+                self.seguInit = 0
             
-            #Atribuindo a Hora Incial atual e a Data Inicial atual nas respectivas variáveis
-            self.horaInicial = time = datetime.now().time().strftime('%H:%M:%S')
-            self.dateInicial = datetime.now().date().strftime('%d/%m/%Y')
-            
-            self.objetos_cores('green', 'white')
+            elif iniciaCont == 2:
+                
+                vetor = self.tempoDePauseObtido.split()
+                self.horaInit = vetor[0]
+                self.minuInit = vetor[1]
+                self.seguInit = vetor[2]
             
             self.chaveControle = True
-        
+            
         #Congfigurando os segundos do temporizador
         if self.sec == None:
             self.sec = 0
@@ -1840,10 +1853,10 @@ class LoginAdmnistracao:
             print(erro)
             messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
         
-        self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar())
+        self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(1))
         self.botDespausar.place(x=172, y=220)
     
-    def contagem_despausar(self):
+    def contagem_despausar(self, despause):
         try:
             
             #Capturando a hora e a data atual em que a OS foi despausada, em seguida inserir no banco de dados
@@ -1874,21 +1887,22 @@ class LoginAdmnistracao:
             #com a função despausar invocada, chaveFinalizar fica True e o tempo pode continuar cronometrando
             self.chaveFinalizar = False               
             
-            #Criando frame para fazer uma borda pro botão botFinalizar
-            self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
-            self.botFrameFinalizar.place(x=182, y=160)            
-            
-            #Criando botão Finalizar para concluir a OS
-            self.botFinalizar = Button(self.botFrameFinalizar, text='FINALIZAR.OS', bg='#b30000', activebackground='#b30000', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
-            self.botFinalizar.pack()
-            
-            #Criando frame para fazer uma borda pro botão botPausar
-            self.botFramePausar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
-            self.botFramePausar.place(x=182, y=260)            
-            
-            #Criando botão Pausar para parar a OS 
-            self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
-            self.botPausar.pack()
+            if despause == 1:
+                #Criando frame para fazer uma borda pro botão botFinalizar
+                self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
+                self.botFrameFinalizar.place(x=182, y=160)            
+                
+                #Criando botão Finalizar para concluir a OS
+                self.botFinalizar = Button(self.botFrameFinalizar, text='FINALIZAR.OS', bg='#b30000', activebackground='#b30000', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.contagemFinalizada())
+                self.botFinalizar.pack()
+                
+                #Criando frame para fazer uma borda pro botão botPausar
+                self.botFramePausar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
+                self.botFramePausar.place(x=182, y=260)            
+                
+                #Criando botão Pausar para parar a OS 
+                self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
+                self.botPausar.pack()
             
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
@@ -1896,7 +1910,7 @@ class LoginAdmnistracao:
             #Variável responsável por fazer o controle da janela Motivo da Pause, quando None significa que não há janela em foco
             self.focojanelaPause = None
             
-            #self.botao_iniciar(2)
+            self.botao_iniciar(2)
             
     
     def nova_tela_operacao(self):
