@@ -1284,11 +1284,17 @@ class LoginAdmnistracao:
             self.chaveControle = True
             
         #Congfigurando os segundos do temporizador
-        if self.sec == None:
+        if self.sec == None and iniciaCont == 1:
             self.sec = 0
             self.secC = '00'
             self.minuC = '00'
             self.houC = '00'
+        
+        elif self.sec == None and iniciaCont == 2:
+            self.sec = int(self.seguInit)
+            self.secC = str(self.seguInit)
+            self.minuC = str(self.minuInit)
+            self.houC = str(self.horaInit)        
         
         if self.chaveFinalizar == False:
             self.sec = self.sec + 1
@@ -1495,10 +1501,29 @@ class LoginAdmnistracao:
                             self.mensag2['text'] = 'Restam '+str(i)+' Minutos!!'
                      
         elif int(self.tempHora) == 0:
-
+            
+            #Caso a OS seja despausada pela janela de OS Pendentes, onde parâmetro de iniciaCont == 2
+            if iniciaCont == 2:
+                
+                #Para não dá conflito se o número pausado for == 59, pois ao inciar contagem já soma +1 então daria 60
+                #e a verificação de minutos restantes falharia, coma esta condição verifica antes se os segundos pausados é igual 59
+                #se for igual a 59 recebe -1, para dar 0 como em um relógio normal ao terminar em 59 volta a ser 0
+                if self.seguInit == '59':
+                    valueS = -1
+                    valueM = int(self.minuInit) + 1
+                    if valueM == 60:
+                        valueM = 0
+                #Senão continuar a receber +1 normalemnte
+                else:
+                    valueS = int(self.seguInit)
+                    valueM = int(self.minuInit)
+            elif iniciaCont == 1:
+                valueS = 0
+                valueM = 0
+                    
             for c in range(1, 6):
                 
-                if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5:
+                if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5 and iniciaCont == 1 or m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) <= 5 and iniciaCont == 2:
                     print('Parte 1 C')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
@@ -1526,8 +1551,9 @@ class LoginAdmnistracao:
                             
         if self.ativ == 1:
             self.ativaMensagem = 2
-                
+        print(f's = {s} tempSeg = {int(self.tempSeg)} | m = {m} tempMin = {int(self.tempMin)} | h = {h} tempHora = {int(self.tempHora)}')
         if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
+            print('VEZES QUE O TEMPO PASSOU')
             self.tempoEsgotado = True
             
             if self.ativaMensagem == 2 and int(self.tempMin) >= 6:
