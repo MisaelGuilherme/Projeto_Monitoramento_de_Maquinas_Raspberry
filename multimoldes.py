@@ -869,19 +869,19 @@ class LoginAdmnistracao:
         self.centraliza_tela(550, 400, self.janelaOsPendente)
         
         #criando um list box onde irá ficar armazenado as OS com pendências
-        lista = Listbox(self.janelaOsPendente, font=('arial', 10, 'bold'), width=45)
+        lista = Listbox(self.janelaOsPendente, font=('arial', 10, 'bold'), width=48)
         lista.pack(side='right', fill='y')
         
         #titulo central da janela
         titulo = Label(self.janelaOsPendente, text='OS Pendentes', bg='white', fg='#135565', font=('arial', 20, 'bold'))
-        titulo.place(x=15, y=20)
+        titulo.place(x=15, y=15)
         
         #armazenando logo da empresa em uma variável
         image = PhotoImage(file='img/logo-multimoldes.png')
         
         #exibindo label com a imagem já carregada
         logo = Label(self.janelaOsPendente, image=image, bg='white')
-        logo.place(x=40, y=130)
+        logo.place(x=40, y=125)
         
         #criando lista onde irá capturar as os e numéros de pelas para exibir na list box
         pendente = []
@@ -960,7 +960,7 @@ class LoginAdmnistracao:
         
         #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
         botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 12, 'bold'), command=os_select)
-        botaoConfirmar.place(x=60, y=320)
+        botaoConfirmar.place(x=55, y=320)
         
         #finalizando o loop da janela
         self.janelaOsPendente.mainloop()
