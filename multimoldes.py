@@ -1555,13 +1555,13 @@ class LoginAdmnistracao:
                         if i + m == int(self.tempMin):
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
 
-                if c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
+                if c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59 and iniciaCont == 1 or m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59 and iniciaCont == 2:
                     print('Parte 2 Co')
                     telaVermelha2()
                     self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
                     self.ativ = 1
-                    
+
                 elif m + c == int(self.tempMin) and int(self.tempMin) >= 6:
                     
                     for i in range(1,6):
@@ -1570,7 +1570,7 @@ class LoginAdmnistracao:
                             
         if self.ativ == 1:
             self.ativaMensagem = 2
-        print(f's = {s} tempSeg = {int(self.tempSeg)} | m = {m} tempMin = {int(self.tempMin)} | h = {h} tempHora = {int(self.tempHora)}')
+        #print(f's = {s} tempSeg = {int(self.tempSeg)} | m = {m} tempMin = {int(self.tempMin)} | h = {h} tempHora = {int(self.tempHora)}')
         if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
             print('VEZES QUE O TEMPO PASSOU')
             self.tempoEsgotado = True
