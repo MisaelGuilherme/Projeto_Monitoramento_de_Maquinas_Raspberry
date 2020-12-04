@@ -1336,18 +1336,24 @@ class LoginAdmnistracao:
             else:
                 self.minuC = str(self.minu)
             
-            #Caso o Minuto seja > 59 irá ser configurado para voltar a ser 0 e a hora ser 1 (Mintuos e Segundos)
+            #Caso o Minuto seja > 59 irá ser configurado para voltar a ser 0 e a hora ser 1 (Mintuos e Hora)
             if self.minu > 59:
                 self.minu = 0
                 self.minuC = '00'
                 
-                #Congfigurando a hora do temporizador
-                if self.hou == None:
+                #Iniciando contagem do 0 e se iniciaCont == 1 a OS não é Pendente (Configuração das Horas)
+                if self.hou == None and iniciaCont == 1:
                     self.hou = 0
                 
+                #Iniciando contagem de onde foi pausada e se iniciaCont == 2 a OS é Pendente (Configuração das Horas)
+                if self.hou == None and iniciaCont == 2:
+                    self.hou = int(self.horaInit)
+                
+                #Verificando se foi solicitado parada do tempo, senão a hora irá continuar a contagem (Configuração das Horas)
                 if self.chaveFinalizar == False:
                     self.hou = self.hou + 1
                 
+                #Configurando para o hora ser exibido em duas casas caso seja > 0 e < 10 (Configuração das Horas)
                 if self.hou > 0 and self.hou < 10:
                     houA = self.hou / 100
                     houB = str(houA)
