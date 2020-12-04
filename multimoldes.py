@@ -1284,21 +1284,26 @@ class LoginAdmnistracao:
             self.chaveControle = True
             
         #Congfigurando os segundos do temporizador
+        
+        #Iniciando contagem do 0 e se iniciaCont == 1 a OS não é Pendente (Configuração dos Segundos)
         if self.sec == None and iniciaCont == 1:
             self.sec = 0
             self.secC = '00'
             self.minuC = '00'
             self.houC = '00'
         
+        #Iniciando contagem de onde foi pausada e se iniciaCont == 2 a OS é Pendente (Configuração dos Segundos)
         elif self.sec == None and iniciaCont == 2:
             self.sec = int(self.seguInit)
             self.secC = str(self.seguInit)
             self.minuC = str(self.minuInit)
             self.houC = str(self.horaInit)        
         
+        #Verificando se foi solicitado parada do tempo, senão o segundo irá continuar a contagem (Configuração dos Segundos)
         if self.chaveFinalizar == False:
             self.sec = self.sec + 1
         
+        #Configurando para o segundo ser exibido em duas casas caso seja > 0 e < 10 (Configuração dos Segundos)
         if self.sec > 0 and self.sec < 10:
             secA = self.sec / 100
             secB = str(secA)
@@ -1306,17 +1311,24 @@ class LoginAdmnistracao:
         else: 
             self.secC = str(self.sec)
 
+        #Caso o segundo seja > 59 irá ser configurado para voltar a ser 0 e o minuto ser 1 (Mintuos e Segundos)
         if self.sec > 59:
             self.sec = 0
             self.secC = '00'
             
-            #Configurando o minuto do temporizador
-            if self.minu == None:
+            #Iniciando contagem do 0 e se iniciaCont == 1 a OS não é Pendente (Configuração dos Minutos)
+            if self.minu == None and iniciaCont == 1:
                 self.minu = 0
             
+            #Iniciando contagem de onde foi pausada e se iniciaCont == 2 a OS é Pendente (Configuração dos Minutos)
+            elif self.minu == None and iniciaCont == 2:
+                self.minu = int(self.minuInit)
+            
+            #Verificando se foi solicitado parada do tempo, senão o minuto irá continuar a contagem (Configuração dos Minutos)
             if self.chaveFinalizar == False:
                 self.minu = self.minu + 1
-                
+            
+            #Configurando para o minuto ser exibido em duas casas caso seja > 0 e < 10 (Configuração dos Minutos)
             if self.minu > 0 and self.minu < 10:
                 minuA = self.minu / 100
                 minuB = str(minuA)
@@ -1324,6 +1336,7 @@ class LoginAdmnistracao:
             else:
                 self.minuC = str(self.minu)
             
+            #Caso o Minuto seja > 59 irá ser configurado para voltar a ser 0 e a hora ser 1 (Mintuos e Segundos)
             if self.minu > 59:
                 self.minu = 0
                 self.minuC = '00'
