@@ -1524,9 +1524,9 @@ class LoginAdmnistracao:
             #Caso a OS seja despausada pela janela de OS Pendentes, onde parâmetro de iniciaCont == 2
             if iniciaCont == 2:
                 
-                #Para não dá conflito se o número pausado for == 59, pois ao inciar contagem já soma +1 então daria 60
-                #e a verificação de minutos restantes falharia, coma esta condição verifica antes se os segundos pausados é igual 59
-                #se for igual a 59 recebe -1, para dar 0 como em um relógio normal ao terminar em 59 volta a ser 0
+                '''Evitando conflito caso número pausado for == 59, pois ao inciar contagem já soma +1 então daria 60
+                e a verificação de minutos restantes falharia, com esta condição verifica antes se os segundos pausados é igual 59
+                se for igual a 59 recebe -1, para dar 0 como em um relógio normal ao terminar em 59 volta a ser 0'''
                 if self.seguInit == '59':
                     valueS = -1
                     valueM = int(self.minuInit) + 1
@@ -1539,29 +1539,34 @@ class LoginAdmnistracao:
             elif iniciaCont == 1:
                 valueS = 0
                 valueM = 0
-                    
+            
+            #Verificando se restam 5 minutos antes do tempo acabar, caso for verdade acender tela vermelha e exibir mensagem
             for c in range(1, 6):
                 
+                #Verificando se o tempo definido se encaixa entre >= 0 e <= 5, caso seja irá criar o objeto com a mensagem
                 if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5 and iniciaCont == 1 or m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) <= 5 and iniciaCont == 2:
                     print('Parte 1 C')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
-                    
+                
+                #Condição que ficará responsável de atualizar o tempo depois que o objeto com a mensagem for criada
                 elif m + c == int(self.tempMin) and int(self.tempMin) <= 5:
 
                     for i in range(1,6):
                         if i + m == int(self.tempMin):
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
 
+                #Verificando se o tempo definido se encaixa entre >= 6 e <= 59, caso seja irá criar o objeto com a mensagem
                 if c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59 and iniciaCont == 1 or m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59 and iniciaCont == 2:
-                    print('Parte 2 Co')
+                    print('Parte 2 C')
                     telaVermelha2()
                     self.mensag2 = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
                     self.ativ = 1
-
+                
+                #Condição que ficará responsável de atualizar o tempo depois que o objeto com a mensagem for criada
                 elif m + c == int(self.tempMin) and int(self.tempMin) >= 6:
                     
                     for i in range(1,6):
@@ -1570,9 +1575,10 @@ class LoginAdmnistracao:
                             
         if self.ativ == 1:
             self.ativaMensagem = 2
-        #print(f's = {s} tempSeg = {int(self.tempSeg)} | m = {m} tempMin = {int(self.tempMin)} | h = {h} tempHora = {int(self.tempHora)}')
+        
+        #Verificando se o tempo cronômetrado é igual ao tempo programado, caso for True, o tempo se excederá.
         if s == int(self.tempSeg) and m == int(self.tempMin) and h == int(self.tempHora):
-            print('VEZES QUE O TEMPO PASSOU')
+            
             self.tempoEsgotado = True
             
             if self.ativaMensagem == 2 and int(self.tempMin) >= 6:
