@@ -280,6 +280,10 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra.destroy()
         
+        #Variável que armazenará o último tempo adcionado
+        self.UltimoTempAdd = self.transformar_tempo_decimal(ll, mm, 0)
+        print(self.UltimoTempAdd)
+        
         self.bteste = 5
         
         #Configurando tempo Extra gasto caso o operador precise de mais tempo mais de uma vez
@@ -832,7 +836,9 @@ class LoginAdmnistracao:
         self.chaveTempExtra = 0
         self.tempExtraGastoA = 0
         self.tempExtraGastoB = 0
-        self.tempExtraGastoC = 0        
+        self.tempExtraGastoC = 0       
+        
+        self.UltimoTempAdd = 0 
         
         self.bteste = 5
         
@@ -899,9 +905,10 @@ class LoginAdmnistracao:
                 peca = valido[c][3]
                 servico = valido[c][5]
                 tempMarcado = valido[c][10]
+                iD = valido[c][0]
                         
                 data = valido[c][7]
-                juntos = os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+')'
+                juntos = os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+') '+str(iD)
 
                 #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
                 pendente.append(juntos)
@@ -909,20 +916,12 @@ class LoginAdmnistracao:
             #utilizando estrutura de repetição para inserir os dados obtidos já armazenado na lista pendente para o list box
             for os in pendente:
                 lista.insert(END, os)
-
-            #Lógica para obter o tempo marcado no momento da pause de forma formatada para configurar o tempo de retomada
-            self.tempoDePauseObtido = ''
-            for c in tempMarcado:
-                if c != ':':
-                    self.tempoDePauseObtido += c
-                else:
-                    self.tempoDePauseObtido +=' '
             
         def os_select():
             
             #Lógica para pegar a OS selecionada
-            a = lista.get(ACTIVE)
-            b = a.split()
+            self.listaAtiva = lista.get(ACTIVE)
+            b = self.listaAtiva.split()
             c = b[0]
             
             #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
@@ -1020,6 +1019,7 @@ class LoginAdmnistracao:
         self.numOS = str(self.campoServico.get())
     
         try:
+            
             self.cursor.execute('use empresa_funcionarios')
             self.cursor.execute("select * from pecas_codigo where codigo = "+self.campoPeca.get())
             valido = self.cursor.fetchall()
@@ -1030,6 +1030,67 @@ class LoginAdmnistracao:
             self.tempMin = str(valido[0][4])
             self.tempSeg = str(valido[0][5])
             
+            #Se a função foi invocada pelo parâmetro 2, #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar irá continuar sendo tempo extra e o último tempo Adcionado
+            if opcao == 2:
+                
+                #lista recebendo a opção selecionada de OS Pendente de modo separado(SPLIT)
+                self.listaSeparada = self.listaAtiva.split()
+                
+                #Selecionando do banco de dados onde o id for igual ao número de is da lista já separada igual a 10
+                self.cursor.execute('select * from pausa_funcionarios where ID = '+self.listaSeparada[10])
+                valido = self.cursor.fetchall()
+                
+                if len(valido) == 1:
+                    
+                    li = ''
+                    #Recebendo o número de vezes tempo extra do banco de dados
+                    verificandoTempExtra = valido[0][13]
+                    
+                    #Se for maior ou igual a 1 significa que o tempo que será adcionado e contado será do tempo extra restante
+                    if int(verificandoTempExtra) >= 1:
+                        
+                        #Desfragmentando o tempo extra do banco de dados
+                        t = valido[0][14]
+                        for num in t:
+                            if num != ':':
+                                li += num
+                            else:
+                                li += ' '
+                        liDesfragment = li.split()
+                        
+                        #Quando pausado, se o tempo adcionado era tempo extra, então as variáveis vão armazenar o tempo exigido
+                        self.mi = 0
+                        self.se = 0
+                        self.tempHora = liDesfragment[0]
+                        self.tempMin = liDesfragment[1]
+                        self.tempSeg = liDesfragment[2]
+                        
+                        #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar irá continuar sendo tempo extra e o último tempo Adcionado
+                        self.UltimoTempAdd = valido[0][14]
+
+                        #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar o contador de vezes irá retomar com o valor de onde parou
+                        self.chaveTempExtra = valido[0][13]
+                    
+                    #Armazenando na variável o tempo marcado quando pausado
+                    marcaTemp = valido[0][10]
+                    
+                    #Criando variável para obter o tempo marcado sem ser na forma de horário 00: 00: 00
+                    self.tempoDePauseObtido = ''
+                    
+                    #Lógica para obter o tempo marcado sem os pontos : :
+                    for c in marcaTemp:
+                        if c != ':':
+                            self.tempoDePauseObtido += c
+                        else:
+                            self.tempoDePauseObtido +=' '
+                    
+                    self.backup = valido[0][15]
+                
+                    #Formatando as varíaveis para encaixar no label - Tempo Programado
+                    self.tempProg = valido[0][15]
+                    self.codP = str(valido[0][3])
+
+                    
             if int(self.tempHora) == 0:
                 self.ho = 0
                 print(self.ho)
@@ -1144,12 +1205,12 @@ class LoginAdmnistracao:
                     self.se = (int(self.tempMin) * 60) // 2
                     print(self.mi)                
             
-
-            self.backup = str(self.tempHora)+':'+str(self.tempMin)+':'+str(self.tempSeg)
-            
-            #Formatando as varíaveis para encaixar no label - Tempo Programado
-            self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
-            self.codP = str(valido[0][2])
+            if opcao == 1:
+                self.backup = str(self.tempHora)+':'+str(self.tempMin)+':'+str(self.tempSeg)
+                
+                #Formatando as varíaveis para encaixar no label - Tempo Programado
+                self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
+                self.codP = str(valido[0][2])
 
             #Mostrando o tempo Programado através do label
             self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
@@ -1441,7 +1502,7 @@ class LoginAdmnistracao:
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
                 
                 #Se a hora for == 1 e os minutos programado for == 1 ex: (01:01:00) ----------------------------
-                if h == 0 and int(self.tempMin) == 1 and m == 56 and s == 0 and c == 5 and iniciaCont == 1 or h == 0 and int(self.tempMin) == 1 and c+valueM==61 and m == valueM and s == valueS+1 and iniciaCont == 2:
+                if h == 0 and int(self.tempMin) == 1 and m == 56 and s == 0 and c == 5 and iniciaCont == 1:
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
@@ -1923,7 +1984,22 @@ class LoginAdmnistracao:
                 print(self.tempExtraGasto)            
             
             self.cursor.execute('use empresa_funcionarios')
-            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"+str(self.operador)+"','"+self.user+"','"+self.codP+"','"+self.numOS+"','"+self.resultPausa+"','"+horaPause+"', '"+str(dateInicial)+"', '0', '0' ,'"+self.tempoMarcado+"' , '"+self.tempGasto+"' , '"+self.tempExtraGasto+"' , '"+str(self.chaveTempExtra)+"')")
+            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"
+                                
+                +str(self.operador)+"','"
+                +self.user+"','"
+                +self.codP+"','"
+                +self.numOS+"','"
+                +self.resultPausa+"','"
+                +horaPause+"','"
+                +str(dateInicial)+"','0','0','"
+                +self.tempoMarcado+"','"
+                +self.tempGasto+"','"
+                +self.tempExtraGasto+"','"
+                +str(self.chaveTempExtra)+"','"
+                +str(self.UltimoTempAdd)+ "','"
+                +str(self.tempProg)+"')")
+            
             self.banco.commit()
             
         except Exception as erro:
@@ -1941,6 +2017,7 @@ class LoginAdmnistracao:
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
             
             self.cursor.execute('use empresa_funcionarios')
+            self.listaSeparada[10]
             
             #Atualizando banco de dados com a data retomada após a função responsável por despausar for invocada
             self.cursor.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
