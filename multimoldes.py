@@ -1037,7 +1037,7 @@ class LoginAdmnistracao:
                 self.listaSeparada = self.listaAtiva.split()
                 
                 #Selecionando do banco de dados onde o id for igual ao número de is da lista já separada igual a 10
-                self.cursor.execute('select * from pausa_funcionarios where ID = '+self.listaSeparada[10])
+                self.cursor.execute('select * from pausa_funcionarios where ID = '+self.listaSeparada[11])
                 valido = self.cursor.fetchall()
                 
                 if len(valido) == 1:
@@ -2017,7 +2017,7 @@ class LoginAdmnistracao:
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
             
             self.cursor.execute('use empresa_funcionarios')
-            self.listaSeparada[10]
+            self.listaSeparada[11]
             
             #Atualizando banco de dados com a data retomada após a função responsável por despausar for invocada
             self.cursor.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
