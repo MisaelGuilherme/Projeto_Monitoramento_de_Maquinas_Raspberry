@@ -1070,6 +1070,13 @@ class LoginAdmnistracao:
 
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar o contador de vezes irá retomar com o valor de onde parou
                         self.chaveTempExtra = valido[0][13]
+                        
+                        self.vezes = Label(self.frameLeft, text=str(self.chaveTempExtra)+'X', width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
+                        self.vezes.place(x=250, y=400)
+                                
+                        #Exibindo no label o horário adcionado após o tempo ser esgotado
+                        self.campoProExt = Label(self.frameLeft, text=self.UltimoTempAdd, width=15, font=('arial', 15, 'bold'), bg='white', fg='red')
+                        self.campoProExt.place(x=300, y=400)                        
                     
                     #Armazenando na variável o tempo marcado quando pausado
                     marcaTemp = valido[0][10]
