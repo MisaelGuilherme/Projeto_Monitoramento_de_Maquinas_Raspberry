@@ -908,7 +908,7 @@ class LoginAdmnistracao:
                 iD = valido[c][0]
                         
                 data = valido[c][7]
-                juntos = os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+') '+str(iD)
+                juntos = str(iD)+' -- '+os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+')'
 
                 #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
                 pendente.append(juntos)
@@ -922,12 +922,12 @@ class LoginAdmnistracao:
             #Lógica para pegar a OS selecionada
             self.listaAtiva = lista.get(ACTIVE)
             b = self.listaAtiva.split()
-            c = b[0]
+            c = b[2]
             
             #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
             self.campoServico.insert(0, c)
             
-            d = b[2]
+            d = b[4]
             #Armazenando o Código da Peça selecionado em uma variável e inserindo em um campo de texto
             self.campoPeca.insert(0, d)
             
@@ -1037,10 +1037,13 @@ class LoginAdmnistracao:
                 self.listaSeparada = self.listaAtiva.split()
                 
                 #Selecionando do banco de dados onde o id for igual ao número de is da lista já separada igual a 10
-                self.cursor.execute('select * from pausa_funcionarios where ID = '+self.listaSeparada[11])
+                self.cursor.execute('select * from pausa_funcionarios where ID = '+self.listaSeparada[0])
                 valido = self.cursor.fetchall()
                 
                 if len(valido) == 1:
+                    
+                    #Recebendo cor da tela de quando foi pausada
+                    self.corTelaAtual = valido[0][16]
                     
                     li = ''
                     #Recebendo o número de vezes tempo extra do banco de dados
@@ -1069,7 +1072,7 @@ class LoginAdmnistracao:
                         self.UltimoTempAdd = valido[0][14]
 
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar o contador de vezes irá retomar com o valor de onde parou
-                        self.chaveTempExtra = valido[0][13]
+                        self.chaveTempExtra = int(valido[0][13])
                         
                         self.vezes = Label(self.frameLeft, text=str(self.chaveTempExtra)+'X', width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
                         self.vezes.place(x=250, y=400)
@@ -1348,6 +1351,8 @@ class LoginAdmnistracao:
                 self.horaInit = vetor[0]
                 self.minuInit = vetor[1]
                 self.seguInit = vetor[2]
+            
+                self.objetos_cores(str(self.corTelaAtual), 'white')
             
             self.chaveControle = True
             
@@ -1953,6 +1958,9 @@ class LoginAdmnistracao:
     def contagem_pausada(self):
         
         self.janelaPause.destroy()
+        
+        corTela = self.frameTop['bg']
+        
         self.tempoPausado = True
         self.chaveFinalizar = True
         self.botFrameFinalizar.destroy()
@@ -2005,7 +2013,8 @@ class LoginAdmnistracao:
                 +self.tempExtraGasto+"','"
                 +str(self.chaveTempExtra)+"','"
                 +str(self.UltimoTempAdd)+ "','"
-                +str(self.tempProg)+"')")
+                +str(self.tempProg)+"','"
+                +corTela+"')")
             
             self.banco.commit()
             
@@ -2024,7 +2033,7 @@ class LoginAdmnistracao:
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
             
             self.cursor.execute('use empresa_funcionarios')
-            self.listaSeparada[11]
+            self.listaSeparada[0]
             
             #Atualizando banco de dados com a data retomada após a função responsável por despausar for invocada
             self.cursor.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
