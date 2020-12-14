@@ -1351,7 +1351,7 @@ class LoginAdmnistracao:
                 self.horaInit = vetor[0]
                 self.minuInit = vetor[1]
                 self.seguInit = vetor[2]
-            
+
                 self.objetos_cores(str(self.corTelaAtual), 'white')
             
             self.chaveControle = True
@@ -1497,10 +1497,33 @@ class LoginAdmnistracao:
         
         #Se a hora programada for == 1 entrará nessa condição para aparecer a mensagem com precedênciares, restam 5 minutos
         elif int(self.tempHora) == 1:
-            for c in range(1, 6):
+            
+            #Caso a OS seja despausada pela janela de OS Pendentes, onde parâmetro de iniciaCont == 2
+            if iniciaCont == 2:
                 
+                '''Evitando conflito caso número pausado for == 59, pois ao inciar contagem já soma +1 então daria 60
+                e a verificação de minutos restantes falharia, com esta condição verifica antes se os segundos pausados é igual 59
+                se for igual a 59 recebe -1, para dar 0 como em um relógio normal ao terminar em 59 volta a ser 0'''
+                if self.seguInit == '59':
+                    valueS = -1
+                    valueM = int(self.minuInit) + 1
+                    if valueM == 60:
+                        valueM = 0
+                #Senão continuar a receber +1 normalemnte
+                else:
+                    valueS = int(self.seguInit)
+                    valueM = int(self.minuInit)
+                    valueH = int(self.horaInit)
+                    
+            elif iniciaCont == 1:
+                valueS = 0
+                valueM = 0            
+            
+            
+            for c in range(1, 6):
+                #print(f'c+valueM {c+valueM} m==valueM {m==valueM} s==valueS+1 {s==valueS+1}')
                 #Se a hora for == 1 e os minutos programado for == 0 ex: (01:00:00)
-                if c == 5 and int(self.tempMin) == 0 and m + 5 == 60 and s == 0:
+                if c == 5 and int(self.tempMin) == 0 and m + 5 == 60 and s == 0 or c+valueM==60 and int(self.tempMin) == 0 and m == valueM and s == valueS +1 and iniciaCont == 2:
                     print('Parte 1 B')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
@@ -1514,7 +1537,7 @@ class LoginAdmnistracao:
                             self.mensag['text'] = 'Restam '+str(i)+' Minutos!!'
                 
                 #Se a hora for == 1 e os minutos programado for == 1 ex: (01:01:00) ----------------------------
-                if h == 0 and int(self.tempMin) == 1 and m == 56 and s == 0 and c == 5 and iniciaCont == 1:
+                if h == 0 and int(self.tempMin) == 1 and m == 56 and s == 0 and c == 5:
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
