@@ -985,27 +985,41 @@ class LoginAdmnistracao:
                     messagebox.showerror('Alerta','Código não Encontrado!')
                 
                 else:
-                
-                    self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
-                    valido = self.cursor.fetchall()
                     
-                    self.checkSelect = PhotoImage(file='img/verifica.png')
+                    self.cursor.execute('select * from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and horaRetomada = 0 and dataRetomada = 0')
+                    checar = self.cursor.fetchall()
                     
-                    if len(valido) == 0:
+                    if len(checar) >= 1:
                         
-                        self.novoSelect['image'] = self.checkSelect
-                        self.tipo = 'Nova OS'
+                        perguntar = messagebox.askquestion('Alerta', 'OS e Nº de Peça pausados. Abrir janela de OS Pendentes?')
                         
-                        #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
-                        self.botaoConfirmarOS(1)
+                        if perguntar == 'yes':
                             
+                            self.verificação_de_OS()
+                        
+                        else:   pass
                     else:
+                    
+                        self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
+                        valido = self.cursor.fetchall()
                         
-                        self.retrabalhoSelect['image'] = self.checkSelect
-                        self.tipo = 'Retrabalhar OS'
+                        self.checkSelect = PhotoImage(file='img/verifica.png')
                         
-                        #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
-                        self.botaoConfirmarOS(1)
+                        if len(valido) == 0:
+                            
+                            self.novoSelect['image'] = self.checkSelect
+                            self.tipo = 'Nova OS'
+                            
+                            #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
+                            self.botaoConfirmarOS(1)
+                                
+                        else:
+                            
+                            self.retrabalhoSelect['image'] = self.checkSelect
+                            self.tipo = 'Retrabalhar OS'
+                            
+                            #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
+                            self.botaoConfirmarOS(1)
                     
                     
             except Exception as erro:
@@ -1521,7 +1535,7 @@ class LoginAdmnistracao:
             
             
             for c in range(1, 6):
-                #print(f'c+valueM {c+valueM} m==valueM {m==valueM} s==valueS+1 {s==valueS+1}')
+                
                 #Se a hora for == 1 e os minutos programado for == 0 ex: (01:00:00)
                 if c == 5 and int(self.tempMin) == 0 and m + 5 == 60 and s == 0 or c+valueM==60 and int(self.tempMin) == 0 and m == valueM and s == valueS +1 and iniciaCont == 2:
                     print('Parte 1 B')
