@@ -1597,7 +1597,7 @@ class LoginAdmnistracao:
                         self.mensag['text'] = 'Restam '+str(self.bteste)+' Minutos!!'
                 
                 #Se a hora for == 1 e os minutos programado for == 5 ex: (01:05:00)
-                if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 0 and int(self.tempMin) == 5:
+                if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 0 and int(self.tempMin) == 5 or h == int(self.tempHora) and m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) == 5 and iniciaCont == 2:
                     print('Parte 2 B')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
