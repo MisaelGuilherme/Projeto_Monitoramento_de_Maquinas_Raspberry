@@ -1582,10 +1582,13 @@ class LoginAdmnistracao:
                         self.mensag['text'] = 'Restam '+str(self.bteste)+' Minutos!!'                        
                 
                 #Se a hora for == 1 e os minutos programado for == 4 ex: (01:04:00)
-                if h == 0 and int(self.tempMin) == 4 and m == 59 and s == 0 and c == 5:
+                if h == 0 and int(self.tempMin) == 4 and m == 59 and s == 0 and c == 5 or h == 0 and int(self.tempMin) == 4 and c+valueM==64 and m == valueM and s == valueS+1 and iniciaCont == 2:
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Restam '+str(c)+' Minutos!!', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
+                    self.ativ = 1
+                    if iniciaCont == 2:
+                        self.bteste = c
                 
                 #Condição responsável por verificar a cada segundo quantos minutos falta
                 elif h == 0 and int(self.tempMin) == 4 and m == 59 and c == 5 or h == 1 and int(self.tempMin) == 4 and m >= 0 and m <= 4 and c == 5:
