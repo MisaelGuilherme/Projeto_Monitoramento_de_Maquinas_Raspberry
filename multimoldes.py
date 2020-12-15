@@ -436,7 +436,7 @@ class LoginAdmnistracao:
         #Armazenando na variável já formatado
         self.tempProgExt = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
         
-        self.vezes = Label(self.frameLeft, text=str(self.chaveTempExtra)+'X', width=2, font=('arial', 15, 'bold'), bg='#870000', fg='white')
+        self.vezes = Label(self.frameLeft, text='x'+str(self.chaveTempExtra), width=2, font=('arial', 15, 'bold'), bg='#870000', fg='white')
         self.vezes.place(x=250, y=400)
         
         #Exibindo no label o horário adcionado após o tempo ser esgotado
@@ -1104,7 +1104,7 @@ class LoginAdmnistracao:
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar o contador de vezes irá retomar com o valor de onde parou
                         self.chaveTempExtra = int(valido[0][13])
                         
-                        self.vezes = Label(self.frameLeft, text=str(self.chaveTempExtra)+'X', width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
+                        self.vezes = Label(self.frameLeft, text='x'+str(self.chaveTempExtra), width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
                         self.vezes.place(x=250, y=400)
                                 
                         #Exibindo no label o horário adcionado após o tempo ser esgotado
@@ -1301,7 +1301,7 @@ class LoginAdmnistracao:
                 
                 self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(2))
                 self.botDespausar.place(x=172, y=220)                
-                    
+                
         except Exception as erro:
             print(erro)
             messagebox.showerror('05-Error-Servidor', '05-Error: Não acesso ao servidor.')
