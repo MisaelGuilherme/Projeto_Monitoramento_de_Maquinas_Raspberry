@@ -975,36 +975,47 @@ class LoginAdmnistracao:
         elif True:
 
             try:
-                
+                #Buscando o Código de Peça no banco de dados
                 self.cursor.execute("select * from pecas_codigo where codigo = "+self.campoPeca.get())
                 valido = self.cursor.fetchall()
                 
+                #Se ao ler a variável valido o valor for igual a 0, provavelmente não existe no banco de dados
                 if len(valido) == 0:
                     
-                    #caso o código não exista no banco de dados
+                    #Exibindo mensagem alertando que o Código de Peça não foi encontrado
                     messagebox.showerror('Alerta','Código não Encontrado!')
                 
+                #Se ao ler a variável valido o valor for diferente de 0, seguir a próxima sequência de passos
                 else:
                     
+                    #Buscando no banco de dados se existe a OS digitada e o Código de Peça em modo pausado
                     self.cursor.execute('select * from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and horaRetomada = 0 and dataRetomada = 0')
                     checar = self.cursor.fetchall()
                     
+                    #Se ao ler a variável "checar" o valor for maior ou igual a 1, provavelmente existe no banco de dados
                     if len(checar) >= 1:
                         
+                        #Exibindo mensagem que a OS e o Código de Peça estão pausados, e se deseja abrir a janela de OS Pendente
                         perguntar = messagebox.askquestion('Alerta', 'OS e Nº de Peça pausados. Abrir janela de OS Pendentes?')
                         
+                        #Se for sim, irá abrir a janela
                         if perguntar == 'yes':
                             
                             self.verificação_de_OS()
                         
+                        #Senão não irá fazer nada
                         else:   pass
-                    else:
                     
+                    #Senão irá seguir o seguinte procedimento
+                    else:
+                        
+                        #Buscando a OS digitada no banco de dados
                         self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
                         valido = self.cursor.fetchall()
                         
                         self.checkSelect = PhotoImage(file='img/verifica.png')
                         
+                        #Se o resultado da busca for igual a 0, então é uma Nova OS
                         if len(valido) == 0:
                             
                             self.novoSelect['image'] = self.checkSelect
@@ -1012,7 +1023,8 @@ class LoginAdmnistracao:
                             
                             #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
                             self.botaoConfirmarOS(1)
-                                
+                        
+                        #Senão se o resultado da buscar for diferente de 0, então já existe uma OS digitada
                         else:
                             
                             self.retrabalhoSelect['image'] = self.checkSelect
