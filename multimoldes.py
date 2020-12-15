@@ -796,7 +796,7 @@ class LoginAdmnistracao:
         self.campoOperacao.bind("<Return>", self.confirmarCampos)
         
         self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
-        self.botConfirmar.place(x=370, y=350)
+        self.botConfirmar.place(x=370, y=450)
         self.botConfirmar.bind("<Return>", self.confirmarCampos)
         
         #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO
@@ -1261,10 +1261,10 @@ class LoginAdmnistracao:
 
             #Mostrando o tempo Programado através do label
             self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
-            self.tempoProgramado.place(x=60, y=300)
+            self.tempoProgramado.place(x=60, y=400)
             
             self.campoProgramado = Label(self.frameLeft, width=15, font=('arial', 15, 'bold'), bg='white')
-            self.campoProgramado.place(x=300, y=300)
+            self.campoProgramado.place(x=300, y=400)
             
             self.campoProgramado['text'] = self.tempProg
             
