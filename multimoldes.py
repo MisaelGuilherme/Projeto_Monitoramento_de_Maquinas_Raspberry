@@ -788,6 +788,13 @@ class LoginAdmnistracao:
         self.retrabalhoSelect = Label(self.frameRetrabalho, image=self.checkVazio, bg='#135565', fg='white')
         self.retrabalhoSelect.place(x=105, y=0)
         
+        
+        self.codigoOperacao = Label(self.frameLeft, text='Operação:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
+        self.codigoOperacao.place(x=150, y=300)
+        self.campoOperacao = Entry(self.frameLeft, width=25, font=('arial', 15))
+        self.campoOperacao.place(x=300, y=300)
+        self.campoOperacao.bind("<Return>", self.confirmarCampos)
+        
         self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
         self.botConfirmar.place(x=370, y=350)
         self.botConfirmar.bind("<Return>", self.confirmarCampos)
