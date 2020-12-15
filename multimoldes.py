@@ -1279,11 +1279,11 @@ class LoginAdmnistracao:
             
             #Labals que imprimem o cronômetro que totaliza o tempo de operação do funcionário
             self.segundos = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
-            self.segundos.place(x=167, y=450)
+            self.segundos.place(x=167, y=500)
             self.minutos = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
-            self.minutos.place(x=140, y=450)
+            self.minutos.place(x=140, y=500)
             self.horas = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
-            self.horas.place(x=113, y=450)
+            self.horas.place(x=113, y=500)
             
             self.tempOperando = '00:00:00'
             
