@@ -924,6 +924,10 @@ class LoginAdmnistracao:
             b = self.listaAtiva.split()
             c = b[2]
             
+            #Limpando o campo antes de inserir o número de Os e o Código de Peça
+            self.campoServico.delete(0, END)
+            self.campoPeca.delete(0, END)
+            
             #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
             self.campoServico.insert(0, c)
             
