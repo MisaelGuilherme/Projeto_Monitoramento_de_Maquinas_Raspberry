@@ -437,11 +437,11 @@ class LoginAdmnistracao:
         self.tempProgExt = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
         
         self.vezes = Label(self.frameLeft, text='x'+str(self.chaveTempExtra), width=2, font=('arial', 15, 'bold'), bg='#870000', fg='white')
-        self.vezes.place(x=750, y=300)
+        self.vezes.place(x=750, y=400)
         
         #Exibindo no label o horário adcionado após o tempo ser esgotado
         self.campoProExt = Label(self.frameLeft, text=self.tempProgExt, width=8, font=('arial', 15, 'bold'), bg='white', fg='red')
-        self.campoProExt.place(x=640, y=300)
+        self.campoProExt.place(x=640, y=400)
         
         self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
         self.frameBotSair.place(x=1180, y=20)
@@ -1112,11 +1112,11 @@ class LoginAdmnistracao:
                         self.chaveTempExtra = int(valido[0][13])
                         
                         self.vezes = Label(self.frameLeft, text='x'+str(self.chaveTempExtra), width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
-                        self.vezes.place(x=750, y=300)
+                        self.vezes.place(x=750, y=400)
                                 
                         #Exibindo no label o horário adcionado após o tempo ser esgotado
                         self.campoProExt = Label(self.frameLeft, text=self.UltimoTempAdd, width=8, font=('arial', 15, 'bold'), bg='white', fg='red')
-                        self.campoProExt.place(x=640, y=300)
+                        self.campoProExt.place(x=640, y=400)
                     
                     #Armazenando na variável o tempo marcado quando pausado
                     marcaTemp = valido[0][10]
