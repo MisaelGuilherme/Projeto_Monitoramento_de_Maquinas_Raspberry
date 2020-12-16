@@ -979,7 +979,7 @@ class LoginAdmnistracao:
     def confirmarCampos(self, event):
         
         #Verificando se algum campo está em branco
-        if self.campoServico.get() == '' or self.campoPeca.get() == '':
+        if self.campoServico.get() == '' or self.campoPeca.get() == '' or self.campoOperacao.get() == '':
             
             messagebox.showerror('Alerta','Verifique os Campos!')
         
