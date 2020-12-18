@@ -229,15 +229,17 @@ class LoginAdmnistracao:
             
             messagebox.showwarning('Alerta', 'Verifique os Campos.')
         
-        #Verificando se os campos sã
+        #Verificando se os caracteres dos campos são inteiros
         elif str(self.ll.get()).isnumeric() == False or str(self.mm.get()).isnumeric() == False:
             
             messagebox.showwarning('Alerta', 'Verifique os Campos.')
 
+        #Verificando se nos campos o minutoExtra não é menor que 5, enquanto a horaExtra for igual a 0
         elif int(self.mm.get()) < 5 and int(self.ll.get()) == 0:
             
             messagebox.showwarning('Alerta', 'Valor Min: 0 Horas\nValor Min: 5 Minutos')
-            
+        
+        #Verificando se nos campos o minutoExtra não é maior que 59 ou a horaExtra não é maior que 24
         elif int(self.mm.get()) > 59 or int(self.ll.get()) > 24:
             
             messagebox.showwarning('Alerta', 'Valor Max: 24 Horas\nValor Max: 59 Minutos')
@@ -277,9 +279,12 @@ class LoginAdmnistracao:
         return final1+':'+final2+':'+final3
     
     def configurar_tempo_extra(self):
+        
+        #Pegando a hora e o minuto da janela de tempo extra
         ll = self.ll.get()
         mm = self.mm.get()
         
+        #Destruindo a janela de tempo extra
         self.janelaTempExtra.destroy()
         
         #Variável que armazenará o último tempo adcionado
@@ -291,10 +296,12 @@ class LoginAdmnistracao:
         #Configurando tempo Extra gasto caso o operador precise de mais tempo mais de uma vez
         self.chaveTempExtra += 1
         
+        #Regularizando os valores do cronômetro para o valor inicial 00:00:00
         self.seconds['text'] = '00'
         self.minutes['text'] = '00'
         self.hours['text'] = '00'
         
+        #Estabilizando as variáveis necessárias para não dá conflito
         self.tempoPausado = False
         self.tempoEsgotado = False
         self.chaveControle = False
