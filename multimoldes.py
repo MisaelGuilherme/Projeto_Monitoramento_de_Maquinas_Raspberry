@@ -590,7 +590,7 @@ class LoginAdmnistracao:
             
             cursor = banco.cursor()
             cursor.execute('USE empresa_funcionarios')
-            cursor.execute('select * from funcionarios where cpf = '+str(cpf))
+            cursor.execute('select * from funcionarios where CPF = '+str(cpf))
             valido = cursor.fetchall()
             
             #VERIFICANDO SE O CPF DO FUNCIONÁRIO JÁ ESTÁ CADASTRADO
@@ -638,7 +638,7 @@ class LoginAdmnistracao:
                     #verificando se usuário existe no banco de dados
                     self.cursor = self.banco.cursor()
                     self.cursor.execute('use empresa_funcionarios')
-                    self.cursor.execute("select * from funcionarios where cpf = '"+self.user+"' and senha = '"+self.password+"'")
+                    self.cursor.execute("select * from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
                     valido = self.cursor.fetchall()
                     
                     #pegando hora atual de login caso encontrar resultado na busca
@@ -1020,6 +1020,27 @@ class LoginAdmnistracao:
                     #Senão irá seguir o seguinte procedimento
                     else:
                         
+                        #AQUI PRECISA FAZER A VERIFICAÇÃO SE O FUNCIONÁRIO ESTÁ APTO A FAZER A PEÇA
+                        self.cursor.execute('select Processo_Usinagem from operacao_codigo where Codigo_Operacao = '+ self.campoOperacao.get())
+                        checaOperacao = self.cursor.fetchall()
+                        
+                        if len(checaOperacao) == 1:
+                            
+                            #Armazenando nome da Operação extraída do banco de dados
+                            ProcessoUninagem = checaOperacao[0][0]
+                            
+                            self.cursor.execute('select '+ProcessoUninagem+' from habilidade_funcionarios where CPF = '+self.user)
+                            checaOperacao = self.cursor.fetchall()
+                            
+                            #Armazenando valor relacionado à habilidade do funcionário extraída do banco de dados
+                            habilidadeFuncionario = checaOperacao[0][0]
+                            
+                            print(f'Processo Usinagem: {ProcessoUninagem} | Habilidade do Funcionário: {habilidadeFuncionario}')
+                            
+                        else:
+                            print('O código está errado')
+                            
+                        
                         #Buscando a OS digitada no banco de dados
                         self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
                         valido = self.cursor.fetchall()
@@ -1043,7 +1064,7 @@ class LoginAdmnistracao:
                             
                             #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
                             self.botaoConfirmarOS(1)
-                    
+                        
                     
             except Exception as erro:
                 print(erro)
