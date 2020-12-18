@@ -224,10 +224,12 @@ class LoginAdmnistracao:
     #------------------------------- (Janela de Verificação de Tempo Extra) - FUNÇÃO 3 --------------------------
     def verificar_tempo_extra(self, event):
         
+        #Verificando se os campos não estão em brancos
         if self.ll.get() == '' or self.mm.get() == '':
             
             messagebox.showwarning('Alerta', 'Verifique os Campos.')
         
+        #Verificando se os campos sã
         elif str(self.ll.get()).isnumeric() == False or str(self.mm.get()).isnumeric() == False:
             
             messagebox.showwarning('Alerta', 'Verifique os Campos.')
