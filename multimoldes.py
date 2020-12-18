@@ -1329,8 +1329,11 @@ class LoginAdmnistracao:
                 
                 self.chaveFinalizar = True
                 
-                self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(2))
-                self.botDespausar.place(x=172, y=220)                
+                self.botFrameRetomar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
+                self.botFrameRetomar.place(x=172, y=220)
+                
+                self.botDespausar = Button(self.botFrameRetomar, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(2))
+                self.botDespausar.pack()
                 
         except Exception as erro:
             print(erro)
@@ -2117,8 +2120,11 @@ class LoginAdmnistracao:
             print(erro)
             messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
         
-        self.botDespausar = Button(self.frameRight, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(1))
-        self.botDespausar.place(x=172, y=220)
+        self.botFrameRetomar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
+        self.botFrameRetomar.place(x=172, y=220)
+        
+        self.botDespausar = Button(self.botFrameRetomar, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(1))
+        self.botDespausar.pack()
     
     def contagem_despausar(self, despause):
         try:
@@ -2128,7 +2134,7 @@ class LoginAdmnistracao:
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
             
             self.cursor.execute('use empresa_funcionarios')
-            self.listaSeparada[0]
+            #self.listaSeparada[0]
             
             #Atualizando banco de dados com a data retomada após a função responsável por despausar for invocada
             self.cursor.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
@@ -2144,7 +2150,7 @@ class LoginAdmnistracao:
             messagebox.showerror('08-Error-Servidor', '08-Error: Não acesso ao servidor.')
         
         #Destruindo botão despausar devido a função despausar foi invocada
-        self.botDespausar.destroy()
+        self.botFrameRetomar.destroy()
         
         #Enquanto a chaveFinalizar estiver True significa que o tempo está parado
         if self.chaveFinalizar == True:
