@@ -1035,36 +1035,38 @@ class LoginAdmnistracao:
                             #Armazenando valor relacionado à habilidade do funcionário extraída do banco de dados
                             habilidadeFuncionario = checaOperacao[0][0]
                             
-                            print(f'Processo Usinagem: {ProcessoUninagem} | Habilidade do Funcionário: {habilidadeFuncionario}')
+                            if habilidadeFuncionario == 0:
+                                
+                                #Exibindo alerta que não é possível o funcionário cumprir a operação
+                                messagebox.showinfo('Alerta', f'Capacitação específica insuficiente para o comprimento desta tarefa.\n\nProcesso de Usinagem: {ProcessoUninagem}\nHabilidade do Funcionário: {habilidadeFuncionario}')
                             
+                            else:
+                                
+                                #Buscando a OS digitada no banco de dados
+                                self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
+                                valido = self.cursor.fetchall()
+                                
+                                self.checkSelect = PhotoImage(file='img/verifica.png')
+                                
+                                #Se o resultado da busca for igual a 0, então é uma Nova OS
+                                if len(valido) == 0:
+                                    
+                                    self.novoSelect['image'] = self.checkSelect
+                                    self.tipo = 'Nova OS'
+                                    
+                                    #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
+                                    self.botaoConfirmarOS(1)
+                                
+                                #Senão se o resultado da buscar for diferente de 0, então já existe uma OS digitada
+                                else:
+                                    
+                                    self.retrabalhoSelect['image'] = self.checkSelect
+                                    self.tipo = 'Retrabalhar OS'
+                                    
+                                    #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
+                                    self.botaoConfirmarOS(1)
                         else:
-                            print('O código está errado')
-                            
-                        
-                        #Buscando a OS digitada no banco de dados
-                        self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
-                        valido = self.cursor.fetchall()
-                        
-                        self.checkSelect = PhotoImage(file='img/verifica.png')
-                        
-                        #Se o resultado da busca for igual a 0, então é uma Nova OS
-                        if len(valido) == 0:
-                            
-                            self.novoSelect['image'] = self.checkSelect
-                            self.tipo = 'Nova OS'
-                            
-                            #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
-                            self.botaoConfirmarOS(1)
-                        
-                        #Senão se o resultado da buscar for diferente de 0, então já existe uma OS digitada
-                        else:
-                            
-                            self.retrabalhoSelect['image'] = self.checkSelect
-                            self.tipo = 'Retrabalhar OS'
-                            
-                            #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
-                            self.botaoConfirmarOS(1)
-                        
+                            messagebox.showerror('Alerta', 'Código de Operação Não Encontrado!')
                     
             except Exception as erro:
                 print(erro)
