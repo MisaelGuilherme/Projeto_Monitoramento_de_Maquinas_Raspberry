@@ -1085,7 +1085,12 @@ class LoginAdmnistracao:
     def botaoConfirmarOS(self, opcao):
         
         self.logoMarcaRight.destroy()
+        
+        #Pegando o número de OS digitada no campo e armazenando na variável
         self.numOS = str(self.campoServico.get())
+        
+        #Pegando o número de Operação no campo e armazenando na variável
+        self.numOper = str(self.campoOperacao.get())
     
         try:
             
@@ -1167,6 +1172,8 @@ class LoginAdmnistracao:
                 
                     #Formatando as varíaveis para encaixar no label - Tempo Programado
                     self.tempProg = valido[0][15]
+                    
+                    #Obtendo Código de Peça salva no banco de dados e armazenando na variável - Caso Opcao == 2
                     self.codP = str(valido[0][3])
 
                     
@@ -1289,6 +1296,8 @@ class LoginAdmnistracao:
                 
                 #Formatando as varíaveis para encaixar no label - Tempo Programado
                 self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
+                
+                #Obtendo Código de Peça salva no banco de dados e armazenando na variável - Caso Opcao == 1
                 self.codP = str(valido[0][2])
 
             #Mostrando o tempo Programado através do label
