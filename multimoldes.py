@@ -1318,6 +1318,9 @@ class LoginAdmnistracao:
             self.campoPeca = Label(self.frameLeft, text=self.campoPeca.get(), width=25, font=('arial', 15))
             self.campoPeca.place(x=300, y=200)
             
+            self.campoOperacao = Label(self.frameLeft, text=self.campoOperacao.get(), width=25, font=('arial', 15))
+            self.campoOperacao.place(x=300, y=300)
+            
             #Labals que imprimem o cronômetro que totaliza o tempo de operação do funcionário
             self.segundos = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
             self.segundos.place(x=167, y=500)
