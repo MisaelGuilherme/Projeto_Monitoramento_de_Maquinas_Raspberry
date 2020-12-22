@@ -1372,6 +1372,7 @@ class LoginAdmnistracao:
         self.multimolde['bg'] = cor1
         self.ordemServico['bg'] = cor1
         self.codigoPeca['bg'] = cor1
+        self.codigoOperacao['bg'] = cor1
         self.tempoProgramado['bg'] = cor1
         
         self.framenovoOS['bg'] = cor1
@@ -1392,6 +1393,7 @@ class LoginAdmnistracao:
         self.multimolde['fg'] = cor2
         self.ordemServico['fg'] = cor2
         self.codigoPeca['fg'] = cor2
+        self.codigoOperacao['fg'] = cor2
         self.tempoProgramado['fg'] = cor2
                 
     def botao_iniciar(self, iniciaCont):
