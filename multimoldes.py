@@ -1939,8 +1939,11 @@ class LoginAdmnistracao:
                 print(self.tempExtraGasto)
                 
             #Botão caso o operado queira realizar outra S.O
-            self.botReiniciar = Button(self.frameRight, text='NOVO.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 20, 'bold'), width=12, command = lambda: self.nova_tela_operacao())
-            self.botReiniciar.place(x=187, y=230)
+            self.frameBotReiniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
+            self.frameBotReiniciar.place(x=187, y=230)
+            
+            self.botReiniciar = Button(self.frameBotReiniciar, text='NOVO.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 20, 'bold'), width=12, command = lambda: self.nova_tela_operacao())
+            self.botReiniciar.pack()
             
             #Enviando todos os dados ao banco
             try:
