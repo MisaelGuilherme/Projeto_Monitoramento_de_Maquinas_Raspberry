@@ -1740,7 +1740,7 @@ class LoginAdmnistracao:
                 if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5 and iniciaCont == 1 or m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) <= 5 and iniciaCont == 2:
                     print('Parte 1 C')
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='RESTA '+str(c)+' MINUTO', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                 
@@ -1749,13 +1749,13 @@ class LoginAdmnistracao:
 
                     for i in range(1,6):
                         if i + m == int(self.tempMin):
-                            self.mensag['text'] = 'RESTA '+str(i)+' MINUTO'
+                            self.mensag['text'] = 'Resta '+str(i)+' Minuto'
 
                 #Verificando se o tempo definido se encaixa entre >= 6 e <= 59, caso seja irá criar o objeto com a mensagem
                 if c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59 or m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59 and iniciaCont == 2:
                     print('Parte 2 C')
                     telaVermelha2()
-                    self.mensag2 = Label(self.frameRight, text='RESTA '+str(c)+' MINUTO', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag2 = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
                     self.ativ = 1
                 
@@ -1764,7 +1764,7 @@ class LoginAdmnistracao:
                     
                     for i in range(1,6):
                         if i + m == int(self.tempMin):
-                            self.mensag2['text'] = 'RESTA '+str(i)+' MINUTO'
+                            self.mensag2['text'] = 'Resta '+str(i)+' Minuto'
                             
         if self.ativ == 1:
             self.ativaMensagem = 2
