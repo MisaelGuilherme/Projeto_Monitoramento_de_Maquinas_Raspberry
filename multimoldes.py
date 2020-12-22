@@ -1906,8 +1906,8 @@ class LoginAdmnistracao:
             self.botFrameFinalizar.destroy()
             self.botFramePausar.destroy()
             
-            self.labFinalizar =  Label(self.frameRight, text='Processesso Finalizado!',  bg='red', fg='white', font=('arial', 25, 'bold'))
-            self.labFinalizar.place(x=100, y=160)
+            self.labFinalizar =  Label(self.frameRight, text='Operação Finalizada!',  bg='red', fg='white', font=('arial', 25, 'bold'))
+            self.labFinalizar.place(x=120, y=160)
             
             #Pegando a hora atual em que o processo foi finalizado
             time = datetime.now().time().strftime('%H:%M:%S')
