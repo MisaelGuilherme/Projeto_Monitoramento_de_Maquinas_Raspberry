@@ -1545,7 +1545,7 @@ class LoginAdmnistracao:
                 if m + c == int(self.tempMin) and m == 0 and h == int(self.tempHora) and s == 0 and int(self.tempMin) <= 5:
                     print('Parte 1 A')
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                 
@@ -1558,7 +1558,7 @@ class LoginAdmnistracao:
                 if m + c == int(self.tempMin) and c == 5 and h == int(self.tempHora) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59:
                     print('Parte 2 A')
                     telaVermelha2()
-                    self.mensag2 = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag2 = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
                     self.ativ = 1
                 
@@ -1572,7 +1572,7 @@ class LoginAdmnistracao:
                 if c == 5 and h == int(self.tempHora) - 1 and int(self.tempMin) == 0 and m + 5 == 60  and s == 0:
                     print('Parte 3 A')
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1                  
                 
@@ -1612,7 +1612,7 @@ class LoginAdmnistracao:
                 if c == 5 and int(self.tempMin) == 0 and m + 5 == 60 and s == 0 or c+valueM==60 and int(self.tempMin) == 0 and m == valueM and s == valueS +1 and iniciaCont == 2:
                     print('Parte 1 B')
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                 
@@ -1625,7 +1625,7 @@ class LoginAdmnistracao:
                 #Se a hora for == 1 e os minutos programado for == 1 ex: (01:01:00) ----------------------------
                 if h == 0 and int(self.tempMin) == 1 and m == 56 and s == 0 and c == 5 or h == 0 and int(self.tempMin) == 1 and c+valueM==61 and m == valueM and s == valueS+1 and iniciaCont == 2:
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                     if iniciaCont == 2:
@@ -1640,7 +1640,7 @@ class LoginAdmnistracao:
                 #Se a hora for == 1 e os minutos programado for == 2 ex: (01:02:00) ----------------------------
                 if h == 0 and int(self.tempMin) == 2 and m == 57 and s == 0 and c == 5 or h == 0 and int(self.tempMin) == 2 and c+valueM==62 and m == valueM and s == valueS+1 and iniciaCont == 2:
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                     if iniciaCont == 2:
@@ -1655,7 +1655,7 @@ class LoginAdmnistracao:
                 #Se a hora for == 1 e os minutos programado for == 3 ex: (01:03:00) ----------------------------
                 if h == 0 and int(self.tempMin) == 3 and m == 58 and s == 0 and c == 5 or h == 0 and int(self.tempMin) == 3 and c+valueM==63 and m == valueM and s == valueS+1 and iniciaCont == 2:
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                     if iniciaCont == 2:
@@ -1670,7 +1670,7 @@ class LoginAdmnistracao:
                 #Se a hora for == 1 e os minutos programado for == 4 ex: (01:04:00)
                 if h == 0 and int(self.tempMin) == 4 and m == 59 and s == 0 and c == 5 or h == 0 and int(self.tempMin) == 4 and c+valueM==64 and m == valueM and s == valueS+1 and iniciaCont == 2:
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                     if iniciaCont == 2:
@@ -1686,7 +1686,7 @@ class LoginAdmnistracao:
                 if h == int(self.tempHora) and m + c == int(self.tempMin) and m == 0 and s == 0 and int(self.tempMin) == 5 or h == int(self.tempHora) and m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) == 5 and iniciaCont == 2:
                     print('Parte 2 B')
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                     
@@ -1701,7 +1701,7 @@ class LoginAdmnistracao:
                 if h == int(self.tempHora) and c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >=6 and int(self.tempMin) <= 59 or h == int(self.tempHora) and m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59 and iniciaCont == 2:
                     print('Parte 3 B')
                     telaVermelha2()
-                    self.mensag2 = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag2 = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
                     self.ativ = 1
                 
@@ -1740,7 +1740,7 @@ class LoginAdmnistracao:
                 if m + c == int(self.tempMin) and m == 0 and s == 1 and int(self.tempMin) <= 5 and iniciaCont == 1 or m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) <= 5 and iniciaCont == 2:
                     print('Parte 1 C')
                     telaVermelha2()
-                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag.place(x=160, y=400)
                     self.ativ = 1
                 
@@ -1755,7 +1755,7 @@ class LoginAdmnistracao:
                 if c == 5 and m + c == int(self.tempMin) and s == 0 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59 or m + c == int(self.tempMin) and m == valueM and s == valueS+1 and int(self.tempMin) >= 6 and int(self.tempMin) <= 59 and iniciaCont == 2:
                     print('Parte 2 C')
                     telaVermelha2()
-                    self.mensag2 = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('arial', 20, 'bold'))
+                    self.mensag2 = Label(self.frameRight, text='Resta '+str(c)+' Minuto', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
                     self.mensag2.place(x=160, y=400)
                     self.ativ = 1
                 
