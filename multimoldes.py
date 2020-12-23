@@ -1958,6 +1958,7 @@ class LoginAdmnistracao:
                                     +self.tempGasto+"','"
                                     +str(self.tempProg)+"','"
                                     +self.codP+"','"
+                                    +self.numOper+"','"
                                     +self.numOS+"','"
                                     +str(self.tempExtraGasto)+"','"
                                     +str(self.chaveTempExtra)+"','"
