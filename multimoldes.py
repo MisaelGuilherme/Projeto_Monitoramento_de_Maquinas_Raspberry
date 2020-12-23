@@ -919,12 +919,12 @@ class LoginAdmnistracao:
                 #extraindo do banco de dados as informações e armazenando nas variáveis
                 os = valido[c][5]
                 peca = valido[c][3]
+                operacao = valido[c][4]
                 servico = valido[c][6]
-                tempMarcado = valido[c][11]
                 iD = valido[c][0]
                         
                 data = valido[c][8]
-                juntos = str(iD)+' -- '+os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+')'
+                juntos = str(iD)+' -- '+os+' - '+peca+' - '+operacao+' - '+servico+' - ('+data+')'
 
                 #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
                 pendente.append(juntos)
@@ -943,6 +943,7 @@ class LoginAdmnistracao:
             #Limpando o campo antes de inserir o número de Os e o Código de Peça
             self.campoServico.delete(0, END)
             self.campoPeca.delete(0, END)
+            self.campoOperacao.delete(0, END)
             
             #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
             self.campoServico.insert(0, c)
@@ -950,6 +951,10 @@ class LoginAdmnistracao:
             d = b[4]
             #Armazenando o Código da Peça selecionado em uma variável e inserindo em um campo de texto
             self.campoPeca.insert(0, d)
+            
+            e = b[6]
+            #Armazenando o Código de Operação selecionado em uma variável e inserindo em um campo de texto
+            self.campoOperacao.insert(0, e)
             
             #Usando o banco empresa funcionário
             self.cursor.execute('use empresa_funcionarios')
@@ -2129,6 +2134,7 @@ class LoginAdmnistracao:
                 +str(self.operador)+"','"
                 +self.user+"','"
                 +self.codP+"','"
+                +self.numOper+"','"
                 +self.numOS+"','"
                 +self.resultPausa+"','"
                 +horaPause+"','"
