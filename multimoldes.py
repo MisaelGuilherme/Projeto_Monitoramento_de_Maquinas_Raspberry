@@ -917,13 +917,13 @@ class LoginAdmnistracao:
             for c in range(0, len(valido)):
                 
                 #extraindo do banco de dados as informações e armazenando nas variáveis
-                os = valido[c][4]
+                os = valido[c][5]
                 peca = valido[c][3]
-                servico = valido[c][5]
-                tempMarcado = valido[c][10]
+                servico = valido[c][6]
+                tempMarcado = valido[c][11]
                 iD = valido[c][0]
                         
-                data = valido[c][7]
+                data = valido[c][8]
                 juntos = str(iD)+' -- '+os+' - '+peca+' - '+servico+' - '+tempMarcado+' - ('+data+')'
 
                 #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
@@ -1117,17 +1117,17 @@ class LoginAdmnistracao:
                 if len(valido) == 1:
                     
                     #Recebendo cor da tela de quando foi pausada
-                    self.corTelaAtual = valido[0][16]
+                    self.corTelaAtual = valido[0][17]
                     
                     li = ''
                     #Recebendo o número de vezes tempo extra do banco de dados
-                    verificandoTempExtra = valido[0][13]
+                    verificandoTempExtra = valido[0][14]
                     
                     #Se for maior ou igual a 1 significa que o tempo que será adcionado e contado será do tempo extra restante
                     if int(verificandoTempExtra) >= 1:
                         
                         #Desfragmentando o tempo extra do banco de dados
-                        t = valido[0][14]
+                        t = valido[0][15]
                         for num in t:
                             if num != ':':
                                 li += num
@@ -1143,10 +1143,10 @@ class LoginAdmnistracao:
                         self.tempSeg = liDesfragment[2]
                         
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar irá continuar sendo tempo extra e o último tempo Adcionado
-                        self.UltimoTempAdd = valido[0][14]
+                        self.UltimoTempAdd = valido[0][15]
 
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar o contador de vezes irá retomar com o valor de onde parou
-                        self.chaveTempExtra = int(valido[0][13])
+                        self.chaveTempExtra = int(valido[0][14])
                         
                         self.vezes = Label(self.frameLeft, text='x'+str(self.chaveTempExtra), width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
                         self.vezes.place(x=750, y=400)
@@ -1156,7 +1156,7 @@ class LoginAdmnistracao:
                         self.campoProExt.place(x=640, y=400)
                     
                     #Armazenando na variável o tempo marcado quando pausado
-                    marcaTemp = valido[0][10]
+                    marcaTemp = valido[0][11]
                     
                     #Criando variável para obter o tempo marcado sem ser na forma de horário 00: 00: 00
                     self.tempoDePauseObtido = ''
@@ -1168,10 +1168,10 @@ class LoginAdmnistracao:
                         else:
                             self.tempoDePauseObtido +=' '
                     
-                    self.backup = valido[0][15]
+                    self.backup = valido[0][16]
                 
                     #Formatando as varíaveis para encaixar no label - Tempo Programado
-                    self.tempProg = valido[0][15]
+                    self.tempProg = valido[0][16]
                     
                     #Obtendo Código de Peça salva no banco de dados e armazenando na variável - Caso Opcao == 2
                     self.codP = str(valido[0][3])
