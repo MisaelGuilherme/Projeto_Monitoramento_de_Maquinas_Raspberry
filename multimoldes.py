@@ -1125,11 +1125,25 @@ class LoginAdmnistracao:
                     self.corTelaAtual = valido[0][17]
                     
                     li = ''
+                    listaNum = ''
                     #Recebendo o número de vezes tempo extra do banco de dados
                     verificandoTempExtra = valido[0][14]
                     
                     #Se for maior ou igual a 1 significa que o tempo que será adcionado e contado será do tempo extra restante
                     if int(verificandoTempExtra) >= 1:
+                        
+                        tempo = valido[0][13]
+                        for v in tempo:
+                            if v != ':':
+                                listaNum += v
+                            else:
+                                listaNum += ' '
+                        listaNum.split()
+                        listaNumSeparada = listaNum.split()
+                        
+                        self.tempExtraGastoA += int(listaNumSeparada[0])
+                        self.tempExtraGastoB += int(listaNumSeparada[1])
+                        self.tempExtraGastoC += 0
                         
                         #Desfragmentando o tempo extra do banco de dados
                         t = valido[0][15]
