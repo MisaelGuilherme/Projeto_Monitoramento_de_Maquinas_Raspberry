@@ -1014,7 +1014,7 @@ class LoginAdmnistracao:
                 else:
                     
                     #Buscando no banco de dados se existe a OS digitada e o Código de Peça em modo pausado
-                    self.cursor.execute('select * from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and horaRetomada = 0 and dataRetomada = 0')
+                    self.cursor.execute('select * from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0')
                     checar = self.cursor.fetchall()
                     
                     #Se ao ler a variável "checar" o valor for maior ou igual a 1, provavelmente existe no banco de dados
