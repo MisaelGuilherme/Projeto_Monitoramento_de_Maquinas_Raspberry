@@ -313,7 +313,7 @@ class LoginAdmnistracao:
 
         self.hou = None
 
-        self.botaoReabilitar.destroy()
+        self.frameBotReabilitar.destroy()
         
         self.labFinalizar.destroy()
         
@@ -1816,8 +1816,12 @@ class LoginAdmnistracao:
             self.labFinalizar = Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=150, y=150)
             
-            self.botaoReabilitar = Button(self.frameRight, text='REABILITAR', bg='orange', activebackground='orange', fg='white', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
-            self.botaoReabilitar.place(x=180, y=220)
+            self.frameBotReabilitar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
+            self.frameBotReabilitar.place(x=180, y=220)
+            
+            self.botaoReabilitar = Button(self.frameBotReabilitar, text='REABILITAR', bg='orange', activebackground='orange', fg='white', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
+            self.botaoReabilitar.pack()
+            
             self.foco = None
             
             self.chaveFinalizar = True
