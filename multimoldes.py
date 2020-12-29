@@ -1804,8 +1804,8 @@ class LoginAdmnistracao:
                 self.tempExtraGastoA += int(self.tempHora)
                 self.tempExtraGastoB += int(self.tempMin)
                 self.tempExtraGastoC += 0
-                print('exemplo 1: tempgastoAB', self.tempExtraGastoB, self.tempExtraGastoC)
-                print('exemplo 1: tempos', self.tempHora, self.tempMin)
+                print(f'Recebendo Valores Tempo Gasto Extra: {self.tempExtraGastoB} {self.tempExtraGastoC}')
+                print(f'Tempo Hora: {self.tempHora } e Tempo Minuto: {self.tempMin}')
             
             self.objetos_cores('#870000', 'white')
             self.imagemTempRel.destroy()                      
@@ -1955,7 +1955,7 @@ class LoginAdmnistracao:
                 else:
                     self.tempExtraGastoA += int(self.houC)
                     self.tempExtraGastoB += int(self.minuC)    
-                    self.tempExtraGastoC += int(self.secC)
+                    self.tempExtraGastoC = int(self.secC)
                 print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
                 
                 self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
@@ -2139,8 +2139,9 @@ class LoginAdmnistracao:
                 else:
                     self.tempExtraGastoA += int(self.houC)
                     self.tempExtraGastoB += int(self.minuC)    
-                    self.tempExtraGastoC += int(self.secC)
-                print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
+                    self.tempExtraGastoC = int(self.secC)
+                    print(f'self.tempExtraGastoC {self.tempExtraGastoC} | self.secC: {int(self.secC)}')
+                #print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
                 
                 #Adcionando o tempo extra gasto e formatando através de uma função
                 self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
