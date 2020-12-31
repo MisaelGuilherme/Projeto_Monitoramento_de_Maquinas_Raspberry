@@ -6,7 +6,6 @@ from tkinter import *
 from tkinter import ttk
 from time import sleep
 from tkinter import messagebox
-from platform import *
 import mysql.connector
 
 class LoginAdmnistracao:
@@ -695,13 +694,7 @@ class LoginAdmnistracao:
         self.janelaOper = Tk()
         self.janelaOper.configure(background='black')
         self.janelaOper.resizable(False, False)
-        
-        SistemaOperacional = system()
-        
-        if SistemaOperacional == 'Windows':
-            self.janelaOper.overrideredirect(True)
-        elif SistemaOperacional == 'Linux':
-            pass
+        self.janelaOper.attributes('-fullscreen', True)
         
         #Obtendo medidas da tela
         largura = self.janelaOper.winfo_screenwidth()
