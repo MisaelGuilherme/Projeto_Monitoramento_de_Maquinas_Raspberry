@@ -707,15 +707,11 @@ class LoginAdmnistracao:
         largura = self.janelaOper.winfo_screenwidth()
         altura = self.janelaOper.winfo_screenheight()
         
-        qq = largura - 1280
-        zz = qq / 2
-        aa = 1280 + int(zz)
-        
         #self.janelaOper.geometry(str(largura)+'x'+str(altura))
-        self.janelaOper.geometry(str(aa)+'x720')
+        self.janelaOper.geometry(str(largura)+'x'+str(altura))
         
         #Centralizando janela
-        self.centraliza_tela(aa, 720, self.janelaOper)
+        self.centraliza_tela(largura, altura, self.janelaOper)
         
         #Configurando a largura dos frames esquerdo e direito
         largLeft = largura / 1.6
