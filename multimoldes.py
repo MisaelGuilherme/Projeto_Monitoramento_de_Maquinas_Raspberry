@@ -90,9 +90,9 @@ class LoginAdmnistracao:
             # Se a senha for numérica irá verificar no banco de dados
             try:
                 banco = mysql.connector.connect(
-                    host = 'localhost',
-                    user = 'root',
-                    password = '123'
+                    host = '10.0.0.65',
+                    user = 'MultimoldesClient',
+                    password = ''
                 )
                 cursor = banco.cursor()
                 cursor.execute('use empresa_funcionarios')
@@ -594,9 +594,9 @@ class LoginAdmnistracao:
         senha = self.campSenha.get()
         try:
             banco = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="123")
+            host="10.0.0.65",
+            user="MultimoldesClient",
+            password="")
             
             cursor = banco.cursor()
             cursor.execute('USE empresa_funcionarios')
@@ -641,9 +641,9 @@ class LoginAdmnistracao:
                 try:
                     self.banco = mysql.connector.connect(
                         
-                        host = "localhost",
-                        user = "root",
-                        password = "123")
+                        host = "10.0.0.65",
+                        user = "MultimoldesClient",
+                        password = "")
                     
                     #verificando se usuário existe no banco de dados
                     self.cursor = self.banco.cursor()
