@@ -134,38 +134,41 @@ class LoginAdmnistracao:
         self.janelaFuncio = Tk()
         self.janelaFuncio.title('Login Funcionário')
         self.janelaFuncio.configure(background='white')
-        self.janelaFuncio.resizable(False, False)
+        #self.janelaFuncio.resizable(False, False)
         
         sistemaOperacional = system()
         if sistemaOperacional == 'Windows':
             self.janelaFuncio.iconbitmap('img/multimoldes-icon.ico')
         
         #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(500, 500, self.janelaFuncio)
+        self.centraliza_tela(700, 600, self.janelaFuncio)
         
         #Adcionando Logo na Janela de Funcionário
         self.imgFun = PhotoImage(file="img/logo-multimoldes.png")
+        
+        self.frameLogin = Frame(self.janelaFuncio, width=500, height=600, bg='white')
+        self.frameLogin.pack()
 
-        self.imagemPricipalFun = Label(self.janelaFuncio, image=self.imgFun, bg='white')
+        self.imagemPricipalFun = Label(self.frameLogin, image=self.imgFun, bg='white')
         self.imagemPricipalFun.place(x=190,y=15)
 
-        self.labelLogin = Label(self.janelaFuncio, text='Usuário', bg='white', fg='#3e8e94', font=('arial',12,'bold'))
-        self.labelLogin.place(x=80, y=198)
+        self.labelLogin = Label(self.frameLogin, text='Usuário', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
+        self.labelLogin.place(x=0, y=248)
 
-        self.campoLogin = Entry(self.janelaFuncio, width=26, font=('arial', 11), border=2, relief=GROOVE)
-        self.campoLogin.place(x=150, y=200)
+        self.campoLogin = Entry(self.frameLogin, width=26, font=('arial', 16), border=2, relief=GROOVE)
+        self.campoLogin.place(x=150, y=260)
         self.campoLogin.focus_force()
         self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
 
-        self.labelSenha = Label(self.janelaFuncio, text='Senha', bg='white', fg='#3e8e94', font=('arial',12,'bold'))
-        self.labelSenha.place(x=80, y=248)
+        self.labelSenha = Label(self.frameLogin, text='Senha', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
+        self.labelSenha.place(x=0, y=298)
 
-        self.campoSenha = Entry(self.janelaFuncio, width=13, show='l', font=('wingdings', 11), border=2, relief=GROOVE)
-        self.campoSenha.place(x=150, y=250)
+        self.campoSenha = Entry(self.frameLogin, width=13, show='l', font=('wingdings', 16, 'bold'), border=2, relief=GROOVE)
+        self.campoSenha.place(x=150, y=300)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
-        self.botao = Button(self.janelaFuncio, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
-        self.botao.place(x=210, y=300)
+        self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
+        self.botao.place(x=200, y=360)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
