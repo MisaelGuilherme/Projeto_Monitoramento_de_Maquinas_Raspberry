@@ -141,41 +141,41 @@ class LoginAdmnistracao:
             self.janelaFuncio.iconbitmap('img/multimoldes-icon.ico')
         
         #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(700, 600, self.janelaFuncio)
+        self.centraliza_tela(900, 600, self.janelaFuncio)
         
         #Adcionando Logo na Janela de Funcionário
         self.imgFun = PhotoImage(file="img/logo-multimoldes.png")
         
-        self.frameLogin = Frame(self.janelaFuncio, width=500, height=600, bg='white')
+        self.frameLogin = Frame(self.janelaFuncio, width=600, height=600, bg='white')
         self.frameLogin.pack()
 
         self.imagemPricipalFun = Label(self.frameLogin, image=self.imgFun, bg='white')
-        self.imagemPricipalFun.place(x=190,y=15)
+        self.imagemPricipalFun.place(x=240,y=15)
 
         self.labelLogin = Label(self.frameLogin, text='Usuário', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
-        self.labelLogin.place(x=0, y=248)
+        self.labelLogin.place(x=0, y=238)
 
         self.campoLogin = Entry(self.frameLogin, width=26, font=('arial', 16), border=2, relief=GROOVE)
-        self.campoLogin.place(x=150, y=260)
+        self.campoLogin.place(x=150, y=250)
         self.campoLogin.focus_force()
         self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.labelSenha = Label(self.frameLogin, text='Senha', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
-        self.labelSenha.place(x=0, y=298)
+        self.labelSenha.place(x=0, y=300)
 
         self.campoSenha = Entry(self.frameLogin, width=13, show='l', font=('wingdings', 16, 'bold'), border=2, relief=GROOVE)
-        self.campoSenha.place(x=150, y=300)
+        self.campoSenha.place(x=150, y=310)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
-        self.botao.place(x=200, y=360)
+        self.botao.place(x=230, y=390)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
 
-        self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
+        '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
         self.lbCadastrar.place(x=340, y=410)
         
         self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
-        self.botCadastrar.place(x=370, y=440)
+        self.botCadastrar.place(x=370, y=440)'''
         
         self.foco = None
         
