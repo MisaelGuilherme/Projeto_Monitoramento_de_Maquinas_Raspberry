@@ -754,44 +754,44 @@ class LoginAdmnistracao:
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
 
-        self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
+        self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.ordemServico.place(x=70, y=100)
-        self.campoServico = Entry(self.frameLeft, width=25, font=('arial', 15), bg='white')
-        self.campoServico.place(x=300, y=100)
+        self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), bg='white')
+        self.campoServico.place(x=360, y=100)
         self.campoServico.focus_force()
         self.campoServico.bind("<Return>", self.confirmarCampos)
         
-        self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
+        self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.codigoPeca.place(x=90, y=200)
-        self.campoPeca = Entry(self.frameLeft, width=25, font=('arial', 15))
-        self.campoPeca.place(x=300, y=200)
+        self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19))
+        self.campoPeca.place(x=360, y=200)
         self.campoPeca.bind("<Return>", self.confirmarCampos)        
         
         self.checkVazio = PhotoImage(file='img/verificaVazio.png')
         
-        self.framenovoOS = Frame(self.frameLeft, bg='#135565', width=85, height=20)
-        self.framenovoOS.place(x=320, y=250)
+        self.framenovoOS = Frame(self.frameLeft, bg='#135565', width=110, height=25)
+        self.framenovoOS.place(x=345, y=250)
         
-        self.novoOS = Label(self.framenovoOS, text='Nova OS', font=('arial',10,'bold'), bg='#135565', fg='white')
+        self.novoOS = Label(self.framenovoOS, text='Nova OS', font=('arial',14,'bold'), bg='#135565', fg='white')
         self.novoOS.place(x=0, y=0)
         
         self.novoSelect = Label(self.framenovoOS, image=self.checkVazio, bg='#135565', fg='white')
-        self.novoSelect.place(x=62, y=0)        
+        self.novoSelect.place(x=88, y=5)
         
-        self.frameRetrabalho = Frame(self.frameLeft, bg='#135565', width=125, height=20)
-        self.frameRetrabalho.place(x=450, y=250)
+        self.frameRetrabalho = Frame(self.frameLeft, bg='#135565', width=170, height=25)
+        self.frameRetrabalho.place(x=495, y=250)
         
-        self.retrabalhoOS = Label(self.frameRetrabalho,  text='Retrabalhar OS', font=('arial',10,'bold'),bg='#135565', fg='white')
+        self.retrabalhoOS = Label(self.frameRetrabalho,  text='Retrabalhar OS', font=('arial',14,'bold'),bg='#135565', fg='white')
         self.retrabalhoOS.place(x=0, y=0)
         
         self.retrabalhoSelect = Label(self.frameRetrabalho, image=self.checkVazio, bg='#135565', fg='white')
-        self.retrabalhoSelect.place(x=105, y=0)
+        self.retrabalhoSelect.place(x=148, y=5)
         
         
-        self.codigoOperacao = Label(self.frameLeft, text='Operação:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
-        self.codigoOperacao.place(x=150, y=300)
-        self.campoOperacao = Entry(self.frameLeft, width=25, font=('arial', 15))
-        self.campoOperacao.place(x=300, y=300)
+        self.codigoOperacao = Label(self.frameLeft, text='Operação:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
+        self.codigoOperacao.place(x=170, y=300)
+        self.campoOperacao = Entry(self.frameLeft, width=20, font=('arial', 19))
+        self.campoOperacao.place(x=360, y=300)
         self.campoOperacao.bind("<Return>", self.confirmarCampos)
         
         self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
@@ -1310,7 +1310,7 @@ class LoginAdmnistracao:
                 self.codP = str(valido[0][2])
 
             #Mostrando o tempo Programado através do label
-            self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 16, 'bold'), bg='#135565', fg='white')
+            self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 17, 'bold'), bg='#135565', fg='white')
             self.tempoProgramado.place(x=60, y=400)
             
             self.campoProgramado = Label(self.frameLeft, width=15, font=('arial', 15, 'bold'), bg='white')
@@ -1321,14 +1321,14 @@ class LoginAdmnistracao:
             self.botConfirmar.destroy()
             
             #Mudando os campos Entry para Labels para exibir na tela
-            self.campoServico = Label(self.frameLeft, text=self.campoServico.get(), width=25, font=('arial', 15), bg='white')
-            self.campoServico.place(x=300, y=100)
+            self.campoServico = Label(self.frameLeft, text=self.campoServico.get(), width=20, font=('arial', 19), bg='white')
+            self.campoServico.place(x=360, y=100)
 
-            self.campoPeca = Label(self.frameLeft, text=self.campoPeca.get(), width=25, font=('arial', 15))
-            self.campoPeca.place(x=300, y=200)
+            self.campoPeca = Label(self.frameLeft, text=self.campoPeca.get(), width=20, font=('arial', 19), bg='white')
+            self.campoPeca.place(x=360, y=200)
             
-            self.campoOperacao = Label(self.frameLeft, text=self.campoOperacao.get(), width=25, font=('arial', 15))
-            self.campoOperacao.place(x=300, y=300)
+            self.campoOperacao = Label(self.frameLeft, text=self.campoOperacao.get(), width=20, font=('arial', 19), bg='white')
+            self.campoOperacao.place(x=360, y=300)
             
             #Labals que imprimem o cronômetro que totaliza o tempo de operação do funcionário
             self.segundos = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
