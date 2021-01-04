@@ -4,8 +4,8 @@
 from datetime import *
 from tkinter import *
 from tkinter import ttk
-from time import sleep
 from tkinter import messagebox
+from platform import *
 import mysql.connector
 
 class LoginAdmnistracao:
@@ -38,10 +38,9 @@ class LoginAdmnistracao:
             self.janelaADM.configure(background='white')
             self.janelaADM.protocol("WM_DELETE_WINDOW", self.fechar_janela)
             
-            try:
+            sistemaOperacional = system()
+            if sistemaOperacional == 'Windows':
                 self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
-            except:
-                pass
             
             #Chamando Função Para Centralizar a Tela
             self.centraliza_tela(500, 500, self.janelaADM)
@@ -137,10 +136,9 @@ class LoginAdmnistracao:
         self.janelaFuncio.configure(background='white')
         self.janelaFuncio.resizable(False, False)
         
-        try:
+        sistemaOperacional = system()
+        if sistemaOperacional == 'Windows':
             self.janelaFuncio.iconbitmap('img/multimoldes-icon.ico')
-        except:
-            pass        
         
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(500, 500, self.janelaFuncio)
@@ -185,15 +183,13 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra = Tk()
         self.janelaTempExtra.title('Tela Operativa')
-        self.janelaTempExtra.iconbitmap('img/multimoldes-icon.ico')
         self.janelaTempExtra.configure(background='#870000')
         self.janelaTempExtra.geometry('550x350+200+100')
 
-        try:
+        sistemaOperacional = system()
+        if sistemaOperacional == 'Windows':
             self.janelaTempExtra.iconbitmap('img/multimoldes-icon.ico')
-        except:
-            pass
-
+        
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(550, 350, self.janelaTempExtra)
         
@@ -473,15 +469,13 @@ class LoginAdmnistracao:
         
         self.janelaCad = Toplevel()
         self.janelaCad.title('Tela Cadastro')
-        self.janelaCad.iconbitmap('img/multimoldes-icon.ico')
         self.janelaCad.resizable(False, False)
         self.janelaCad.configure(background='white')
 
-        try:
+        sistemaOperacional = system()
+        if sistemaOperacional == 'Windows':
             self.janelaCad.iconbitmap('img/multimoldes-icon.ico')
-        except:
-            pass
-
+        
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(500, 500, self.janelaCad)
 
@@ -2033,15 +2027,13 @@ class LoginAdmnistracao:
             
             self.janelaPause = Toplevel()
             self.janelaPause.title('Relatório de Pausa')
-            self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
             self.janelaPause.resizable(False, False)
             self.janelaPause.configure(background='white')
             self.janelaPause.protocol("WM_DELETE_WINDOW", self.close_janela_pause)
             
-            try:
+            sistemaOperacional = system()
+            if sistemaOperacional == 'Windows':
                 self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
-            except:
-                pass
 
             #Chamando Função Para Centralizar a Tela
             self.centraliza_tela(500, 500, self.janelaPause)
