@@ -153,22 +153,22 @@ class LoginAdmnistracao:
         self.imagemPricipalFun.place(x=240,y=15)
 
         self.labelLogin = Label(self.frameLogin, text='Usuário', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
-        self.labelLogin.place(x=0, y=238)
+        self.labelLogin.place(x=0, y=258)
 
         self.campoLogin = Entry(self.frameLogin, width=26, font=('arial', 16), border=2, relief=GROOVE)
-        self.campoLogin.place(x=150, y=250)
+        self.campoLogin.place(x=150, y=270)
         self.campoLogin.focus_force()
         self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.labelSenha = Label(self.frameLogin, text='Senha', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
-        self.labelSenha.place(x=0, y=300)
+        self.labelSenha.place(x=0, y=320)
 
         self.campoSenha = Entry(self.frameLogin, width=13, show='l', font=('wingdings', 16, 'bold'), border=2, relief=GROOVE)
-        self.campoSenha.place(x=150, y=310)
+        self.campoSenha.place(x=150, y=330)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
-        self.botao.place(x=230, y=390)
+        self.botao.place(x=230, y=410)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
 
         '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
