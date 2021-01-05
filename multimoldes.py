@@ -137,8 +137,12 @@ class LoginAdmnistracao:
         #self.janelaFuncio.resizable(False, False)
         
         sistemaOperacional = system()
+        
         if sistemaOperacional == 'Windows':
             self.janelaFuncio.iconbitmap('img/multimoldes-icon.ico')
+            self.janelaFuncio.state('zoomed')
+        else:
+            self.janelaFuncio.attributes('-zoomed', True)
         
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(900, 600, self.janelaFuncio)
