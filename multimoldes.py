@@ -671,22 +671,22 @@ class LoginAdmnistracao:
             
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
-                self.labelError = Label(self.janelaFuncio, text='Preencha o campo!', fg='#bf0606', bg='white', width=40)
+                self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
                 self.labelError.place(x=110, y=273)   
             
             #caso o campo "senha" diferentee de 11 caracteres
             else:
-                self.labelError = Label(self.janelaFuncio, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40)
+                self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
                 self.labelError.place(x=110, y=273)
         
         #caso o campo "login" esteja vazio
         elif self.campoSenha.get() == '':
-            self.labelError = Label(self.janelaFuncio, text='Preencha o campo!', fg='#bf0606', bg='white', width=40)
+            self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
             self.labelError.place(x=110, y=273) 
         
         #se caso o campo "login" seja diferente de 11 caracteres
         else:
-            self.labelError = Label(self.janelaFuncio, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40)
+            self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
             self.labelError.place(x=110, y=273)
 
     #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
