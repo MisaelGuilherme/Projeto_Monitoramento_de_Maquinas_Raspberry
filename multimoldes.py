@@ -157,7 +157,7 @@ class LoginAdmnistracao:
         self.imagemPricipalFun.place(x=240,y=15)
 
         self.labelLogin = Label(self.frameLogin, text='Usuário', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
-        self.labelLogin.place(x=0, y=258)
+        self.labelLogin.place(x=0, y=260)
 
         self.campoLogin = Entry(self.frameLogin, width=26, font=('arial', 16), border=2, relief=GROOVE)
         self.campoLogin.place(x=150, y=270)
@@ -172,8 +172,7 @@ class LoginAdmnistracao:
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
-        self.botao.place(x=235
-                         , y=410)
+        self.botao.place(x=235, y=410)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
 
         '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
@@ -673,22 +672,22 @@ class LoginAdmnistracao:
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
                 self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-                self.labelError.place(x=130, y=360)   
+                self.labelError.place(x=130, y=365)   
             
             #caso o campo "senha" diferentee de 11 caracteres
             else:
                 self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-                self.labelError.place(x=130, y=360)
+                self.labelError.place(x=130, y=365)
         
         #caso o campo "login" esteja vazio
         elif self.campoSenha.get() == '':
             self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-            self.labelError.place(x=130, y=360) 
+            self.labelError.place(x=130, y=365) 
         
         #se caso o campo "login" seja diferente de 11 caracteres
         else:
             self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-            self.labelError.place(x=130, y=360)
+            self.labelError.place(x=130, y=365)
 
     #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
     def tela_de_operacao(self):
@@ -2044,33 +2043,33 @@ class LoginAdmnistracao:
                 self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
 
             #Chamando Função Para Centralizar a Tela
-            self.centraliza_tela(500, 500, self.janelaPause)
+            self.centraliza_tela(600, 600, self.janelaPause)
             
-            motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 20, 'bold'), bg='white', fg='#3e8e94')
+            motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 25, 'bold'), bg='white', fg='#3e8e94')
             motivo.place(x=20, y=20)
             
             marcado1 = IntVar()
-            mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=('arial',12,'bold'))
-            mot1.place(x=30, y=100)
+            mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=('arial',18,'bold'))
+            mot1.place(x=30, y=120)
             
             marcado2 = IntVar()
-            mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',12,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot2.place(x=30, y=150)                
+            mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',18,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot2.place(x=30, y=200)                
             
             marcado3 = IntVar()
-            mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',12,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot3.place(x=30, y=200)
+            mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',18,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot3.place(x=30, y=280)
             
             marcado4 = IntVar()
-            mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',12,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot4.place(x=30, y=250)
+            mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',18,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot4.place(x=30, y=350)
             
             marcado5 = IntVar()
-            mot5 = Checkbutton(self.janelaPause, text='Parada (Falta de Matéria Prima)', variable=marcado5, command=ok, font=('arial', 12, 'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot5.place(x=30, y=300)
+            mot5 = Checkbutton(self.janelaPause, text='Parada (Falta de Matéria Prima)', variable=marcado5, command=ok, font=('arial', 18, 'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+            mot5.place(x=30, y=430)
             
-            confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', border=0, relief='flat', font=('arial', 12), width=10, command = lambda:self.analisar_pausa())
-            confirmar.place(x=210,y=400)
+            confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', border=0, relief='flat', font=('arial', 20), width=10, command = lambda:self.analisar_pausa())
+            confirmar.place(x=210,y=520)
             
             self.focojanelaPause = True
             
