@@ -172,7 +172,8 @@ class LoginAdmnistracao:
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
-        self.botao.place(x=230, y=410)
+        self.botao.place(x=235
+                         , y=410)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
 
         '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
@@ -672,22 +673,22 @@ class LoginAdmnistracao:
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
                 self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-                self.labelError.place(x=110, y=273)   
+                self.labelError.place(x=130, y=360)   
             
             #caso o campo "senha" diferentee de 11 caracteres
             else:
                 self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-                self.labelError.place(x=110, y=273)
+                self.labelError.place(x=130, y=360)
         
         #caso o campo "login" esteja vazio
         elif self.campoSenha.get() == '':
             self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-            self.labelError.place(x=110, y=273) 
+            self.labelError.place(x=130, y=360) 
         
         #se caso o campo "login" seja diferente de 11 caracteres
         else:
             self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-            self.labelError.place(x=110, y=273)
+            self.labelError.place(x=130, y=360)
 
     #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
     def tela_de_operacao(self):
