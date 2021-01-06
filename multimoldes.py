@@ -193,6 +193,7 @@ class LoginAdmnistracao:
         self.janelaTempExtra.title('Tela Operativa')
         self.janelaTempExtra.configure(background='#870000')
         self.janelaTempExtra.geometry('550x350+200+100')
+        self.janelaTempExtra.resizable(False, False)
         self.janelaTempExtra.protocol('WM_DELETE_WINDOW', self.fechar_tempo_extra)
 
         sistemaOperacional = system()
@@ -888,19 +889,18 @@ class LoginAdmnistracao:
         #Criando janela e configurando
         self.janelaOsPendente = Toplevel()
         self.janelaOsPendente.title('OS Pausadas')
-        self.janelaOsPendente.geometry('550x400')
         self.janelaOsPendente.resizable(False, False)
         self.janelaOsPendente.configure(background='white')
         
         #Invocando função para centralizar a janela ao centro
-        self.centraliza_tela(550, 400, self.janelaOsPendente)
+        self.centraliza_tela(730, 550, self.janelaOsPendente)
         
         #criando um list box onde irá ficar armazenado as OS com pendências
-        lista = Listbox(self.janelaOsPendente, font=('arial', 10, 'bold'), width=48)
+        lista = Listbox(self.janelaOsPendente, font=('arial', 14, 'bold'), width=44)
         lista.pack(side='right', fill='y')
         
         #titulo central da janela
-        titulo = Label(self.janelaOsPendente, text='OS Pendentes', bg='white', fg='#135565', font=('arial', 20, 'bold'))
+        titulo = Label(self.janelaOsPendente, text='OS Pendentes', bg='white', fg='#135565', font=('arial', 22, 'bold'))
         titulo.place(x=15, y=15)
         
         #armazenando logo da empresa em uma variável
@@ -908,7 +908,7 @@ class LoginAdmnistracao:
         
         #exibindo label com a imagem já carregada
         logo = Label(self.janelaOsPendente, image=image, bg='white')
-        logo.place(x=40, y=125)
+        logo.place(x=55, y=145)
         
         #criando lista onde irá capturar as os e numéros de pelas para exibir na list box
         pendente = []
@@ -988,8 +988,8 @@ class LoginAdmnistracao:
             self.janelaOsPendente.destroy()
         
         #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
-        botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 12, 'bold'), command=os_select)
-        botaoConfirmar.place(x=55, y=320)
+        botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 19, 'bold'), command=os_select, activebackground='#135565', activeforeground='white')
+        botaoConfirmar.place(x=45, y=410)
         
         #finalizando o loop da janela
         self.janelaOsPendente.mainloop()
