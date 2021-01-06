@@ -43,26 +43,26 @@ class LoginAdmnistracao:
                 self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
             
             #Chamando Função Para Centralizar a Tela
-            self.centraliza_tela(500, 500, self.janelaADM)
+            self.centraliza_tela(600, 600, self.janelaADM)
             
             #Adcionando Logo na Janela ADM
             imgAdm = PhotoImage(file="img/admin.png")
 
             imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
-            imagemPricipalAdm.place(x=180,y=10)
+            imagemPricipalAdm.place(x=240,y=10)
 
-            admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 14, 'bold'), bg='white')
-            admLabelPrincipal.place(x=85,y=208)
+            admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 18, 'bold'), bg='white')
+            admLabelPrincipal.place(x=75,y=263)
 
             self.valorBotao = botao
 
-            self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 11, 'bold'), border=2, relief=GROOVE)
-            self.admSenhaPrincipal.place(x=160,y=211)
+            self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 15, 'bold'), border=2, relief=GROOVE)
+            self.admSenhaPrincipal.place(x=170,y=266)
             self.admSenhaPrincipal.focus_force()
             self.admSenhaPrincipal.bind("<Return>", self.transicao)
             
-            admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 12), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
-            admBotaoPrincipal.place(x=210,y=300)
+            admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 18), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
+            admBotaoPrincipal.place(x=235,y=420)
             admBotaoPrincipal.bind("<Return>", self.transicao)
             self.foco = True
             self.janelaADM.mainloop()
@@ -191,8 +191,9 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra = Toplevel()
         self.janelaTempExtra.title('Tela Operativa')
-        self.janelaTempExtra.configure(background='#870000')
+        self.janelaTempExtra.configure(background='white')
         self.janelaTempExtra.geometry('550x350+200+100')
+        self.janelaTempExtra.protocol('WM_DELETE_WINDOW', self.fechar_tempo_extra)
 
         sistemaOperacional = system()
         if sistemaOperacional == 'Windows':
@@ -227,7 +228,10 @@ class LoginAdmnistracao:
         self.janelaTempExtra.grab_set()
         
         self.janelaTempExtra.mainloop()
-
+    
+    def fechar_tempo_extra(self):
+        self.janelaTempExtra.destroy()
+        self.foco = None
     #------------------------------- (Janela de Verificação de Tempo Extra) - FUNÇÃO 3 --------------------------
     def verificar_tempo_extra(self, event):
         
@@ -1440,9 +1444,7 @@ class LoginAdmnistracao:
             
             self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
             self.botPausar.pack()
-            
-            self.focojanelaPause = None
-            
+                        
             if iniciaCont == 1:
                 
                 self.frameBotIniciar.destroy()
@@ -2040,66 +2042,57 @@ class LoginAdmnistracao:
                 mot5['state'] = ACTIVE
                 self.resultPausa = ''
         
-        if self.focojanelaPause is None:
-            
-            self.janelaPause = Toplevel()
-            self.janelaPause.title('Relatório de Pausa')
-            self.janelaPause.resizable(False, False)
-            self.janelaPause.configure(background='white')
-            self.janelaPause.protocol("WM_DELETE_WINDOW", self.close_janela_pause)
-            
-            sistemaOperacional = system()
-            if sistemaOperacional == 'Windows':
-                self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
+        
+        self.janelaPause = Toplevel()
+        self.janelaPause.title('Relatório de Pausa')
+        self.janelaPause.resizable(False, False)
+        self.janelaPause.configure(background='white')
+        
+        sistemaOperacional = system()
+        if sistemaOperacional == 'Windows':
+            self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
 
-            #Chamando Função Para Centralizar a Tela
-            self.centraliza_tela(600, 600, self.janelaPause)
-            
-            motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 25, 'bold'), bg='white', fg='#3e8e94')
-            motivo.place(x=20, y=20)
-            
-            marcado1 = IntVar()
-            mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=('arial',18,'bold'))
-            mot1.place(x=30, y=120)
-            
-            marcado2 = IntVar()
-            mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',18,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot2.place(x=30, y=200)                
-            
-            marcado3 = IntVar()
-            mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',18,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot3.place(x=30, y=280)
-            
-            marcado4 = IntVar()
-            mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',18,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot4.place(x=30, y=350)
-            
-            marcado5 = IntVar()
-            mot5 = Checkbutton(self.janelaPause, text='Parada (Falta de Matéria Prima)', variable=marcado5, command=ok, font=('arial', 18, 'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
-            mot5.place(x=30, y=430)
-            
-            confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', border=0, relief='flat', font=('arial', 20), width=10, command = lambda:self.analisar_pausa())
-            confirmar.place(x=210,y=520)
-            
-            self.focojanelaPause = True
-            
-            self.janelaPause.mainloop()
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(600, 600, self.janelaPause)
         
-        else:
-            self.janelaPause.lift()
-            self.janelaPause.focus_force()
-    
-    def close_janela_pause(self):
+        motivo = Label(self.janelaPause, text='Motivo de Pausa:', font=('arial', 25, 'bold'), bg='white', fg='#3e8e94')
+        motivo.place(x=20, y=20)
         
-        self.janelaPause.destroy()
-        self.focojanelaPause = None
-        self.resultPausa = ''
+        marcado1 = IntVar()
+        mot1 = Checkbutton(self.janelaPause, text='Horário de Almoço', variable=marcado1, activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94', command=ok, font=('arial',18,'bold'))
+        mot1.place(x=30, y=120)
+        
+        marcado2 = IntVar()
+        mot2 = Checkbutton(self.janelaPause, text='Outra OS', variable=marcado2, command=ok, font=('arial',18,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+        mot2.place(x=30, y=200)                
+        
+        marcado3 = IntVar()
+        mot3 = Checkbutton(self.janelaPause, text='Final de Expediente', variable=marcado3, command=ok, font=('arial',18,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+        mot3.place(x=30, y=280)
+        
+        marcado4 = IntVar()
+        mot4 = Checkbutton(self.janelaPause, text='Intervalo Rápido', variable=marcado4, command=ok, font=('arial',18,'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+        mot4.place(x=30, y=350)
+        
+        marcado5 = IntVar()
+        mot5 = Checkbutton(self.janelaPause, text='Parada (Falta de Matéria Prima)', variable=marcado5, command=ok, font=('arial', 18, 'bold'), activebackground='white', activeforeground='#3e8e94', bg='white', fg='#3e8e94')
+        mot5.place(x=30, y=430)
+        
+        confirmar = Button(self.janelaPause, text='Confirmar', bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', border=0, relief='flat', font=('arial', 20), width=10, command = lambda:self.analisar_pausa())
+        confirmar.place(x=210,y=520)
+        
+        self.janelaPause.transient(self.janelaOper)
+        self.janelaPause.focus_force()
+        self.janelaPause.grab_set()
+                
+        self.janelaPause.mainloop()
         
     def analisar_pausa(self):        
         
         if self.tempoEsgotado == True:
 
             messagebox.showerror('Alerta','Tempo Esgotado. Impossível Pausar!')
+            self.janelaPause.destroy()
         
         elif self.resultPausa == '':
             
@@ -2236,9 +2229,6 @@ class LoginAdmnistracao:
             
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
-            
-            #Variável responsável por fazer o controle da janela Motivo da Pause, quando None significa que não há janela em foco
-            self.focojanelaPause = None
             
             self.botao_iniciar(2)
             
