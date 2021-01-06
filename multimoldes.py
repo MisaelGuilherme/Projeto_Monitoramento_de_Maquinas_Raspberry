@@ -69,6 +69,7 @@ class LoginAdmnistracao:
             
         else:
             self.janelaADM.lift()
+            self.admSenhaPrincipal.focus_force()
     
     def fechar_janela(self):
         self.janelaADM.destroy()
@@ -188,7 +189,7 @@ class LoginAdmnistracao:
     #------------------------------- (Janela de Tempo Extra) - FUNÇÃO 2--------------------------
     def tempo_extra(self):
         
-        self.janelaTempExtra = Tk()
+        self.janelaTempExtra = Toplevel()
         self.janelaTempExtra.title('Tela Operativa')
         self.janelaTempExtra.configure(background='#870000')
         self.janelaTempExtra.geometry('550x350+200+100')
@@ -221,6 +222,9 @@ class LoginAdmnistracao:
         bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', activebackground='orange', fg='white', activeforeground='white', command = lambda: self.verificar_tempo_extra(self.verificar_tempo_extra))
         bc.place(x=225,y=260)
         bc.bind('<Return>', self.verificar_tempo_extra)
+        
+        self.janelaTempExtra.transient(self.janelaOper)
+        self.janelaTempExtra.grab_set()
         
         self.janelaTempExtra.mainloop()
 
@@ -733,19 +737,19 @@ class LoginAdmnistracao:
 
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - DADOS DO OPERADOR 
 
-        self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 12,'bold'), fg='white', bg='#135565')
+        self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 15,'bold'), fg='white', bg='#135565')
         self.operadorNome.place(x=10, y=20)
         
         self.operador = self.operador.upper()
         
-        self.operadorNomeUser = Label(self.frameTop, text=self.operador,font=('arial', 12,'bold'), fg='white', bg='#135565')
-        self.operadorNomeUser.place(x=100, y=20)
+        self.operadorNomeUser = Label(self.frameTop, text=self.operador,font=('arial', 15,'bold'), fg='white', bg='#135565')
+        self.operadorNomeUser.place(x=120, y=20)
 
-        self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 12,'bold'), fg='white', bg='#135565')
+        self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 15,'bold'), fg='white', bg='#135565')
         self.horaInicialLb.place(x=10, y=60)
         
-        self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 13,'bold'), fg='black', bg='white')
-        self.horaAtualUser.place(x=160, y=60)
+        self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 15,'bold'), fg='black', bg='white')
+        self.horaAtualUser.place(x=200, y=60)
 
         self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('play pretend', 40), fg='white', bg='#135565', width=15)
         self.multimolde.place(x=450, y=20)
@@ -1325,16 +1329,22 @@ class LoginAdmnistracao:
             
             self.campoProgramado['text'] = self.tempProg
             
+            #Deletando botão confirmar após preencher os campos e confirmar
             self.botConfirmar.destroy()
             
+            #Deletando campos de preenchimento para criação dos mesmos, porém em formato de Labels
+            self.campoServico.destroy()
+            self.campoPeca.destroy()
+            self.campoOperacao.destroy()
+            
             #Mudando os campos Entry para Labels para exibir na tela
-            self.campoServico = Label(self.frameLeft, text=self.campoServico.get(), width=20, font=('arial', 19), bg='white')
+            self.campoServico = Label(self.frameLeft, text=self.numOS, width=20, font=('arial', 19), bg='white')
             self.campoServico.place(x=360, y=100)
 
-            self.campoPeca = Label(self.frameLeft, text=self.campoPeca.get(), width=20, font=('arial', 19), bg='white')
+            self.campoPeca = Label(self.frameLeft, text=self.codP, width=20, font=('arial', 19), bg='white')
             self.campoPeca.place(x=360, y=200)
             
-            self.campoOperacao = Label(self.frameLeft, text=self.campoOperacao.get(), width=20, font=('arial', 19), bg='white')
+            self.campoOperacao = Label(self.frameLeft, text=self.numOper, width=20, font=('arial', 19), bg='white')
             self.campoOperacao.place(x=360, y=300)
             
             #Labals que imprimem o cronômetro que totaliza o tempo de operação do funcionário
@@ -2077,6 +2087,7 @@ class LoginAdmnistracao:
         
         else:
             self.janelaPause.lift()
+            self.janelaPause.focus_force()
     
     def close_janela_pause(self):
         
@@ -2094,6 +2105,7 @@ class LoginAdmnistracao:
             
             if messagebox.showerror('Alerta','Marque uma Opção!'):
                 self.janelaPause.lift()
+                self.janelaPause.focus_force()
             
         else:
             self.contagem_pausada()
