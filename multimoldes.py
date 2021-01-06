@@ -191,7 +191,7 @@ class LoginAdmnistracao:
         
         self.janelaTempExtra = Toplevel()
         self.janelaTempExtra.title('Tela Operativa')
-        self.janelaTempExtra.configure(background='white')
+        self.janelaTempExtra.configure(background='#870000')
         self.janelaTempExtra.geometry('550x350+200+100')
         self.janelaTempExtra.protocol('WM_DELETE_WINDOW', self.fechar_tempo_extra)
 
@@ -1001,6 +1001,10 @@ class LoginAdmnistracao:
         if self.campoServico.get() == '' or self.campoPeca.get() == '' or self.campoOperacao.get() == '':
             
             messagebox.showerror('Alerta','Verifique os Campos!')
+        
+        #Verificando se os caracteres digitados nos campos são de valor numérico
+        elif self.campoServico.get().isnumeric() == False or self.campoPeca.get().isnumeric() == False or self.campoOperacao.get().isnumeric() == False:
+            messagebox.showerror('Alerta','Os Campos Precisam ser Numéricos!')
         
         elif True:
 
