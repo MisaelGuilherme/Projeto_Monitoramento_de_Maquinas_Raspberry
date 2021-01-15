@@ -854,6 +854,9 @@ class LoginAdmnistracao:
         #Variável responsável por indicar se a função que faz o Led piscar está ativa ou não
         self.ledPiscando = False
         
+        #Variável responsável por desligar a função que faz o Led piscar
+        self.desligarfuncaoLed = False
+        
         #variaveis que tornaram possiveis a contagem do cronômetro
         self.sec = None
         self.minu = None
@@ -1410,28 +1413,30 @@ class LoginAdmnistracao:
     
     def piscar_led(self):
         
-        #Quando a variável ledPiscando for True significa que a função já está ativa
-        self.ledPiscando = True
-        
         #Variável que irá realizar a contagem do LED Ligar e Desligar
         self.Led_OFF_ON +=1
         
         #Se a variável Led_OFF_ON == 1 o led irá desligar, pois abrirá a porta da GPIO
-        if self.Led_OFF_ON == 1:
+        if self.Led_OFF_ON == 1 and self.desligarfuncaoLed == False:
             
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.LOW)
             gpio.output(18, gpio.LOW)
         
         #Se a variável Led_OFF_ON == 2 o led irá ligar, pois abrirá a porta da GPIO
-        elif self.Led_OFF_ON == 2:
+        elif self.Led_OFF_ON == 2 and self.desligarfuncaoLed == False:
             
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.LOW)
             gpio.output(18, gpio.HIGH)
             self.Led_OFF_ON = 0
         
-        self.frameRight.after(500, self.piscar_led)
+        if self.desligarfuncaoLed == False:
+            
+            #Quando a variável ledPiscando for True significa que a função já está ativa
+            self.ledPiscando = True
+            
+            self.frameRight.after(500, self.piscar_led)
     
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
     def objetos_cores(self, cor1, cor2):
@@ -2003,10 +2008,21 @@ class LoginAdmnistracao:
         self.chaveFinalizar = True
         self.osfinalizada = True
         
-        #Se o cahveFinalizar foir verdadeira, o cronômetro para a contagem
+        #Se a chaveFinalizar for verdadeira, o cronômetro para com a contagem
         if self.chaveFinalizar == True:
             self.botFrameFinalizar.destroy()
             self.botFramePausar.destroy()
+            
+            #Se a função de piscar o led estiver ligada ela será desligada com a variável de controle "desligarfuncaoLed"
+            if self.ledPiscando == True and self.desligarfuncaoLed == False:
+                
+                self.desligarfuncaoLed = True
+                self.ledPiscando = False
+            
+            #Ligando todos as portas com os leds, informando que a máquina está liberada
+            gpio.output(8, gpio.HIGH)
+            gpio.output(12, gpio.HIGH)
+            gpio.output(18, gpio.HIGH)            
             
             self.labFinalizar =  Label(self.frameRight, text='Operação Finalizada!',  bg='red', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=120, y=160)
@@ -2183,6 +2199,17 @@ class LoginAdmnistracao:
         self.chaveFinalizar = True
         self.botFrameFinalizar.destroy()
         self.botFramePausar.destroy()
+        
+        #Se a função de piscar o led estiver ligada ela será desligada com a variável de controle "desligarfuncaoLed"
+        if self.ledPiscando == True and self.desligarfuncaoLed == False:
+            
+            self.desligarfuncaoLed = True
+            self.ledPiscando = False
+            
+        #Ligando todos as portas com os leds, informando que a máquina está liberada
+        gpio.output(8, gpio.HIGH)
+        gpio.output(12, gpio.HIGH)
+        gpio.output(18, gpio.HIGH)
                 
         try:
             #Capturando a hora inicial e a data atual em que o modo pause foi iniciado, em seguida inserir no banco de dados
@@ -2278,7 +2305,20 @@ class LoginAdmnistracao:
         if self.chaveFinalizar == True:
             
             #com a função despausar invocada, chaveFinalizar fica True e o tempo pode continuar cronometrando
-            self.chaveFinalizar = False               
+            self.chaveFinalizar = False
+            
+            if self.chaveTempExtra != 0:
+                
+                self.desligarfuncaoLed = False
+                self.ledPiscando = False
+                self.Led_OFF_ON = 0
+                
+                #Ligando todos as portas com os leds, informando que a máquina está liberada
+                gpio.output(8, gpio.LOW)
+                gpio.output(12, gpio.LOW)
+                gpio.output(18, gpio.LOW)
+                
+                self.piscar_led()
             
             if despause == 1:
                 #Criando frame para fazer uma borda pro botão botFinalizar
