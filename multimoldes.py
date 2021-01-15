@@ -835,6 +835,9 @@ class LoginAdmnistracao:
         gpio.setup(12, gpio.OUT)
         gpio.setup(18, gpio.OUT)
         
+        gpio.output(8, gpio.LOW)
+        gpio.output(12, gpio.LOW)
+        gpio.output(18, gpio.LOW)
 
         '''Chave de controle, responsável de quando ser TRUE, informar que o botão INICIAR iniciou a contagem e em seguida
         destrui-lo fazendo o botão FINALIZAR 0S aparecer'''
@@ -846,6 +849,9 @@ class LoginAdmnistracao:
         '''tempoEsgotado, responsável de quando a janela de pause estiver abertar e o tempo esgotar, não poderá mais pausar'''
         self.tempoEsgotado = False
         self.resultPausa = ''
+        
+        #Variável responsável por indicar se a função que faz o Led piscar está ativa ou não
+        self.ledPiscando = False
         
         #variaveis que tornaram possiveis a contagem do cronômetro
         self.sec = None
@@ -1403,46 +1409,58 @@ class LoginAdmnistracao:
     
     def piscar_led(self):
         
-        self.contadorLed +=1
+        #Quando a variável ledPiscando for True significa que a função já está ativa
+        self.ledPiscando = True
         
-        if self.contadorLed == 1:
+        #Variável que irá realizar a contagem do LED Ligar e Desligar
+        self.Led_OFF_ON +=1
+        
+        #Se a variável Led_OFF_ON == 1 o led irá desligar, pois abrirá a porta da GPIO
+        if self.Led_OFF_ON == 1:
             
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.LOW)
             gpio.output(18, gpio.LOW)
-            
-        elif self.contadorLed == 2:
+        
+        #Se a variável Led_OFF_ON == 2 o led irá ligar, pois abrirá a porta da GPIO
+        elif self.Led_OFF_ON == 2:
             
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.LOW)
             gpio.output(18, gpio.HIGH)
-            self.contadorLed = 0
+            self.Led_OFF_ON = 0
         
         self.frameRight.after(500, self.piscar_led)
     
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
     def objetos_cores(self, cor1, cor2):
         
-        
+        #Se a cor1(cor que será o background da tela) for GREEN, acenderá só o led verde
         if cor1 == 'green':
             gpio.output(8, gpio.HIGH)
             gpio.output(12, gpio.LOW)
             gpio.output(18, gpio.LOW)
-            
+        
+        #Se a cor1(cor que será o background da tela) for YELLOW, acenderá só o led amarelo
         elif cor1 == 'yellow':
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.HIGH)
             gpio.output(18, gpio.LOW)
-            
+        
+        #Se a cor1(cor que será o background da tela) for RED, acenderá só o led vermelho
         elif cor1 == 'red':
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.LOW)
             gpio.output(18, gpio.HIGH)
         
+        #Senão significa que está janela para tempo extra, então o led vermelho irá ficar piscando
         else:
-            self.contadorLed = 0
-            self.piscar_led()
             
+            #Se ledPiscando for False então a função que fará o LED piscar não está ativa
+            if self.ledPiscando == False:
+                
+                self.Led_OFF_ON = 0
+                self.piscar_led()
         
         self.frameTop['bg'] = cor1
         self.frameLeft['bg'] = cor1
@@ -1611,7 +1629,7 @@ class LoginAdmnistracao:
         def telaVermelha2():
             
             self.objetos_cores('red', 'white')
-            print('vezes')
+
             self.imgRelogio = PhotoImage(file="img/relogio.png")
 
             self.imagemTempRel = Label(self.frameRight, image=self.imgRelogio, bg='red')
