@@ -1417,17 +1417,32 @@ class LoginAdmnistracao:
         self.Led_OFF_ON +=1
         
         #Se a variável Led_OFF_ON == 1 o led irá desligar, pois abrirá a porta da GPIO
-        if self.Led_OFF_ON == 1 and self.desligarfuncaoLed == False:
+        if self.Led_OFF_ON == 1 and self.desligarfuncaoLed == False and self.tempoEsgotado == False:
             
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.LOW)
             gpio.output(18, gpio.LOW)
         
         #Se a variável Led_OFF_ON == 2 o led irá ligar, pois abrirá a porta da GPIO
-        elif self.Led_OFF_ON == 2 and self.desligarfuncaoLed == False:
+        elif self.Led_OFF_ON == 2 and self.desligarfuncaoLed == False and self.tempoEsgotado == False:
             
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.LOW)
+            gpio.output(18, gpio.HIGH)
+            self.Led_OFF_ON = 0
+        
+        #Se a variável Led_OFF_ON == 1 o led irá desligar, pois abrirá a porta da GPIO
+        elif self.Led_OFF_ON == 1 and self.desligarfuncaoLed == False and self.tempoEsgotado == True:
+            
+            gpio.output(8, gpio.LOW)
+            gpio.output(12, gpio.LOW)
+            gpio.output(18, gpio.LOW)
+        
+        #Se a variável Led_OFF_ON == 2 o led irá ligar, pois abrirá a porta da GPIO
+        elif self.Led_OFF_ON == 2 and self.desligarfuncaoLed == False and self.tempoEsgotado == True:
+            
+            gpio.output(8, gpio.HIGH)
+            gpio.output(12, gpio.HIGH)
             gpio.output(18, gpio.HIGH)
             self.Led_OFF_ON = 0
         
