@@ -7,6 +7,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from platform import *
 import mysql.connector
+import RPi.GPIO as gpio
 
 class LoginAdmnistracao:
     
@@ -828,6 +829,12 @@ class LoginAdmnistracao:
         self.logoMarcaRight = Label(self.frameRight, image=logoMarca, bg='#135565')
         self.logoMarcaRight.place(x=215, y=200)
         
+        
+        gpio.setmode(gpio.BOARD)
+        gpio.setup(8, gpio.OUT)
+        gpio.setup(12, gpio.OUT)
+        gpio.setup(18, gpio.OUT)
+        
 
         '''Chave de controle, responsável de quando ser TRUE, informar que o botão INICIAR iniciou a contagem e em seguida
         destrui-lo fazendo o botão FINALIZAR 0S aparecer'''
@@ -896,7 +903,7 @@ class LoginAdmnistracao:
         self.centraliza_tela(730, 550, self.janelaOsPendente)
         
         #criando um list box onde irá ficar armazenado as OS com pendências
-        lista = Listbox(self.janelaOsPendente, font=('arial', 14, 'bold'), width=44)
+        lista = Listbox(self.janelaOsPendente, font=('arial', 14, 'bold'), width=46)
         lista.pack(side='right', fill='y')
         
         #titulo central da janela
@@ -1393,9 +1400,49 @@ class LoginAdmnistracao:
         except Exception as erro:
             print(erro)
             messagebox.showerror('05-Error-Servidor', '05-Error: Não acesso ao servidor.')
-
+    
+    def piscar_led(self):
+        
+        self.contadorLed +=1
+        
+        if self.contadorLed == 1:
+            
+            gpio.output(8, gpio.LOW)
+            gpio.output(12, gpio.LOW)
+            gpio.output(18, gpio.LOW)
+            
+        elif self.contadorLed == 2:
+            
+            gpio.output(8, gpio.LOW)
+            gpio.output(12, gpio.LOW)
+            gpio.output(18, gpio.HIGH)
+            self.contadorLed = 0
+        
+        self.frameRight.after(500, self.piscar_led)
+    
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
     def objetos_cores(self, cor1, cor2):
+        
+        
+        if cor1 == 'green':
+            gpio.output(8, gpio.HIGH)
+            gpio.output(12, gpio.LOW)
+            gpio.output(18, gpio.LOW)
+            
+        elif cor1 == 'yellow':
+            gpio.output(8, gpio.LOW)
+            gpio.output(12, gpio.HIGH)
+            gpio.output(18, gpio.LOW)
+            
+        elif cor1 == 'red':
+            gpio.output(8, gpio.LOW)
+            gpio.output(12, gpio.LOW)
+            gpio.output(18, gpio.HIGH)
+        
+        else:
+            self.contadorLed = 0
+            self.piscar_led()
+            
         
         self.frameTop['bg'] = cor1
         self.frameLeft['bg'] = cor1
