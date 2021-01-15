@@ -176,6 +176,17 @@ class LoginAdmnistracao:
         self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
         self.botao.place(x=235, y=410)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
+        
+        #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
+        gpio.setmode(gpio.BOARD)
+        gpio.setup(8, gpio.OUT)
+        gpio.setup(12, gpio.OUT)
+        gpio.setup(18, gpio.OUT)
+        
+        #Ligando todos as portas com os leds, informando que a máquina está liberada
+        gpio.output(8, gpio.HIGH)
+        gpio.output(12, gpio.HIGH)
+        gpio.output(18, gpio.HIGH)
 
         '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
         self.lbCadastrar.place(x=340, y=410)
@@ -828,16 +839,6 @@ class LoginAdmnistracao:
         
         self.logoMarcaRight = Label(self.frameRight, image=logoMarca, bg='#135565')
         self.logoMarcaRight.place(x=215, y=200)
-        
-        
-        gpio.setmode(gpio.BOARD)
-        gpio.setup(8, gpio.OUT)
-        gpio.setup(12, gpio.OUT)
-        gpio.setup(18, gpio.OUT)
-        
-        gpio.output(8, gpio.LOW)
-        gpio.output(12, gpio.LOW)
-        gpio.output(18, gpio.LOW)
 
         '''Chave de controle, responsável de quando ser TRUE, informar que o botão INICIAR iniciou a contagem e em seguida
         destrui-lo fazendo o botão FINALIZAR 0S aparecer'''
@@ -1435,20 +1436,20 @@ class LoginAdmnistracao:
     #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
     def objetos_cores(self, cor1, cor2):
         
-        #Se a cor1(cor que será o background da tela) for GREEN, acenderá só o led verde
-        if cor1 == 'green':
+        #Se a cor1(cor que será o background da tela) for GREEN e não for tempo extra, acenderá só o led verde
+        if cor1 == 'green' and self.chaveTempExtra == 0:
             gpio.output(8, gpio.HIGH)
             gpio.output(12, gpio.LOW)
             gpio.output(18, gpio.LOW)
         
-        #Se a cor1(cor que será o background da tela) for YELLOW, acenderá só o led amarelo
-        elif cor1 == 'yellow':
+        #Se a cor1(cor que será o background da tela) for YELLOW e não for tempo extra, acenderá só o led amarelo
+        elif cor1 == 'yellow' and self.chaveTempExtra == 0:
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.HIGH)
             gpio.output(18, gpio.LOW)
         
-        #Se a cor1(cor que será o background da tela) for RED, acenderá só o led vermelho
-        elif cor1 == 'red':
+        #Se a cor1(cor que será o background da tela) for RED e não for tempo extra, acenderá só o led vermelho
+        elif cor1 == 'red' and self.chaveTempExtra == 0:
             gpio.output(8, gpio.LOW)
             gpio.output(12, gpio.LOW)
             gpio.output(18, gpio.HIGH)
@@ -2002,7 +2003,7 @@ class LoginAdmnistracao:
         self.chaveFinalizar = True
         self.osfinalizada = True
         
-        #Se o cahveFinalizar foir verdadeira, o crobômetro para a contagem
+        #Se o cahveFinalizar foir verdadeira, o cronômetro para a contagem
         if self.chaveFinalizar == True:
             self.botFrameFinalizar.destroy()
             self.botFramePausar.destroy()
