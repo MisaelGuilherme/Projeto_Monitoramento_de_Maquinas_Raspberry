@@ -2353,6 +2353,10 @@ class LoginAdmnistracao:
                 #Criando botão Pausar para parar a OS 
                 self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
                 self.botPausar.pack()
+                
+                #Recebendo cor de fundo da tela para acender o led respectivo, ou se for tempo extra irá piscar.
+                corTela = self.frameRigh['bg']
+                self.objetos_cores(corTela, 'white')
             
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
