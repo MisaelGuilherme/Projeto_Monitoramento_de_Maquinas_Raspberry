@@ -1403,7 +1403,7 @@ class LoginAdmnistracao:
                 self.botFrameRetomar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
                 self.botFrameRetomar.place(x=172, y=220)
                 
-                self.botDespausar = Button(self.botFrameRetomar, text='RETOMAR.OS', bg='#035700', fg='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(2))
+                self.botDespausar = Button(self.botFrameRetomar, text='RETOMAR.OS', bg='#035700', fg='white',activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(2))
                 self.botDespausar.pack()
                 
         except Exception as erro:
