@@ -327,7 +327,6 @@ class LoginAdmnistracao:
         
         #Estabilizando as variáveis necessárias para não dá conflito
         self.tempoPausado = False
-        self.tempoEsgotado = False
         self.chaveControle = False
         self.chaveFinalizar = False
 
@@ -1520,8 +1519,11 @@ class LoginAdmnistracao:
         
         if self.chaveControle2 == True:
             self.iniciarContOper()
-                    
+            
         if self.chaveControle == False:
+            
+            #self.TempoEsgotado recebe False após clicado pelo botão iniciar, indicando dentro do prazo
+            self.tempoEsgotado = False
             
             self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
             self.botFrameFinalizar.place(x=182, y=160)
