@@ -2039,9 +2039,10 @@ class LoginAdmnistracao:
             #Ligando todos as portas com os leds, informando que a máquina está liberada
             gpio.output(8, gpio.HIGH)
             gpio.output(12, gpio.HIGH)
-            gpio.output(18, gpio.HIGH)            
+            gpio.output(18, gpio.HIGH)
             
-            self.labFinalizar =  Label(self.frameRight, text='Operação Finalizada!',  bg='red', fg='white', font=('arial', 25, 'bold'))
+            corJanela = self.frameRight['bg']
+            self.labFinalizar =  Label(self.frameRight, text='Operação Finalizada!',  bg=corJanela, fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=120, y=160)
             
             #Pegando a hora atual em que o processo foi finalizado
