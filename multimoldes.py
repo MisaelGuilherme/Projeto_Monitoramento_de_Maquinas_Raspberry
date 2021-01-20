@@ -2030,6 +2030,12 @@ class LoginAdmnistracao:
             self.botFrameFinalizar.destroy()
             self.botFramePausar.destroy()
             
+            #Se OS foi finalizada enquanto o tempo excedeu, será destruido o label e o botão Reabilitar
+            if self.tempoEsgotado == True:
+                
+                self.frameBotReabilitar.destroy()
+                self.labFinalizar.destroy()            
+            
             #Se a função de piscar o led estiver ligada ela será desligada com a variável de controle "desligarfuncaoLed"
             if self.ledPiscando == True and self.desligarfuncaoLed == False:
                 
