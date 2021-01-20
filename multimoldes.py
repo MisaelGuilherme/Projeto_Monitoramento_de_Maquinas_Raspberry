@@ -311,6 +311,8 @@ class LoginAdmnistracao:
         #Destruindo a janela de tempo extra
         self.janelaTempExtra.destroy()
         
+        self.botFrameFinalizar.destroy()
+        
         #Variável que armazenará o último tempo adcionado
         self.UltimoTempAdd = self.transformar_tempo_decimal(ll, mm, 0)
         print(self.UltimoTempAdd)
