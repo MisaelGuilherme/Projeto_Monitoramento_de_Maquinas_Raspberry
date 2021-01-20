@@ -1,6 +1,7 @@
 #Pogramador: Misael Jesus
 #Date: 18/08/2020
 
+#Importando Módulos
 from datetime import *
 from tkinter import *
 from tkinter import ttk
