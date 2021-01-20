@@ -311,6 +311,7 @@ class LoginAdmnistracao:
         #Destruindo a janela de tempo extra
         self.janelaTempExtra.destroy()
         
+        #Destruindo Frame que contem o botão Finalizar OS
         self.botFrameFinalizar.destroy()
         
         #Variável que armazenará o último tempo adcionado
