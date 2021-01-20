@@ -1910,17 +1910,17 @@ class LoginAdmnistracao:
             
             self.objetos_cores('#870000', 'white')
             self.imagemTempRel.destroy()                      
-            self.botFrameFinalizar.destroy()
+            #self.botFrameFinalizar.destroy()
             self.botFramePausar.destroy()
             self.frameBotSair.destroy()
             
             self.labFinalizar = Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
-            self.labFinalizar.place(x=150, y=150)
+            self.labFinalizar.place(x=150, y=400)
             
             self.frameBotReabilitar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
-            self.frameBotReabilitar.place(x=180, y=220)
+            self.frameBotReabilitar.place(x=180, y=260)
             
-            self.botaoReabilitar = Button(self.frameBotReabilitar, text='REABILITAR', bg='orange', activebackground='orange', fg='white', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda: self.tela_admin(2))
+            self.botaoReabilitar = Button(self.frameBotReabilitar, text='REABILITAR', bg='orange', activebackground='orange', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tela_admin(2))
             self.botaoReabilitar.pack()
             
             self.foco = None
