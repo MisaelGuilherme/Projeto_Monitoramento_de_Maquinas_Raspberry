@@ -10,7 +10,7 @@ from platform import *
 import mysql.connector
 import RPi.GPIO as gpio
 
-class LoginAdmnistracao:
+class AplicacaoFront:
     
     #------------------------------- (Centralizando Janelas) - FUNÇÃO REUTILIZÁVEL --------------------------
     def centraliza_tela(self, larg, alt, jane):
@@ -2414,4 +2414,4 @@ class LoginAdmnistracao:
             
             messagebox.showwarning('Alerta', 'Sistema em Operação.')
 
-instancia = LoginAdmnistracao()
+instancia = AplicacaoFront()
