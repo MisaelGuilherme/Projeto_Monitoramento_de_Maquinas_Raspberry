@@ -1834,7 +1834,7 @@ class AplicacaoBack():
                 self.botPausar.pack()
                 
                 #Recebendo cor de fundo da tela para acender o led respectivo, ou se for tempo extra irá piscar.
-                corTela = self.frameRigh['bg']
+                corTela = self.frameRight['bg']
                 self.objetos_cores(corTela, 'white')
             
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
