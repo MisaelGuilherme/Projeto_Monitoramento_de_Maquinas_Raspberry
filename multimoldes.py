@@ -10,9 +10,8 @@ from platform import *
 import mysql.connector
 import RPi.GPIO as gpio
 
-class AplicacaoFront:
-    
-    #------------------------------- (Centralizando Janelas) - FUNÇÃO REUTILIZÁVEL --------------------------
+class AplicacaoBack():
+
     def centraliza_tela(self, larg, alt, jane):
                 
         # Dimensões da Janela
@@ -30,53 +29,6 @@ class AplicacaoFront:
         # Posicão da Tela 
         return jane.geometry('%dx%d+%d+%d' % (largura, altura, posicaoX, posicaoY))
 
-    #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
-    def tela_admin(self, botao):
-        
-        if self.foco is None:
-            self.janelaADM = Toplevel()
-            self.janelaADM.title('Login Administração')
-            self.janelaADM.resizable(False, False)
-            self.janelaADM.configure(background='white')
-            self.janelaADM.protocol("WM_DELETE_WINDOW", self.fechar_janela)
-            
-            sistemaOperacional = system()
-            if sistemaOperacional == 'Windows':
-                self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
-            
-            #Chamando Função Para Centralizar a Tela
-            self.centraliza_tela(600, 600, self.janelaADM)
-            
-            #Adcionando Logo na Janela ADM
-            imgAdm = PhotoImage(file="img/admin.png")
-
-            imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
-            imagemPricipalAdm.place(x=240,y=10)
-
-            admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 18, 'bold'), bg='white')
-            admLabelPrincipal.place(x=75,y=263)
-
-            self.valorBotao = botao
-
-            self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 15, 'bold'), border=2, relief=GROOVE)
-            self.admSenhaPrincipal.place(x=170,y=266)
-            self.admSenhaPrincipal.focus_force()
-            self.admSenhaPrincipal.bind("<Return>", self.transicao)
-            
-            admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 18), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
-            admBotaoPrincipal.place(x=235,y=420)
-            admBotaoPrincipal.bind("<Return>", self.transicao)
-            self.foco = True
-            self.janelaADM.mainloop()
-            
-        else:
-            self.janelaADM.lift()
-            self.admSenhaPrincipal.focus_force()
-    
-    def fechar_janela(self):
-        self.janelaADM.destroy()
-        self.foco = None
-    
     def transicao(self, event):
         
         a = self.valorBotao
@@ -129,7 +81,55 @@ class AplicacaoFront:
         else:
             self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
             self.labelErro2.place(x=157, y=233)
+
+class AplicacaoFront(AplicacaoBack):
+    
+    #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
+    def tela_admin(self, botao):
         
+        if self.foco is None:
+            self.janelaADM = Toplevel()
+            self.janelaADM.title('Login Administração')
+            self.janelaADM.resizable(False, False)
+            self.janelaADM.configure(background='white')
+            self.janelaADM.protocol("WM_DELETE_WINDOW", self.fechar_janela)
+            
+            sistemaOperacional = system()
+            if sistemaOperacional == 'Windows':
+                self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
+            
+            #Chamando Função Para Centralizar a Tela
+            self.centraliza_tela(600, 600, self.janelaADM)
+            
+            #Adcionando Logo na Janela ADM
+            imgAdm = PhotoImage(file="img/admin.png")
+
+            imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
+            imagemPricipalAdm.place(x=240,y=10)
+
+            admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 18, 'bold'), bg='white')
+            admLabelPrincipal.place(x=75,y=263)
+
+            self.valorBotao = botao
+
+            self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 15, 'bold'), border=2, relief=GROOVE)
+            self.admSenhaPrincipal.place(x=170,y=266)
+            self.admSenhaPrincipal.focus_force()
+            self.admSenhaPrincipal.bind("<Return>", self.transicao)
+            
+            admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 18), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
+            admBotaoPrincipal.place(x=235,y=420)
+            admBotaoPrincipal.bind("<Return>", self.transicao)
+            self.foco = True
+            self.janelaADM.mainloop()
+            
+        else:
+            self.janelaADM.lift()
+            self.admSenhaPrincipal.focus_force()
+    
+    def fechar_janela(self):
+        self.janelaADM.destroy()
+        self.foco = None
 
     #------------------------------- (Login Funcionário) - FUNÇÃO 1º A SER INICIADA --------------------------                
     def __init__(self):
