@@ -1909,8 +1909,8 @@ class LoginAdmnistracao:
                 self.tempExtraGastoA += int(self.tempHora)
                 self.tempExtraGastoB += int(self.tempMin)
                 self.tempExtraGastoC += 0
-                print(f'Recebendo Valores Tempo Gasto Extra: {self.tempExtraGastoB} {self.tempExtraGastoC}')
-                print(f'Tempo Hora: {self.tempHora } e Tempo Minuto: {self.tempMin}')
+                print(f'Tempo Gasto Extra ADD: {self.tempExtraGastoA}:{self.tempExtraGastoB}')
+                print(f'Tempo Hora: {self.tempHora } Tempo Minuto: {self.tempMin}')
             
             self.objetos_cores('#870000', 'white')
             self.imagemTempRel.destroy()                      
@@ -2071,15 +2071,9 @@ class LoginAdmnistracao:
             
             if self.chaveTempExtra >= 1:
                 
-                print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
                 if int(self.minuC) + self.tempExtraGastoB >= 60:
                     self.tempExtraGastoA += 1
                     self.tempExtraGastoB -= int(self.minuC)
-                else:
-                    self.tempExtraGastoA += int(self.houC)
-                    self.tempExtraGastoB += int(self.minuC)    
-                    self.tempExtraGastoC = int(self.secC)
-                print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
                 
                 self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
                 print(self.tempExtraGasto)
