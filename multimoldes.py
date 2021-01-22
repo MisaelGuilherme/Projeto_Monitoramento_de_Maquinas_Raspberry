@@ -82,171 +82,6 @@ class AplicacaoBack():
             self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
             self.labelErro2.place(x=157, y=233)
 
-class AplicacaoFront(AplicacaoBack):
-    
-    #------------------------------- (Senha Administração) - FUNÇÃO REUTILIZÁVEL ----------------------------
-    def tela_admin(self, botao):
-        
-        if self.foco is None:
-            self.janelaADM = Toplevel()
-            self.janelaADM.title('Login Administração')
-            self.janelaADM.resizable(False, False)
-            self.janelaADM.configure(background='white')
-            self.janelaADM.protocol("WM_DELETE_WINDOW", self.fechar_janela)
-            
-            sistemaOperacional = system()
-            if sistemaOperacional == 'Windows':
-                self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
-            
-            #Chamando Função Para Centralizar a Tela
-            self.centraliza_tela(600, 600, self.janelaADM)
-            
-            #Adcionando Logo na Janela ADM
-            imgAdm = PhotoImage(file="img/admin.png")
-
-            imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
-            imagemPricipalAdm.place(x=240,y=10)
-
-            admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 18, 'bold'), bg='white')
-            admLabelPrincipal.place(x=75,y=263)
-
-            self.valorBotao = botao
-
-            self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 15, 'bold'), border=2, relief=GROOVE)
-            self.admSenhaPrincipal.place(x=170,y=266)
-            self.admSenhaPrincipal.focus_force()
-            self.admSenhaPrincipal.bind("<Return>", self.transicao)
-            
-            admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 18), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
-            admBotaoPrincipal.place(x=235,y=420)
-            admBotaoPrincipal.bind("<Return>", self.transicao)
-            self.foco = True
-            self.janelaADM.mainloop()
-            
-        else:
-            self.janelaADM.lift()
-            self.admSenhaPrincipal.focus_force()
-    
-    def fechar_janela(self):
-        self.janelaADM.destroy()
-        self.foco = None
-
-    #------------------------------- (Login Funcionário) - FUNÇÃO 1º A SER INICIADA --------------------------                
-    def __init__(self):
-        
-        self.janelaFuncio = Tk()
-        self.janelaFuncio.title('Login Funcionário')
-        self.janelaFuncio.configure(background='white')
-        #self.janelaFuncio.resizable(False, False)
-        
-        sistemaOperacional = system()
-        
-        if sistemaOperacional == 'Windows':
-            self.janelaFuncio.iconbitmap('img/multimoldes-icon.ico')
-            self.janelaFuncio.state('zoomed')
-        else:
-            self.janelaFuncio.attributes('-zoomed', True)
-        
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(900, 600, self.janelaFuncio)
-        
-        #Adcionando Logo na Janela de Funcionário
-        self.imgFun = PhotoImage(file="img/logo-multimoldes.png")
-        
-        self.frameLogin = Frame(self.janelaFuncio, width=600, height=600, bg='white')
-        self.frameLogin.pack()
-
-        self.imagemPricipalFun = Label(self.frameLogin, image=self.imgFun, bg='white')
-        self.imagemPricipalFun.place(x=240,y=15)
-
-        self.labelLogin = Label(self.frameLogin, text='Usuário', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
-        self.labelLogin.place(x=0, y=260)
-
-        self.campoLogin = Entry(self.frameLogin, width=26, font=('arial', 16), border=2, relief=GROOVE)
-        self.campoLogin.place(x=150, y=270)
-        self.campoLogin.focus_force()
-        self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
-
-        self.labelSenha = Label(self.frameLogin, text='Senha', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
-        self.labelSenha.place(x=0, y=320)
-
-        self.campoSenha = Entry(self.frameLogin, width=13, show='l', font=('wingdings', 16, 'bold'), border=2, relief=GROOVE)
-        self.campoSenha.place(x=150, y=330)
-        self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
-
-        self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
-        self.botao.place(x=235, y=410)
-        self.botao.bind("<Return>", self.confirmar_tela_funcionario)
-        
-        #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
-        gpio.setmode(gpio.BOARD)
-        gpio.setup(8, gpio.OUT)
-        gpio.setup(12, gpio.OUT)
-        gpio.setup(18, gpio.OUT)
-        
-        #Ligando todos as portas com os leds, informando que a máquina está liberada
-        gpio.output(8, gpio.HIGH)
-        gpio.output(12, gpio.HIGH)
-        gpio.output(18, gpio.HIGH)
-
-        '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
-        self.lbCadastrar.place(x=340, y=410)
-        
-        self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
-        self.botCadastrar.place(x=370, y=440)'''
-        
-        self.foco = None
-        
-        self.janelaFuncio.mainloop()
-        
-    #------------------------------- (Janela de Tempo Extra) - FUNÇÃO 2--------------------------
-    def tempo_extra(self):
-        
-        self.janelaTempExtra = Toplevel()
-        self.janelaTempExtra.title('Tela Operativa')
-        self.janelaTempExtra.configure(background='#870000')
-        self.janelaTempExtra.geometry('550x350+200+100')
-        self.janelaTempExtra.resizable(False, False)
-        self.janelaTempExtra.protocol('WM_DELETE_WINDOW', self.fechar_tempo_extra)
-
-        sistemaOperacional = system()
-        if sistemaOperacional == 'Windows':
-            self.janelaTempExtra.iconbitmap('img/multimoldes-icon.ico')
-        
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(550, 350, self.janelaTempExtra)
-        
-        lt = Label(self.janelaTempExtra, text='Tempo Extra', font=('arial',20,'bold'), bg='#870000', fg='white')
-        lt.place(x=195, y=10)
-        
-        lh = Label(self.janelaTempExtra, text='Horas:', font=('arial',20,'bold'), bg='#870000', fg='white')
-        lh.place(x=70, y=135)
-        
-        self.ll = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
-        self.ll.place(x=170, y=140)
-        self.ll.focus_force()
-        self.ll.bind('<Return>', self.verificar_tempo_extra)
-        
-        lm = Label(self.janelaTempExtra, text='Minutos:', font=('arial',20,'bold'), bg='#870000', fg='white')
-        lm.place(x=270,y=135)
-        
-        self.mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
-        self.mm.place(x=400,y=140)
-        self.mm.bind('<Return>', self.verificar_tempo_extra)
-        
-        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', activebackground='orange', fg='white', activeforeground='white', command = lambda: self.verificar_tempo_extra(self.verificar_tempo_extra))
-        bc.place(x=225,y=260)
-        bc.bind('<Return>', self.verificar_tempo_extra)
-        
-        self.janelaTempExtra.transient(self.janelaOper)
-        self.janelaTempExtra.grab_set()
-        
-        self.janelaTempExtra.mainloop()
-    
-    def fechar_tempo_extra(self):
-        self.janelaTempExtra.destroy()
-        self.foco = None
-    #------------------------------- (Janela de Verificação de Tempo Extra) - FUNÇÃO 3 --------------------------
     def verificar_tempo_extra(self, event):
         
         #Verificando se os campos não estão em brancos
@@ -272,7 +107,6 @@ class AplicacaoFront(AplicacaoBack):
         else:
             self.configurar_tempo_extra()
 
-    #Transformando a hora, minuto e segundo em decimal para exibir no label o tempo extra
     def transformar_tempo_decimal(self, thora, tminu, tsegu):
         if int(thora) > 0 and int(thora) < 10:
             A = int(thora) / 100
@@ -302,7 +136,7 @@ class AplicacaoFront(AplicacaoBack):
             final3 = str(tsegu)
         
         return final1+':'+final2+':'+final3
-    
+
     def configurar_tempo_extra(self):
         
         #Pegando a hora e o minuto da janela de tempo extra
@@ -492,58 +326,7 @@ class AplicacaoFront(AplicacaoBack):
         #Botão inciar a contagem do cronômetro
         self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar(1))
         self.botaoInciarContador.pack()
-            
-            
-    #------------------------------- (Tela Cadastrar) - FUNÇÃO 4º A SER INVOCADA POR FUNÇÃO: verificar_adm() ------------------
 
-    def tela_cadastrar(self):
-        
-        self.janelaCad = Toplevel()
-        self.janelaCad.title('Tela Cadastro')
-        self.janelaCad.resizable(False, False)
-        self.janelaCad.configure(background='white')
-
-        sistemaOperacional = system()
-        if sistemaOperacional == 'Windows':
-            self.janelaCad.iconbitmap('img/multimoldes-icon.ico')
-        
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(500, 500, self.janelaCad)
-
-        self.lbtitle = Label(self.janelaCad, text='Cadastrar Funcionário', font=('arial', 15, 'bold'), bg='white', fg='#3e8e94')
-        self.lbtitle.place(x=170,y=10)
-
-        self.lbNome = Label(self.janelaCad, text='Nome:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
-        self.lbNome.place(x=110, y=80)
-
-        self.lbCpf = Label(self.janelaCad, text='CPF:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
-        self.lbCpf.place(x=120, y=150)
-
-        self.lbSenha = Label(self.janelaCad, text='Senha:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
-        self.lbSenha.place(x=105, y=220)
-
-        self.lbConfSenha = Label(self.janelaCad, text='Confirme a Senha:', font=('arial',12,'bold'),  bg='white', fg='#3e8e94')
-        self.lbConfSenha.place(x=20, y=300)
-
-        self.campNome = Entry(self.janelaCad, width=25, font=12, border=2, relief='groove')
-        self.campNome.place(x=180, y=80)
-        self.campNome.focus_force()
-
-        self.campCpf = Entry(self.janelaCad, width=25, font=12, border=2, relief='groove')
-        self.campCpf.place(x=180, y=150)
-
-        self.campSenha = Entry(self.janelaCad, width=25, font=12, show='*', border=2, relief='groove')
-        self.campSenha.place(x=180, y=220)
-
-        self.confSenha = Entry(self.janelaCad, width=25, font=12, show='*', border=2, relief='groove')
-        self.confSenha.place(x=180, y=300)
-
-        self.cadastrar = Button(self.janelaCad, text='Cadastrar', font=12, bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', relief='flat', border=0, command = lambda: self.conferir_valores())
-        self.cadastrar.place(x=230,y=370)
-        self.janelaCad.mainloop()
-
-    #--------------------------- (Conferir Campos Tela Cadastrar) - FUNÇÃO 5º A SER INVOCADA POR: cadastrar ------------------
-    
     def conferir_valores(self):
         #CASO O CAMPO "NOME" DA TELA CADASTRO DO FUNCIONÁRIO ESTEJA VAZIA
         if self.campNome.get() == '':
@@ -610,8 +393,6 @@ class AplicacaoFront(AplicacaoBack):
             self.error = Label(self.janelaCad, text='A senha precisa ser numérica', fg='red', bg='white', width=30)
             self.error.place(x=175, y=325)
 
-    #------------------------------- (Banco de Dados) - FUNÇÃO 6º A SER INVOCADA POR: conferir_valores() -------------------
-
     def banco_de_dados_cadastro(self):
         cpf = self.campCpf.get()
         nome = self.campNome.get().upper()
@@ -649,8 +430,7 @@ class AplicacaoFront(AplicacaoBack):
         except Exception as erro:
             print(erro)
             messagebox.showerror('02-Error-Servidor', '02-Error: Não acesso ao servidor.')
-        
-    #------------------------------- (Banco de Dados) - FUNÇÃO 7º A SER INVOCADA POR: botao ------------------------------- 
+
     def confirmar_tela_funcionario(self, event):
         
         #verificando se o campo "login" é numérico e possui 11 caracteres
@@ -713,308 +493,6 @@ class AplicacaoFront(AplicacaoBack):
             self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
             self.labelError.place(x=130, y=365)
 
-    #------------------------------- (Tela Operativa) - FUNÇÃO 8º A SER INVOCADA POR FUNÇÃO: confirmarTelaFuncionario() ----------
-    def tela_de_operacao(self):
-
-        self.janelaOper = Tk()
-        self.janelaOper.configure(background='black')
-        self.janelaOper.resizable(False, False)
-        self.janelaOper.attributes('-fullscreen', True)
-        
-        #Obtendo medidas da tela
-        largura = self.janelaOper.winfo_screenwidth()
-        altura = self.janelaOper.winfo_screenheight()
-        
-        #self.janelaOper.geometry(str(largura)+'x'+str(altura))
-        self.janelaOper.geometry(str(largura)+'x'+str(altura))
-        
-        #Centralizando janela
-        self.centraliza_tela(largura, altura, self.janelaOper)
-        
-        #Configurando a largura dos frames esquerdo e direito
-        largLeft = largura / 1.6
-        largRight = largura / 2.324
-
-        #Configurando a Altura dos frames esquerdo e direito
-        altTop = altura / 5.0
-        altLeft = altura / 1.261
-        altRight = altura / 1.261
-        
-        #(Tela Operativa) - FRAMES DA TELA DE OPERAÇÃO
-
-        self.frameTop = Frame(self.janelaOper, width=largura, height=altTop, bg='#135565',highlightthickness=3,highlightcolor='black') #135565
-        self.frameTop.config(highlightbackground='black')
-        self.frameTop.place(x=0, y=0)                   #self.frameTop.pack(side=TOP)
-        
-        self.frameLeft = Frame(self.janelaOper, width=largLeft, bg='#135565', height=altLeft,highlightthickness=3,highlightcolor='black')
-        self.frameLeft.config(highlightbackground='black')
-        self.frameLeft.place(x=0, y=altTop)             #self.frameLeft.pack(side=LEFT)
-
-        self.frameRight = Frame(self.janelaOper, width=largRight, height=altRight, bg='#135565',highlightthickness=3,highlightcolor='black') ##c4c0c0
-        self.frameRight.config(highlightbackground='black')
-        self.frameRight.place(x=largLeft, y=altTop)     #self.frameRight.pack(side=RIGHT)
-        
-
-        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - DADOS DO OPERADOR 
-
-        self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 15,'bold'), fg='white', bg='#135565')
-        self.operadorNome.place(x=10, y=20)
-        
-        self.operador = self.operador.upper()
-        
-        self.operadorNomeUser = Label(self.frameTop, text=self.operador,font=('arial', 15,'bold'), fg='white', bg='#135565')
-        self.operadorNomeUser.place(x=120, y=20)
-
-        self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 15,'bold'), fg='white', bg='#135565')
-        self.horaInicialLb.place(x=10, y=60)
-        
-        self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 15,'bold'), fg='black', bg='white')
-        self.horaAtualUser.place(x=200, y=60)
-
-        self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('play pretend', 40), fg='white', bg='#135565', width=15)
-        self.multimolde.place(x=450, y=20)
-        
-        self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
-        self.frameBotSair.place(x=1180, y=20)
-        
-        self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
-        self.sair.pack()
-        #self.sair.place(x=largura/1.084, y=altura/36) #x = 1180 , y = 20
-        #self.sair.place(x=aa/1.084, y=altura/36) #x = 1180 , y = 20
-
-        
-        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
-
-        self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
-        self.ordemServico.place(x=70, y=100)
-        self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), bg='white')
-        self.campoServico.place(x=360, y=100)
-        self.campoServico.focus_force()
-        self.campoServico.bind("<Return>", self.confirmarCampos)
-        
-        self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
-        self.codigoPeca.place(x=90, y=200)
-        self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19))
-        self.campoPeca.place(x=360, y=200)
-        self.campoPeca.bind("<Return>", self.confirmarCampos)        
-        
-        self.checkVazio = PhotoImage(file='img/verificaVazio.png')
-        
-        self.framenovoOS = Frame(self.frameLeft, bg='#135565', width=110, height=25)
-        self.framenovoOS.place(x=345, y=250)
-        
-        self.novoOS = Label(self.framenovoOS, text='Nova OS', font=('arial',14,'bold'), bg='#135565', fg='white')
-        self.novoOS.place(x=0, y=0)
-        
-        self.novoSelect = Label(self.framenovoOS, image=self.checkVazio, bg='#135565', fg='white')
-        self.novoSelect.place(x=88, y=5)
-        
-        self.frameRetrabalho = Frame(self.frameLeft, bg='#135565', width=170, height=25)
-        self.frameRetrabalho.place(x=495, y=250)
-        
-        self.retrabalhoOS = Label(self.frameRetrabalho,  text='Retrabalhar OS', font=('arial',14,'bold'),bg='#135565', fg='white')
-        self.retrabalhoOS.place(x=0, y=0)
-        
-        self.retrabalhoSelect = Label(self.frameRetrabalho, image=self.checkVazio, bg='#135565', fg='white')
-        self.retrabalhoSelect.place(x=148, y=5)
-        
-        
-        self.codigoOperacao = Label(self.frameLeft, text='Operação:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
-        self.codigoOperacao.place(x=170, y=300)
-        self.campoOperacao = Entry(self.frameLeft, width=20, font=('arial', 19))
-        self.campoOperacao.place(x=360, y=300)
-        self.campoOperacao.bind("<Return>", self.confirmarCampos)
-        
-        self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
-        self.botConfirmar.place(x=370, y=450)
-        self.botConfirmar.bind("<Return>", self.confirmarCampos)
-        
-        #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO
-
-        self.seconds = Label(self.frameRight, text='00', font=('alarm clock',35, 'bold'), fg=('red'), width=2)
-        self.seconds.place(x=328, y=50)
-        self.minutes = Label(self.frameRight, text='00', font=('alarm clock',35, 'bold'), fg=('red'), width=2)
-        self.minutes.place(x=260, y=50)
-        self.hours = Label(self.frameRight, text='00', font=('alarm clock',35, 'bold'), fg=('red'), width=2)
-        self.hours.place(x=192, y=50)
-        
-        logoMarca = PhotoImage(file='img/logoAzul.png')
-        
-        self.logoMarcaRight = Label(self.frameRight, image=logoMarca, bg='#135565')
-        self.logoMarcaRight.place(x=215, y=200)
-
-        '''Chave de controle, responsável de quando ser TRUE, informar que o botão INICIAR iniciou a contagem e em seguida
-        destrui-lo fazendo o botão FINALIZAR 0S aparecer'''
-        self.chaveControle = False
-
-        '''Chave finalizar, responsável de quando TRUE, informar que o botão FINALIZAR OS foi acionado, e destrui-lo, mostrando um label que o OS foi finalizado.'''
-        self.chaveFinalizar = False
-        
-        '''tempoEsgotado, responsável de quando a janela de pause estiver abertar e o tempo esgotar, não poderá mais pausar'''
-        self.tempoEsgotado = False
-        self.resultPausa = ''
-        
-        #Variável responsável por indicar se a função que faz o Led piscar está ativa ou não
-        self.ledPiscando = False
-        
-        #Variável responsável por desligar a função que faz o Led piscar
-        self.desligarfuncaoLed = False
-        
-        #variaveis que tornaram possiveis a contagem do cronômetro
-        self.sec = None
-        self.minu = None
-        self.hou = None     
-        
-        self.secOperacao = None
-        self.minuOperacao = None
-        self.houOperacao = None        
-        
-        self.chaveFinalizar2 = False
-        self.chaveControle2 = False
-        self.tempoPausado = False
-        self.osfinalizada = False
-        
-        #Variáveis responsáveis caso o "tempo gasto" ultrapasse o "tempo programado"
-        self.chaveTempExtra = 0
-        self.tempExtraGastoA = 0
-        self.tempExtraGastoB = 0
-        self.tempExtraGastoC = 0       
-        
-        self.UltimoTempAdd = 0 
-        
-        self.bteste = 5
-        
-        def close():
-            
-            if self.sec == None:
-                
-                if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
-                        
-                    self.janelaOper.destroy()
-                    self.__init__()
-                
-        self.janelaOper.protocol('WM_DELETE_WINDOW', close)
-        
-        self.cursor.execute("use empresa_funcionarios")
-        self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
-        valido = self.cursor.fetchall()
-        if len(valido) >= 1:
-            if messagebox.askyesno('OS Pendente', 'Você tem OS pendente, Deseja Ver?'):
-                self.verificação_de_OS()
-        
-        self.janelaOper.mainloop()
-    
-    def verificação_de_OS(self):
-        
-        #Criando janela e configurando
-        self.janelaOsPendente = Toplevel()
-        self.janelaOsPendente.title('OS Pausadas')
-        self.janelaOsPendente.resizable(False, False)
-        self.janelaOsPendente.configure(background='white')
-        
-        #Invocando função para centralizar a janela ao centro
-        self.centraliza_tela(730, 550, self.janelaOsPendente)
-        
-        #criando um list box onde irá ficar armazenado as OS com pendências
-        lista = Listbox(self.janelaOsPendente, font=('arial', 14, 'bold'), width=46)
-        lista.pack(side='right', fill='y')
-        
-        #titulo central da janela
-        titulo = Label(self.janelaOsPendente, text='OS Pendentes', bg='white', fg='#135565', font=('arial', 22, 'bold'))
-        titulo.place(x=15, y=15)
-        
-        #armazenando logo da empresa em uma variável
-        image = PhotoImage(file='img/logo-multimoldes.png')
-        
-        #exibindo label com a imagem já carregada
-        logo = Label(self.janelaOsPendente, image=image, bg='white')
-        logo.place(x=55, y=145)
-        
-        #criando lista onde irá capturar as os e numéros de pelas para exibir na list box
-        pendente = []
-        
-        #executando cursor com o banco de dados para verificar novamente se existe os pausadas não finalizadas
-        self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
-        valido = self.cursor.fetchall()
-        
-        #se valido for igual a 1 ou mais, significa que o funcionário possui
-        if len(valido) >= 1:        
-            for c in range(0, len(valido)):
-                
-                #extraindo do banco de dados as informações e armazenando nas variáveis
-                os = valido[c][5]
-                peca = valido[c][3]
-                operacao = valido[c][4]
-                servico = valido[c][6]
-                iD = valido[c][0]
-                        
-                data = valido[c][8]
-                juntos = str(iD)+' -- '+os+' - '+peca+' - '+operacao+' - '+servico+' - ('+data+')'
-
-                #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
-                pendente.append(juntos)
-
-            #utilizando estrutura de repetição para inserir os dados obtidos já armazenado na lista pendente para o list box
-            for os in pendente:
-                lista.insert(END, os)
-            
-        def os_select():
-            
-            #Lógica para pegar a OS selecionada
-            self.listaAtiva = lista.get(ACTIVE)
-            b = self.listaAtiva.split()
-            c = b[2]
-            
-            #Limpando o campo antes de inserir o número de Os e o Código de Peça
-            self.campoServico.delete(0, END)
-            self.campoPeca.delete(0, END)
-            self.campoOperacao.delete(0, END)
-            
-            #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
-            self.campoServico.insert(0, c)
-            
-            d = b[4]
-            #Armazenando o Código da Peça selecionado em uma variável e inserindo em um campo de texto
-            self.campoPeca.insert(0, d)
-            
-            e = b[6]
-            #Armazenando o Código de Operação selecionado em uma variável e inserindo em um campo de texto
-            self.campoOperacao.insert(0, e)
-            
-            #Usando o banco empresa funcionário
-            self.cursor.execute('use empresa_funcionarios')
-            
-            #buscando o nº de OS e o Código da Peça
-            self.cursor.execute('select * from monitoria_funcionarios where OS = '+str(c)+' and codigoPeca = '+d)
-            valido = self.cursor.fetchall()
-            
-            #Armazenando imagem com visto - Imagem de Selecionado
-            self.checkSelect = PhotoImage(file='img/verifica.png')
-            
-            #Se valido for igual a 0 significa que não uma OS finalizada, então a imagem selecionará como Nova OS
-            if len(valido) == 0:
-                        
-                self.novoSelect['image'] = self.checkSelect
-                self.tipo = 'Nova OS'
-            
-            #Se valido for diferente de 0 significa que já possui uma OS finalizada, então a imagem selecionará Retrabalho
-            else:
-                        
-                self.retrabalhoSelect['image'] = self.checkSelect
-                self.tipo = 'Retrabalhar OS'
-            
-            self.botaoConfirmarOS(2)
-            
-            self.janelaOsPendente.destroy()
-        
-        #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
-        botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 19, 'bold'), command=os_select, activebackground='#135565', activeforeground='white')
-        botaoConfirmar.place(x=45, y=410)
-        
-        #finalizando o loop da janela
-        self.janelaOsPendente.mainloop()
-            
-        
     def confirmarCampos(self, event):
         
         #Verificando se algum campo está em branco
@@ -1114,8 +592,7 @@ class AplicacaoFront(AplicacaoBack):
             except Exception as erro:
                 print(erro)
                 messagebox.showerror('04-Error-Servidor', '04-Error: Não acesso ao servidor.')
-  
-        
+
     def botaoConfirmarOS(self, opcao):
         
         self.logoMarcaRight.destroy()
@@ -1413,7 +890,7 @@ class AplicacaoFront(AplicacaoBack):
         except Exception as erro:
             print(erro)
             messagebox.showerror('05-Error-Servidor', '05-Error: Não acesso ao servidor.')
-    
+
     def piscar_led(self):
         
         #Variável que irá realizar a contagem do LED Ligar e Desligar
@@ -1455,8 +932,7 @@ class AplicacaoFront(AplicacaoBack):
             self.ledPiscando = True
             
             self.frameRight.after(500, self.piscar_led)
-    
-    #(Tela Operativa) - FUNÇÃO 1º A SER INVOCADA POR BOTÃO: botaoInciarContador - TEMPORIZADOR----------------------------
+ 
     def objetos_cores(self, cor1, cor2):
         
         #Se a cor1(cor que será o background da tela) for GREEN e não for tempo extra, acenderá só o led verde
@@ -1518,7 +994,7 @@ class AplicacaoFront(AplicacaoBack):
         self.codigoPeca['fg'] = cor2
         self.codigoOperacao['fg'] = cor2
         self.tempoProgramado['fg'] = cor2
-                
+
     def botao_iniciar(self, iniciaCont):
         
         if self.chaveControle2 == True:
@@ -2021,7 +1497,6 @@ class AplicacaoFront(AplicacaoBack):
         '''if self.chaveFinalizar2 == False:
             self.segundos.after(1000, self.iniciarContOper)'''
 
-#------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------            
     def contagemFinalizada(self):
         '''Função rensponsável por finalizar a contagem, informando
         que o tempo foi atingido dentro do limite.'''
@@ -2112,7 +1587,6 @@ class AplicacaoFront(AplicacaoBack):
                 print(erro)
                 messagebox.showerror('06-Error-Servidor', '06-Error: Não acesso ao servidor.')
 
-    #------------------------------- (Tela Operativa) - FUNÇÃO xº A SER INVOCADA POR: botReinciar -----------------
     def tentativa_pausar(self):
         
         def ok():
@@ -2366,8 +1840,7 @@ class AplicacaoFront(AplicacaoBack):
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
             
-            self.botao_iniciar(2)
-            
+            self.botao_iniciar(2)         
     
     def nova_tela_operacao(self):
         '''Função responsável por apertar o botão "NOVO.OS" após finalizar a 
@@ -2376,7 +1849,6 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaOper.destroy()
         self.tela_de_operacao()
         
-    #------------------------------- (Tela Operativa) - FUNÇÃO 9º A SER INVOCADA POR: sair -----------------    
     def sairTela(self):
         '''Função responsavel por ao apertar o botão "Sair" no lado superior
         direito o cronômetro estiver em contagem, abrirá automaticamente um 
@@ -2413,5 +1885,514 @@ class AplicacaoFront(AplicacaoBack):
         else:
             
             messagebox.showwarning('Alerta', 'Sistema em Operação.')
+
+
+class AplicacaoFront(AplicacaoBack):
+    
+    def tela_admin(self, botao):
+        
+        def fechar_janela():
+            self.janelaADM.destroy()
+            self.foco = None
+            
+        if self.foco is None:
+            self.janelaADM = Toplevel()
+            self.janelaADM.title('Login Administração')
+            self.janelaADM.resizable(False, False)
+            self.janelaADM.configure(background='white')
+            self.janelaADM.protocol("WM_DELETE_WINDOW", fechar_janela)
+            
+            sistemaOperacional = system()
+            if sistemaOperacional == 'Windows':
+                self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
+            
+            #Chamando Função Para Centralizar a Tela
+            self.centraliza_tela(600, 600, self.janelaADM)
+            
+            #Adcionando Logo na Janela ADM
+            imgAdm = PhotoImage(file="img/admin.png")
+
+            imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
+            imagemPricipalAdm.place(x=240,y=10)
+
+            admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 18, 'bold'), bg='white')
+            admLabelPrincipal.place(x=75,y=263)
+
+            self.valorBotao = botao
+
+            self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 15, 'bold'), border=2, relief=GROOVE)
+            self.admSenhaPrincipal.place(x=170,y=266)
+            self.admSenhaPrincipal.focus_force()
+            self.admSenhaPrincipal.bind("<Return>", self.transicao)
+            
+            admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 18), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
+            admBotaoPrincipal.place(x=235,y=420)
+            admBotaoPrincipal.bind("<Return>", self.transicao)
+            self.foco = True
+            self.janelaADM.mainloop()
+            
+        else:
+            self.janelaADM.lift()
+            self.admSenhaPrincipal.focus_force()
+       
+    def __init__(self):
+        
+        self.janelaFuncio = Tk()
+        self.janelaFuncio.title('Login Funcionário')
+        self.janelaFuncio.configure(background='white')
+        #self.janelaFuncio.resizable(False, False)
+        
+        sistemaOperacional = system()
+        
+        if sistemaOperacional == 'Windows':
+            self.janelaFuncio.iconbitmap('img/multimoldes-icon.ico')
+            self.janelaFuncio.state('zoomed')
+        else:
+            self.janelaFuncio.attributes('-zoomed', True)
+        
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(900, 600, self.janelaFuncio)
+        
+        #Adcionando Logo na Janela de Funcionário
+        self.imgFun = PhotoImage(file="img/logo-multimoldes.png")
+        
+        self.frameLogin = Frame(self.janelaFuncio, width=600, height=600, bg='white')
+        self.frameLogin.pack()
+
+        self.imagemPricipalFun = Label(self.frameLogin, image=self.imgFun, bg='white')
+        self.imagemPricipalFun.place(x=240,y=15)
+
+        self.labelLogin = Label(self.frameLogin, text='Usuário', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
+        self.labelLogin.place(x=0, y=260)
+
+        self.campoLogin = Entry(self.frameLogin, width=26, font=('arial', 16), border=2, relief=GROOVE)
+        self.campoLogin.place(x=150, y=270)
+        self.campoLogin.focus_force()
+        self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
+
+        self.labelSenha = Label(self.frameLogin, text='Senha', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
+        self.labelSenha.place(x=0, y=320)
+
+        self.campoSenha = Entry(self.frameLogin, width=13, show='l', font=('wingdings', 16, 'bold'), border=2, relief=GROOVE)
+        self.campoSenha.place(x=150, y=330)
+        self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
+
+        self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
+        self.botao.place(x=235, y=410)
+        self.botao.bind("<Return>", self.confirmar_tela_funcionario)
+        
+        #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
+        gpio.setmode(gpio.BOARD)
+        gpio.setup(8, gpio.OUT)
+        gpio.setup(12, gpio.OUT)
+        gpio.setup(18, gpio.OUT)
+        
+        #Ligando todos as portas com os leds, informando que a máquina está liberada
+        gpio.output(8, gpio.HIGH)
+        gpio.output(12, gpio.HIGH)
+        gpio.output(18, gpio.HIGH)
+
+        '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
+        self.lbCadastrar.place(x=340, y=410)
+        
+        self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
+        self.botCadastrar.place(x=370, y=440)'''
+        
+        self.foco = None
+        
+        self.janelaFuncio.mainloop()
+        
+    def tempo_extra(self):
+    
+        def fechar_tempo_extra():
+            self.janelaTempExtra.destroy()
+            self.foco = None
+        
+        self.janelaTempExtra = Toplevel()
+        self.janelaTempExtra.title('Tela Operativa')
+        self.janelaTempExtra.configure(background='#870000')
+        self.janelaTempExtra.geometry('550x350+200+100')
+        self.janelaTempExtra.resizable(False, False)
+        self.janelaTempExtra.protocol('WM_DELETE_WINDOW', fechar_tempo_extra)
+
+        sistemaOperacional = system()
+        if sistemaOperacional == 'Windows':
+            self.janelaTempExtra.iconbitmap('img/multimoldes-icon.ico')
+        
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(550, 350, self.janelaTempExtra)
+        
+        lt = Label(self.janelaTempExtra, text='Tempo Extra', font=('arial',20,'bold'), bg='#870000', fg='white')
+        lt.place(x=195, y=10)
+        
+        lh = Label(self.janelaTempExtra, text='Horas:', font=('arial',20,'bold'), bg='#870000', fg='white')
+        lh.place(x=70, y=135)
+        
+        self.ll = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
+        self.ll.place(x=170, y=140)
+        self.ll.focus_force()
+        self.ll.bind('<Return>', self.verificar_tempo_extra)
+        
+        lm = Label(self.janelaTempExtra, text='Minutos:', font=('arial',20,'bold'), bg='#870000', fg='white')
+        lm.place(x=270,y=135)
+        
+        self.mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
+        self.mm.place(x=400,y=140)
+        self.mm.bind('<Return>', self.verificar_tempo_extra)
+        
+        bc = Button(self.janelaTempExtra, text='Confirmar', font=('arial',15,'bold'), bg='orange', activebackground='orange', fg='white', activeforeground='white', command = lambda: self.verificar_tempo_extra(self.verificar_tempo_extra))
+        bc.place(x=225,y=260)
+        bc.bind('<Return>', self.verificar_tempo_extra)
+        
+        self.janelaTempExtra.transient(self.janelaOper)
+        self.janelaTempExtra.grab_set()
+        
+        self.janelaTempExtra.mainloop()
+
+    def tela_cadastrar(self):
+        
+        self.janelaCad = Toplevel()
+        self.janelaCad.title('Tela Cadastro')
+        self.janelaCad.resizable(False, False)
+        self.janelaCad.configure(background='white')
+
+        sistemaOperacional = system()
+        if sistemaOperacional == 'Windows':
+            self.janelaCad.iconbitmap('img/multimoldes-icon.ico')
+        
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(500, 500, self.janelaCad)
+
+        self.lbtitle = Label(self.janelaCad, text='Cadastrar Funcionário', font=('arial', 15, 'bold'), bg='white', fg='#3e8e94')
+        self.lbtitle.place(x=170,y=10)
+
+        self.lbNome = Label(self.janelaCad, text='Nome:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
+        self.lbNome.place(x=110, y=80)
+
+        self.lbCpf = Label(self.janelaCad, text='CPF:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
+        self.lbCpf.place(x=120, y=150)
+
+        self.lbSenha = Label(self.janelaCad, text='Senha:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
+        self.lbSenha.place(x=105, y=220)
+
+        self.lbConfSenha = Label(self.janelaCad, text='Confirme a Senha:', font=('arial',12,'bold'),  bg='white', fg='#3e8e94')
+        self.lbConfSenha.place(x=20, y=300)
+
+        self.campNome = Entry(self.janelaCad, width=25, font=12, border=2, relief='groove')
+        self.campNome.place(x=180, y=80)
+        self.campNome.focus_force()
+
+        self.campCpf = Entry(self.janelaCad, width=25, font=12, border=2, relief='groove')
+        self.campCpf.place(x=180, y=150)
+
+        self.campSenha = Entry(self.janelaCad, width=25, font=12, show='*', border=2, relief='groove')
+        self.campSenha.place(x=180, y=220)
+
+        self.confSenha = Entry(self.janelaCad, width=25, font=12, show='*', border=2, relief='groove')
+        self.confSenha.place(x=180, y=300)
+
+        self.cadastrar = Button(self.janelaCad, text='Cadastrar', font=12, bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', relief='flat', border=0, command = lambda: self.conferir_valores())
+        self.cadastrar.place(x=230,y=370)
+        self.janelaCad.mainloop()
+
+    def tela_de_operacao(self):
+
+        self.janelaOper = Tk()
+        self.janelaOper.configure(background='black')
+        self.janelaOper.resizable(False, False)
+        self.janelaOper.attributes('-fullscreen', True)
+        
+        #Obtendo medidas da tela
+        largura = self.janelaOper.winfo_screenwidth()
+        altura = self.janelaOper.winfo_screenheight()
+        
+        #self.janelaOper.geometry(str(largura)+'x'+str(altura))
+        self.janelaOper.geometry(str(largura)+'x'+str(altura))
+        
+        #Centralizando janela
+        self.centraliza_tela(largura, altura, self.janelaOper)
+        
+        #Configurando a largura dos frames esquerdo e direito
+        largLeft = largura / 1.6
+        largRight = largura / 2.324
+
+        #Configurando a Altura dos frames esquerdo e direito
+        altTop = altura / 5.0
+        altLeft = altura / 1.261
+        altRight = altura / 1.261
+        
+        #(Tela Operativa) - FRAMES DA TELA DE OPERAÇÃO
+
+        self.frameTop = Frame(self.janelaOper, width=largura, height=altTop, bg='#135565',highlightthickness=3,highlightcolor='black') #135565
+        self.frameTop.config(highlightbackground='black')
+        self.frameTop.place(x=0, y=0)                   #self.frameTop.pack(side=TOP)
+        
+        self.frameLeft = Frame(self.janelaOper, width=largLeft, bg='#135565', height=altLeft,highlightthickness=3,highlightcolor='black')
+        self.frameLeft.config(highlightbackground='black')
+        self.frameLeft.place(x=0, y=altTop)             #self.frameLeft.pack(side=LEFT)
+
+        self.frameRight = Frame(self.janelaOper, width=largRight, height=altRight, bg='#135565',highlightthickness=3,highlightcolor='black') ##c4c0c0
+        self.frameRight.config(highlightbackground='black')
+        self.frameRight.place(x=largLeft, y=altTop)     #self.frameRight.pack(side=RIGHT)
+        
+
+        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - DADOS DO OPERADOR 
+
+        self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 15,'bold'), fg='white', bg='#135565')
+        self.operadorNome.place(x=10, y=20)
+        
+        self.operador = self.operador.upper()
+        
+        self.operadorNomeUser = Label(self.frameTop, text=self.operador,font=('arial', 15,'bold'), fg='white', bg='#135565')
+        self.operadorNomeUser.place(x=120, y=20)
+
+        self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 15,'bold'), fg='white', bg='#135565')
+        self.horaInicialLb.place(x=10, y=60)
+        
+        self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 15,'bold'), fg='black', bg='white')
+        self.horaAtualUser.place(x=200, y=60)
+
+        self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('play pretend', 40), fg='white', bg='#135565', width=15)
+        self.multimolde.place(x=450, y=20)
+        
+        self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
+        self.frameBotSair.place(x=1180, y=20)
+        
+        self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
+        self.sair.pack()
+        #self.sair.place(x=largura/1.084, y=altura/36) #x = 1180 , y = 20
+        #self.sair.place(x=aa/1.084, y=altura/36) #x = 1180 , y = 20
+
+        
+        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
+
+        self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
+        self.ordemServico.place(x=70, y=100)
+        self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), bg='white')
+        self.campoServico.place(x=360, y=100)
+        self.campoServico.focus_force()
+        self.campoServico.bind("<Return>", self.confirmarCampos)
+        
+        self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
+        self.codigoPeca.place(x=90, y=200)
+        self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19))
+        self.campoPeca.place(x=360, y=200)
+        self.campoPeca.bind("<Return>", self.confirmarCampos)        
+        
+        self.checkVazio = PhotoImage(file='img/verificaVazio.png')
+        
+        self.framenovoOS = Frame(self.frameLeft, bg='#135565', width=110, height=25)
+        self.framenovoOS.place(x=345, y=250)
+        
+        self.novoOS = Label(self.framenovoOS, text='Nova OS', font=('arial',14,'bold'), bg='#135565', fg='white')
+        self.novoOS.place(x=0, y=0)
+        
+        self.novoSelect = Label(self.framenovoOS, image=self.checkVazio, bg='#135565', fg='white')
+        self.novoSelect.place(x=88, y=5)
+        
+        self.frameRetrabalho = Frame(self.frameLeft, bg='#135565', width=170, height=25)
+        self.frameRetrabalho.place(x=495, y=250)
+        
+        self.retrabalhoOS = Label(self.frameRetrabalho,  text='Retrabalhar OS', font=('arial',14,'bold'),bg='#135565', fg='white')
+        self.retrabalhoOS.place(x=0, y=0)
+        
+        self.retrabalhoSelect = Label(self.frameRetrabalho, image=self.checkVazio, bg='#135565', fg='white')
+        self.retrabalhoSelect.place(x=148, y=5)
+        
+        
+        self.codigoOperacao = Label(self.frameLeft, text='Operação:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
+        self.codigoOperacao.place(x=170, y=300)
+        self.campoOperacao = Entry(self.frameLeft, width=20, font=('arial', 19))
+        self.campoOperacao.place(x=360, y=300)
+        self.campoOperacao.bind("<Return>", self.confirmarCampos)
+        
+        self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
+        self.botConfirmar.place(x=370, y=450)
+        self.botConfirmar.bind("<Return>", self.confirmarCampos)
+        
+        #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO
+
+        self.seconds = Label(self.frameRight, text='00', font=('alarm clock',35, 'bold'), fg=('red'), width=2)
+        self.seconds.place(x=328, y=50)
+        self.minutes = Label(self.frameRight, text='00', font=('alarm clock',35, 'bold'), fg=('red'), width=2)
+        self.minutes.place(x=260, y=50)
+        self.hours = Label(self.frameRight, text='00', font=('alarm clock',35, 'bold'), fg=('red'), width=2)
+        self.hours.place(x=192, y=50)
+        
+        logoMarca = PhotoImage(file='img/logoAzul.png')
+        
+        self.logoMarcaRight = Label(self.frameRight, image=logoMarca, bg='#135565')
+        self.logoMarcaRight.place(x=215, y=200)
+
+        '''Chave de controle, responsável de quando ser TRUE, informar que o botão INICIAR iniciou a contagem e em seguida
+        destrui-lo fazendo o botão FINALIZAR 0S aparecer'''
+        self.chaveControle = False
+
+        '''Chave finalizar, responsável de quando TRUE, informar que o botão FINALIZAR OS foi acionado, e destrui-lo, mostrando um label que o OS foi finalizado.'''
+        self.chaveFinalizar = False
+        
+        '''tempoEsgotado, responsável de quando a janela de pause estiver abertar e o tempo esgotar, não poderá mais pausar'''
+        self.tempoEsgotado = False
+        self.resultPausa = ''
+        
+        #Variável responsável por indicar se a função que faz o Led piscar está ativa ou não
+        self.ledPiscando = False
+        
+        #Variável responsável por desligar a função que faz o Led piscar
+        self.desligarfuncaoLed = False
+        
+        #variaveis que tornaram possiveis a contagem do cronômetro
+        self.sec = None
+        self.minu = None
+        self.hou = None     
+        
+        self.secOperacao = None
+        self.minuOperacao = None
+        self.houOperacao = None        
+        
+        self.chaveFinalizar2 = False
+        self.chaveControle2 = False
+        self.tempoPausado = False
+        self.osfinalizada = False
+        
+        #Variáveis responsáveis caso o "tempo gasto" ultrapasse o "tempo programado"
+        self.chaveTempExtra = 0
+        self.tempExtraGastoA = 0
+        self.tempExtraGastoB = 0
+        self.tempExtraGastoC = 0       
+        
+        self.UltimoTempAdd = 0 
+        
+        self.bteste = 5
+        
+        def close():
+            
+            if self.sec == None:
+                
+                if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+                        
+                    self.janelaOper.destroy()
+                    self.__init__()
+                
+        self.janelaOper.protocol('WM_DELETE_WINDOW', close)
+        
+        self.cursor.execute("use empresa_funcionarios")
+        self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
+        valido = self.cursor.fetchall()
+        if len(valido) >= 1:
+            if messagebox.askyesno('OS Pendente', 'Você tem OS pendente, Deseja Ver?'):
+                self.verificação_de_OS()
+        
+        self.janelaOper.mainloop()
+    
+    def verificação_de_OS(self):
+        
+        #Criando janela e configurando
+        self.janelaOsPendente = Toplevel()
+        self.janelaOsPendente.title('OS Pausadas')
+        self.janelaOsPendente.resizable(False, False)
+        self.janelaOsPendente.configure(background='white')
+        
+        #Invocando função para centralizar a janela ao centro
+        self.centraliza_tela(730, 550, self.janelaOsPendente)
+        
+        #criando um list box onde irá ficar armazenado as OS com pendências
+        lista = Listbox(self.janelaOsPendente, font=('arial', 14, 'bold'), width=46)
+        lista.pack(side='right', fill='y')
+        
+        #titulo central da janela
+        titulo = Label(self.janelaOsPendente, text='OS Pendentes', bg='white', fg='#135565', font=('arial', 22, 'bold'))
+        titulo.place(x=15, y=15)
+        
+        #armazenando logo da empresa em uma variável
+        image = PhotoImage(file='img/logo-multimoldes.png')
+        
+        #exibindo label com a imagem já carregada
+        logo = Label(self.janelaOsPendente, image=image, bg='white')
+        logo.place(x=55, y=145)
+        
+        #criando lista onde irá capturar as os e numéros de pelas para exibir na list box
+        pendente = []
+        
+        #executando cursor com o banco de dados para verificar novamente se existe os pausadas não finalizadas
+        self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
+        valido = self.cursor.fetchall()
+        
+        #se valido for igual a 1 ou mais, significa que o funcionário possui
+        if len(valido) >= 1:        
+            for c in range(0, len(valido)):
+                
+                #extraindo do banco de dados as informações e armazenando nas variáveis
+                os = valido[c][5]
+                peca = valido[c][3]
+                operacao = valido[c][4]
+                servico = valido[c][6]
+                iD = valido[c][0]
+                        
+                data = valido[c][8]
+                juntos = str(iD)+' -- '+os+' - '+peca+' - '+operacao+' - '+servico+' - ('+data+')'
+
+                #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
+                pendente.append(juntos)
+
+            #utilizando estrutura de repetição para inserir os dados obtidos já armazenado na lista pendente para o list box
+            for os in pendente:
+                lista.insert(END, os)
+            
+        def os_select():
+            
+            #Lógica para pegar a OS selecionada
+            self.listaAtiva = lista.get(ACTIVE)
+            b = self.listaAtiva.split()
+            c = b[2]
+            
+            #Limpando o campo antes de inserir o número de Os e o Código de Peça
+            self.campoServico.delete(0, END)
+            self.campoPeca.delete(0, END)
+            self.campoOperacao.delete(0, END)
+            
+            #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
+            self.campoServico.insert(0, c)
+            
+            d = b[4]
+            #Armazenando o Código da Peça selecionado em uma variável e inserindo em um campo de texto
+            self.campoPeca.insert(0, d)
+            
+            e = b[6]
+            #Armazenando o Código de Operação selecionado em uma variável e inserindo em um campo de texto
+            self.campoOperacao.insert(0, e)
+            
+            #Usando o banco empresa funcionário
+            self.cursor.execute('use empresa_funcionarios')
+            
+            #buscando o nº de OS e o Código da Peça
+            self.cursor.execute('select * from monitoria_funcionarios where OS = '+str(c)+' and codigoPeca = '+d)
+            valido = self.cursor.fetchall()
+            
+            #Armazenando imagem com visto - Imagem de Selecionado
+            self.checkSelect = PhotoImage(file='img/verifica.png')
+            
+            #Se valido for igual a 0 significa que não uma OS finalizada, então a imagem selecionará como Nova OS
+            if len(valido) == 0:
+                        
+                self.novoSelect['image'] = self.checkSelect
+                self.tipo = 'Nova OS'
+            
+            #Se valido for diferente de 0 significa que já possui uma OS finalizada, então a imagem selecionará Retrabalho
+            else:
+                        
+                self.retrabalhoSelect['image'] = self.checkSelect
+                self.tipo = 'Retrabalhar OS'
+            
+            self.botaoConfirmarOS(2)
+            
+            self.janelaOsPendente.destroy()
+        
+        #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
+        botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 19, 'bold'), command=os_select, activebackground='#135565', activeforeground='white')
+        botaoConfirmar.place(x=45, y=410)
+        
+        #finalizando o loop da janela
+        self.janelaOsPendente.mainloop()
 
 instancia = AplicacaoFront()
