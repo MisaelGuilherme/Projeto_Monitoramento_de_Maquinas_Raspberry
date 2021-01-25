@@ -1019,7 +1019,7 @@ class AplicacaoBack():
             
             self.botPausar = Button(self.botFramePausar, text='PAUSAR.OS', bg='#035700', activebackground='#035700', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tentativa_pausar())
             self.botPausar.pack()
-                        
+
             if iniciaCont == 1:
                 
                 self.frameBotIniciar.destroy()
@@ -1044,6 +1044,9 @@ class AplicacaoBack():
                 self.objetos_cores(str(self.corTelaAtual), 'white')
             
             self.chaveControle = True
+            
+            #Variável que irá habilitar a porta para pode executar a máquina
+            #gpio.output(24, gpio.HIGH)
             
         #Congfigurando os segundos do temporizador
         
@@ -1377,6 +1380,9 @@ class AplicacaoBack():
             
             self.tempoEsgotado = True
             
+            #Variável que irá habilitar a porta para pode executar a máquina
+            #gpio.output(24, gpio.LOW)
+            
             if self.ativaMensagem == 2 and int(self.tempMin) >= 6:
                 self.mensag2.destroy()
             
@@ -1506,6 +1512,9 @@ class AplicacaoBack():
         self.tempoPausado = False
         self.chaveFinalizar = True
         self.osfinalizada = True
+        
+        #Variável que irá habilitar a porta para pode executar a máquina
+        #gpio.output(24, gpio.LOW)
         
         #Se a chaveFinalizar for verdadeira, o cronômetro para com a contagem
         if self.chaveFinalizar == True:
@@ -1699,6 +1708,9 @@ class AplicacaoBack():
         self.botFrameFinalizar.destroy()
         self.botFramePausar.destroy()
         
+        #Variável que irá habilitar a porta para pode executar a máquina (True=Ligado, False=Desligado)
+        #gpio.output(24, gpio.LOW)
+        
         #Se a função de piscar o led estiver ligada ela será desligada com a variável de controle "desligarfuncaoLed"
         if self.ledPiscando == True and self.desligarfuncaoLed == False:
             
@@ -1805,6 +1817,9 @@ class AplicacaoBack():
             
             #com a função despausar invocada, chaveFinalizar fica True e o tempo pode continuar cronometrando
             self.chaveFinalizar = False
+            
+            #Variável que irá habilitar a porta para pode executar a máquina
+            #gpio.output(24, gpio.HIGH)
             
             if self.chaveTempExtra != 0:
                 
@@ -1990,11 +2005,15 @@ class AplicacaoFront(AplicacaoBack):
         #gpio.setup(8, gpio.OUT)
         #gpio.setup(12, gpio.OUT)
         #gpio.setup(18, gpio.OUT)
+        #gpio.setup(24, gpio.OUT)
         
         #Ligando todos as portas com os leds, informando que a máquina está liberada
         #gpio.output(8, gpio.HIGH)
         #gpio.output(12, gpio.HIGH)
         #gpio.output(18, gpio.HIGH)
+        
+        #Porta que habilitará a máquina à operar, só irá ligar quando o operador iniciar 
+        #gpio.output(24, gpio.LOW)
 
         '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
         self.lbCadastrar.place(x=340, y=410)
