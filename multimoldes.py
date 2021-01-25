@@ -2313,7 +2313,6 @@ class AplicacaoFront(AplicacaoBack):
         #Criando janela e configurando
         self.janelaOsPendente = Toplevel()
         self.janelaOsPendente.title('OS Pausadas')
-        self.janelaOsPendente.resizable(False, False)
         self.janelaOsPendente.configure(background='white')
         
         #Invocando função para centralizar a janela ao centro
