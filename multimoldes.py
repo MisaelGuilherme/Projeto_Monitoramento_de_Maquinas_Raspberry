@@ -476,22 +476,22 @@ class AplicacaoBack():
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
                 self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-                self.labelError.place(x=130, y=365)   
+                self.labelError.place(relx=0.200, rely=0.600)   
             
             #caso o campo "senha" diferentee de 11 caracteres
             else:
                 self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-                self.labelError.place(x=130, y=365)
+                self.labelError.place(relx=0.200, rely=0.600)
         
         #caso o campo "login" esteja vazio
         elif self.campoSenha.get() == '':
             self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-            self.labelError.place(x=130, y=365) 
+            self.labelError.place(relx=0.200, rely=0.600) 
         
         #se caso o campo "login" seja diferente de 11 caracteres
         else:
             self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-            self.labelError.place(x=130, y=365)
+            self.labelError.place(relx=0.200, rely=0.600)
 
     def confirmarCampos(self, event):
         
