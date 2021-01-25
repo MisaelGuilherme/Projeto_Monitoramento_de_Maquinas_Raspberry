@@ -8,7 +8,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from platform import *
 import mysql.connector
-import RPi.GPIO as gpio
+#import RPi.GPIO as gpio
 
 class AplicacaoBack():
 
@@ -898,32 +898,32 @@ class AplicacaoBack():
         
         #Se a variável Led_OFF_ON == 1 o led irá desligar, pois abrirá a porta da GPIO
         if self.Led_OFF_ON == 1 and self.desligarfuncaoLed == False and self.tempoEsgotado == False:
-            
-            gpio.output(8, gpio.LOW)
-            gpio.output(12, gpio.LOW)
-            gpio.output(18, gpio.LOW)
+            pass
+            #gpio.output(8, gpio.LOW)
+            #gpio.output(12, gpio.LOW)
+            #gpio.output(18, gpio.LOW)
         
         #Se a variável Led_OFF_ON == 2 o led irá ligar, pois abrirá a porta da GPIO
         elif self.Led_OFF_ON == 2 and self.desligarfuncaoLed == False and self.tempoEsgotado == False:
-            
-            gpio.output(8, gpio.LOW)
-            gpio.output(12, gpio.LOW)
-            gpio.output(18, gpio.HIGH)
+            pass
+            #gpio.output(8, gpio.LOW)
+            #gpio.output(12, gpio.LOW)
+            #gpio.output(18, gpio.HIGH)
             self.Led_OFF_ON = 0
         
         #Se a variável Led_OFF_ON == 1 o led irá desligar, pois abrirá a porta da GPIO
         elif self.Led_OFF_ON == 1 and self.desligarfuncaoLed == False and self.tempoEsgotado == True:
-            
-            gpio.output(8, gpio.LOW)
-            gpio.output(12, gpio.LOW)
-            gpio.output(18, gpio.LOW)
+            pass
+            #gpio.output(8, gpio.LOW)
+            #gpio.output(12, gpio.LOW)
+            #gpio.output(18, gpio.LOW)
         
         #Se a variável Led_OFF_ON == 2 o led irá ligar, pois abrirá a porta da GPIO
         elif self.Led_OFF_ON == 2 and self.desligarfuncaoLed == False and self.tempoEsgotado == True:
-            
-            gpio.output(8, gpio.HIGH)
-            gpio.output(12, gpio.HIGH)
-            gpio.output(18, gpio.HIGH)
+            pass
+            #gpio.output(8, gpio.HIGH)
+            #gpio.output(12, gpio.HIGH)
+            #gpio.output(18, gpio.HIGH)
             self.Led_OFF_ON = 0
         
         if self.desligarfuncaoLed == False:
@@ -937,21 +937,24 @@ class AplicacaoBack():
         
         #Se a cor1(cor que será o background da tela) for GREEN e não for tempo extra, acenderá só o led verde
         if cor1 == 'green' and self.chaveTempExtra == 0:
-            gpio.output(8, gpio.HIGH)
-            gpio.output(12, gpio.LOW)
-            gpio.output(18, gpio.LOW)
+            pass
+            #gpio.output(8, gpio.HIGH)
+            #gpio.output(12, gpio.LOW)
+            #gpio.output(18, gpio.LOW)
         
         #Se a cor1(cor que será o background da tela) for YELLOW e não for tempo extra, acenderá só o led amarelo
         elif cor1 == 'yellow' and self.chaveTempExtra == 0:
-            gpio.output(8, gpio.LOW)
-            gpio.output(12, gpio.HIGH)
-            gpio.output(18, gpio.LOW)
+            pass
+            #gpio.output(8, gpio.LOW)
+            #gpio.output(12, gpio.HIGH)
+            #gpio.output(18, gpio.LOW)
         
         #Se a cor1(cor que será o background da tela) for RED e não for tempo extra, acenderá só o led vermelho
         elif cor1 == 'red' and self.chaveTempExtra == 0:
-            gpio.output(8, gpio.LOW)
-            gpio.output(12, gpio.LOW)
-            gpio.output(18, gpio.HIGH)
+            pass
+            #gpio.output(8, gpio.LOW)
+            #gpio.output(12, gpio.LOW)
+            #gpio.output(18, gpio.HIGH)
         
         #Senão significa que está janela para tempo extra, então o led vermelho irá ficar piscando
         else:
@@ -1522,9 +1525,9 @@ class AplicacaoBack():
                 self.ledPiscando = False
             
             #Ligando todos as portas com os leds, informando que a máquina está liberada
-            gpio.output(8, gpio.HIGH)
-            gpio.output(12, gpio.HIGH)
-            gpio.output(18, gpio.HIGH)
+            #gpio.output(8, gpio.HIGH)
+            #gpio.output(12, gpio.HIGH)
+            #gpio.output(18, gpio.HIGH)
             
             corJanela = self.frameRight['bg']
             self.labFinalizar =  Label(self.frameRight, text='Operação Finalizada!',  bg=corJanela, fg='white', font=('arial', 25, 'bold'))
@@ -1703,9 +1706,9 @@ class AplicacaoBack():
             self.ledPiscando = False
             
         #Ligando todos as portas com os leds, informando que a máquina está liberada
-        gpio.output(8, gpio.HIGH)
-        gpio.output(12, gpio.HIGH)
-        gpio.output(18, gpio.HIGH)
+        #gpio.output(8, gpio.HIGH)
+        #gpio.output(12, gpio.HIGH)
+        #gpio.output(18, gpio.HIGH)
                 
         try:
             #Capturando a hora inicial e a data atual em que o modo pause foi iniciado, em seguida inserir no banco de dados
@@ -1810,9 +1813,9 @@ class AplicacaoBack():
                 self.Led_OFF_ON = 0
                 
                 #Ligando todos as portas com os leds, informando que a máquina está liberada
-                gpio.output(8, gpio.LOW)
-                gpio.output(12, gpio.LOW)
-                gpio.output(18, gpio.LOW)
+                #gpio.output(8, gpio.LOW)
+                #gpio.output(12, gpio.LOW)
+                #gpio.output(18, gpio.LOW)
                 
                 self.piscar_led()
             
@@ -1940,6 +1943,7 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaFuncio = Tk()
         self.janelaFuncio.title('Login Funcionário')
         self.janelaFuncio.configure(background='white')
+        self.janelaFuncio.minsize(500, 400)
         #self.janelaFuncio.resizable(False, False)
         
         sistemaOperacional = system()
@@ -1956,41 +1960,41 @@ class AplicacaoFront(AplicacaoBack):
         #Adcionando Logo na Janela de Funcionário
         self.imgFun = PhotoImage(file="img/logo-multimoldes.png")
         
-        self.frameLogin = Frame(self.janelaFuncio, width=600, height=600, bg='white')
+        self.frameLogin = Frame(self.janelaFuncio, width=500, height=600, bg='white')
         self.frameLogin.pack()
 
         self.imagemPricipalFun = Label(self.frameLogin, image=self.imgFun, bg='white')
-        self.imagemPricipalFun.place(x=240,y=15)
+        self.imagemPricipalFun.place(relx=0.400, rely=0.05)
 
         self.labelLogin = Label(self.frameLogin, text='Usuário', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
-        self.labelLogin.place(x=0, y=260)
+        self.labelLogin.place(relx=0, rely=0.440)
 
         self.campoLogin = Entry(self.frameLogin, width=26, font=('arial', 16), border=2, relief=GROOVE)
-        self.campoLogin.place(x=150, y=270)
+        self.campoLogin.place(relx=0.25, rely=0.450)
         self.campoLogin.focus_force()
         self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.labelSenha = Label(self.frameLogin, text='Senha', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
-        self.labelSenha.place(x=0, y=320)
+        self.labelSenha.place(relx=0, rely=0.540)
 
         self.campoSenha = Entry(self.frameLogin, width=13, show='l', font=('wingdings', 16, 'bold'), border=2, relief=GROOVE)
-        self.campoSenha.place(x=150, y=330)
+        self.campoSenha.place(relx=0.25, rely=0.550)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
         self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
-        self.botao.place(x=235, y=410)
+        self.botao.place(relx=0.370, rely=0.700)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
         
         #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
-        gpio.setmode(gpio.BOARD)
-        gpio.setup(8, gpio.OUT)
-        gpio.setup(12, gpio.OUT)
-        gpio.setup(18, gpio.OUT)
+        #gpio.setmode(gpio.BOARD)
+        #gpio.setup(8, gpio.OUT)
+        #gpio.setup(12, gpio.OUT)
+        #gpio.setup(18, gpio.OUT)
         
         #Ligando todos as portas com os leds, informando que a máquina está liberada
-        gpio.output(8, gpio.HIGH)
-        gpio.output(12, gpio.HIGH)
-        gpio.output(18, gpio.HIGH)
+        #gpio.output(8, gpio.HIGH)
+        #gpio.output(12, gpio.HIGH)
+        #gpio.output(18, gpio.HIGH)
 
         '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
         self.lbCadastrar.place(x=340, y=410)
@@ -2391,6 +2395,10 @@ class AplicacaoFront(AplicacaoBack):
         #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
         botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 19, 'bold'), command=os_select, activebackground='#135565', activeforeground='white')
         botaoConfirmar.place(x=45, y=410)
+        
+        self.janelaOsPendente.transient(self.janelaOper)
+        self.janelaOsPendente.focus_force()
+        self.janelaOsPendente.grab_set()
         
         #finalizando o loop da janela
         self.janelaOsPendente.mainloop()
