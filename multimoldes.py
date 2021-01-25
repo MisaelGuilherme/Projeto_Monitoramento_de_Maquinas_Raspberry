@@ -2316,7 +2316,7 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaOsPendente.configure(background='white')
         
         #Invocando função para centralizar a janela ao centro
-        self.centraliza_tela(730, 550, self.janelaOsPendente)
+        self.centraliza_tela(900, 600, self.janelaOsPendente)
         
         #criando um list box onde irá ficar armazenado as OS com pendências
         lista = Listbox(self.janelaOsPendente, font=('arial', 14, 'bold'), width=46)
