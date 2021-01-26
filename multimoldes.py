@@ -6,6 +6,7 @@ from datetime import *
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter.font import nametofont
 from platform import *
 import mysql.connector
 #import RPi.GPIO as gpio
@@ -2314,6 +2315,7 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaOsPendente = Toplevel()
         self.janelaOsPendente.title('OS Pausadas')
         self.janelaOsPendente.configure(background='white')
+        self.janelaOSPendente.minsize(780, 400)
         
         #Invocando função para centralizar a janela ao centro
         self.centraliza_tela(900, 600, self.janelaOsPendente)
