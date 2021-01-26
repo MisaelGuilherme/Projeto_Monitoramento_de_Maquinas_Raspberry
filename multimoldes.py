@@ -2320,9 +2320,10 @@ class AplicacaoFront(AplicacaoBack):
         #Invocando função para centralizar a janela ao centro
         self.centraliza_tela(900, 600, self.janelaOsPendente)
         
-        #criando um list box onde irá ficar armazenado as OS com pendências
+        '''#criando um list box onde irá ficar armazenado as OS com pendências
         lista = Listbox(self.janelaOsPendente, font=('arial', 14, 'bold'), width=46)
         lista.pack(side='right', fill='y')
+        '''
         
         #titulo central da janela
         titulo = Label(self.janelaOsPendente, text='OS Pendentes', bg='white', fg='#135565', font=('arial', 22, 'bold'))
@@ -2338,36 +2339,74 @@ class AplicacaoFront(AplicacaoBack):
         #criando lista onde irá capturar as os e numéros de pelas para exibir na list box
         pendente = []
         
+        style = ttk.Style()
+        style.configure('Treeview.Heading', font=('arial', 12, 'bold'))
+        
+        style2 = ttk.Style()
+        style2.configure('Treeview', font=('arial', 13))
+        
+        lista = ttk.Treeview(self.janelaOsPendente, column=("1","2","3","4","5","6"), show='headings')
+        
+        lista.heading("1", text='ID')
+        lista.heading("2", text='O.S')
+        lista.heading("3", text='Nº de Peça')
+        lista.heading("4", text='Operação')
+        lista.heading("5", text='Pausado')
+        lista.heading("6", text='Data')
+        
+        lista.column("1", width=-50, anchor='n')
+        lista.column("2", width=-30, anchor='n')
+        lista.column("3", width=10, anchor='n')
+        lista.column("4", width=13, anchor='n')
+        lista.column("5", width=50, anchor='n')
+        lista.column("6", width=20, anchor='n')
+        
+        lista.place(relx=0.300, rely=0, relwidth=0.670, relheight=1)
+        
+        scrollbar = Scrollbar(self.janelaOsPendente, orient='vertical')
+        lista.configure(yscroll=scrollbar.set)
+        scrollbar.place(relx=0.970, rely=0, width=25, relheight=1)
+        
+        self.cursor.execute('use empresa_funcionarios')
+        
         #executando cursor com o banco de dados para verificar novamente se existe os pausadas não finalizadas
-        self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
+        self.cursor.execute("select id, OS, codigoPeca, CodigoOperacao, motivoPause, DataPause from pausa_funcionarios where cpf ="+str(self.user)+" and horaRetomada = 0")
         valido = self.cursor.fetchall()
         
         #se valido for igual a 1 ou mais, significa que o funcionário possui
         if len(valido) >= 1:        
-            for c in range(0, len(valido)):
-                
-                #extraindo do banco de dados as informações e armazenando nas variáveis
-                os = valido[c][5]
-                peca = valido[c][3]
-                operacao = valido[c][4]
-                servico = valido[c][6]
-                iD = valido[c][0]
-                        
-                data = valido[c][8]
-                juntos = str(iD)+' -- '+os+' - '+peca+' - '+operacao+' - '+servico+' - ('+data+')'
+            for c in valido:
 
                 #adcionando à lista após obter as informações e tê-las armazenado no banco de dados
-                pendente.append(juntos)
-
+                pendente.append(c)
+                
             #utilizando estrutura de repetição para inserir os dados obtidos já armazenado na lista pendente para o list box
-            for os in pendente:
-                lista.insert(END, os)
-            
+            for i in range (len(pendente)):
+                
+                #extraindo do banco de dados as informações e armazenando nas variáveis
+                idd = pendente[i][0]
+                os = pendente[i][1]
+                peca = pendente[i][2]
+                operacao = pendente[i][3]
+                motivoPause = pendente[i][4]
+                data = pendente[i][5]
+                
+                lista.insert("", "end", values=(idd, os, peca, operacao, motivoPause, data))
+
         def os_select():
             
             #Lógica para pegar a OS selecionada
-            self.listaAtiva = lista.get(ACTIVE)
-            b = self.listaAtiva.split()
+            try:
+                
+                self.listaAtiva = lista.selection()[0]
+                a = lista.item(self.listaAtiva, 'values')
+
+                print(a)
+                
+            except: return messagebox.showerror('Erro', "Selecione uma OS antes de confirmar")
+
+            print(a[1])
+            
             c = b[2]
             
             #Limpando o campo antes de inserir o número de Os e o Código de Peça
@@ -2411,6 +2450,8 @@ class AplicacaoFront(AplicacaoBack):
             self.botaoConfirmarOS(2)
             
             self.janelaOsPendente.destroy()
+            
+            
         
         #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
         botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 19, 'bold'), command=os_select, activebackground='#135565', activeforeground='white')
