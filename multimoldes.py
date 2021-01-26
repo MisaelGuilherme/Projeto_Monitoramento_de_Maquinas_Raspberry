@@ -621,7 +621,7 @@ class AplicacaoBack():
                 
                 #lista recebendo a opção selecionada de OS Pendente de modo separado(SPLIT)
                 self.listaSeparada = self.listaAtiva.split()
-                
+                print(self.listaAtiva)
                 #Selecionando do banco de dados onde o id for igual ao número de is da lista já separada igual a 10
                 self.cursor.execute('select * from pausa_funcionarios where ID = '+self.listaSeparada[0])
                 valido = self.cursor.fetchall()
@@ -2399,15 +2399,9 @@ class AplicacaoFront(AplicacaoBack):
             try:
                 
                 self.listaAtiva = lista.selection()[0]
-                a = lista.item(self.listaAtiva, 'values')
+                self.tuplaSelect = lista.item(self.listaAtiva, 'values')
 
-                print(a)
-                
             except: return messagebox.showerror('Erro', "Selecione uma OS antes de confirmar")
-
-            print(a[1])
-            
-            c = b[2]
             
             #Limpando o campo antes de inserir o número de Os e o Código de Peça
             self.campoServico.delete(0, END)
@@ -2415,21 +2409,19 @@ class AplicacaoFront(AplicacaoBack):
             self.campoOperacao.delete(0, END)
             
             #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
-            self.campoServico.insert(0, c)
+            self.campoServico.insert(0, self.tuplaSelect[1])
             
-            d = b[4]
             #Armazenando o Código da Peça selecionado em uma variável e inserindo em um campo de texto
-            self.campoPeca.insert(0, d)
+            self.campoPeca.insert(0, self.tuplaSelect[2])
             
-            e = b[6]
             #Armazenando o Código de Operação selecionado em uma variável e inserindo em um campo de texto
-            self.campoOperacao.insert(0, e)
-            
-            #Usando o banco empresa funcionário
-            self.cursor.execute('use empresa_funcionarios')
+            self.campoOperacao.insert(0, self.tuplaSelect[3])
+
+            osSelect = self.tuplaSelect[1]
+            pecaSelect = self.tuplaSelect[2]
             
             #buscando o nº de OS e o Código da Peça
-            self.cursor.execute('select * from monitoria_funcionarios where OS = '+str(c)+' and codigoPeca = '+d)
+            self.cursor.execute('select * from monitoria_funcionarios where OS = '+osSelect+' and codigoPeca = '+pecaSelect)
             valido = self.cursor.fetchall()
             
             #Armazenando imagem com visto - Imagem de Selecionado
