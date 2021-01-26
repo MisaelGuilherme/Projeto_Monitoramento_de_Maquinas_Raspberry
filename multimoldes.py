@@ -619,11 +619,8 @@ class AplicacaoBack():
             #Se a função foi invocada pelo parâmetro 2, #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar irá continuar sendo tempo extra e o último tempo Adcionado
             if opcao == 2:
                 
-                #lista recebendo a opção selecionada de OS Pendente de modo separado(SPLIT)
-                self.listaSeparada = self.listaAtiva.split()
-                print(self.listaAtiva)
                 #Selecionando do banco de dados onde o id for igual ao número de is da lista já separada igual a 10
-                self.cursor.execute('select * from pausa_funcionarios where ID = '+self.listaSeparada[0])
+                self.cursor.execute('select * from pausa_funcionarios where ID = '+self.tuplaSelect[0])
                 valido = self.cursor.fetchall()
                 
                 if len(valido) == 1:
