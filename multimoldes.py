@@ -2315,7 +2315,7 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaOsPendente = Toplevel()
         self.janelaOsPendente.title('OS Pausadas')
         self.janelaOsPendente.configure(background='white')
-        self.janelaOSPendente.minsize(780, 400)
+        self.janelaOsPendente.minsize(780, 400)
         
         #Invocando função para centralizar a janela ao centro
         self.centraliza_tela(900, 600, self.janelaOsPendente)
@@ -2326,14 +2326,14 @@ class AplicacaoFront(AplicacaoBack):
         
         #titulo central da janela
         titulo = Label(self.janelaOsPendente, text='OS Pendentes', bg='white', fg='#135565', font=('arial', 22, 'bold'))
-        titulo.place(x=15, y=15)
+        titulo.place(relx=0.03, rely=0.05)
         
         #armazenando logo da empresa em uma variável
         image = PhotoImage(file='img/logo-multimoldes.png')
         
         #exibindo label com a imagem já carregada
         logo = Label(self.janelaOsPendente, image=image, bg='white')
-        logo.place(x=55, y=145)
+        logo.place(relx=0.07, rely=0.3)
         
         #criando lista onde irá capturar as os e numéros de pelas para exibir na list box
         pendente = []
@@ -2414,7 +2414,7 @@ class AplicacaoFront(AplicacaoBack):
         
         #botão onde irá confirmar que o funcionário desejará retormar a OS pausada
         botaoConfirmar = Button(self.janelaOsPendente, text='Retomar OS', relief='flat', border=0, bg='#135565', fg='white', font=('arial', 19, 'bold'), command=os_select, activebackground='#135565', activeforeground='white')
-        botaoConfirmar.place(x=45, y=410)
+        botaoConfirmar.place(relx=0.06, rely=0.800)
         
         self.janelaOsPendente.transient(self.janelaOper)
         self.janelaOsPendente.focus_force()
