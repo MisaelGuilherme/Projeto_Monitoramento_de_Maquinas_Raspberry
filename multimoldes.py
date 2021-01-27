@@ -1864,9 +1864,11 @@ class AplicacaoBack():
             
             if despause == 2:
                 
+                #Buscando dados no banco com o id selecionado 
                 self.cursor.execute('select Hora_Login, Hora_Inicial, Data_Inicial from pausa_funcionarios where id ='+self.tuplaSelect[0])
                 valido = self.cursor.fetchall()
                 
+                #Armazenando os dados capturados nas variáveis
                 self.horaLogin = valido[0][0]
                 self.horaInicial = valido[0][1]
                 self.dateInicial = valido[0][2]
