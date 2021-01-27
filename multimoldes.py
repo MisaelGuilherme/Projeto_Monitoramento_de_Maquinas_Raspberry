@@ -1837,6 +1837,7 @@ class AplicacaoBack():
                 #gpio.output(12, gpio.LOW)
                 #gpio.output(18, gpio.LOW)
                 
+                #Invocando função responsável por determinar funções aos Leds
                 self.piscar_led()
             
             #Se o parâmetro passado for 1: irá criar antecipadamente os botões FINALIZAR E PAUSAR
