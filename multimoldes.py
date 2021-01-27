@@ -860,14 +860,17 @@ class AplicacaoBack():
             
             self.tempOperando = '00:00:00'
             
+            #Se a opcao for igual a 1: A OS está sendo criada e não é uma OS Pendente
             if opcao == 1:
             
                 self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
                 self.frameBotIniciar.place(x=220, y=200)
                 
+                #Se o parâmetro for 1: A OS está sendo criada e não é uma OS Pendente
                 self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar(1))
                 self.botaoInciarContador.pack()
             
+            #Se a opcao for igual a 2: A OS está sendo retomada pois é uma OS Pendente
             elif opcao == 2:
                 
                 #Configurando o tempo do cronômetro para o tempo exato de uma OS Pausada em pendência caso a função tenha sido chamada pela janela de OS pausadas ainda pendente
@@ -882,6 +885,7 @@ class AplicacaoBack():
                 self.botFrameRetomar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
                 self.botFrameRetomar.place(x=172, y=220)
                 
+                #Ao criar botão para retomar OS o parâmetro 2, significa OS Pendente e deve ser feitas as demais configurações
                 self.botDespausar = Button(self.botFrameRetomar, text='RETOMAR.OS', bg='#035700', fg='white',activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(2))
                 self.botDespausar.pack()
                 
@@ -1832,6 +1836,7 @@ class AplicacaoBack():
                 
                 self.piscar_led()
             
+            #Se o parâmetro passado for 1: irá criar antecipadamente os botões FINALIZAR E PAUSAR
             if despause == 1:
                 #Criando frame para fazer uma borda pro botão botFinalizar
                 self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
@@ -2436,6 +2441,8 @@ class AplicacaoFront(AplicacaoBack):
                 self.retrabalhoSelect['image'] = self.checkSelect
                 self.tipo = 'Retrabalhar OS'
             
+            #Quando o parâmetro for 2, o preenchimento dos campos está sendo feito de modo automático e a OS é pendente
+            #Depois de adcionado os dados nos campos, irá chamar função para confirmar
             self.botaoConfirmarOS(2)
             
             self.janelaOsPendente.destroy()
