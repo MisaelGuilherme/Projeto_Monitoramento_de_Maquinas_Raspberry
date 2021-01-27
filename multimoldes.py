@@ -1876,6 +1876,7 @@ class AplicacaoBack():
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
             
+            #Invocando função para iniciar a contagem e monitoração
             self.botao_iniciar(2)         
     
     def nova_tela_operacao(self):
