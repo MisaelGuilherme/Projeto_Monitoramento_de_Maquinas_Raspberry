@@ -1727,7 +1727,7 @@ class AplicacaoBack():
         try:
             #Capturando a hora inicial e a data atual em que o modo pause foi iniciado, em seguida inserir no banco de dados
             horaPause = datetime.now().time().strftime('%H:%M:%S')
-            dateInicial = datetime.now().date().strftime('%d/%m/%Y')
+            datePause = datetime.now().date().strftime('%d/%m/%Y')
             
             #Se self.chaveTempExtra for 0, então não houve adcionamento de tempo extra
             if self.chaveTempExtra == 0:
@@ -1767,14 +1767,17 @@ class AplicacaoBack():
                 +self.numOS+"','"
                 +self.resultPausa+"','"
                 +horaPause+"','"
-                +str(dateInicial)+"','0','0','"
+                +str(datePause)+"','0','0','"
                 +self.tempoMarcado+"','"
                 +self.tempGasto+"','"
                 +self.tempExtraGasto+"','"
                 +str(self.chaveTempExtra)+"','"
                 +str(self.UltimoTempAdd)+ "','"
                 +str(self.tempProg)+"','"
-                +corTela+"')")
+                +corTela+"','"
+                +str(self.horaLogin)+"','"
+                +str(self.horaInicial)+"','"
+                +str(self.dateInicial)+"')")
             
             self.banco.commit()
             
@@ -1838,6 +1841,7 @@ class AplicacaoBack():
             
             #Se o parâmetro passado for 1: irá criar antecipadamente os botões FINALIZAR E PAUSAR
             if despause == 1:
+                
                 #Criando frame para fazer uma borda pro botão botFinalizar
                 self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
                 self.botFrameFinalizar.place(x=182, y=160)            
@@ -1857,6 +1861,15 @@ class AplicacaoBack():
                 #Recebendo cor de fundo da tela para acender o led respectivo, ou se for tempo extra irá piscar.
                 corTela = self.frameRight['bg']
                 self.objetos_cores(corTela, 'white')
+            
+            if despause == 2:
+                
+                self.cursor.execute('select Hora_Login, Hora_Inicial, Data_Inicial from pausa_funcionarios where id ='+self.tuplaSelect[0])
+                valido = self.cursor.fetchall()
+                
+                self.horaLogin = valido[0][0]
+                self.horaInicial = valido[0][1]
+                self.dateInicial = valido[0][2]
             
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
