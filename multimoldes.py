@@ -25,6 +25,11 @@ class AplicacaoBack():
         #verificando se usuário existe no banco de dados
         self.cursor = self.banco.cursor()
 
+    def conection_database_close(self):
+        
+        self.banco.close()
+        self.cursor.close()
+
     def centraliza_tela(self, larg, alt, jane):
                 
         # Dimensões da Janela
@@ -474,7 +479,10 @@ class AplicacaoBack():
                     
                     print(erro)
                     messagebox.showerror('03-Error-Servidor', '03-Error: Não acesso ao servidor.')
-                    
+                
+                #Fechando conexão com o banco de dados
+                #self.conection_database_close()
+
                 #pegando hora atual de login caso encontrar resultado na busca
                 if len(valido) == 1:
                     
