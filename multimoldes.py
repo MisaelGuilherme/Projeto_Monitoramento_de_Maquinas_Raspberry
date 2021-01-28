@@ -1902,16 +1902,15 @@ class AplicacaoBack():
                 self.__init__()
         
         #Se a chaveFinalizar and tempoPausado for True significa que o tempo foi pausado, e operário poderá sair
-        elif self.chaveFinalizar and self.tempoPausado == True:
+        elif self.chaveFinalizar == True and self.tempoPausado == True:
             
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
                 self.__init__()        
         
-        #Se a chaveControle for False significa que a operação foi finalizada e chaveTempExtra == 0: Significa que o usuário
-        #ainda pode sair da tela mesmo tendo confirmado a OS antes de apertar o botão INICIAR
-        elif self.chaveControle == False and self.chaveTempExtra == 0:
+        #Se chaveControle for False e tempoEsgotado for False, poderá sair da janela mesmo tendo confirmado a OS após logar
+        elif self.chaveControle == False and self.tempoEsgotado == False:
             
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
