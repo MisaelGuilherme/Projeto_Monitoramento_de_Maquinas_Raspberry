@@ -331,14 +331,6 @@ class AplicacaoBack():
         self.campoProExt = Label(self.frameLeft, text=self.tempProgExt, width=8, font=('arial', 15, 'bold'), bg='white', fg='red')
         self.campoProExt.place(x=640, y=400)
         
-        #Criando borda através fraems para o botão sair
-        self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
-        self.frameBotSair.place(x=1180, y=20)
-        
-        #Invocando o botão sair(login) após o horário ser adcionado
-        self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
-        self.sair.pack()
-        
         self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
         self.frameBotIniciar.place(x=220, y=200)        
         
@@ -1432,10 +1424,8 @@ class AplicacaoBack():
                 print(f'Tempo Hora: {self.tempHora } Tempo Minuto: {self.tempMin}')
             
             self.objetos_cores('#870000', 'white')
-            self.imagemTempRel.destroy()                      
-            #self.botFrameFinalizar.destroy()
+            self.imagemTempRel.destroy()
             self.botFramePausar.destroy()
-            self.frameBotSair.destroy()
             
             self.labFinalizar = Label(self.frameRight, text='Tempo excedido!!',  bg='#870000', fg='white', font=('arial', 25, 'bold'))
             self.labFinalizar.place(x=150, y=400)
