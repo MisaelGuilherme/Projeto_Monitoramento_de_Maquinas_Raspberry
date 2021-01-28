@@ -13,6 +13,18 @@ import mysql.connector
 
 class AplicacaoBack():
 
+    def conection_database(self):
+        
+        self.banco = mysql.connector.connect(
+            
+            host = "10.0.0.65",
+            user = "MultimoldesClient",
+            password = "",
+            database="empresa_funcionarios")
+        
+        #verificando se usuário existe no banco de dados
+        self.cursor = self.banco.cursor()
+
     def centraliza_tela(self, larg, alt, jane):
                 
         # Dimensões da Janela
@@ -443,37 +455,38 @@ class AplicacaoBack():
             if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 4:
                 self.password = self.campoSenha.get()
                 
-                #tentamos conectar-se ao banco
+                #tentando conectar-se ao banco
                 try:
-                    self.banco = mysql.connector.connect(
-                        
-                        host = "10.0.0.65",
-                        user = "MultimoldesClient",
-                        password = "")
                     
-                    #verificando se usuário existe no banco de dados
-                    self.cursor = self.banco.cursor()
-                    self.cursor.execute('use empresa_funcionarios')
-                    self.cursor.execute("select * from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
+                    self.conection_database()
+                    
+                except:
+
+                    return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
+
+                #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
+                try:
+                    
+                    self.cursor.execute("select Nome from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
                     valido = self.cursor.fetchall()
                     
-                    #pegando hora atual de login caso encontrar resultado na busca
-                    if len(valido) == 1:
-                        
-                        self.operador = valido[0][1]
-                        time = datetime.now().time().strftime('%H:%M:%S')
-                        self.horaLogin = time
-                        self.janelaFuncio.destroy()
-                        self.tela_de_operacao()
-                    
-                    #alerta caso o usuário não seja encontrado
-                    else:
-                        messagebox.showerror('Alerta','Login não Existe!')
-                        
-                #mensaem de erro caso ocorra alguma excessão ao tentar logar
                 except Exception as erro:
+                    
                     print(erro)
                     messagebox.showerror('03-Error-Servidor', '03-Error: Não acesso ao servidor.')
+                    
+                #pegando hora atual de login caso encontrar resultado na busca
+                if len(valido) == 1:
+                    
+                    self.operador = valido[0][0]
+                    time = datetime.now().time().strftime('%H:%M:%S')
+                    self.horaLogin = time
+                    self.janelaFuncio.destroy()
+                    self.tela_de_operacao()
+                
+                #alerta caso o usuário não seja encontrado
+                else:
+                    messagebox.showerror('Alerta','Login não Existe!')
             
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
