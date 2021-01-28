@@ -314,6 +314,7 @@ class AplicacaoBack():
         self.campoProExt = Label(self.frameLeft, text=self.tempProgExt, width=8, font=('arial', 15, 'bold'), bg='white', fg='red')
         self.campoProExt.place(x=640, y=400)
         
+        #Criando borda através fraems para o botão sair
         self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
         self.frameBotSair.place(x=1180, y=20)
         
@@ -1024,6 +1025,11 @@ class AplicacaoBack():
 
             if iniciaCont == 1:
                 
+                #Escondendo o botão sair ao iniciar operação
+                try:
+                    self.frameBotSair.place_forget()
+                except: pass
+                
                 self.frameBotIniciar.destroy()
                 
                 #Atribuindo a Hora Incial atual e a Data Inicial atual nas respectivas variáveis
@@ -1037,6 +1043,11 @@ class AplicacaoBack():
                 self.seguInit = 0
             
             elif iniciaCont == 2:
+                
+                #Escondendo o botão sair ao iniciar operação
+                try:
+                    self.frameBotSair.place_forget()
+                except: pass
                 
                 vetor = self.tempoDePauseObtido.split()
                 self.horaInit = vetor[0]
@@ -1518,6 +1529,9 @@ class AplicacaoBack():
         #Variável que irá habilitar a porta para pode executar a máquina
         #gpio.output(24, gpio.LOW)
         
+        #Mostrando o botão sair ao iniciar operação
+        self.frameBotSair.place(x=1180, y=20)
+        
         #Se a chaveFinalizar for verdadeira, o cronômetro para com a contagem
         if self.chaveFinalizar == True:
             self.botFrameFinalizar.destroy()
@@ -1710,6 +1724,9 @@ class AplicacaoBack():
         self.botFrameFinalizar.destroy()
         self.botFramePausar.destroy()
         
+        #Mostrando o botão sair ao iniciar operação
+        self.frameBotSair.place(x=1180, y=20)
+        
         #Variável que irá habilitar a porta para pode executar a máquina (True=Ligado, False=Desligado)
         #gpio.output(24, gpio.LOW)
         
@@ -1842,6 +1859,11 @@ class AplicacaoBack():
             
             #Se o parâmetro passado for 1: irá criar antecipadamente os botões FINALIZAR E PAUSAR
             if despause == 1:
+                
+                #Escondendo o botão sair ao iniciar operação
+                try:
+                    self.frameBotSair.place_forget()
+                except: pass
                 
                 #Criando frame para fazer uma borda pro botão botFinalizar
                 self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
