@@ -470,7 +470,7 @@ class AplicacaoBack():
                 except Exception as erro:
                     
                     print(erro)
-                    messagebox.showerror('03-Error-Servidor', '03-Error: Não acesso ao servidor.')
+                    return messagebox.showerror('03-Error-Servidor', '03-Error: Não acesso ao servidor.')
                 
                 #Fechando conexão com o banco de dados
                 #self.conection_database_close()
@@ -486,7 +486,7 @@ class AplicacaoBack():
                 
                 #alerta caso o usuário não seja encontrado
                 else:
-                    messagebox.showerror('Alerta','Login não Existe!')
+                    return messagebox.showerror('Alerta','Login não Existe!')
             
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
