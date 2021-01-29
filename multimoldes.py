@@ -631,7 +631,11 @@ class AplicacaoBack():
     
         try:
             
-            self.cursor.execute('use empresa_funcionarios')
+            #tentando conectar-se ao banco
+            try:
+                self.conection_database()
+            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
+            
             self.cursor.execute("select * from pecas_codigo where codigo = "+self.campoPeca.get())
             valido = self.cursor.fetchall()
         
@@ -723,7 +727,11 @@ class AplicacaoBack():
                     
                     #Obtendo Código de Peça salva no banco de dados e armazenando na variável - Caso Opcao == 2
                     self.codP = str(valido[0][3])
-
+            
+            
+            #Fechando conexão com o banco de dados
+            self.conection_database_close()
+            
                     
             if int(self.tempHora) == 0:
                 self.ho = 0
@@ -1610,6 +1618,10 @@ class AplicacaoBack():
             self.botReiniciar = Button(self.frameBotReiniciar, text='NOVO.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 20, 'bold'), width=12, command = lambda: self.nova_tela_operacao())
             self.botReiniciar.pack()
             
+            try:
+                self.conection_database()
+            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
+            
             #Enviando todos os dados ao banco
             try:
                 self.cursor.execute('use empresa_funcionarios')
@@ -1631,6 +1643,8 @@ class AplicacaoBack():
                                     +self.tipo+"')")
                                     
                 self.banco.commit()
+                
+                self.conection_database_close()
             
             #Excessão caso ocorra de não conseguir salvar
             except Exception as erro:
@@ -1796,7 +1810,10 @@ class AplicacaoBack():
                 self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
                 print(self.tempExtraGasto)            
             
-            self.cursor.execute('use empresa_funcionarios')
+            try:
+                self.conection_database()
+            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
+            
             self.cursor.execute("insert into pausa_funcionarios VALUES('id','"
                                 
                 +str(self.operador)+"','"
@@ -1820,6 +1837,9 @@ class AplicacaoBack():
             
             self.banco.commit()
             
+            #Fechando conexão com banco de dados
+            self.conection_database_close()
+            
         except Exception as erro:
             print(erro)
             messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
@@ -1837,8 +1857,9 @@ class AplicacaoBack():
             horaRetomada = datetime.now().time().strftime('%H:%M:%S')
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
             
-            self.cursor.execute('use empresa_funcionarios')
-            #self.listaSeparada[0]
+            try:
+                self.conection_database()
+            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
             
             #Atualizando banco de dados com a data retomada após a função responsável por despausar for invocada
             self.cursor.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
@@ -1920,6 +1941,9 @@ class AplicacaoBack():
             
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
+            
+            #Fechando conexão com o banco de dados
+            self.conection_database_close()
             
             #Invocando função para iniciar a contagem e monitoração
             self.botao_iniciar(2)         
