@@ -593,7 +593,7 @@ class AplicacaoBack():
         else:
             
             #Buscando a OS digitada no banco de dados
-            self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
+            self.cursor.execute('select * from monitoria_funcionarios where OS ='+ self.campoServico.get()+' and CodigoPeca ='+self.campoPeca.get()+' and CodigoOperacao ='+self.campoOperacao.get())
             valido = self.cursor.fetchall()
             
             #Fechando conexão com banco de dados
