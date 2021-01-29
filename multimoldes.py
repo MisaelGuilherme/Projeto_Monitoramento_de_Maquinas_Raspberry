@@ -510,103 +510,114 @@ class AplicacaoBack():
 
     def confirmarCampos(self, event):
         
+        
         #Verificando se algum campo está em branco
         if self.campoServico.get() == '' or self.campoPeca.get() == '' or self.campoOperacao.get() == '':
             
-            messagebox.showerror('Alerta','Verifique os Campos!')
+            return messagebox.showerror('Alerta','Verifique os Campos!')
         
         #Verificando se os caracteres digitados nos campos são de valor numérico
         elif self.campoServico.get().isnumeric() == False or self.campoPeca.get().isnumeric() == False or self.campoOperacao.get().isnumeric() == False:
-            messagebox.showerror('Alerta','Os Campos Precisam ser Numéricos!')
+            return messagebox.showerror('Alerta','Os Campos Precisam ser Numéricos!')
         
-        elif True:
-
-            try:
-                #Buscando o Código de Peça no banco de dados
-                self.cursor.execute("select * from pecas_codigo where codigo = "+self.campoPeca.get())
-                valido = self.cursor.fetchall()
+        
+        #tentando conectar-se ao banco
+        try:
+            self.conection_database()
+        except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
+        
+        
+        #Buscando o Código de Peça no banco de dados
+        self.cursor.execute("select peca from pecas_codigo where codigo = "+self.campoPeca.get())
+        valido = self.cursor.fetchall()
+        
+            
+        #Se ao ler a variável valido o valor for igual a 0, provavelmente não existe no banco de dados
+        if len(valido) == 0:
+            
+            #Fechando conexão com banco de dados
+            self.conection_database_close()
+            
+            #Exibindo mensagem alertando que o Código de Peça não foi encontrado
+            return messagebox.showerror('Alerta','Código não Encontrado!')
+        
+        
+        #Buscando no banco de dados se existe a OS digitada e o Código de Peça em modo pausado
+        self.cursor.execute('select * from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0')
+        checar = self.cursor.fetchall()
+        
+        #Se ao ler a variável "checar" o valor for maior ou igual a 1, provavelmente existe no banco de dados
+        if len(checar) >= 1:
+            
+            #Fechando conexão com banco de dados
+            self.conection_database_close()
+            
+            #Exibindo mensagem que a OS e o Código de Peça estão pausados, e se deseja abrir a janela de OS Pendente
+            perguntar = messagebox.askquestion('Alerta', 'OS e Nº de Peça pausados. Abrir janela de OS Pendentes?')
+            
+            #Se for sim, irá abrir a janela
+            if perguntar == 'yes':
                 
-                #Se ao ler a variável valido o valor for igual a 0, provavelmente não existe no banco de dados
-                if len(valido) == 0:
-                    
-                    #Exibindo mensagem alertando que o Código de Peça não foi encontrado
-                    messagebox.showerror('Alerta','Código não Encontrado!')
+                return self.verificação_de_OS()
+            
+            else: return ''
+        
+        #Verificando se o funcionário está apto para fazer a peça
+        self.cursor.execute('select Processo_Usinagem from operacao_codigo where Codigo_Operacao = '+ self.campoOperacao.get())
+        checaOperacao = self.cursor.fetchall()
+        
+        if len(checaOperacao) == 0:
+            
+            #Fechando conexão com banco de dados
+            self.conection_database_close()
+            
+            return messagebox.showerror('Alerta', 'Código de Operação Não Encontrado!')
+        
+        #Armazenando nome da Operação extraída do banco de dados
+        ProcessoUninagem = checaOperacao[0][0]
+        
+        self.cursor.execute('select '+ProcessoUninagem+' from habilidade_funcionarios where CPF = '+self.user)
+        checaOperacao = self.cursor.fetchall()
+        
+        #Armazenando valor relacionado à habilidade do funcionário extraída do banco de dados
+        habilidadeFuncionario = checaOperacao[0][0]
+        
+        if habilidadeFuncionario == 0:
+            
+            #Fechando conexão com banco de dados
+            self.conection_database_close()
+            
+            #Exibindo alerta que não é possível o funcionário cumprir a operação
+            return messagebox.showinfo('Alerta', f'Capacitação específica insuficiente para o comprimento desta tarefa.\n\nProcesso de Usinagem: {ProcessoUninagem}\nHabilidade do Funcionário: {habilidadeFuncionario}')
+            
+        else:
+            
+            #Buscando a OS digitada no banco de dados
+            self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
+            valido = self.cursor.fetchall()
+            
+            #Fechando conexão com banco de dados
+            self.conection_database_close()            
+            
+            self.checkSelect = PhotoImage(file='img/verifica.png')
+            
+            #Se o resultado da busca for igual a 0, então é uma Nova OS
+            if len(valido) == 0:
                 
-                #Se ao ler a variável valido o valor for diferente de 0, seguir a próxima sequência de passos
-                else:
-                    
-                    #Buscando no banco de dados se existe a OS digitada e o Código de Peça em modo pausado
-                    self.cursor.execute('select * from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0')
-                    checar = self.cursor.fetchall()
-                    
-                    #Se ao ler a variável "checar" o valor for maior ou igual a 1, provavelmente existe no banco de dados
-                    if len(checar) >= 1:
-                        
-                        #Exibindo mensagem que a OS e o Código de Peça estão pausados, e se deseja abrir a janela de OS Pendente
-                        perguntar = messagebox.askquestion('Alerta', 'OS e Nº de Peça pausados. Abrir janela de OS Pendentes?')
-                        
-                        #Se for sim, irá abrir a janela
-                        if perguntar == 'yes':
-                            
-                            self.verificação_de_OS()
-                        
-                        #Senão não irá fazer nada
-                        else:   pass
-                    
-                    #Senão irá seguir o seguinte procedimento
-                    else:
-                        
-                        #AQUI PRECISA FAZER A VERIFICAÇÃO SE O FUNCIONÁRIO ESTÁ APTO A FAZER A PEÇA
-                        self.cursor.execute('select Processo_Usinagem from operacao_codigo where Codigo_Operacao = '+ self.campoOperacao.get())
-                        checaOperacao = self.cursor.fetchall()
-                        
-                        if len(checaOperacao) == 1:
-                            
-                            #Armazenando nome da Operação extraída do banco de dados
-                            ProcessoUninagem = checaOperacao[0][0]
-                            
-                            self.cursor.execute('select '+ProcessoUninagem+' from habilidade_funcionarios where CPF = '+self.user)
-                            checaOperacao = self.cursor.fetchall()
-                            
-                            #Armazenando valor relacionado à habilidade do funcionário extraída do banco de dados
-                            habilidadeFuncionario = checaOperacao[0][0]
-                            
-                            if habilidadeFuncionario == 0:
-                                
-                                #Exibindo alerta que não é possível o funcionário cumprir a operação
-                                messagebox.showinfo('Alerta', f'Capacitação específica insuficiente para o comprimento desta tarefa.\n\nProcesso de Usinagem: {ProcessoUninagem}\nHabilidade do Funcionário: {habilidadeFuncionario}')
-                            
-                            else:
-                                
-                                #Buscando a OS digitada no banco de dados
-                                self.cursor.execute('select * from monitoria_funcionarios where OS = '+ self.campoServico.get())
-                                valido = self.cursor.fetchall()
-                                
-                                self.checkSelect = PhotoImage(file='img/verifica.png')
-                                
-                                #Se o resultado da busca for igual a 0, então é uma Nova OS
-                                if len(valido) == 0:
-                                    
-                                    self.novoSelect['image'] = self.checkSelect
-                                    self.tipo = 'Nova OS'
-                                    
-                                    #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
-                                    self.botaoConfirmarOS(1)
-                                
-                                #Senão se o resultado da buscar for diferente de 0, então já existe uma OS digitada
-                                else:
-                                    
-                                    self.retrabalhoSelect['image'] = self.checkSelect
-                                    self.tipo = 'Retrabalhar OS'
-                                    
-                                    #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
-                                    self.botaoConfirmarOS(1)
-                        else:
-                            messagebox.showerror('Alerta', 'Código de Operação Não Encontrado!')
-                    
-            except Exception as erro:
-                print(erro)
-                messagebox.showerror('04-Error-Servidor', '04-Error: Não acesso ao servidor.')
+                self.novoSelect['image'] = self.checkSelect
+                self.tipo = 'Nova OS'
+                
+                #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalmente e não automático
+                self.botaoConfirmarOS(1)
+            
+            #Senão se o resultado da buscar for diferente de 0, então já existe uma OS digitada
+            else:
+                
+                self.retrabalhoSelect['image'] = self.checkSelect
+                self.tipo = 'Retrabalhar OS'
+                
+                #Quando o parâmetro for 1, o preenchimento dos campos está sendo feito pessoalemnte e não automático
+                self.botaoConfirmarOS(1)
 
     def botaoConfirmarOS(self, opcao):
         
