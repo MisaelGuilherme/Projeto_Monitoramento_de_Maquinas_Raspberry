@@ -473,7 +473,7 @@ class AplicacaoBack():
                     return messagebox.showerror('03-Error-Servidor', '03-Error: Não acesso ao servidor.')
                 
                 #Fechando conexão com o banco de dados
-                #self.conection_database_close()
+                self.conection_database_close()
 
                 #pegando hora atual de login caso encontrar resultado na busca
                 if len(valido) == 1:
@@ -2351,9 +2351,19 @@ class AplicacaoFront(AplicacaoBack):
                 
         self.janelaOper.protocol('WM_DELETE_WINDOW', close)
         
+        
+        #tentando conectar-se ao banco
+        try:
+            self.conection_database()
+        except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
+        
         self.cursor.execute("use empresa_funcionarios")
         self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
         valido = self.cursor.fetchall()
+        
+        #Fechando conexão com o banco de dados
+        self.conection_database_close()
+        
         if len(valido) >= 1:
             if messagebox.askyesno('OS Pendente', 'Você tem OS pendente, Deseja Ver?'):
                 self.verificação_de_OS()
@@ -2417,12 +2427,20 @@ class AplicacaoFront(AplicacaoBack):
         scrollbar = Scrollbar(self.janelaOsPendente, orient='vertical')
         lista.configure(yscroll=scrollbar.set)
         scrollbar.place(relx=0.970, rely=0, width=25, relheight=1)
+
+        #tentando conectar-se ao banco
+        try:
+            self.conection_database()
+        except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')        
         
         self.cursor.execute('use empresa_funcionarios')
         
         #executando cursor com o banco de dados para verificar novamente se existe os pausadas não finalizadas
         self.cursor.execute("select id, OS, codigoPeca, CodigoOperacao, motivoPause, DataPause from pausa_funcionarios where cpf ="+str(self.user)+" and horaRetomada = 0")
         valido = self.cursor.fetchall()
+        
+        #Fechando conexão com o banco de dados
+        self.conection_database_close()
         
         #se valido for igual a 1 ou mais, significa que o funcionário possui
         if len(valido) >= 1:        
@@ -2471,9 +2489,17 @@ class AplicacaoFront(AplicacaoBack):
             osSelect = self.tuplaSelect[1]
             pecaSelect = self.tuplaSelect[2]
             
+            #tentando conectar-se ao banco
+            try:
+                self.conection_database()
+            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
+            
             #buscando o nº de OS e o Código da Peça
             self.cursor.execute('select * from monitoria_funcionarios where OS = '+osSelect+' and codigoPeca = '+pecaSelect)
             valido = self.cursor.fetchall()
+            
+            #Fechando conexão com banco de dados
+            self.conection_database_close()
             
             #Armazenando imagem com visto - Imagem de Selecionado
             self.checkSelect = PhotoImage(file='img/verifica.png')
