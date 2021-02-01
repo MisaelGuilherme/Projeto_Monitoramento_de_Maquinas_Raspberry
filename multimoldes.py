@@ -1035,8 +1035,8 @@ class AplicacaoBack():
 
     def botao_iniciar(self, iniciaCont):
         
-        if self.chaveControle2 == True:
-            self.iniciarContOper()
+        #if gpio.input(32) == gpio.HIGH:
+        #    self.iniciarContOper()
             
         if self.chaveControle == False:
             
@@ -2093,6 +2093,9 @@ class AplicacaoFront(AplicacaoBack):
         #gpio.setup(12, gpio.OUT)
         #gpio.setup(18, gpio.OUT)
         #gpio.setup(24, gpio.OUT)
+        
+        #Configurando porta da GPIO do RESPBERRY PI para entrada de corrente
+        #gpio.setup(32, gpio.IN)
         
         #Ligando todos as portas com os leds, informando que a máquina está liberada
         #gpio.output(8, gpio.HIGH)
