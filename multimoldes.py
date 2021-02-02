@@ -17,6 +17,7 @@ class AplicacaoBack():
 
     def conection_database(self):
         
+        #Realizando conexão enquanto a chaveThread for verdadeira(O programa estiver aberto)
         while self.chaveThread == True:
             try:
                 print('Conexão Desestabelecida: verificando')
@@ -27,10 +28,12 @@ class AplicacaoBack():
                     password = "",
                     database="empresa_funcionarios")
                 
+                #Se o houver conexão ativar cursor
                 if self.banco.is_connected() == True:
                 
                     self.cursor = self.banco.cursor()
                     
+                    #Realizando verificação em loop se o banco ainda está conectado.
                     while self.chaveThread == True:
                         print('Conexão Estabelecida: verificando')
                         if self.banco.is_connected() == False:
@@ -42,10 +45,15 @@ class AplicacaoBack():
                 pass
 
     def conection_database_close(self):
+        
+        #Parando o loop de verificação de conexão com o banco de dados
         self.chaveThread = False
+        
+        #Fechando conexão com banco de dados
         self.banco.close()
         self.cursor.close()
-        print('fechou conexão1')
+        
+        print('Fechando Conexão - 1')
 
     def centraliza_tela(self, larg, alt, jane):
                 
@@ -487,13 +495,8 @@ class AplicacaoBack():
                     self.operador = valido[0][0]
                     time = datetime.now().time().strftime('%H:%M:%S')
                     self.horaLogin = time
-                    #self.janelaFuncio.destroy()
-                    #self.tela_de_operacao()
-                    
-                    print('PASSOU PARA A NOVA JANELA')
-                    #Fechando conexão com o banco de dados
-                    self.conection_database_close()
-                    print('fechou conexão2')
+                    self.janelaFuncio.destroy()
+                    self.tela_de_operacao()
                 
                 #alerta caso o usuário não seja encontrado
                 else:
