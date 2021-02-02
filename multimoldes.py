@@ -10,25 +10,42 @@ from tkinter.font import nametofont
 from platform import *
 import mysql.connector
 #import RPi.GPIO as gpio
+import threading
+from time import sleep
 
 class AplicacaoBack():
 
     def conection_database(self):
         
-        self.banco = mysql.connector.connect(
-            
-            host = "10.0.0.65",
-            user = "MultimoldesClient",
-            password = "",
-            database="empresa_funcionarios")
-        
-        #verificando se usuário existe no banco de dados
-        self.cursor = self.banco.cursor()
+        while self.chaveThread == True:
+            try:
+                print('Conexão Desestabelecida: verificando')
+                self.banco = mysql.connector.connect(
+                    
+                    host = "10.0.0.65",
+                    user = "MultimoldesClient",
+                    password = "",
+                    database="empresa_funcionarios")
+                
+                if self.banco.is_connected() == True:
+                
+                    self.cursor = self.banco.cursor()
+                    
+                    while self.chaveThread == True:
+                        print('Conexão Estabelecida: verificando')
+                        if self.banco.is_connected() == False:
+                            self.conection_database()
+                            break
+                        sleep(1)
+                            
+            except Exception as erro:
+                pass
 
     def conection_database_close(self):
-        
+        self.chaveThread = False
         self.banco.close()
         self.cursor.close()
+        print('fechou conexão1')
 
     def centraliza_tela(self, larg, alt, jane):
                 
@@ -451,15 +468,7 @@ class AplicacaoBack():
             #verificando se a senha é númerica e possui 4 caracteres
             if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 4:
                 self.password = self.campoSenha.get()
-                
-                #tentando conectar-se ao banco
-                try:
-                    
-                    self.conection_database()
-                    
-                except:
 
-                    return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
 
                 #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
                 try:
@@ -471,9 +480,6 @@ class AplicacaoBack():
                     
                     print(erro)
                     return messagebox.showerror('03-Error-Servidor', '03-Error: Não acesso ao servidor.')
-                
-                #Fechando conexão com o banco de dados
-                self.conection_database_close()
 
                 #pegando hora atual de login caso encontrar resultado na busca
                 if len(valido) == 1:
@@ -481,8 +487,13 @@ class AplicacaoBack():
                     self.operador = valido[0][0]
                     time = datetime.now().time().strftime('%H:%M:%S')
                     self.horaLogin = time
-                    self.janelaFuncio.destroy()
-                    self.tela_de_operacao()
+                    #self.janelaFuncio.destroy()
+                    #self.tela_de_operacao()
+                    
+                    print('PASSOU PARA A NOVA JANELA')
+                    #Fechando conexão com o banco de dados
+                    self.conection_database_close()
+                    print('fechou conexão2')
                 
                 #alerta caso o usuário não seja encontrado
                 else:
@@ -2086,6 +2097,12 @@ class AplicacaoFront(AplicacaoBack):
         self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
         self.botao.place(relx=0.370, rely=0.700)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
+        
+        #variável que controlará a thread de verificar o banco de dados em loop infinito
+        self.chaveThread = True
+        
+        #Chamando função realizar conexão com banco de dados através de Thread
+        threading.Thread(target=self.conection_database,).start()
         
         #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
         #gpio.setmode(gpio.BOARD)
