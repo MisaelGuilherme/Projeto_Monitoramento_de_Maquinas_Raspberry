@@ -10,50 +10,25 @@ from tkinter.font import nametofont
 from platform import *
 import mysql.connector
 #import RPi.GPIO as gpio
-import threading
-from time import sleep
 
 class AplicacaoBack():
 
     def conection_database(self):
         
-        #Realizando conexão enquanto a chaveThread for verdadeira(O programa estiver aberto)
-        while self.chaveThread == True:
-            try:
-                print('Conexão Desestabelecida: verificando')
-                self.banco = mysql.connector.connect(
-                    
-                    host = "10.0.0.65",
-                    user = "MultimoldesClient",
-                    password = "",
-                    database="empresa_funcionarios")
-                
-                #Se o houver conexão ativar cursor
-                if self.banco.is_connected() == True:
-                
-                    self.cursor = self.banco.cursor()
-                    
-                    #Realizando verificação em loop se o banco ainda está conectado.
-                    while self.chaveThread == True:
-                        print('Conexão Estabelecida: verificando')
-                        if self.banco.is_connected() == False:
-                            self.conection_database()
-                            break
-                        sleep(1)
-                            
-            except Exception as erro:
-                pass
+        self.banco = mysql.connector.connect(
+            
+            host = "10.0.0.65",
+            user = "MultimoldesClient",
+            password = "",
+            database="empresa_funcionarios")
+        
+        #verificando se usuário existe no banco de dados
+        self.cursor = self.banco.cursor()
 
     def conection_database_close(self):
         
-        #Parando o loop de verificação de conexão com o banco de dados
-        self.chaveThread = False
-        
-        #Fechando conexão com banco de dados
         self.banco.close()
         self.cursor.close()
-        
-        print('Fechando Conexão - 1')
 
     def centraliza_tela(self, larg, alt, jane):
                 
@@ -476,7 +451,15 @@ class AplicacaoBack():
             #verificando se a senha é númerica e possui 4 caracteres
             if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 4:
                 self.password = self.campoSenha.get()
+                
+                #tentando conectar-se ao banco
+                try:
+                    
+                    self.conection_database()
+                    
+                except:
 
+                    return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
 
                 #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
                 try:
@@ -535,12 +518,6 @@ class AplicacaoBack():
             return messagebox.showerror('Alerta','Os Campos Precisam ser Numéricos!')
         
         
-        #tentando conectar-se ao banco
-        try:
-            self.conection_database()
-        except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
-        
-        
         #Buscando o Código de Peça no banco de dados
         self.cursor.execute("select peca from pecas_codigo where codigo = "+self.campoPeca.get())
         valido = self.cursor.fetchall()
@@ -548,9 +525,6 @@ class AplicacaoBack():
             
         #Se ao ler a variável valido o valor for igual a 0, provavelmente não existe no banco de dados
         if len(valido) == 0:
-            
-            #Fechando conexão com banco de dados
-            self.conection_database_close()
             
             #Exibindo mensagem alertando que o Código de Peça não foi encontrado
             return messagebox.showerror('Alerta','Código não Encontrado!')
@@ -562,9 +536,6 @@ class AplicacaoBack():
         
         #Se ao ler a variável "checar" o valor for maior ou igual a 1, provavelmente existe no banco de dados
         if len(checar) >= 1:
-            
-            #Fechando conexão com banco de dados
-            self.conection_database_close()
             
             #Exibindo mensagem que a OS e o Código de Peça estão pausados, e se deseja abrir a janela de OS Pendente
             perguntar = messagebox.askquestion('Alerta', 'OS e Nº de Peça pausados. Abrir janela de OS Pendentes?')
@@ -582,9 +553,6 @@ class AplicacaoBack():
         
         if len(checaOperacao) == 0:
             
-            #Fechando conexão com banco de dados
-            self.conection_database_close()
-            
             return messagebox.showerror('Alerta', 'Código de Operação Não Encontrado!')
         
         #Armazenando nome da Operação extraída do banco de dados
@@ -598,9 +566,6 @@ class AplicacaoBack():
         
         if habilidadeFuncionario == 0:
             
-            #Fechando conexão com banco de dados
-            self.conection_database_close()
-            
             #Exibindo alerta que não é possível o funcionário cumprir a operação
             return messagebox.showinfo('Alerta', f'Capacitação específica insuficiente para o comprimento desta tarefa.\n\nProcesso de Usinagem: {ProcessoUninagem}\nHabilidade do Funcionário: {habilidadeFuncionario}')
             
@@ -609,10 +574,7 @@ class AplicacaoBack():
             #Buscando a OS digitada no banco de dados
             self.cursor.execute('select * from monitoria_funcionarios where OS ='+ self.campoServico.get()+' and CodigoPeca ='+self.campoPeca.get()+' and CodigoOperacao ='+self.campoOperacao.get())
             valido = self.cursor.fetchall()
-            
-            #Fechando conexão com banco de dados
-            self.conection_database_close()            
-            
+                   
             self.checkSelect = PhotoImage(file='img/verifica.png')
             
             #Se o resultado da busca for igual a 0, então é uma Nova OS
@@ -644,12 +606,7 @@ class AplicacaoBack():
         self.numOper = str(self.campoOperacao.get())
     
         try:
-            
-            #tentando conectar-se ao banco
-            try:
-                self.conection_database()
-            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
-            
+                        
             self.cursor.execute("select * from pecas_codigo where codigo = "+self.campoPeca.get())
             valido = self.cursor.fetchall()
         
@@ -741,10 +698,6 @@ class AplicacaoBack():
                     
                     #Obtendo Código de Peça salva no banco de dados e armazenando na variável - Caso Opcao == 2
                     self.codP = str(valido[0][3])
-            
-            
-            #Fechando conexão com o banco de dados
-            self.conection_database_close()
             
                     
             if int(self.tempHora) == 0:
@@ -1632,9 +1585,6 @@ class AplicacaoBack():
             self.botReiniciar = Button(self.frameBotReiniciar, text='NOVO.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 20, 'bold'), width=12, command = lambda: self.nova_tela_operacao())
             self.botReiniciar.pack()
             
-            try:
-                self.conection_database()
-            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
             
             #Enviando todos os dados ao banco
             try:
@@ -1658,8 +1608,6 @@ class AplicacaoBack():
                                     
                 self.banco.commit()
                 
-                self.conection_database_close()
-            
             #Excessão caso ocorra de não conseguir salvar
             except Exception as erro:
                 print(erro)
@@ -1824,9 +1772,6 @@ class AplicacaoBack():
                 self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
                 print(self.tempExtraGasto)            
             
-            try:
-                self.conection_database()
-            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
             
             self.cursor.execute("insert into pausa_funcionarios VALUES('id','"
                                 
@@ -1851,8 +1796,6 @@ class AplicacaoBack():
             
             self.banco.commit()
             
-            #Fechando conexão com banco de dados
-            self.conection_database_close()
             
         except Exception as erro:
             print(erro)
@@ -1870,10 +1813,6 @@ class AplicacaoBack():
             #Capturando a hora e a data atual em que a OS foi despausada, em seguida inserir no banco de dados
             horaRetomada = datetime.now().time().strftime('%H:%M:%S')
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
-            
-            try:
-                self.conection_database()
-            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
             
             #Atualizando banco de dados com a data retomada após a função responsável por despausar for invocada
             self.cursor.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
@@ -1955,9 +1894,6 @@ class AplicacaoBack():
             
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
-            
-            #Fechando conexão com o banco de dados
-            self.conection_database_close()
             
             #Invocando função para iniciar a contagem e monitoração
             self.botao_iniciar(2)         
@@ -2100,12 +2036,6 @@ class AplicacaoFront(AplicacaoBack):
         self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
         self.botao.place(relx=0.370, rely=0.700)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
-        
-        #variável que controlará a thread de verificar o banco de dados em loop infinito
-        self.chaveThread = True
-        
-        #Chamando função realizar conexão com banco de dados através de Thread
-        threading.Thread(target=self.conection_database,).start()
         
         #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
         #gpio.setmode(gpio.BOARD)
@@ -2410,17 +2340,9 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaOper.protocol('WM_DELETE_WINDOW', close)
         
         
-        #tentando conectar-se ao banco
-        try:
-            self.conection_database()
-        except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
-        
         self.cursor.execute("use empresa_funcionarios")
         self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
         valido = self.cursor.fetchall()
-        
-        #Fechando conexão com o banco de dados
-        self.conection_database_close()
         
         if len(valido) >= 1:
             if messagebox.askyesno('OS Pendente', 'Você tem OS pendente, Deseja Ver?'):
@@ -2484,21 +2406,13 @@ class AplicacaoFront(AplicacaoBack):
         
         scrollbar = Scrollbar(self.janelaOsPendente, orient='vertical')
         lista.configure(yscroll=scrollbar.set)
-        scrollbar.place(relx=0.970, rely=0, width=25, relheight=1)
-
-        #tentando conectar-se ao banco
-        try:
-            self.conection_database()
-        except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')        
+        scrollbar.place(relx=0.970, rely=0, width=25, relheight=1)   
         
         self.cursor.execute('use empresa_funcionarios')
         
         #executando cursor com o banco de dados para verificar novamente se existe os pausadas não finalizadas
         self.cursor.execute("select id, OS, codigoPeca, CodigoOperacao, motivoPause, DataPause from pausa_funcionarios where cpf ="+str(self.user)+" and horaRetomada = 0")
         valido = self.cursor.fetchall()
-        
-        #Fechando conexão com o banco de dados
-        self.conection_database_close()
         
         #se valido for igual a 1 ou mais, significa que o funcionário possui
         if len(valido) >= 1:        
@@ -2547,17 +2461,9 @@ class AplicacaoFront(AplicacaoBack):
             osSelect = self.tuplaSelect[1]
             pecaSelect = self.tuplaSelect[2]
             
-            #tentando conectar-se ao banco
-            try:
-                self.conection_database()
-            except: return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
-            
             #buscando o nº de OS e o Código da Peça
             self.cursor.execute('select * from monitoria_funcionarios where OS = '+osSelect+' and codigoPeca = '+pecaSelect)
             valido = self.cursor.fetchall()
-            
-            #Fechando conexão com banco de dados
-            self.conection_database_close()
             
             #Armazenando imagem com visto - Imagem de Selecionado
             self.checkSelect = PhotoImage(file='img/verifica.png')
