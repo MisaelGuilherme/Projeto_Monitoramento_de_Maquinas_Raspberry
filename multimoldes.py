@@ -500,7 +500,6 @@ class AplicacaoBack():
                     self.horaLogin = time
                     self.janelaFuncio.withdraw()
                     self.tela_de_operacao()
-                    print('JANELA ABERTAAAAAAAA')
                 
                 #alerta caso o usuário não seja encontrado
                 else:
@@ -1969,50 +1968,44 @@ class AplicacaoBack():
 class AplicacaoFront(AplicacaoBack):
     
     def tela_admin(self, botao):
+                    
+        self.janelaADM = Toplevel()
+        self.janelaADM.title('Login Administração')
+        self.janelaADM.resizable(False, False)
+        self.janelaADM.configure(background='white')
         
-        def fechar_janela():
-            self.janelaADM.destroy()
-            self.foco = None
-            
-        if self.foco is None:
-            self.janelaADM = Toplevel()
-            self.janelaADM.title('Login Administração')
-            self.janelaADM.resizable(False, False)
-            self.janelaADM.configure(background='white')
-            self.janelaADM.protocol("WM_DELETE_WINDOW", fechar_janela)
-            
-            sistemaOperacional = system()
-            if sistemaOperacional == 'Windows':
-                self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
-            
-            #Chamando Função Para Centralizar a Tela
-            self.centraliza_tela(600, 600, self.janelaADM)
-            
-            #Adcionando Logo na Janela ADM
-            imgAdm = PhotoImage(file="img/admin.png")
+        sistemaOperacional = system()
+        if sistemaOperacional == 'Windows':
+            self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
+        
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(600, 600, self.janelaADM)
+        
+        #Adcionando Logo na Janela ADM
+        imgAdm = PhotoImage(file="img/admin.png")
 
-            imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
-            imagemPricipalAdm.place(x=240,y=10)
+        imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
+        imagemPricipalAdm.place(x=240,y=10)
 
-            admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 18, 'bold'), bg='white')
-            admLabelPrincipal.place(x=75,y=263)
+        admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 18, 'bold'), bg='white')
+        admLabelPrincipal.place(x=75,y=263)
 
-            self.valorBotao = botao
+        self.valorBotao = botao
 
-            self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 15, 'bold'), border=2, relief=GROOVE)
-            self.admSenhaPrincipal.place(x=170,y=266)
-            self.admSenhaPrincipal.focus_force()
-            self.admSenhaPrincipal.bind("<Return>", self.transicao)
-            
-            admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 18), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
-            admBotaoPrincipal.place(x=235,y=420)
-            admBotaoPrincipal.bind("<Return>", self.transicao)
-            self.foco = True
-            self.janelaADM.mainloop()
-            
-        else:
-            self.janelaADM.lift()
-            self.admSenhaPrincipal.focus_force()
+        self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 15, 'bold'), border=2, relief=GROOVE)
+        self.admSenhaPrincipal.place(x=170,y=266)
+        self.admSenhaPrincipal.focus_force()
+        self.admSenhaPrincipal.bind("<Return>", self.transicao)
+        
+        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 18), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
+        admBotaoPrincipal.place(x=235,y=420)
+        admBotaoPrincipal.bind("<Return>", self.transicao)
+        
+        self.janelaADM.transient(self.janelaOper)
+        self.janelaADM.focus_force()
+        self.janelaADM.grab_set()        
+        
+        self.janelaADM.mainloop()
        
     def __init__(self):
         
