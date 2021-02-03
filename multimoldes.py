@@ -1938,7 +1938,8 @@ class AplicacaoBack():
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
-                self.__init__()
+                #self.__init__()
+                self.janelaFuncio.deiconify()
         
         #Se a chaveFinalizar and tempoPausado for True significa que o tempo foi pausado, e operário poderá sair
         elif self.chaveFinalizar == True and self.tempoPausado == True:
@@ -1946,7 +1947,8 @@ class AplicacaoBack():
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
-                self.__init__()        
+                #self.__init__()
+                self.janelaFuncio.deiconify()
         
         #Se chaveControle for False e tempoEsgotado for False, poderá sair da janela mesmo tendo confirmado a OS após logar
         elif self.chaveControle == False and self.tempoEsgotado == False:
@@ -1954,7 +1956,8 @@ class AplicacaoBack():
             if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
-                self.__init__()
+                #self.__init__()
+                self.janelaFuncio.deiconify()
 
         
         #Senão significa que o cronômetro ainda está em execução
