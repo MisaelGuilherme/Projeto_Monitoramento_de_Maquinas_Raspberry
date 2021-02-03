@@ -498,8 +498,8 @@ class AplicacaoBack():
                     self.operador = valido[0][0]
                     time = datetime.now().time().strftime('%H:%M:%S')
                     self.horaLogin = time
-                    #self.janelaFuncio.destroy()
-                    #self.tela_de_operacao()
+                    self.janelaFuncio.withdraw()
+                    self.tela_de_operacao()
                     print('JANELA ABERTAAAAAAAA')
                 
                 #alerta caso o usuário não seja encontrado
