@@ -9,9 +9,28 @@ from tkinter import messagebox
 from tkinter.font import nametofont
 from platform import *
 import mysql.connector
+import threading
 #import RPi.GPIO as gpio
 
 class AplicacaoBack():
+    
+    def verifica_banco(self):
+        print('Rodando verificação ...')
+        try:
+            if self.bancoCriado == False:
+                print('Variável banco não foi criado: chamando função')
+                self.conection_database()
+            
+            elif self.bancoCriado == True and self.chaveBanco == True:
+                if self.banco.is_connected() != True:
+                    print('Variável chaveBanco não está conectado: chamando função')
+                    self.conection_database()
+            
+        except Exception as erro:
+            print('Erro na função verifica_banco:', erro.__class__)
+            print(erro)
+        
+        self.botao.after(2000, self.verifica_banco)
 
     def conection_database(self):
         
@@ -24,6 +43,9 @@ class AplicacaoBack():
         
         #verificando se usuário existe no banco de dados
         self.cursor = self.banco.cursor()
+        
+        self.bancoCriado = True
+        self.chaveBanco = self.banco.is_connected()
 
     def conection_database_close(self):
         
@@ -451,16 +473,14 @@ class AplicacaoBack():
             #verificando se a senha é númerica e possui 4 caracteres
             if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 4:
                 self.password = self.campoSenha.get()
-                
+                '''
                 #tentando conectar-se ao banco
                 try:
-                    
                     self.conection_database()
-                    
                 except:
 
                     return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
-
+                '''
                 #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
                 try:
                     
@@ -478,8 +498,9 @@ class AplicacaoBack():
                     self.operador = valido[0][0]
                     time = datetime.now().time().strftime('%H:%M:%S')
                     self.horaLogin = time
-                    self.janelaFuncio.destroy()
-                    self.tela_de_operacao()
+                    #self.janelaFuncio.destroy()
+                    #self.tela_de_operacao()
+                    print('JANELA ABERTAAAAAAAA')
                 
                 #alerta caso o usuário não seja encontrado
                 else:
@@ -2037,6 +2058,12 @@ class AplicacaoFront(AplicacaoBack):
         self.botao.place(relx=0.370, rely=0.700)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
         
+        self.chaveBanco = False
+        
+        self.bancoCriado = False
+        
+        threading.Thread(target=self.verifica_banco,).start()
+
         #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
         #gpio.setmode(gpio.BOARD)
         #gpio.setup(8, gpio.OUT)
