@@ -2187,7 +2187,7 @@ class AplicacaoFront(AplicacaoBack):
 
     def tela_de_operacao(self):
 
-        self.janelaOper = Tk()
+        self.janelaOper = Toplevel()
         self.janelaOper.configure(background='black')
         self.janelaOper.resizable(False, False)
         self.janelaOper.attributes('-fullscreen', True)
