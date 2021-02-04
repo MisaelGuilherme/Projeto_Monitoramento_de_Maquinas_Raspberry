@@ -21,7 +21,7 @@ class AplicacaoBack():
                 print('Variável banco não foi criado: chamando função')
                 threading.Thread(target=self.conection_database,).start()
             
-            elif self.bancoCriado == True and self.chaveBanco == True:
+            elif self.bancoCriado == True and self.bancoConect == True:
                 if self.banco.is_connected() != True:
                     print('Variável chaveBanco não está conectado: chamando função')
                     threading.Thread(target=self.conection_database,).start()
@@ -30,10 +30,14 @@ class AplicacaoBack():
             print('Erro na função verifica_banco:', erro.__class__)
             print(erro)
         
+        #Chamando função constantemente a cada 2 segundos
         self.botao.after(2000, self.verifica_banco)
 
     def conection_database(self):
+        
+        #Tentando conexão com o banco de dados
         try:
+            
             self.banco = mysql.connector.connect(
                 
                 host = "10.0.0.65",
@@ -45,7 +49,8 @@ class AplicacaoBack():
             self.cursor = self.banco.cursor()
             
             self.bancoCriado = True
-            self.chaveBanco = self.banco.is_connected()
+            self.bancoConect = self.banco.is_connected()
+        
         except:
             print('Ocorreu um erro ao tentar conectar-se ao banco de dados')
 
@@ -2076,7 +2081,7 @@ class AplicacaoFront(AplicacaoBack):
         self.botao.place(relx=0.370, rely=0.700)
         self.botao.bind("<Return>", self.confirmar_tela_funcionario)
         
-        self.chaveBanco = False
+        self.bancoConect = False
         
         self.bancoCriado = False
         
