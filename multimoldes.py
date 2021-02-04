@@ -33,19 +33,21 @@ class AplicacaoBack():
         self.botao.after(2000, self.verifica_banco)
 
     def conection_database(self):
-        
-        self.banco = mysql.connector.connect(
+        try:
+            self.banco = mysql.connector.connect(
+                
+                host = "10.0.0.65",
+                user = "MultimoldesClient",
+                password = "",
+                database="empresa_funcionarios")
             
-            host = "10.0.0.65",
-            user = "MultimoldesClient",
-            password = "",
-            database="empresa_funcionarios")
-        
-        #verificando se usuário existe no banco de dados
-        self.cursor = self.banco.cursor()
-        
-        self.bancoCriado = True
-        self.chaveBanco = self.banco.is_connected()
+            #verificando se usuário existe no banco de dados
+            self.cursor = self.banco.cursor()
+            
+            self.bancoCriado = True
+            self.chaveBanco = self.banco.is_connected()
+        except:
+            print('Ocorreu um erro ao tentar conectar-se ao banco de dados')
 
     def conection_database_close(self):
         
