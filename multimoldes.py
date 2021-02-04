@@ -19,12 +19,12 @@ class AplicacaoBack():
         try:
             if self.bancoCriado == False:
                 print('Variável banco não foi criado: chamando função')
-                self.conection_database()
+                threading.Thread(target=self.conection_database,).start()
             
             elif self.bancoCriado == True and self.chaveBanco == True:
                 if self.banco.is_connected() != True:
                     print('Variável chaveBanco não está conectado: chamando função')
-                    self.conection_database()
+                    threading.Thread(target=self.conection_database,).start()
             
         except Exception as erro:
             print('Erro na função verifica_banco:', erro.__class__)
@@ -2037,7 +2037,7 @@ class AplicacaoFront(AplicacaoBack):
         
         self.sistemaOperacional = system()
         
-        if sistemaOperacional == 'Windows':
+        if self.sistemaOperacional == 'Windows':
             self.janelaFuncio.iconbitmap('img/multimoldes-icon.ico')
             self.janelaFuncio.state('zoomed')
         else:
