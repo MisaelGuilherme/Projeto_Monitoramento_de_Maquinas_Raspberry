@@ -1939,6 +1939,8 @@ class AplicacaoBack():
                 self.janelaOper.destroy()
                 #self.__init__()
                 self.janelaFuncio.deiconify()
+                self.campoSenha.delete(0, END)
+                self.campoLogin.focus_force()
         
         #Se a chaveFinalizar and tempoPausado for True significa que o tempo foi pausado, e operário poderá sair
         elif self.chaveFinalizar == True and self.tempoPausado == True:
@@ -1948,6 +1950,8 @@ class AplicacaoBack():
                 self.janelaOper.destroy()
                 #self.__init__()
                 self.janelaFuncio.deiconify()
+                self.campoSenha.delete(0, END)
+                self.campoLogin.focus_force()             
         
         #Se chaveControle for False e tempoEsgotado for False, poderá sair da janela mesmo tendo confirmado a OS após logar
         elif self.chaveControle == False and self.tempoEsgotado == False:
@@ -1957,7 +1961,8 @@ class AplicacaoBack():
                 self.janelaOper.destroy()
                 #self.__init__()
                 self.janelaFuncio.deiconify()
-
+                self.campoSenha.delete(0, END)
+                self.campoLogin.focus_force()
         
         #Senão significa que o cronômetro ainda está em execução
         else:
