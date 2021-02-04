@@ -1941,6 +1941,11 @@ class AplicacaoBack():
                 self.janelaFuncio.deiconify()
                 self.campoSenha.delete(0, END)
                 self.campoLogin.focus_force()
+
+                if self.sistemaOperacional == 'Windows':
+                    self.janelaFuncio.state('zoomed')
+                else:
+                    self.janelaFuncio.attributes('-zoomed', True)
         
         #Se a chaveFinalizar and tempoPausado for True significa que o tempo foi pausado, e operário poderá sair
         elif self.chaveFinalizar == True and self.tempoPausado == True:
@@ -1951,7 +1956,12 @@ class AplicacaoBack():
                 #self.__init__()
                 self.janelaFuncio.deiconify()
                 self.campoSenha.delete(0, END)
-                self.campoLogin.focus_force()             
+                self.campoLogin.focus_force()
+
+                if self.sistemaOperacional == 'Windows':
+                    self.janelaFuncio.state('zoomed')
+                else:
+                    self.janelaFuncio.attributes('-zoomed', True)                
         
         #Se chaveControle for False e tempoEsgotado for False, poderá sair da janela mesmo tendo confirmado a OS após logar
         elif self.chaveControle == False and self.tempoEsgotado == False:
@@ -1963,6 +1973,11 @@ class AplicacaoBack():
                 self.janelaFuncio.deiconify()
                 self.campoSenha.delete(0, END)
                 self.campoLogin.focus_force()
+
+                if self.sistemaOperacional == 'Windows':
+                    self.janelaFuncio.state('zoomed')
+                else:
+                    self.janelaFuncio.attributes('-zoomed', True)
         
         #Senão significa que o cronômetro ainda está em execução
         else:
@@ -2020,7 +2035,7 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaFuncio.minsize(500, 400)
         #self.janelaFuncio.resizable(False, False)
         
-        sistemaOperacional = system()
+        self.sistemaOperacional = system()
         
         if sistemaOperacional == 'Windows':
             self.janelaFuncio.iconbitmap('img/multimoldes-icon.ico')
