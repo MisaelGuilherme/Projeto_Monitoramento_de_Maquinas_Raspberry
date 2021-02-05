@@ -22,7 +22,7 @@ class AplicacaoBack():
                 threading.Thread(target=self.conection_database,).start()
             
             elif self.bancoCriado == True and self.bancoConect == True:
-                if self.banco.is_connected() != True:
+                if self.bancoServer.is_connected() != True:
                     print('Variável chaveBanco não está conectado: chamando função')
                     threading.Thread(target=self.conection_database,).start()
             
@@ -38,7 +38,7 @@ class AplicacaoBack():
         #Tentando conexão com o banco de dados
         try:
             
-            self.banco = mysql.connector.connect(
+            self.bancoServer = mysql.connector.connect(
                 
                 host = "10.0.0.65",
                 user = "MultimoldesClient",
@@ -46,18 +46,18 @@ class AplicacaoBack():
                 database="empresa_funcionarios")
             
             #verificando se usuário existe no banco de dados
-            self.cursor = self.banco.cursor()
+            self.cursorServer = self.bancoServer.cursor()
             
             self.bancoCriado = True
-            self.bancoConect = self.banco.is_connected()
+            self.bancoConect = self.bancoServer.is_connected()
         
         except:
             print('Ocorreu um erro ao tentar conectar-se ao banco de dados')
 
     def conection_database_close(self):
         
-        self.banco.close()
-        self.cursor.close()
+        self.bancoServer.close()
+        self.cursorServer.close()
 
     def centraliza_tela(self, larg, alt, jane):
                 
@@ -491,8 +491,8 @@ class AplicacaoBack():
                 #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
                 try:
                     
-                    self.cursor.execute("select Nome from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
-                    valido = self.cursor.fetchall()
+                    self.cursorServer.execute("select Nome from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
+                    valido = self.cursorServer.fetchall()
                     
                 except Exception as erro:
                     
@@ -546,8 +546,8 @@ class AplicacaoBack():
         
         
         #Buscando o Código de Peça no banco de dados
-        self.cursor.execute("select peca from pecas_codigo where codigo = "+self.campoPeca.get())
-        valido = self.cursor.fetchall()
+        self.cursorServer.execute("select peca from pecas_codigo where codigo = "+self.campoPeca.get())
+        valido = self.cursorServer.fetchall()
         
             
         #Se ao ler a variável valido o valor for igual a 0, provavelmente não existe no banco de dados
@@ -558,8 +558,8 @@ class AplicacaoBack():
         
         
         #Buscando no banco de dados se existe a OS digitada e o Código de Peça em modo pausado
-        self.cursor.execute('select * from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0')
-        checar = self.cursor.fetchall()
+        self.cursorServer.execute('select * from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0')
+        checar = self.cursorServer.fetchall()
         
         #Se ao ler a variável "checar" o valor for maior ou igual a 1, provavelmente existe no banco de dados
         if len(checar) >= 1:
@@ -575,8 +575,8 @@ class AplicacaoBack():
             else: return ''
         
         #Verificando se o funcionário está apto para fazer a peça
-        self.cursor.execute('select Processo_Usinagem from operacao_codigo where Codigo_Operacao = '+ self.campoOperacao.get())
-        checaOperacao = self.cursor.fetchall()
+        self.cursorServer.execute('select Processo_Usinagem from operacao_codigo where Codigo_Operacao = '+ self.campoOperacao.get())
+        checaOperacao = self.cursorServer.fetchall()
         
         if len(checaOperacao) == 0:
             
@@ -585,8 +585,8 @@ class AplicacaoBack():
         #Armazenando nome da Operação extraída do banco de dados
         ProcessoUninagem = checaOperacao[0][0]
         
-        self.cursor.execute('select '+ProcessoUninagem+' from habilidade_funcionarios where CPF = '+self.user)
-        checaOperacao = self.cursor.fetchall()
+        self.cursorServer.execute('select '+ProcessoUninagem+' from habilidade_funcionarios where CPF = '+self.user)
+        checaOperacao = self.cursorServer.fetchall()
         
         #Armazenando valor relacionado à habilidade do funcionário extraída do banco de dados
         habilidadeFuncionario = checaOperacao[0][0]
@@ -599,8 +599,8 @@ class AplicacaoBack():
         else:
             
             #Buscando a OS digitada no banco de dados
-            self.cursor.execute('select * from monitoria_funcionarios where OS ='+ self.campoServico.get()+' and CodigoPeca ='+self.campoPeca.get()+' and CodigoOperacao ='+self.campoOperacao.get())
-            valido = self.cursor.fetchall()
+            self.cursorServer.execute('select * from monitoria_funcionarios where OS ='+ self.campoServico.get()+' and CodigoPeca ='+self.campoPeca.get()+' and CodigoOperacao ='+self.campoOperacao.get())
+            valido = self.cursorServer.fetchall()
                    
             self.checkSelect = PhotoImage(file='img/verifica.png')
             
@@ -634,8 +634,8 @@ class AplicacaoBack():
     
         try:
                         
-            self.cursor.execute("select * from pecas_codigo where codigo = "+self.campoPeca.get())
-            valido = self.cursor.fetchall()
+            self.cursorServer.execute("select * from pecas_codigo where codigo = "+self.campoPeca.get())
+            valido = self.cursorServer.fetchall()
         
             self.mi = 0
             self.se = 0
@@ -647,8 +647,8 @@ class AplicacaoBack():
             if opcao == 2:
                 
                 #Selecionando do banco de dados onde o id for igual ao número de is da lista já separada igual a 10
-                self.cursor.execute('select * from pausa_funcionarios where ID = '+self.tuplaSelect[0])
-                valido = self.cursor.fetchall()
+                self.cursorServer.execute('select * from pausa_funcionarios where ID = '+self.tuplaSelect[0])
+                valido = self.cursorServer.fetchall()
                 
                 if len(valido) == 1:
                     
@@ -1615,8 +1615,8 @@ class AplicacaoBack():
             
             #Enviando todos os dados ao banco
             try:
-                self.cursor.execute('use empresa_funcionarios')
-                self.cursor.execute("insert into monitoria_funcionarios VALUES('id','"
+                self.cursorServer.execute('use empresa_funcionarios')
+                self.cursorServer.execute("insert into monitoria_funcionarios VALUES('id','"
                                     +str(self.operador)+"','"
                                     +str(self.horaLogin)+"','"
                                     +str(self.horaInicial)+"','"
@@ -1633,7 +1633,7 @@ class AplicacaoBack():
                                     +self.tempOperando+"','"
                                     +self.tipo+"')")
                                     
-                self.banco.commit()
+                self.bancoServer.commit()
                 
             #Excessão caso ocorra de não conseguir salvar
             except Exception as erro:
@@ -1800,7 +1800,7 @@ class AplicacaoBack():
                 print(self.tempExtraGasto)            
             
             
-            self.cursor.execute("insert into pausa_funcionarios VALUES('id','"
+            self.cursorServer.execute("insert into pausa_funcionarios VALUES('id','"
                                 
                 +str(self.operador)+"','"
                 +self.user+"','"
@@ -1821,7 +1821,7 @@ class AplicacaoBack():
                 +str(self.horaInicial)+"','"
                 +str(self.dateInicial)+"')")
             
-            self.banco.commit()
+            self.bancoServer.commit()
             
             
         except Exception as erro:
@@ -1842,12 +1842,12 @@ class AplicacaoBack():
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
             
             #Atualizando banco de dados com a data retomada após a função responsável por despausar for invocada
-            self.cursor.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
-            self.banco.commit()
+            self.cursorServer.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
+            self.bancoServer.commit()
             
             #Atualizando banco de dados com a hora retomada após a função responsável por despausar for invocada
-            self.cursor.execute("update pausa_funcionarios set horaRetomada = '"+horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
-            self.banco.commit()
+            self.cursorServer.execute("update pausa_funcionarios set horaRetomada = '"+horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
+            self.bancoServer.commit()
             
         #Excessão carro algum erro ocorra um mensagebox aparecerá informando o corrido
         except Exception as erro:
@@ -1911,8 +1911,8 @@ class AplicacaoBack():
             if despause == 2:
                 
                 #Buscando dados no banco com o id selecionado 
-                self.cursor.execute('select Hora_Login, Hora_Inicial, Data_Inicial from pausa_funcionarios where id ='+self.tuplaSelect[0])
-                valido = self.cursor.fetchall()
+                self.cursorServer.execute('select Hora_Login, Hora_Inicial, Data_Inicial from pausa_funcionarios where id ='+self.tuplaSelect[0])
+                valido = self.cursorServer.fetchall()
                 
                 #Armazenando os dados capturados nas variáveis
                 self.horaLogin = valido[0][0]
@@ -2390,9 +2390,9 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaOper.protocol('WM_DELETE_WINDOW', close)
         
         
-        self.cursor.execute("use empresa_funcionarios")
-        self.cursor.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
-        valido = self.cursor.fetchall()
+        self.cursorServer.execute("use empresa_funcionarios")
+        self.cursorServer.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
+        valido = self.cursorServer.fetchall()
         
         if len(valido) >= 1:
             if messagebox.askyesno('OS Pendente', 'Você tem OS pendente, Deseja Ver?'):
@@ -2458,11 +2458,11 @@ class AplicacaoFront(AplicacaoBack):
         lista.configure(yscroll=scrollbar.set)
         scrollbar.place(relx=0.970, rely=0, width=25, relheight=1)   
         
-        self.cursor.execute('use empresa_funcionarios')
+        self.cursorServer.execute('use empresa_funcionarios')
         
         #executando cursor com o banco de dados para verificar novamente se existe os pausadas não finalizadas
-        self.cursor.execute("select id, OS, codigoPeca, CodigoOperacao, motivoPause, DataPause from pausa_funcionarios where cpf ="+str(self.user)+" and horaRetomada = 0")
-        valido = self.cursor.fetchall()
+        self.cursorServer.execute("select id, OS, codigoPeca, CodigoOperacao, motivoPause, DataPause from pausa_funcionarios where cpf ="+str(self.user)+" and horaRetomada = 0")
+        valido = self.cursorServer.fetchall()
         
         #se valido for igual a 1 ou mais, significa que o funcionário possui
         if len(valido) >= 1:        
@@ -2512,8 +2512,8 @@ class AplicacaoFront(AplicacaoBack):
             pecaSelect = self.tuplaSelect[2]
             
             #buscando o nº de OS e o Código da Peça
-            self.cursor.execute('select * from monitoria_funcionarios where OS = '+osSelect+' and codigoPeca = '+pecaSelect)
-            valido = self.cursor.fetchall()
+            self.cursorServer.execute('select * from monitoria_funcionarios where OS = '+osSelect+' and codigoPeca = '+pecaSelect)
+            valido = self.cursorServer.fetchall()
             
             #Armazenando imagem com visto - Imagem de Selecionado
             self.checkSelect = PhotoImage(file='img/verifica.png')
