@@ -2100,6 +2100,9 @@ class AplicacaoFront(AplicacaoBack):
         self.bancoCriado = False
         
         threading.Thread(target=self.verifica_banco,).start()
+        
+        #Chamando função para conectar-se ao banco de dados local
+        self.conection_database_local()
 
         #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
         #gpio.setmode(gpio.BOARD)
