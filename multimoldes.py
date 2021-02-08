@@ -9,12 +9,24 @@ from tkinter import messagebox
 from tkinter.font import nametofont
 from platform import *
 import mysql.connector
+import sqlite3
 import threading
 import Script_Database_Local
 
 #import RPi.GPIO as gpio
 
 class AplicacaoBack():
+    
+    def conection_database_local(self):
+        try:
+
+            print('BANCO DE DADOS LOCAL CONECTADO')
+
+            self.bancoLocal = sqlite3.connect('Multimoldes_Database_Local')
+            self.cursorLocal = self.bancoLocal.cursor()
+            
+        except Exception as erro:
+            print(erro)
     
     def verifica_banco(self):
         print('Rodando verificação ...')

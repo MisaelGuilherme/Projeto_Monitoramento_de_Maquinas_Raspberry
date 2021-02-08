@@ -61,6 +61,8 @@ def create_tabels():
                             
                             ''')
         
+        print('BANCO DE DADOS LOCAL CRIADO')
+        
     except:
         print('Erro ao criar Banco de Dados Local')
 
