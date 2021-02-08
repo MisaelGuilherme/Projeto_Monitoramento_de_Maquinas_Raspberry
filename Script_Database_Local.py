@@ -1,14 +1,18 @@
 import sqlite3
 
+#Conectando banco de dados local e cursor
 bancoLocal = sqlite3.connect('Multimoldes_Database_Local')
 cursorLocal = bancoLocal.cursor()
 
+#Criando tabelas do banco de dados local
 def create_tabels():
     
     try:
+        
+        #Tabela onde ficará armazenada as OS Finalizadas caso haja erro na rede
         cursorLocal.execute('''create table IF NOT EXISTS OS_Finalizadas
                                 
-                                (id int NOT NULL,
+                                (ID int NOT NULL,
                                 Operador varchar(30) NOT NULL DEFAULT '',
                                 HoraLogin varchar(8) NOT NULL DEFAULT '00:00:00',
                                 HoraInicial varchar(8) NOT NULL DEFAULT '00:00:00',
@@ -29,9 +33,10 @@ def create_tabels():
                                 
                             ''')
         
+        #Tabela onde ficará armazenada as OS Pausadas caso haja erro na rede
         cursorLocal.execute('''create table IF NOT EXISTS OS_Pausadas
                                 
-                                (id int NOT NULL,
+                                (ID int NOT NULL,
                                 Operador varchar(30) NOT NULL DEFAULT '',
                                 CPF varchar(11) NOT NULL DEFAULT '',
                                 CodigoPeca varchar(8) NOT NULL DEFAULT '',
@@ -59,4 +64,5 @@ def create_tabels():
     except:
         print('Erro ao criar Banco de Dados Local')
 
+#Invocando função
 create_tabels()

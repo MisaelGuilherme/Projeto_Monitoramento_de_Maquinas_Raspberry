@@ -10,6 +10,8 @@ from tkinter.font import nametofont
 from platform import *
 import mysql.connector
 import threading
+import Script_Database_Local
+
 #import RPi.GPIO as gpio
 
 class AplicacaoBack():
