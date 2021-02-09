@@ -1649,10 +1649,38 @@ class AplicacaoBack():
                                     
                 self.bancoServer.commit()
                 
+                messagebox.showinfo('DATABASE SERVER', 'O.S Finalizada! Operação salva.')
+                
             #Excessão caso ocorra de não conseguir salvar
             except Exception as erro:
-                print(erro)
-                messagebox.showerror('06-Error-Servidor', '06-Error: Não acesso ao servidor.')
+                
+                if messagebox.showerror('06-Error-Servidor', '06-Error: Não acesso ao servidor.'):
+            
+                    try:
+                        
+                        self.cursorLocal.execute("insert into OS_Finalizadas VALUES(NULL,'"
+                                        +str(self.operador)+"','"
+                                        +str(self.horaLogin)+"','"
+                                        +str(self.horaInicial)+"','"
+                                        +str(self.dateInicial)+"','"
+                                        +str(horaFinal)+"','"
+                                        +str(dateFinal)+"','"
+                                        +self.tempGasto+"','"
+                                        +str(self.tempProg)+"','"
+                                        +self.numOS+"','"
+                                        +self.codP+"','"
+                                        +self.numOper+"','"
+                                        +str(self.tempExtraGasto)+"','"
+                                        +str(self.chaveTempExtra)+"','"
+                                        +self.tempOperando+"','"
+                                        +self.tipo+"')")
+                        
+                        self.bancoLocal.commit()
+                        
+                        messagebox.showinfo('DATABASE LOCAL', 'O.S Finalizada! Operação salva.')
+                        
+                    except:
+                        messagebox.showerror('06-Error-Local', '06-Error: Não acesso a Database Local.')
 
     def tentativa_pausar(self):
         
