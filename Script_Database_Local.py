@@ -12,7 +12,7 @@ def create_tabels():
         #Tabela onde ficará armazenada as OS Finalizadas caso haja erro na rede
         cursorLocal.execute('''create table IF NOT EXISTS OS_Finalizadas
                                 
-                                (ID int NOT NULL,
+                                (ID INTEGER PRIMARY KEY AUTOINCREMENT,
                                 Operador varchar(30) NOT NULL DEFAULT '',
                                 HoraLogin varchar(8) NOT NULL DEFAULT '00:00:00',
                                 HoraInicial varchar(8) NOT NULL DEFAULT '00:00:00',
@@ -27,16 +27,14 @@ def create_tabels():
                                 TempGastoExt varchar(8) NOT NULL DEFAULT '00:00:00',
                                 VezTempExt varchar(8) NOT NULL DEFAULT '0',
                                 TempOperando varchar(8) NOT NULL DEFAULT '00:00:00',
-                                Tipo varchar(15) NOT NULL DEFAULT '',
-
-                                PRIMARY KEY (id))
+                                Tipo varchar(15) NOT NULL DEFAULT '')
                                 
                             ''')
         
         #Tabela onde ficará armazenada as OS Pausadas caso haja erro na rede
         cursorLocal.execute('''create table IF NOT EXISTS OS_Pausadas
                                 
-                                (ID int NOT NULL,
+                                (ID INTEGER PRIMARY KEY AUTOINCREMENT,
                                 Operador varchar(30) NOT NULL DEFAULT '',
                                 CPF varchar(11) NOT NULL DEFAULT '',
                                 CodigoPeca varchar(8) NOT NULL DEFAULT '',
@@ -56,8 +54,7 @@ def create_tabels():
                                 CorTela varchar(8) NOT NULL DEFAULT '',
                                 Hora_Login varchar(8) NOT NULL DEFAULT '00:00:00',
                                 Hora_Inicial varchar(8) NOT NULL DEFAULT '00:00:00',
-                                Data_Inicial varchar(10) NOT NULL DEFAULT '00/00/0000',
-                                PRIMARY KEY (id))                            
+                                Data_Inicial varchar(10) NOT NULL DEFAULT '00/00/0000')        
                             
                             ''')
         
