@@ -1808,63 +1808,63 @@ class AplicacaoBack():
         #gpio.output(12, gpio.HIGH)
         #gpio.output(18, gpio.HIGH)
                 
-        try:
-            #Capturando a hora inicial e a data atual em que o modo pause foi iniciado, em seguida inserir no banco de dados
-            horaPause = datetime.now().time().strftime('%H:%M:%S')
-            datePause = datetime.now().date().strftime('%d/%m/%Y')
+        
+        #Capturando a hora inicial e a data atual em que o modo pause foi iniciado, em seguida inserir no banco de dados
+        horaPause = datetime.now().time().strftime('%H:%M:%S')
+        datePause = datetime.now().date().strftime('%d/%m/%Y')
+        
+        #Se self.chaveTempExtra for 0, então não houve adcionamento de tempo extra
+        if self.chaveTempExtra == 0:
             
-            #Se self.chaveTempExtra for 0, então não houve adcionamento de tempo extra
-            if self.chaveTempExtra == 0:
-                
-                #Formatando tempo gasto e o tempo extra caso não foi feito o requerimento de tempo extra
-                self.tempGasto = self.houC+':'+self.minuC+':'+self.secC
-                self.tempExtraGasto = '00:00:00'
+            #Formatando tempo gasto e o tempo extra caso não foi feito o requerimento de tempo extra
+            self.tempGasto = self.houC+':'+self.minuC+':'+self.secC
+            self.tempExtraGasto = '00:00:00'
+        
+        #Portando se o requerimento de tempo extra for adicionado o tempo gasto será excedido com seu próprio valor
+        else:
             
-            #Portando se o requerimento de tempo extra for adicionado o tempo gasto será excedido com seu próprio valor
+            #Adcionando o próprio valor programado ao tempGasto
+            self.tempGasto = self.backup
+            
+            print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
+            if int(self.minuC) + self.tempExtraGastoB >= 60:
+                self.tempExtraGastoA += 1
+                self.tempExtraGastoB -= int(self.minuC)
             else:
-                
-                #Adcionando o próprio valor programado ao tempGasto
-                self.tempGasto = self.backup
-                
-                print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
-                if int(self.minuC) + self.tempExtraGastoB >= 60:
-                    self.tempExtraGastoA += 1
-                    self.tempExtraGastoB -= int(self.minuC)
-                else:
-                    self.tempExtraGastoA += int(self.houC)
-                    self.tempExtraGastoB += int(self.minuC)    
-                    self.tempExtraGastoC = int(self.secC)
-                    print(f'self.tempExtraGastoC {self.tempExtraGastoC} | self.secC: {int(self.secC)}')
-                #print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
-                
-                #Adcionando o tempo extra gasto e formatando através de uma função
-                self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
-                print(self.tempExtraGasto)            
+                self.tempExtraGastoA += int(self.houC)
+                self.tempExtraGastoB += int(self.minuC)
+                self.tempExtraGastoC = int(self.secC)
+                print(f'self.tempExtraGastoC {self.tempExtraGastoC} | self.secC: {int(self.secC)}')
+            #print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
             
+            #Adcionando o tempo extra gasto e formatando através de uma função
+            self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
+            print(self.tempExtraGasto)
             
+        try:
             self.cursorServer.execute("insert into pausa_funcionarios VALUES('id','"
-                                
-                +str(self.operador)+"','"
-                +self.user+"','"
-                +self.codP+"','"
-                +self.numOper+"','"
-                +self.numOS+"','"
-                +self.resultPausa+"','"
-                +horaPause+"','"
-                +str(datePause)+"','0','0','"
-                +self.tempoMarcado+"','"
-                +self.tempGasto+"','"
-                +self.tempExtraGasto+"','"
-                +str(self.chaveTempExtra)+"','"
-                +str(self.UltimoTempAdd)+ "','"
-                +str(self.tempProg)+"','"
-                +corTela+"','"
-                +str(self.horaLogin)+"','"
-                +str(self.horaInicial)+"','"
-                +str(self.dateInicial)+"')")
+                                      +str(self.operador)+"','"
+                                      +self.user+"','"
+                                      +self.codP+"','"
+                                      +self.numOper+"','"
+                                      +self.numOS+"','"
+                                      +self.resultPausa+"','"
+                                      +horaPause+"','"
+                                      +str(datePause)+"','0','0','"
+                                      +self.tempoMarcado+"','"
+                                      +self.tempGasto+"','"
+                                      +self.tempExtraGasto+"','"
+                                      +str(self.chaveTempExtra)+"','"
+                                      +str(self.UltimoTempAdd)+ "','"
+                                      +str(self.tempProg)+"','"
+                                      +corTela+"','"
+                                      +str(self.horaLogin)+"','"
+                                      +str(self.horaInicial)+"','"
+                                      +str(self.dateInicial)+"')")
             
             self.bancoServer.commit()
             
+            messagebox.showinfo('DATABASE SERVER', 'O.S Pausada! Operação salva.')
             
         except Exception as erro:
             print(erro)
