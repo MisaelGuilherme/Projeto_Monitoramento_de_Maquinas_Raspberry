@@ -1841,6 +1841,12 @@ class AplicacaoBack():
             self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
             print(self.tempExtraGasto)
             
+        self.botFrameRetomar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
+        self.botFrameRetomar.place(x=172, y=220)
+        
+        self.botDespausar = Button(self.botFrameRetomar, text='RETOMAR.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(1))
+        self.botDespausar.pack()            
+            
         try:
             self.cursorServer.execute("insert into pausa_funcionarios VALUES('id','"
                                       +str(self.operador)+"','"
@@ -1891,12 +1897,6 @@ class AplicacaoBack():
             self.bancoLocal.commit()
             
             messagebox.showinfo('DATABASE LOCAL', 'O.S Pausada! Operação salva.')
-        
-        self.botFrameRetomar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
-        self.botFrameRetomar.place(x=172, y=220)
-        
-        self.botDespausar = Button(self.botFrameRetomar, text='RETOMAR.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(1))
-        self.botDespausar.pack()
     
     def contagem_despausar(self, despause):
         try:
