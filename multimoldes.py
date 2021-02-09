@@ -1867,8 +1867,30 @@ class AplicacaoBack():
             messagebox.showinfo('DATABASE SERVER', 'O.S Pausada! Operação salva.')
             
         except Exception as erro:
-            print(erro)
-            messagebox.showerror('07-Error-Servidor', '07-Error: Não acesso ao servidor.')
+            
+            self.cursorLocal.execute("insert into OS_Pausadas VALUES(NULL,'"
+                                     +str(self.operador)+"','"
+                                     +self.user+"','"
+                                     +self.codP+"','"
+                                     +self.numOper+"','"
+                                     +self.numOS+"','"
+                                     +self.resultPausa+"','"
+                                     +horaPause+"','"
+                                     +str(datePause)+"','0','0','"
+                                     +self.tempoMarcado+"','"
+                                     +self.tempGasto+"','"
+                                     +self.tempExtraGasto+"','"
+                                     +str(self.chaveTempExtra)+"','"
+                                     +str(self.UltimoTempAdd)+ "','"
+                                     +str(self.tempProg)+"','"
+                                     +corTela+"','"
+                                     +str(self.horaLogin)+"','"
+                                     +str(self.horaInicial)+"','"
+                                     +str(self.dateInicial)+"')")
+            
+            self.bancoLocal.commit()
+            
+            messagebox.showinfo('DATABASE LOCAL', 'O.S Pausada! Operação salva.')
         
         self.botFrameRetomar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
         self.botFrameRetomar.place(x=172, y=220)
