@@ -1904,19 +1904,24 @@ class AplicacaoBack():
             #Capturando a hora e a data atual em que a OS foi despausada, em seguida inserir no banco de dados
             horaRetomada = datetime.now().time().strftime('%H:%M:%S')
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
+
+            #Atualizando Banco de Dados Local com data e hora retomada após função despausar for invocada
+            self.cursorLocal.execute("update OS_Pausadas set DataRetomada = '"+dateFinal+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
+            self.bancoLocal.commit()
             
-            #Atualizando banco de dados com a data retomada após a função responsável por despausar for invocada
+            self.cursorLocal.execute("update OS_Pausadas set HoraRetomada = '"+horaRetomada+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
+            self.bancoLocal.commit()
+            
             self.cursorServer.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
             self.bancoServer.commit()
             
-            #Atualizando banco de dados com a hora retomada após a função responsável por despausar for invocada
             self.cursorServer.execute("update pausa_funcionarios set horaRetomada = '"+horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
             self.bancoServer.commit()
             
         #Excessão carro algum erro ocorra um mensagebox aparecerá informando o corrido
         except Exception as erro:
             print(erro)
-            messagebox.showerror('08-Error-Servidor', '08-Error: Não acesso ao servidor.')
+            return messagebox.showerror('08-Error-Servidor', '08-Error: Não acesso ao servidor.')
         
         #Destruindo botão despausar devido a função despausar foi invocada
         self.botFrameRetomar.destroy()
