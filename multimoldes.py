@@ -16,7 +16,7 @@ import Script_Database_Local
 #import RPi.GPIO as gpio
 
 class AplicacaoBack():
-    
+
     def conection_database_local(self):
         try:
 
@@ -494,14 +494,7 @@ class AplicacaoBack():
             #verificando se a senha é númerica e possui 4 caracteres
             if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 4:
                 self.password = self.campoSenha.get()
-                '''
-                #tentando conectar-se ao banco
-                try:
-                    self.conection_database()
-                except:
 
-                    return messagebox.showerror('Erro de Conexão', 'Erro ao tentar conexão com banco de dados')
-                '''
                 #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
                 try:
                     
