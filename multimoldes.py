@@ -1906,16 +1906,17 @@ class AplicacaoBack():
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
 
             #Atualizando Banco de Dados Local com data e hora retomada após função despausar for invocada
-            self.cursorLocal.execute("update OS_Pausadas set DataRetomada = '"+dateFinal+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
+            self.cursorLocal.execute("update OS_Pausadas set DataRetomada = '"+dateFinal+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and DataRetomada = 0 ")
             self.bancoLocal.commit()
             
             self.cursorLocal.execute("update OS_Pausadas set HoraRetomada = '"+horaRetomada+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
             self.bancoLocal.commit()
             
-            self.cursorServer.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
+            #Atualizando Banco de Dados Server com data e hora retomada após função despausar for invocada
+            self.cursorServer.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and DataRetomada = 0 ")
             self.bancoServer.commit()
             
-            self.cursorServer.execute("update pausa_funcionarios set horaRetomada = '"+horaRetomada+"' where operador = '"+self.operador+"' and codigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and horaRetomada = 0 ")
+            self.cursorServer.execute("update pausa_funcionarios set HoraRetomada = '"+horaRetomada+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
             self.bancoServer.commit()
             
         #Excessão carro algum erro ocorra um mensagebox aparecerá informando o corrido
