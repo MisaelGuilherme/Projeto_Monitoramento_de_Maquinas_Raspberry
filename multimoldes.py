@@ -495,18 +495,21 @@ class AplicacaoBack():
             if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 4:
                 self.password = self.campoSenha.get()
 
-
-                #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
                 try:
                     
-                    self.cursorServer.execute("select Nome from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
-                    valido = self.cursorServer.fetchall()
-                    
+                    #Procurando Registros no Banco de Dados Local, e em seguida enviando-os para o Banco Servidor
                     self.cursorLocal.execute('select * from OS_pausadas')
                     registro = self.cursorLocal.fetchall()
-                    for linha in range(len(registro)):
-                        print(registro[linha],'\n')
-                        self.cursorServer('insert into pausa_funcionarios '+linha)
+                    
+                    if len(registro) >= 0:
+                    
+                        for linha in range(len(registro)):
+                            print(registro[linha],'\n')
+                            self.cursorServer('insert into pausa_funcionarios '+linha)
+                    
+                    #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
+                    self.cursorServer.execute("select Nome from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
+                    valido = self.cursorServer.fetchall()
                     
                 except Exception as erro:
                     
