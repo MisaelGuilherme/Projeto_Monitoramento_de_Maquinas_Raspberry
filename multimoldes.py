@@ -504,8 +504,9 @@ class AplicacaoBack():
                     if len(registro) >= 0:
                     
                         for linha in range(len(registro)):
-                            print(registro[linha],'\n')
-                            self.cursorServer('insert into pausa_funcionarios '+linha)
+                            
+                            self.cursorServer.execute('insert into pausa_funcionarios VALUES'+str(registro[linha]))
+                            self.bancoServer.commit()
                     
                     #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
                     self.cursorServer.execute("select Nome from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
@@ -1877,7 +1878,7 @@ class AplicacaoBack():
             
         except Exception as erro:
             
-            self.cursorLocal.execute("insert into OS_Pausadas VALUES(NULL,'"
+            self.cursorLocal.execute("insert into OS_Pausadas VALUES('id','"
                                      +str(self.operador)+"','"
                                      +self.user+"','"
                                      +self.codP+"','"

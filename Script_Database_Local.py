@@ -34,7 +34,7 @@ def create_tabels():
         #Tabela onde ficará armazenada as OS Pausadas caso haja erro na rede
         cursorLocal.execute('''create table IF NOT EXISTS OS_Pausadas
                                 
-                                (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                                (ID varchar(2) NOT NULL DEFAULT 'ID',
                                 Operador varchar(30) NOT NULL DEFAULT '',
                                 CPF varchar(11) NOT NULL DEFAULT '',
                                 CodigoPeca varchar(8) NOT NULL DEFAULT '',
