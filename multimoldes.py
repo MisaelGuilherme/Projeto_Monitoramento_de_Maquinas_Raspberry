@@ -16,7 +16,38 @@ import Script_Database_Local
 #import RPi.GPIO as gpio
 
 class AplicacaoBack():
+    
 
+    def enviar_dados(self):
+        try:
+            
+            #Procurando Registros no Banco de Dados Local, e em seguida enviando-os para o Banco Servidor
+            self.cursorLocal.execute('select * from OS_pausadas')
+            registro = self.cursorLocal.fetchall()
+            
+            if len(registro) >= 0:
+            
+                for linha in range(len(registro)):
+                    
+                    self.cursorServer.execute('insert into pausa_funcionarios VALUES'+str(registro[linha]))
+                    self.bancoServer.commit()
+                    
+                self.cursorLocal.execute('DELETE FROM OS_Pausadas')
+                self.bancoLocal.commit()
+                
+        except Exception as erro:
+            print(erro)
+            print('erro ao enviar dados do banco de dados local')
+            
+    def verificar_conexao(self):
+
+        if self.bancoCriado == True and self.bancoConect == True:
+            
+            if self.bancoServer.is_connected() == True:
+                self.enviar_dados()
+        else:
+            self.botao.after(1000, self.verificar_conexao)
+    
     def conection_database_local(self):
         try:
 
@@ -29,15 +60,15 @@ class AplicacaoBack():
             print(erro)
     
     def verifica_banco(self):
-        print('Rodando verificação ...')
+        #print('Rodando verificação ...')
         try:
             if self.bancoCriado == False:
-                print('Variável banco não foi criado: chamando função')
+                #print('Variável banco não foi criado: chamando função')
                 threading.Thread(target=self.conection_database,).start()
             
             elif self.bancoCriado == True and self.bancoConect == True:
                 if self.bancoServer.is_connected() != True:
-                    print('Variável chaveBanco não está conectado: chamando função')
+                    #print('Variável chaveBanco não está conectado: chamando função')
                     threading.Thread(target=self.conection_database,).start()
             
         except Exception as erro:
@@ -496,21 +527,7 @@ class AplicacaoBack():
                 self.password = self.campoSenha.get()
 
                 try:
-                    
-                    #Procurando Registros no Banco de Dados Local, e em seguida enviando-os para o Banco Servidor
-                    self.cursorLocal.execute('select * from OS_pausadas')
-                    registro = self.cursorLocal.fetchall()
-                    
-                    if len(registro) >= 0:
-                    
-                        for linha in range(len(registro)):
-                            
-                            self.cursorServer.execute('insert into pausa_funcionarios VALUES'+str(registro[linha]))
-                            self.bancoServer.commit()
-                            
-                        self.cursorLocal.execute('DELETE FROM OS_Pausadas')
-                        self.bancoLocal.commit()
-                    
+                                        
                     #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
                     self.cursorServer.execute("select Nome from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
                     valido = self.cursorServer.fetchall()
@@ -2166,6 +2183,8 @@ class AplicacaoFront(AplicacaoBack):
         
         #Chamando função para conectar-se ao banco de dados local
         self.conection_database_local()
+        
+        self.verificar_conexao()
 
         #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
         #gpio.setmode(gpio.BOARD)

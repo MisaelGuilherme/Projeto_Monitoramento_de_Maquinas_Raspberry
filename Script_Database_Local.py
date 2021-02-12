@@ -12,7 +12,7 @@ def create_tabels():
         #Tabela onde ficará armazenada as OS Finalizadas caso haja erro na rede
         cursorLocal.execute('''create table IF NOT EXISTS OS_Finalizadas
                                 
-                                (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                                (ID varchar(2) NOT NULL DEFAULT 'ID',
                                 Operador varchar(30) NOT NULL DEFAULT '',
                                 HoraLogin varchar(8) NOT NULL DEFAULT '00:00:00',
                                 HoraInicial varchar(8) NOT NULL DEFAULT '00:00:00',
