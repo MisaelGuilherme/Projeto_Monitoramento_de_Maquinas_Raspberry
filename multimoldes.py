@@ -40,11 +40,10 @@ class AplicacaoBack():
             print('erro ao enviar dados do banco de dados local')
             
     def verificar_conexao(self):
-        print('chamando a função . . .')
+
         if self.bancoCriado == True and self.bancoConect == True:
 
             if self.bancoServer.is_connected() == True:
-                print('chamooouu')
                 self.enviar_dados()
             else:
                 self.botao.after(1000, self.verificar_conexao)
