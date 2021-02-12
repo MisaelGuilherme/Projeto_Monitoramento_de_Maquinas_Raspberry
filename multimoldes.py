@@ -507,6 +507,9 @@ class AplicacaoBack():
                             
                             self.cursorServer.execute('insert into pausa_funcionarios VALUES'+str(registro[linha]))
                             self.bancoServer.commit()
+                            
+                        self.cursorLocal.execute('DELETE FROM OS_Pausadas')
+                        self.bancoLocal.commit()
                     
                     #Tentando buscar usuário que se enquadre ao CPF e SENHA digitado e armazenado nas variáveis a seguir
                     self.cursorServer.execute("select Nome from funcionarios where CPF = '"+self.user+"' and Senha = '"+self.password+"'")
