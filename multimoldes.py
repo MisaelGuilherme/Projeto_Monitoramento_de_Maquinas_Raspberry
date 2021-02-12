@@ -40,11 +40,14 @@ class AplicacaoBack():
             print('erro ao enviar dados do banco de dados local')
             
     def verificar_conexao(self):
-
+        print('chamando a função . . .')
         if self.bancoCriado == True and self.bancoConect == True:
-            
+
             if self.bancoServer.is_connected() == True:
+                print('chamooouu')
                 self.enviar_dados()
+            else:
+                self.botao.after(1000, self.verificar_conexao)
         else:
             self.botao.after(1000, self.verificar_conexao)
     
@@ -2047,6 +2050,9 @@ class AplicacaoBack():
                     self.janelaFuncio.state('zoomed')
                 else:
                     self.janelaFuncio.attributes('-zoomed', True)
+
+                #Verificando se já existe conexão com banco servidor para enviar dados do banco local se tiver algum
+                threading.Thread(target=self.verificar_conexao,).start()
         
         #Se a chaveFinalizar and tempoPausado for True significa que o tempo foi pausado, e operário poderá sair
         elif self.chaveFinalizar == True and self.tempoPausado == True:
@@ -2063,6 +2069,9 @@ class AplicacaoBack():
                     self.janelaFuncio.state('zoomed')
                 else:
                     self.janelaFuncio.attributes('-zoomed', True)                
+
+                #Verificando se já existe conexão com banco servidor para enviar dados do banco local se tiver algum
+                threading.Thread(target=self.verificar_conexao,).start()
         
         #Se chaveControle for False e tempoEsgotado for False, poderá sair da janela mesmo tendo confirmado a OS após logar
         elif self.chaveControle == False and self.tempoEsgotado == False:
@@ -2079,6 +2088,9 @@ class AplicacaoBack():
                     self.janelaFuncio.state('zoomed')
                 else:
                     self.janelaFuncio.attributes('-zoomed', True)
+
+                #Verificando se já existe conexão com banco servidor para enviar dados do banco local se tiver algum
+                threading.Thread(target=self.verificar_conexao,).start()
         
         #Senão significa que o cronômetro ainda está em execução
         else:
@@ -2184,7 +2196,8 @@ class AplicacaoFront(AplicacaoBack):
         #Chamando função para conectar-se ao banco de dados local
         self.conection_database_local()
         
-        self.verificar_conexao()
+        #Verificando se já existe conexão com banco servidor para enviar dados do banco local se tiver algum
+        threading.Thread(target=self.verificar_conexao,).start()
 
         #Configurando portas da GPIO do RESPBERRY PI para saída dos LED'S de automação
         #gpio.setmode(gpio.BOARD)
