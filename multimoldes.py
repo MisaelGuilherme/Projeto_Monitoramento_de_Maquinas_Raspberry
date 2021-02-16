@@ -22,7 +22,7 @@ class AplicacaoBack():
         try:
             
             #Procurando Registros no Banco de Dados Local, e em seguida enviando-os para o Banco Servidor
-            self.cursorLocal.execute('select * from OS_pausadas')
+            self.cursorLocal.execute('select * from OS_Pausadas')
             registro = self.cursorLocal.fetchall()
             
             if len(registro) >= 0:
@@ -37,17 +37,17 @@ class AplicacaoBack():
             
             
             #Procurando Registros no Banco de Dados Local, e em seguida enviando-os para o Banco Servidor
-            self.cursorLocal.execute('select * from OS_finalizadas')
+            self.cursorLocal.execute('select * from OS_Finalizadas')
             registro = self.cursorLocal.fetchall()
             
             if len(registro) >= 0:
                 
                 for linha in range(len(registro)):
                     
-                    self.cursorServer.execute                                   ('insert into monitoria_funcionarios VALUES'+str(registro[linha]))
+                    self.cursorServer.execute('insert into monitoria_funcionarios VALUES'+str(registro[linha]))
                     self.bancoServer.commit()
                 
-                self.cursorLocal.execute('DELETE FROM OS_finalizadas')
+                self.cursorLocal.execute('DELETE FROM OS_Finalizadas')
                 self.bancoLocal.commit()
                 
         except Exception as erro:
@@ -2066,7 +2066,7 @@ class AplicacaoBack():
                     self.janelaFuncio.attributes('-zoomed', True)
 
                 #Verificando se já existe conexão com banco servidor para enviar dados do banco local se tiver algum
-                threading.Thread(target=self.verificar_conexao,).start()
+                self.verificar_conexao()
         
         #Se a chaveFinalizar and tempoPausado for True significa que o tempo foi pausado, e operário poderá sair
         elif self.chaveFinalizar == True and self.tempoPausado == True:
@@ -2085,7 +2085,7 @@ class AplicacaoBack():
                     self.janelaFuncio.attributes('-zoomed', True)                
 
                 #Verificando se já existe conexão com banco servidor para enviar dados do banco local se tiver algum
-                threading.Thread(target=self.verificar_conexao,).start()
+                self.verificar_conexao()
         
         #Se chaveControle for False e tempoEsgotado for False, poderá sair da janela mesmo tendo confirmado a OS após logar
         elif self.chaveControle == False and self.tempoEsgotado == False:
@@ -2104,7 +2104,7 @@ class AplicacaoBack():
                     self.janelaFuncio.attributes('-zoomed', True)
 
                 #Verificando se já existe conexão com banco servidor para enviar dados do banco local se tiver algum
-                threading.Thread(target=self.verificar_conexao,).start()
+                self.verificar_conexao()
         
         #Senão significa que o cronômetro ainda está em execução
         else:
