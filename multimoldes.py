@@ -34,6 +34,21 @@ class AplicacaoBack():
                     
                 self.cursorLocal.execute('DELETE FROM OS_Pausadas')
                 self.bancoLocal.commit()
+            
+            
+            #Procurando Registros no Banco de Dados Local, e em seguida enviando-os para o Banco Servidor
+            self.cursorLocal.execute('select * from OS_finalizadas')
+            registro = self.cursorLocal.fetchall()
+            
+            if len(registro) >= 0:
+                
+                for linha in range(len(registro)):
+                    
+                    self.cursorServer.execute                                   ('insert into monitoria_funcionarios VALUES'+str(registro[linha]))
+                    self.bancoServer.commit()
+                
+                self.cursorLocal.execute('DELETE FROM OS_finalizadas')
+                self.bancoLocal.commit()
                 
         except Exception as erro:
             print(erro)
