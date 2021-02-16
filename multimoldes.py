@@ -2218,18 +2218,18 @@ class AplicacaoFront(AplicacaoBack):
         #gpio.setup(8, gpio.OUT)
         #gpio.setup(12, gpio.OUT)
         #gpio.setup(18, gpio.OUT)
-        #gpio.setup(24, gpio.OUT)
-        
-        #Configurando porta da GPIO do RESPBERRY PI para entrada de corrente
-        #gpio.setup(32, gpio.IN)
+        #gpio.setup(40, gpio.OUT)
         
         #Ligando todos as portas com os leds, informando que a máquina está liberada
         #gpio.output(8, gpio.HIGH)
         #gpio.output(12, gpio.HIGH)
         #gpio.output(18, gpio.HIGH)
         
+        #Configurando porta da GPIO do RESPBERRY PI para entrada de corrente
+        #gpio.setup(32, gpio.IN)        
+        
         #Porta que habilitará a máquina à operar, só irá ligar quando o operador iniciar 
-        #gpio.output(24, gpio.LOW)
+        #gpio.output(40, gpio.LOW)
 
         '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
         self.lbCadastrar.place(x=340, y=410)
