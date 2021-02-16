@@ -535,6 +535,9 @@ class AplicacaoBack():
 
     def confirmar_tela_funcionario(self, event):
         
+        self.labelError = Label(self.frameLogin, text='', fg='#bf0606', bg='white', width=40, font=('arial', 12))
+        self.labelError.place(relx=0.200, rely=0.610)
+        
         #verificando se o campo "login" é numérico e possui 11 caracteres
         if str(self.campoLogin.get()).isnumeric() and len(self.campoLogin.get()) == 11:
             self.user = self.campoLogin.get()
@@ -569,23 +572,19 @@ class AplicacaoBack():
             
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
-                self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-                self.labelError.place(relx=0.200, rely=0.600)   
+                self.labelError['text'] = 'Preencha o campo!'
             
             #caso o campo "senha" diferentee de 11 caracteres
             else:
-                self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-                self.labelError.place(relx=0.200, rely=0.600)
+                self.labelError['text'] = 'Usuário ou Senha Incorreta!'
         
         #caso o campo "login" esteja vazio
         elif self.campoSenha.get() == '':
-            self.labelError = Label(self.frameLogin, text='Preencha o campo!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-            self.labelError.place(relx=0.200, rely=0.600) 
+            self.labelError['text'] = 'Preencha o campo!'
         
         #se caso o campo "login" seja diferente de 11 caracteres
         else:
-            self.labelError = Label(self.frameLogin, text='Usuário ou Senha Incorreta!', fg='#bf0606', bg='white', width=40, font=('arial', 12))
-            self.labelError.place(relx=0.200, rely=0.600)
+            self.labelError['text']= 'Usuário ou Senha Incorreta!'
 
     def confirmarCampos(self, event):
         
