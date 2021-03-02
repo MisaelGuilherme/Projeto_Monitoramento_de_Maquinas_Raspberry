@@ -102,7 +102,7 @@ class AplicacaoBack():
             
             self.bancoServer = mysql.connector.connect(
                 
-                host = "10.0.0.65",
+                host = "localhost",
                 user = "MultimoldesClient",
                 password = "",
                 database="empresa_funcionarios")
@@ -152,7 +152,7 @@ class AplicacaoBack():
             # Se a senha for numérica irá verificar no banco de dados
             try:
                 banco = mysql.connector.connect(
-                    host = '10.0.0.65',
+                    host = 'localhost',
                     user = 'MultimoldesClient',
                     password = ''
                 )
@@ -501,7 +501,7 @@ class AplicacaoBack():
         senha = self.campSenha.get()
         try:
             banco = mysql.connector.connect(
-            host="10.0.0.65",
+            host="localhost",
             user="MultimoldesClient",
             password="")
             
@@ -1672,6 +1672,7 @@ class AplicacaoBack():
                 self.cursorServer.execute('use empresa_funcionarios')
                 self.cursorServer.execute("insert into monitoria_funcionarios VALUES('id','"
                                     +str(self.operador)+"','"
+                                    +str(self.user)+"','"
                                     +str(self.horaLogin)+"','"
                                     +str(self.horaInicial)+"','"
                                     +str(self.dateInicial)+"','"
@@ -1700,6 +1701,7 @@ class AplicacaoBack():
                         
                         self.cursorLocal.execute("insert into OS_Finalizadas VALUES(NULL,'"
                                         +str(self.operador)+"','"
+                                        +str(self.user)+"','"
                                         +str(self.horaLogin)+"','"
                                         +str(self.horaInicial)+"','"
                                         +str(self.dateInicial)+"','"

@@ -14,6 +14,7 @@ def create_tabels():
                                 
                                 (ID varchar(2) NOT NULL DEFAULT 'ID',
                                 Operador varchar(30) NOT NULL DEFAULT '',
+                                CPF varchar(11) NOT NULL DEFAULT '00000000000',
                                 HoraLogin varchar(8) NOT NULL DEFAULT '00:00:00',
                                 HoraInicial varchar(8) NOT NULL DEFAULT '00:00:00',
                                 DataInicial varchar(8) NOT NULL DEFAULT '00/00/0000',
@@ -36,7 +37,7 @@ def create_tabels():
                                 
                                 (ID varchar(2) NOT NULL DEFAULT 'ID',
                                 Operador varchar(30) NOT NULL DEFAULT '',
-                                CPF varchar(11) NOT NULL DEFAULT '',
+                                CPF varchar(11) NOT NULL DEFAULT '00000000000',
                                 CodigoPeca varchar(8) NOT NULL DEFAULT '',
                                 CodigoOperacao varchar(3) NOT NULL DEFAULT '',
                                 OS varchar(8) NOT NULL DEFAULT '',
