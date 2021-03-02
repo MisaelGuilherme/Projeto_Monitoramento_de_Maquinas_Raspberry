@@ -55,7 +55,8 @@ def create_tabels():
                                 CorTela varchar(8) NOT NULL DEFAULT '',
                                 Hora_Login varchar(8) NOT NULL DEFAULT '00:00:00',
                                 Hora_Inicial varchar(8) NOT NULL DEFAULT '00:00:00',
-                                Data_Inicial varchar(10) NOT NULL DEFAULT '00/00/0000')        
+                                Data_Inicial varchar(10) NOT NULL DEFAULT '00/00/0000',
+                                Tipo varchar(14) NOT NULL DEFAULT '')
                             
                             ''')
         

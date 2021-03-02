@@ -1908,7 +1908,8 @@ class AplicacaoBack():
                                       +corTela+"','"
                                       +str(self.horaLogin)+"','"
                                       +str(self.horaInicial)+"','"
-                                      +str(self.dateInicial)+"')")
+                                      +str(self.dateInicial)+"','"
+                                      +self.tipo+"')")
             
             self.bancoServer.commit()
             
@@ -1934,7 +1935,8 @@ class AplicacaoBack():
                                      +corTela+"','"
                                      +str(self.horaLogin)+"','"
                                      +str(self.horaInicial)+"','"
-                                     +str(self.dateInicial)+"')")
+                                     +str(self.dateInicial)+"','"
+                                     +self.tipo+"')")
             
             self.bancoLocal.commit()
             
@@ -2634,29 +2636,27 @@ class AplicacaoFront(AplicacaoBack):
             
             #Armazenando o Código de Operação selecionado em uma variável e inserindo em um campo de texto
             self.campoOperacao.insert(0, self.tuplaSelect[3])
-
-            osSelect = self.tuplaSelect[1]
-            pecaSelect = self.tuplaSelect[2]
             
-            #buscando o nº de OS e o Código da Peça
-            self.cursorServer.execute('select * from monitoria_funcionarios where OS = '+osSelect+' and codigoPeca = '+pecaSelect)
+            #Buscando o tipo de OS no Banco de Dados, se é Nova ou Retrabalho
+            self.cursorServer.execute('select Tipo from pausa_funcionarios where ID ='+self.tuplaSelect[0])
             valido = self.cursorServer.fetchall()
-            
+
             #Armazenando imagem com visto - Imagem de Selecionado
             self.checkSelect = PhotoImage(file='img/verifica.png')
             
-            #Se valido for igual a 0 significa que não uma OS finalizada, então a imagem selecionará como Nova OS
-            if len(valido) == 0:
-                        
-                self.novoSelect['image'] = self.checkSelect
-                self.tipo = 'Nova OS'
-            
-            #Se valido for diferente de 0 significa que já possui uma OS finalizada, então a imagem selecionará Retrabalho
-            else:
-                        
-                self.retrabalhoSelect['image'] = self.checkSelect
-                self.tipo = 'Retrabalhar OS'
-            
+            if len(valido) == 1:
+                
+                #Verificando se o tipo de OS armazenada no Banco de Dados é Nova OS ou Retrabalho
+                if valido[0] == 'Nova OS':
+                
+                    self.novoSelect['image'] = self.checkSelect
+                    self.tipo = 'Nova OS'
+
+                else:
+                            
+                    self.retrabalhoSelect['image'] = self.checkSelect
+                    self.tipo = 'Retrabalhar OS'
+
             #Quando o parâmetro for 2, o preenchimento dos campos está sendo feito de modo automático e a OS é pendente
             #Depois de adcionado os dados nos campos, irá chamar função para confirmar
             self.botaoConfirmarOS(2)
