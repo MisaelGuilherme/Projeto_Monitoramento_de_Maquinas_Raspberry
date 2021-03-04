@@ -2412,9 +2412,9 @@ class AplicacaoFront(AplicacaoBack):
         self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 15,'bold'), fg='white', bg='#135565')
         self.operadorNome.place(x=10, y=20)
         
-        self.operador = self.operador.upper()
+        self.operadorAlto = self.operador.upper()
         
-        self.operadorNomeUser = Label(self.frameTop, text=self.operador,font=('arial', 15,'bold'), fg='white', bg='#135565')
+        self.operadorNomeUser = Label(self.frameTop, text=self.operadorAlto,font=('arial', 15,'bold'), fg='white', bg='#135565')
         self.operadorNomeUser.place(x=120, y=20)
 
         self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 15,'bold'), fg='white', bg='#135565')
