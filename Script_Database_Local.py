@@ -56,6 +56,7 @@ def create_tabels():
                                 Hora_Login varchar(8) NOT NULL DEFAULT '00:00:00',
                                 Hora_Inicial varchar(8) NOT NULL DEFAULT '00:00:00',
                                 Data_Inicial varchar(10) NOT NULL DEFAULT '00/00/0000',
+                                TempOperando varchar(8) NOT NULL DEFAULT '00:00:00',
                                 Tipo varchar(14) NOT NULL DEFAULT '')
                             
                             ''')

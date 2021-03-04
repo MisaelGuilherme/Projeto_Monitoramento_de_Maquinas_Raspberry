@@ -1909,6 +1909,7 @@ class AplicacaoBack():
                                       +str(self.horaLogin)+"','"
                                       +str(self.horaInicial)+"','"
                                       +str(self.dateInicial)+"','"
+                                      +self.tempOperando+"','"
                                       +self.tipo+"')")
             
             self.bancoServer.commit()
@@ -1936,6 +1937,7 @@ class AplicacaoBack():
                                      +str(self.horaLogin)+"','"
                                      +str(self.horaInicial)+"','"
                                      +str(self.dateInicial)+"','"
+                                     +self.tempOperando+"','"
                                      +self.tipo+"')")
             
             self.bancoLocal.commit()
