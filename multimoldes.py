@@ -954,6 +954,33 @@ class AplicacaoBack():
             #Se a opcao for igual a 2: A OS está sendo retomada pois é uma OS Pendente
             elif opcao == 2:
                 
+                #Configurando contagem de operagem com os dados salvos da pausagem
+                tempoOperador = ''
+                self.tempOperando = valido[0][21]
+                
+                #Formatando o dado extraído do banco de dados
+                for elemento in self.tempOperando:
+                    
+                    if elemento == ':':
+                        tempoOperador += ' '
+                    else:
+                        tempoOperador += elemento
+                
+                #Armazenando nas variáveis no tipo caracter para exibir no contador
+                self.sC = tempoOperador.split()[2]
+                self.mC = tempoOperador.split()[1]
+                self.hC = tempoOperador.split()[0]
+                
+                self.segundos['text'] = self.sC
+                self.minutos['text'] = self.mC
+                self.horas['text'] = self.hC
+                
+                #Armazenando nas variáveis no tipo inteiro para fazer os calculos de contagem
+                self.secOperacao = int(self.sC)
+                self.minuOperacao = int(self.mC)
+                self.houOperacao = int(self.hC)
+                
+                
                 #Configurando o tempo do cronômetro para o tempo exato de uma OS Pausada em pendência caso a função tenha sido chamada pela janela de OS pausadas ainda pendente
                 
                 vetor = self.tempoDePauseObtido.split()
