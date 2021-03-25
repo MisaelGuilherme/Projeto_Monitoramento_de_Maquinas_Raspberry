@@ -2324,7 +2324,28 @@ class AplicacaoFront(AplicacaoBack):
         lh = Label(self.janelaTempExtra, text='Horas:', font=('arial',20,'bold'), bg='#870000', fg='white')
         lh.place(x=70, y=135)
         
-        self.ll = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
+        def limite_campos_temp_extra(*args):
+            
+            varll = cll.get()
+            varmm = mm.get()
+            
+            if len(varll) > 2:
+                cll.set(varll[:-1])
+            if not varll.isnumeric():
+                cll.set(varll[:-1])
+        
+            if len(varmm) > 2:
+                mm.set(varmm[:-1])
+            if not varmm.isnumeric():
+                mm.set(varmm[:-1])
+        
+        cll = StringVar()
+        cll.trace('w', limite_campos_temp_extra)
+        
+        mm = StringVar()
+        mm.trace('w', limite_campos_temp_extra)
+        
+        self.ll = Entry(self.janelaTempExtra, font=('arial',15,'bold'), textvariable=cll, width=5)
         self.ll.place(x=170, y=140)
         self.ll.focus_force()
         self.ll.bind('<Return>', self.verificar_tempo_extra)
@@ -2332,7 +2353,7 @@ class AplicacaoFront(AplicacaoBack):
         lm = Label(self.janelaTempExtra, text='Minutos:', font=('arial',20,'bold'), bg='#870000', fg='white')
         lm.place(x=270,y=135)
         
-        self.mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), width=5)
+        self.mm = Entry(self.janelaTempExtra, font=('arial',15,'bold'), textvariable=mm, width=5)
         self.mm.place(x=400,y=140)
         self.mm.bind('<Return>', self.verificar_tempo_extra)
         
@@ -2464,14 +2485,45 @@ class AplicacaoFront(AplicacaoBack):
 
         self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.ordemServico.place(x=70, y=100)
-        self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), bg='white')
+        
+        def limite_campos_operacao(*args):
+            
+            varOS = cOS.get()
+            varPeca = cPeca.get()
+            varOper = cOper.get()
+            
+            if len(varOS) > 13:
+                cOS.set(varOS[:-1])
+            if not varOS.isnumeric():
+                cOS.set(varOS[:-1])
+            
+            if len(varPeca) > 13:
+                cPeca.set(varPeca[:-1])
+            if not varPeca.isnumeric():
+                cPeca.set(varPeca[:-1])
+            
+            if len(varOper) > 3:
+                cOper.set(varOper[:-1])
+            if not varOper.isnumeric():
+                cOper.set(varOper[:-1])
+        
+        cOS = StringVar()
+        cOS.trace('w', limite_campos_operacao)
+        
+        cPeca = StringVar()
+        cPeca.trace('w', limite_campos_operacao)
+        
+        cOper = StringVar()
+        cOper.trace('w', limite_campos_operacao)
+        
+        self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOS, bg='white')
         self.campoServico.place(x=360, y=100)
         self.campoServico.focus_force()
         self.campoServico.bind("<Return>", self.confirmarCampos)
         
         self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.codigoPeca.place(x=90, y=200)
-        self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19))
+        self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cPeca)
         self.campoPeca.place(x=360, y=200)
         self.campoPeca.bind("<Return>", self.confirmarCampos)        
         
@@ -2498,7 +2550,7 @@ class AplicacaoFront(AplicacaoBack):
         
         self.codigoOperacao = Label(self.frameLeft, text='Operação:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.codigoOperacao.place(x=170, y=300)
-        self.campoOperacao = Entry(self.frameLeft, width=20, font=('arial', 19))
+        self.campoOperacao = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOper)
         self.campoOperacao.place(x=360, y=300)
         self.campoOperacao.bind("<Return>", self.confirmarCampos)
         
