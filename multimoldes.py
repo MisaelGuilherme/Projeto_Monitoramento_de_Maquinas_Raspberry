@@ -543,7 +543,7 @@ class AplicacaoBack():
             self.user = self.campoLogin.get()
 
             #verificando se a senha é númerica e possui 4 caracteres
-            if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 4:
+            if str(self.campoSenha.get()).isnumeric() and len(self.campoSenha.get()) == 8:
                 self.password = self.campoSenha.get()
 
                 try:
@@ -2217,7 +2217,32 @@ class AplicacaoFront(AplicacaoBack):
         self.labelLogin = Label(self.frameLogin, text='Usuário', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
         self.labelLogin.place(relx=0, rely=0.440)
 
-        self.campoLogin = Entry(self.frameLogin, width=26, font=('arial', 16), border=2, relief=GROOVE)
+        #Função local que verificará os campos de login colocando limites de capacidade
+        
+        def limite_campos_login(*args):
+            
+            varCPF = cLogin.get()
+            varSenha = cSenha.get()
+            
+            if len(varCPF) > 11:
+                cLogin.set(varCPF[:-1])
+            if not varCPF.isnumeric():
+                cLogin.set(varCPF[:-1])
+            
+            if len(varSenha) > 8:
+                cSenha.set(varSenha[:-1])
+            if not varSenha.isnumeric():
+                cSenha.set(varSenha[:-1])
+        
+        #Configurando caracteres quando estiverem inserido nos campos
+        
+        cLogin = StringVar()
+        cLogin.trace('w', limite_campos_login)
+        
+        cSenha = StringVar()
+        cSenha.trace('w', limite_campos_login)
+        
+        self.campoLogin = Entry(self.frameLogin, width=26, font=('arial', 16), textvariable=cLogin, border=2, relief=GROOVE)
         self.campoLogin.place(relx=0.25, rely=0.450)
         self.campoLogin.focus_force()
         self.campoLogin.bind("<Return>", self.confirmar_tela_funcionario)
@@ -2225,7 +2250,7 @@ class AplicacaoFront(AplicacaoBack):
         self.labelSenha = Label(self.frameLogin, text='Senha', bg='white', fg='#3e8e94', font=('arial',22,'bold'))
         self.labelSenha.place(relx=0, rely=0.540)
 
-        self.campoSenha = Entry(self.frameLogin, width=13, show='l', font=('wingdings', 16, 'bold'), border=2, relief=GROOVE)
+        self.campoSenha = Entry(self.frameLogin, width=13, show='l', font=('wingdings', 16, 'bold'), textvariable=cSenha, border=2, relief=GROOVE)
         self.campoSenha.place(relx=0.25, rely=0.550)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
 
