@@ -2324,6 +2324,8 @@ class AplicacaoFront(AplicacaoBack):
         lh = Label(self.janelaTempExtra, text='Horas:', font=('arial',20,'bold'), bg='#870000', fg='white')
         lh.place(x=70, y=135)
         
+        #Função local que verificará os campos colocando limites de capacidade
+        
         def limite_campos_temp_extra(*args):
             
             varll = cll.get()
@@ -2338,6 +2340,8 @@ class AplicacaoFront(AplicacaoBack):
                 mm.set(varmm[:-1])
             if not varmm.isnumeric():
                 mm.set(varmm[:-1])
+        
+        #Configurando caracteres quando estiverem inserido nos campos
         
         cll = StringVar()
         cll.trace('w', limite_campos_temp_extra)
@@ -2486,6 +2490,8 @@ class AplicacaoFront(AplicacaoBack):
         self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.ordemServico.place(x=70, y=100)
         
+        #Função local que verificará os campos colocando limites de capacidade
+
         def limite_campos_operacao(*args):
             
             varOS = cOS.get()
@@ -2506,6 +2512,8 @@ class AplicacaoFront(AplicacaoBack):
                 cOper.set(varOper[:-1])
             if not varOper.isnumeric():
                 cOper.set(varOper[:-1])
+        
+        #Configurando caracteres quando estiverem inserido nos campos
         
         cOS = StringVar()
         cOS.trace('w', limite_campos_operacao)
