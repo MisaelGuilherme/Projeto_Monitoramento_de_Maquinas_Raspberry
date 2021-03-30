@@ -1670,21 +1670,28 @@ class AplicacaoBack():
             horaFinal = time
             dateFinal = datetime.now().date().strftime('%d/%m/%Y')
             
-            #Tempo formatado para enviar ao banco
+            #Se self.chaveTempExtra for 0, então não houve adcionamento de tempo extra
             if self.chaveTempExtra == 0:
+                
+                #Formatando tempo gasto e o tempo extra caso não foi feito o requerimento de tempo extra
                 self.tempGasto = self.houC+':'+self.minuC+':'+self.secC
                 self.tempExtraGasto = '00:00:00'
+                
             else:
+                
+                #Adcionando o próprio valor programado ao tempGasto
                 self.tempGasto = self.backup
             
-            if self.chaveTempExtra >= 1:
-                
                 if int(self.minuC) + self.tempExtraGastoB >= 60:
                     self.tempExtraGastoA += 1
                     self.tempExtraGastoB -= int(self.minuC)
+                else:
+                    self.tempExtraGastoA += int(self.houC)
+                    self.tempExtraGastoB += int(self.minuC)
+                    self.tempExtraGastoC = int(self.secC)
                 
+                #Adcionando o tempo extra gasto e formatando através de uma função
                 self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
-                print(self.tempExtraGasto)
                 
             #Botão caso o operado queira realizar outra S.O
             self.frameBotReiniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
@@ -1895,7 +1902,6 @@ class AplicacaoBack():
             #Adcionando o próprio valor programado ao tempGasto
             self.tempGasto = self.backup
             
-            print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
             if int(self.minuC) + self.tempExtraGastoB >= 60:
                 self.tempExtraGastoA += 1
                 self.tempExtraGastoB -= int(self.minuC)
@@ -1903,12 +1909,9 @@ class AplicacaoBack():
                 self.tempExtraGastoA += int(self.houC)
                 self.tempExtraGastoB += int(self.minuC)
                 self.tempExtraGastoC = int(self.secC)
-                print(f'self.tempExtraGastoC {self.tempExtraGastoC} | self.secC: {int(self.secC)}')
-            #print(f'self.tempExtraGastoB {self.tempExtraGastoB} | self.minuC: {int(self.minuC)}')
             
             #Adcionando o tempo extra gasto e formatando através de uma função
             self.tempExtraGasto = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
-            print(self.tempExtraGasto)
             
         self.botFrameRetomar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
         self.botFrameRetomar.place(x=172, y=220)
@@ -2192,7 +2195,6 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaFuncio.title('Login Funcionário')
         self.janelaFuncio.configure(background='white')
         self.janelaFuncio.minsize(500, 400)
-        #self.janelaFuncio.resizable(False, False)
         
         self.sistemaOperacional = system()
         
@@ -2287,12 +2289,6 @@ class AplicacaoFront(AplicacaoBack):
         
         #Porta que habilitará a máquina à operar, só irá ligar quando o operador iniciar 
         #gpio.output(40, gpio.LOW)
-
-        '''self.lbCadastrar = Label(self.janelaFuncio, text='Cadastrar Funcionário', bg='white', fg='#3e8e94',font=('arial',10,'bold'))
-        self.lbCadastrar.place(x=340, y=410)
-        
-        self.botCadastrar = Button(self.janelaFuncio, text='Cadastrar',fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 10, 'bold'), width=10, command = lambda: self.tela_admin(1))
-        self.botCadastrar.place(x=370, y=440)'''
         
         self.foco = None
         
@@ -2444,40 +2440,40 @@ class AplicacaoFront(AplicacaoBack):
         
         #(Tela Operativa) - FRAMES DA TELA DE OPERAÇÃO
 
-        self.frameTop = Frame(self.janelaOper, width=largura, height=altTop, bg='#135565',highlightthickness=3,highlightcolor='black') #135565
+        self.frameTop = Frame(self.janelaOper, bg='#135565',highlightthickness=3,highlightcolor='black') #135565
         self.frameTop.config(highlightbackground='black')
-        self.frameTop.place(x=0, y=0)                   #self.frameTop.pack(side=TOP)
+        self.frameTop.place(relx=0, rely=0, relwidth=1, relheight=0.200)
         
-        self.frameLeft = Frame(self.janelaOper, width=largLeft, bg='#135565', height=altLeft,highlightthickness=3,highlightcolor='black')
+        self.frameLeft = Frame(self.janelaOper, bg='#135565', highlightthickness=3,highlightcolor='black')
         self.frameLeft.config(highlightbackground='black')
-        self.frameLeft.place(x=0, y=altTop)             #self.frameLeft.pack(side=LEFT)
+        self.frameLeft.place(relx=0, rely=0.200, relwidth=0.625, relheight=0.800)
 
-        self.frameRight = Frame(self.janelaOper, width=largRight, height=altRight, bg='#135565',highlightthickness=3,highlightcolor='black') ##c4c0c0
+        self.frameRight = Frame(self.janelaOper, bg='#135565',highlightthickness=3,highlightcolor='black') ##c4c0c0
         self.frameRight.config(highlightbackground='black')
-        self.frameRight.place(x=largLeft, y=altTop)     #self.frameRight.pack(side=RIGHT)
+        self.frameRight.place(relx=0.625, rely=0.200, relwidth=0.375, relheight=0.800)
         
 
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - DADOS DO OPERADOR 
 
         self.operadorNome = Label(self.frameTop, text='Operador:', font=('arial', 15,'bold'), fg='white', bg='#135565')
-        self.operadorNome.place(x=10, y=20)
+        self.operadorNome.place(relx=0.010, rely=0.130)
         
         self.operadorAlto = self.operador.upper()
         
         self.operadorNomeUser = Label(self.frameTop, text=self.operadorAlto,font=('arial', 15,'bold'), fg='white', bg='#135565')
-        self.operadorNomeUser.place(x=120, y=20)
+        self.operadorNomeUser.place(relx=0.100, rely=0.130)
 
         self.horaInicialLb = Label(self.frameTop, text='Horário de Login:', font=('arial', 15,'bold'), fg='white', bg='#135565')
-        self.horaInicialLb.place(x=10, y=60)
+        self.horaInicialLb.place(relx=0.010, rely=0.420)
         
         self.horaAtualUser = Label(self.frameTop, text=self.horaLogin, font=('arial', 15,'bold'), fg='black', bg='white')
-        self.horaAtualUser.place(x=200, y=60)
+        self.horaAtualUser.place(relx=0.160, rely=0.420)
 
         self.multimolde = Label(self.frameTop, text='MULTIMOLDES', font=('play pretend', 40), fg='white', bg='#135565', width=15)
-        self.multimolde.place(x=450, y=20)
+        self.multimolde.place(relx=0.350, rely=0.220)
         
         self.frameBotSair = Frame(self.frameTop, highlightbackground='black', highlightthickness=2, width=50, height=50)
-        self.frameBotSair.place(x=1180, y=20)
+        self.frameBotSair.place(relx=0.920, rely=0.130)
         
         self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
         self.sair.pack()
