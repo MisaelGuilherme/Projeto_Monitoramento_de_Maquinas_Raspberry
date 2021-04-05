@@ -906,10 +906,10 @@ class AplicacaoBack():
 
             #Mostrando o tempo Programado através do label
             self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 17, 'bold'), bg='#135565', fg='white')
-            self.tempoProgramado.place(x=60, y=400)
+            self.tempoProgramado.place(relx=0.070, rely=0.700)
             
             self.campoProgramado = Label(self.frameLeft, width=15, font=('arial', 15, 'bold'), bg='white')
-            self.campoProgramado.place(x=300, y=400)
+            self.campoProgramado.place(relx=0.380, rely=0.700)
             
             self.campoProgramado['text'] = self.tempProg
             
@@ -923,13 +923,13 @@ class AplicacaoBack():
             
             #Mudando os campos Entry para Labels para exibir na tela
             self.campoServico = Label(self.frameLeft, text=self.numOS, width=20, font=('arial', 19), bg='white')
-            self.campoServico.place(x=360, y=100)
+            self.campoServico.place(relx=0.455, rely=0.170)
 
             self.campoPeca = Label(self.frameLeft, text=self.codP, width=20, font=('arial', 19), bg='white')
-            self.campoPeca.place(x=360, y=200)
+            self.campoPeca.place(relx=0.455, rely=0.340)
             
             self.campoOperacao = Label(self.frameLeft, text=self.numOper, width=20, font=('arial', 19), bg='white')
-            self.campoOperacao.place(x=360, y=300)
+            self.campoOperacao.place(relx=0.455, rely=0.510)
             
             #Labals que imprimem o cronômetro que totaliza o tempo de operação do funcionário
             self.segundos = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
@@ -2531,7 +2531,7 @@ class AplicacaoFront(AplicacaoBack):
         self.checkVazio = PhotoImage(file='img/verificaVazio.png')
         
         self.framenovoOS = Frame(self.frameLeft, bg='#135565', width=110, height=25)
-        self.framenovoOS.place(relx=0.445, rely=0.440)
+        self.framenovoOS.place(relx=0.445, rely=0.430)
         
         self.novoOS = Label(self.framenovoOS, text='Nova OS', font=('arial',14,'bold'), bg='#135565', fg='white')
         self.novoOS.place(x=0, y=0)
@@ -2540,7 +2540,7 @@ class AplicacaoFront(AplicacaoBack):
         self.novoSelect.place(x=88, y=5)
         
         self.frameRetrabalho = Frame(self.frameLeft, bg='#135565', width=170, height=25)
-        self.frameRetrabalho.place(relx=0.635, rely=0.440)
+        self.frameRetrabalho.place(relx=0.635, rely=0.430)
         
         self.retrabalhoOS = Label(self.frameRetrabalho,  text='Retrabalhar OS', font=('arial',14,'bold'),bg='#135565', fg='white')
         self.retrabalhoOS.place(x=0, y=0)
@@ -2550,13 +2550,13 @@ class AplicacaoFront(AplicacaoBack):
         
         
         self.codigoOperacao = Label(self.frameLeft, text='Operação:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
-        self.codigoOperacao.place(x=170, y=300)
+        self.codigoOperacao.place(relx=0.205, rely=0.510)
         self.campoOperacao = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOper)
-        self.campoOperacao.place(x=360, y=300)
+        self.campoOperacao.place(relx=0.455, rely=0.510)
         self.campoOperacao.bind("<Return>", self.confirmarCampos)
         
         self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
-        self.botConfirmar.place(x=370, y=450)
+        self.botConfirmar.place(relx=0.455, rely=0.790)
         self.botConfirmar.bind("<Return>", self.confirmarCampos)
         
         #(Tela Operativa) - LABELS QUE IMPRIMEM O CRONÔMETRO - CRONÔMETRO
