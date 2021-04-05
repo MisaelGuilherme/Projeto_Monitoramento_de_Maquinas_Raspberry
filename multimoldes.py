@@ -2477,14 +2477,11 @@ class AplicacaoFront(AplicacaoBack):
         
         self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
         self.sair.pack()
-        #self.sair.place(x=largura/1.084, y=altura/36) #x = 1180 , y = 20
-        #self.sair.place(x=aa/1.084, y=altura/36) #x = 1180 , y = 20
-
         
         #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
 
         self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
-        self.ordemServico.place(x=70, y=100)
+        self.ordemServico.place(relx=0.075, rely=0.170)
         
         #Função local que verificará os campos colocando limites de capacidade
 
@@ -2521,20 +2518,20 @@ class AplicacaoFront(AplicacaoBack):
         cOper.trace('w', limite_campos_operacao)
         
         self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOS, bg='white')
-        self.campoServico.place(x=360, y=100)
+        self.campoServico.place(relx=0.455, rely=0.170)
         self.campoServico.focus_force()
         self.campoServico.bind("<Return>", self.confirmarCampos)
         
         self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
-        self.codigoPeca.place(x=90, y=200)
+        self.codigoPeca.place(relx=0.110, rely=0.340)
         self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cPeca)
-        self.campoPeca.place(x=360, y=200)
+        self.campoPeca.place(relx=0.455, rely=0.340)
         self.campoPeca.bind("<Return>", self.confirmarCampos)        
         
         self.checkVazio = PhotoImage(file='img/verificaVazio.png')
         
         self.framenovoOS = Frame(self.frameLeft, bg='#135565', width=110, height=25)
-        self.framenovoOS.place(x=345, y=250)
+        self.framenovoOS.place(relx=0.445, rely=0.440)
         
         self.novoOS = Label(self.framenovoOS, text='Nova OS', font=('arial',14,'bold'), bg='#135565', fg='white')
         self.novoOS.place(x=0, y=0)
@@ -2543,7 +2540,7 @@ class AplicacaoFront(AplicacaoBack):
         self.novoSelect.place(x=88, y=5)
         
         self.frameRetrabalho = Frame(self.frameLeft, bg='#135565', width=170, height=25)
-        self.frameRetrabalho.place(x=495, y=250)
+        self.frameRetrabalho.place(relx=0.635, rely=0.440)
         
         self.retrabalhoOS = Label(self.frameRetrabalho,  text='Retrabalhar OS', font=('arial',14,'bold'),bg='#135565', fg='white')
         self.retrabalhoOS.place(x=0, y=0)
