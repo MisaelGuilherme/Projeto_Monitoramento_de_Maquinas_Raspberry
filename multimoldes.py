@@ -166,15 +166,10 @@ class AplicacaoBack():
                     
                     senhaAdm = valido[0][0]
                     
-                    # Confirmando se senha for verdadeira, se (contV) for igual a 1, abrir tela de cadastro
-                    if senhaAdm == str(senha) and contV == 1:
-                        self.janelaADM.destroy()
-                        self.tela_cadastrar()
-                    
                     # Confirmando se senha for verdadeira, se (contV) for igual a 2, abrir tela de tempo extra
-                    elif senhaAdm == str(senha) and contV == 2:
+                    if senhaAdm == str(senha) and contV == 2:
                         self.janelaADM.destroy()
-                        self.tempo_extra()      
+                        self.tempo_extra()
 
                 else:
                     self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
@@ -428,110 +423,6 @@ class AplicacaoBack():
         #Botão inciar a contagem do cronômetro
         self.botaoInciarContador = Button(self.frameBotIniciar, text='INICIAR', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 25, 'bold'), command = lambda:self.botao_iniciar(1))
         self.botaoInciarContador.pack()
-
-    def conferir_valores(self):
-        #CASO O CAMPO "NOME" DA TELA CADASTRO DO FUNCIONÁRIO ESTEJA VAZIA
-        if self.campNome.get() == '':
-            self.error = Label(self.janelaCad, text='Preencha o campo!', fg='red', bg='white', width=30)
-            self.error.place(x=175, y=110)
-            
-        #CASO O CAMPO "NOME" DA TELA CADASTRO DO FUNCIONÁRIO SEJA DIGITADO NÚMEROS
-        elif str(self.campNome.get()).isnumeric():
-            self.error = Label(self.janelaCad, text='O uso de números é invalido!', fg='red', bg='white')
-            self.error.place(x=210, y=110)
-        
-        #CASO O CAMPO "NOME" MAIOR QUE 50 CARACTERES
-        elif len(str(self.campNome.get())) > 50:
-            self.error = Label(self.janelaCad, text='Valor máximo 50 caracteres', fg='red', bg='white')
-            self.error.place(x=210, y=110)
-            
-        #SENÃO O A MENSAGEM DE ERROS SUMIRA
-        else:
-            self.error = Label(self.janelaCad, text='', fg='red', bg='white', width=30)
-            self.error.place(x=210, y=110)
-            
-        #CASO O CAMPO "CPF" DA TELA CADASTRO DO FUNCIONÁRIO ESTEJA VAZIA
-        if self.campCpf.get() == '':
-            self.error = Label(self.janelaCad, text='Preencha o campo!', fg='red', bg='white')
-            self.error.place(x=230, y=180)
-        
-        #CASO O CAMPO "CPF" DA TELA CADASTRO DO FUNCIONÁRIO SEJA DIGITADO LETRAS
-        elif str(self.campCpf.get()).isnumeric() == False:
-            self.error = Label(self.janelaCad, text='O campo precisa ser numérico', fg='red', bg='white')
-            self.error.place(x=210, y=180)
-            
-        #CASO O CAMPO "CPF" DA TELA CADASTRO DO FUNCIONÁRIO SEJA DIFERENTE DE 11 NÚMEROS
-        elif len(self.campCpf.get()) != 11:
-            print(len(self.campCpf.get()))
-            self.error = Label(self.janelaCad, text='O CPF precisa conter 11 dígitos', fg='red', bg='white')
-            self.error.place(x=210, y=180)
-
-        #SENÃO A MENSAGEM DE ERROS SUMIRÁ
-        else:
-            self.error = Label(self.janelaCad, text='', fg='red', bg='white', width=30)
-            self.error.place(x=210, y=180)
-        
-        #CASO O CAMPO "SENHA E CONFIRMAR SENHA" DA TELA CADASTRO DO FUNCIONÁRIO ESTEJA VAZIA
-        if self.campSenha.get() == '' or self.confSenha.get() == '':
-            self.error = Label(self.janelaCad, text='Preencha o campo!', fg='red', bg='white', width=30)
-            self.error.place(x=175, y=325)
-            
-        #PROCESSO DE VERIFICÇÃO SE AS SENHAS SÃO IGUAIS
-        elif str(self.campSenha.get()).isnumeric() == True and str(self.confSenha.get()).isnumeric() == True and str(self.campSenha.get()).isnumeric() == str(self.confSenha.get()).isnumeric() :
-            if len(self.campSenha.get()) != 4 or len(self.confSenha.get()) != 4:
-                self.error = Label(self.janelaCad, text='A senha precisa conter 4 dígitos', fg='red', bg='white', width=30)
-                self.error.place(x=175, y=325) 
-                
-            elif self.campSenha.get() != self.confSenha.get():
-                self.error = Label(self.janelaCad, text='As senhas não coincidem', fg='red', bg='white', width=30)
-                self.error.place(x=175, y=325)
-            else:
-                self.error = Label(self.janelaCad, text='', bg='white', width=30)
-                self.error.place(x=175, y=325)
-                self.banco_de_dados_cadastro()
-        
-        #CASO O CAMPO "SENHA E CONFIRMAR SENHJA" DA TELA CADASTRO DO FUNCIONÁRIO SEJA DIGITADO LETRAS
-        else:
-            self.error = Label(self.janelaCad, text='A senha precisa ser numérica', fg='red', bg='white', width=30)
-            self.error.place(x=175, y=325)
-
-    def banco_de_dados_cadastro(self):
-        cpf = self.campCpf.get()
-        nome = self.campNome.get().upper()
-        senha = self.campSenha.get()
-        try:
-            banco = mysql.connector.connect(
-            host="localhost",
-            user="MultimoldesClient",
-            password="")
-            
-            cursor = banco.cursor()
-            cursor.execute('USE empresa_funcionarios')
-            cursor.execute('select * from funcionarios where CPF = '+str(cpf))
-            valido = cursor.fetchall()
-            
-            #VERIFICANDO SE O CPF DO FUNCIONÁRIO JÁ ESTÁ CADASTRADO
-            if len(valido) == 1:
-                
-                #SE O CPF JÁ FOI CADASTRO APARECERÁ UM ALERTA
-                #self.alerta_mensagem('CPF já Cadastrado!', 10, 65, 20)
-                messagebox.showerror('Alerta','CPF já Cadastrado!')
-            
-            #CADASTRANDO ENVIANDO DADOS DO FUNCIONÁRIO PRO BANCO DE DADOS
-            else:
-                    
-                cursor.execute("INSERT INTO funcionarios VALUES(id,'"+nome+"','"+cpf+"','"+senha+"')")
-                banco.commit()
-                comando = 1
-                
-                self.janelaCad.destroy()    
-                
-                messagebox.showinfo('Alerta','Funcionário Cadastrado!')
-        
-        #CASO O A LIGAÇÃO OU AS CONDIÇÕES NÃO TENHAM SIDO EXECUTADAS COM ÊXITOS
-        except Exception as erro:
-            print(erro)
-            messagebox.showerror('02-Error-Servidor', '02-Error: Não acesso ao servidor.')
 
     def confirmar_tela_funcionario(self, event):
         
@@ -2371,52 +2262,6 @@ class AplicacaoFront(AplicacaoBack):
         self.janelaTempExtra.grab_set()
         
         self.janelaTempExtra.mainloop()
-
-    def tela_cadastrar(self):
-        
-        self.janelaCad = Toplevel()
-        self.janelaCad.title('Tela Cadastro')
-        self.janelaCad.resizable(False, False)
-        self.janelaCad.configure(background='white')
-
-        sistemaOperacional = system()
-        if sistemaOperacional == 'Windows':
-            self.janelaCad.iconbitmap('img/multimoldes-icon.ico')
-        
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(500, 500, self.janelaCad)
-
-        self.lbtitle = Label(self.janelaCad, text='Cadastrar Funcionário', font=('arial', 15, 'bold'), bg='white', fg='#3e8e94')
-        self.lbtitle.place(x=170,y=10)
-
-        self.lbNome = Label(self.janelaCad, text='Nome:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
-        self.lbNome.place(x=110, y=80)
-
-        self.lbCpf = Label(self.janelaCad, text='CPF:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
-        self.lbCpf.place(x=120, y=150)
-
-        self.lbSenha = Label(self.janelaCad, text='Senha:', font=('arial',12,'bold'), bg='white', fg='#3e8e94')
-        self.lbSenha.place(x=105, y=220)
-
-        self.lbConfSenha = Label(self.janelaCad, text='Confirme a Senha:', font=('arial',12,'bold'),  bg='white', fg='#3e8e94')
-        self.lbConfSenha.place(x=20, y=300)
-
-        self.campNome = Entry(self.janelaCad, width=25, font=12, border=2, relief='groove')
-        self.campNome.place(x=180, y=80)
-        self.campNome.focus_force()
-
-        self.campCpf = Entry(self.janelaCad, width=25, font=12, border=2, relief='groove')
-        self.campCpf.place(x=180, y=150)
-
-        self.campSenha = Entry(self.janelaCad, width=25, font=12, show='*', border=2, relief='groove')
-        self.campSenha.place(x=180, y=220)
-
-        self.confSenha = Entry(self.janelaCad, width=25, font=12, show='*', border=2, relief='groove')
-        self.confSenha.place(x=180, y=300)
-
-        self.cadastrar = Button(self.janelaCad, text='Cadastrar', font=12, bg='#3e8e94', activebackground='#3e8e94', fg='white', activeforeground='white', relief='flat', border=0, command = lambda: self.conferir_valores())
-        self.cadastrar.place(x=230,y=370)
-        self.janelaCad.mainloop()
 
     def tela_de_operacao(self):
 
