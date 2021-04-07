@@ -145,43 +145,43 @@ class AplicacaoBack():
         
         self.verificar_adm(a, b)
     
-    def verificar_adm(self, contV, senha):
+    def verificar_adm(self, direcionar, senha):
         
-        if str(senha).isnumeric():
+        #Verificando se o campo de senha está vazio
+        if senha == '':
             
-            # Se a senha for numérica irá verificar no banco de dados
-            try:
-                banco = mysql.connector.connect(
-                    host = 'localhost',
-                    user = 'MultimoldesClient',
-                    password = ''
-                )
-                cursor = banco.cursor()
-                cursor.execute('use empresa_funcionarios')
-                cursor.execute('select * from supervisor_admin where senha ='+str(senha))
-                valido = cursor.fetchall()     
-                
-                #Se (valido) == 1 significa que encontrou resultado
-                if len(valido) == 1:
-                    
-                    senhaAdm = valido[0][0]
-                    
-                    # Confirmando se senha for verdadeira, se (contV) for igual a 2, abrir tela de tempo extra
-                    if senhaAdm == str(senha) and contV == 2:
-                        self.janelaADM.destroy()
-                        self.tempo_extra()
-
-                else:
-                    self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
-                    self.labelErro2.place(x=157, y=233)
-                                                    
-            except Exception as erro:
-                print(erro)
-                messagebox.showerror(parent=self.janelaADM, title='01-Error-Servidor', message='01-Error: Não acesso ao servidor.')
-                
-        elif senha == '':
             self.labelErro1 = Label(self.janelaADM, text='Preencha o campo!', bg='white', fg='#bf0606', width=26)
             self.labelErro1.place(x=160, y=233)
+            
+            return 0
+        
+        #Verificando se a senha digitada não é numérica
+        elif not str(senha).isnumeric():
+            
+            self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
+            self.labelErro2.place(x=157, y=233)
+            
+            return 0
+            
+        #Se a senha for numérica irá verificar no banco de dados se existe
+        try:
+            
+            self.cursorServer.execute('select * from supervisor_admin where senha ='+str(senha))
+            valido = self.cursorServer.fetchall()
+            
+        except Exception as erro:
+        
+            print(erro)
+            return messagebox.showerror(parent=self.janelaADM, title='01-Error-Servidor', message='01-Error: Não acesso ao servidor.')
+            
+        #Se (valido) == 1 significa que encontrou resultado
+        if len(valido) == 1:
+            
+            #Se (direcionar) for igual a 1, irá abrir a tela de tempo extra
+            if direcionar == 1:
+                self.janelaADM.destroy()
+                self.tempo_extra()
+
         else:
             self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
             self.labelErro2.place(x=157, y=233)
@@ -1424,7 +1424,7 @@ class AplicacaoBack():
             self.frameBotReabilitar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
             self.frameBotReabilitar.place(x=180, y=260)
             
-            self.botaoReabilitar = Button(self.frameBotReabilitar, text='REABILITAR', bg='orange', activebackground='orange', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tela_admin(2))
+            self.botaoReabilitar = Button(self.frameBotReabilitar, text='REABILITAR', bg='orange', activebackground='orange', fg='white', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=12, command = lambda: self.tela_admin(1))
             self.botaoReabilitar.pack()
             
             self.foco = None
