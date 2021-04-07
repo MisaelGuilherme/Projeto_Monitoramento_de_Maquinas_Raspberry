@@ -150,16 +150,14 @@ class AplicacaoBack():
         #Verificando se o campo de senha está vazio
         if senha == '':
             
-            self.labelErro1 = Label(self.janelaADM, text='Preencha o campo!', bg='white', fg='#bf0606', width=26)
-            self.labelErro1.place(x=160, y=233)
+            self.labelError2['text'] = 'Preencha o campo!'
             
             return 0
         
         #Verificando se a senha digitada não é numérica
         elif not str(senha).isnumeric():
             
-            self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
-            self.labelErro2.place(x=157, y=233)
+            self.labelError2['text'] = 'Senha Incorreta. Tente Novamente!'
             
             return 0
             
@@ -183,8 +181,10 @@ class AplicacaoBack():
                 self.tempo_extra()
 
         else:
-            self.labelErro2 = Label(self.janelaADM, text='Senha Incorreta. Tente Novamente!', bg='white', fg='#bf0606')
-            self.labelErro2.place(x=157, y=233)
+            
+            self.labelError2['text'] = 'Senha Incorreta. Tente Novamente!'
+            
+            return 0
 
     def verificar_tempo_extra(self, event):
         
@@ -2045,47 +2045,7 @@ class AplicacaoBack():
 
 
 class AplicacaoFront(AplicacaoBack):
-    
-    def tela_admin(self, botao):
-                    
-        self.janelaADM = Toplevel()
-        self.janelaADM.title('Login Administração')
-        self.janelaADM.resizable(False, False)
-        self.janelaADM.configure(background='white')
-        
-        sistemaOperacional = system()
-        if sistemaOperacional == 'Windows':
-            self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
-        
-        #Chamando Função Para Centralizar a Tela
-        self.centraliza_tela(600, 600, self.janelaADM)
-        
-        #Adcionando Logo na Janela ADM
-        imgAdm = PhotoImage(file="img/admin.png")
-
-        imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
-        imagemPricipalAdm.place(x=240,y=10)
-
-        admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 18, 'bold'), bg='white')
-        admLabelPrincipal.place(x=75,y=263)
-
-        self.valorBotao = botao
-
-        self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 15, 'bold'), border=2, relief=GROOVE)
-        self.admSenhaPrincipal.place(x=170,y=266)
-        self.admSenhaPrincipal.focus_force()
-        self.admSenhaPrincipal.bind("<Return>", self.transicao)
-        
-        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 18), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
-        admBotaoPrincipal.place(x=235,y=420)
-        admBotaoPrincipal.bind("<Return>", self.transicao)
-        
-        self.janelaADM.transient(self.janelaOper)
-        self.janelaADM.focus_force()
-        self.janelaADM.grab_set()        
-        
-        self.janelaADM.mainloop()
-       
+   
     def __init__(self):
         
         self.janelaFuncio = Tk()
@@ -2191,6 +2151,49 @@ class AplicacaoFront(AplicacaoBack):
         
         self.janelaFuncio.mainloop()
         
+    def tela_admin(self, botao):
+                    
+        self.janelaADM = Toplevel()
+        self.janelaADM.title('Login Administração')
+        self.janelaADM.resizable(False, False)
+        self.janelaADM.configure(background='white')
+        
+        sistemaOperacional = system()
+        if sistemaOperacional == 'Windows':
+            self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
+        
+        #Chamando Função Para Centralizar a Tela
+        self.centraliza_tela(600, 600, self.janelaADM)
+        
+        #Adcionando Logo na Janela ADM
+        imgAdm = PhotoImage(file="img/admin.png")
+
+        imagemPricipalAdm = Label(self.janelaADM, image=imgAdm, bg='white')
+        imagemPricipalAdm.place(x=240,y=10)
+
+        admLabelPrincipal = Label(self.janelaADM, text='Senha', fg='#282873', font=('arial', 18, 'bold'), bg='white')
+        admLabelPrincipal.place(x=75,y=263)
+
+        self.valorBotao = botao
+
+        self.admSenhaPrincipal = Entry(self.janelaADM, width=12, show='l', font=('wingdings', 15, 'bold'), border=2, relief=GROOVE)
+        self.admSenhaPrincipal.place(x=170,y=266)
+        self.admSenhaPrincipal.focus_force()
+        self.admSenhaPrincipal.bind("<Return>", self.transicao)
+        
+        self.labelError2 = Label(self.janelaADM, bg='white', fg='#bf0606', width=30, font=('arial', 12))
+        self.labelError2.place(relx=0.290, rely=0.495)
+        
+        admBotaoPrincipal = Button(self.janelaADM, text='Continuar', bg='#282873', activebackground='#282873', fg='white', activeforeground='white', border=0, font=('arial', 18), width=10, command = lambda: self.verificar_adm(botao, self.admSenhaPrincipal.get())) ##0c0052
+        admBotaoPrincipal.place(x=235,y=420)
+        admBotaoPrincipal.bind("<Return>", self.transicao)
+        
+        self.janelaADM.transient(self.janelaOper)
+        self.janelaADM.focus_force()
+        self.janelaADM.grab_set()        
+        
+        self.janelaADM.mainloop()
+    
     def tempo_extra(self):
     
         def fechar_tempo_extra():
