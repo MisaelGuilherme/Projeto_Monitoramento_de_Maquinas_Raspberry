@@ -685,6 +685,9 @@ class AplicacaoBack():
         
         #Pegando o número de Operação no campo e armazenando na variável
         self.numOper = str(self.campoOperacao.get())
+        
+        #Pegando a quantidade de peças e armazenando na variável
+        self.quant = str(self.campQuantidadePeca.get())
     
         try:
                         
@@ -930,6 +933,9 @@ class AplicacaoBack():
             
             self.campoOperacao = Label(self.frameLeft, text=self.numOper, width=20, font=('arial', 19), bg='white')
             self.campoOperacao.place(relx=0.455, rely=0.510)
+            
+            self.campQuantidadePeca = Label(self.frameLeft, text=self.quant, font=('arial', 19), bg='white')
+            self.campQuantidadePeca.place(relx=0.880, rely=0.340, relwidth=0.075)
             
             #Labals que imprimem o cronômetro que totaliza o tempo de operação do funcionário
             self.segundos = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
@@ -2526,7 +2532,13 @@ class AplicacaoFront(AplicacaoBack):
         self.codigoPeca.place(relx=0.110, rely=0.340)
         self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cPeca)
         self.campoPeca.place(relx=0.455, rely=0.340)
-        self.campoPeca.bind("<Return>", self.confirmarCampos)        
+        self.campoPeca.bind("<Return>", self.confirmarCampos)
+        
+        self.lbQuantidadePeca = Label(self.frameLeft, text='nº', font=('Arial', 20, 'bold'), bg='#135565', fg='white')
+        self.lbQuantidadePeca.place(relx=0.830, rely=0.340)
+        
+        self.campQuantidadePeca = Entry(self.frameLeft, font=('arial', 19))
+        self.campQuantidadePeca.place(relx=0.880, rely=0.340, relwidth=0.075)
         
         self.checkVazio = PhotoImage(file='img/verificaVazio.png')
         
