@@ -182,7 +182,7 @@ class AplicacaoBack():
                                                     
             except Exception as erro:
                 print(erro)
-                messagebox.showerror('01-Error-Servidor', '01-Error: Não acesso ao servidor.')
+                messagebox.showerror(parent=self.janelaADM, title='01-Error-Servidor', message='01-Error: Não acesso ao servidor.')
                 
         elif senha == '':
             self.labelErro1 = Label(self.janelaADM, text='Preencha o campo!', bg='white', fg='#bf0606', width=26)
@@ -196,22 +196,22 @@ class AplicacaoBack():
         #Verificando se os campos não estão em brancos
         if self.ll.get() == '' or self.mm.get() == '':
             
-            messagebox.showwarning('Alerta', 'Verifique os Campos.')
+            messagebox.showwarning(parent=self.janelaTempExtra, title='Alerta', message='Verifique os Campos.')
         
         #Verificando se os caracteres dos campos são inteiros
         elif str(self.ll.get()).isnumeric() == False or str(self.mm.get()).isnumeric() == False:
             
-            messagebox.showwarning('Alerta', 'Verifique os Campos.')
+            messagebox.showwarning(parent=self.janelaTempExtra, title='Alerta', message='Verifique os Campos.')
 
         #Verificando se nos campos o minutoExtra não é menor que 5, enquanto a horaExtra for igual a 0
         elif int(self.mm.get()) < 5 and int(self.ll.get()) == 0:
             
-            messagebox.showwarning('Alerta', 'Valor Min: 0 Horas\nValor Min: 5 Minutos')
+            messagebox.showwarning(parent=self.janelaTempExtra, title='Alerta', message='Valor Min: 0 Horas\nValor Min: 5 Minutos')
         
         #Verificando se nos campos o minutoExtra não é maior que 59 ou a horaExtra não é maior que 24
         elif int(self.mm.get()) > 59 or int(self.ll.get()) > 24:
             
-            messagebox.showwarning('Alerta', 'Valor Max: 24 Horas\nValor Max: 59 Minutos')
+            messagebox.showwarning(parent=self.janelaTempExtra, title='Alerta', message='Valor Max: 24 Horas\nValor Max: 59 Minutos')
         
         else:
             self.configurar_tempo_extra()
@@ -592,12 +592,12 @@ class AplicacaoBack():
         #Verificando se algum campo está em branco
         if self.campoServico.get() == '' or self.campoPeca.get() == '' or self.campoOperacao.get() == '':
             
-            return messagebox.showerror('Alerta','Verifique os Campos!')
+            return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Verifique os Campos!')
         
         #Verificando se os caracteres digitados nos campos são de valor numérico
         elif self.campoServico.get().isnumeric() == False or self.campoPeca.get().isnumeric() == False or self.campoOperacao.get().isnumeric() == False:
-            return messagebox.showerror('Alerta','Os Campos Precisam ser Numéricos!')
-        
+
+            return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Os Campos Precisam ser Numéricos!')
         
         #Buscando o Código de Peça no banco de dados
         self.cursorServer.execute("select peca from pecas_codigo where codigo = "+self.campoPeca.get())
@@ -608,7 +608,7 @@ class AplicacaoBack():
         if len(valido) == 0:
             
             #Exibindo mensagem alertando que o Código de Peça não foi encontrado
-            return messagebox.showerror('Alerta','Código não Encontrado!')
+            return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Código não Encontrado!')
         
         
         #Buscando no banco de dados se existe a OS digitada e o Código de Peça em modo pausado
@@ -619,7 +619,7 @@ class AplicacaoBack():
         if len(checar) >= 1:
             
             #Exibindo mensagem que a OS e o Código de Peça estão pausados, e se deseja abrir a janela de OS Pendente
-            perguntar = messagebox.askquestion('Alerta', 'OS e Nº de Peça pausados. Abrir janela de OS Pendentes?')
+            perguntar = messagebox.askquestion(parent=self.janelaOper, title='Alerta', message='OS e Nº de Peça pausados. Abrir janela de OS Pendentes?')
             
             #Se for sim, irá abrir a janela
             if perguntar == 'yes':
@@ -634,7 +634,7 @@ class AplicacaoBack():
         
         if len(checaOperacao) == 0:
             
-            return messagebox.showerror('Alerta', 'Código de Operação Não Encontrado!')
+            return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Código de Operação Não Encontrado!')
         
         #Armazenando nome da Operação extraída do banco de dados
         ProcessoUninagem = checaOperacao[0][0]
@@ -648,7 +648,7 @@ class AplicacaoBack():
         if habilidadeFuncionario == 0:
             
             #Exibindo alerta que não é possível o funcionário cumprir a operação
-            return messagebox.showinfo('Alerta', f'Capacitação específica insuficiente para o comprimento desta tarefa.\n\nProcesso de Usinagem: {ProcessoUninagem}\nHabilidade do Funcionário: {habilidadeFuncionario}')
+            return messagebox.showinfo(parent=self.janelaOper, title='Alerta', message=f'Capacitação específica insuficiente para o comprimento desta tarefa.\n\nProcesso de Usinagem: {ProcessoUninagem}\nHabilidade do Funcionário: {habilidadeFuncionario}')
             
         else:
             
@@ -2643,7 +2643,7 @@ class AplicacaoFront(AplicacaoBack):
         valido = self.cursorServer.fetchall()
         
         if len(valido) >= 1:
-            if messagebox.askyesno('OS Pendente', 'Você tem OS pendente, Deseja Ver?'):
+            if messagebox.askyesno(parent=self.janelaOper, title='OS Pendente', message='Você tem OS pendente, Deseja Ver?'):
                 self.verificação_de_OS()
         
         self.janelaOper.mainloop()
