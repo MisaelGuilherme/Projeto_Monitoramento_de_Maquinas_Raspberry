@@ -589,7 +589,7 @@ class AplicacaoBack():
     
         try:
                         
-            self.cursorServer.execute("select hora, minuto from pecas_codigo where codigo = "+self.campoPeca.get())
+            self.cursorServer.execute("select hora, minuto from pecas_codigo where codigo = "+self.codP)
             tempo_pecas = self.cursorServer.fetchall()
         
             self.mi = 0
