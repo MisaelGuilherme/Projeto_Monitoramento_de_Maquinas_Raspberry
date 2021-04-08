@@ -495,7 +495,7 @@ class AplicacaoBack():
             return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Os Campos Precisam ser Numéricos!')
         
         #Buscando o Código de Peça no banco de dados
-        self.cursorServer.execute("select peca from pecas_codigo where codigo = "+self.campoPeca.get())
+        self.cursorServer.execute("select codigo from pecas_codigo where codigo = "+self.campoPeca.get())
         valido = self.cursorServer.fetchall()
         
             
@@ -578,11 +578,14 @@ class AplicacaoBack():
         #Pegando o número de OS digitada no campo e armazenando na variável
         self.numOS = str(self.campoServico.get())
         
-        #Pegando o número de Operação no campo e armazenando na variável
-        self.numOper = str(self.campoOperacao.get())
+        #Pegando o código de Peca no campo e armazenando na variável
+        self.codP = str(self.campoPeca.get())
         
         #Pegando a quantidade de peças e armazenando na variável
         self.quant = str(self.campQuantidadePeca.get())
+        
+        #Pegando o número de Operação no campo e armazenando na variável
+        self.numOper = str(self.campoOperacao.get())
     
         try:
                         
@@ -594,6 +597,9 @@ class AplicacaoBack():
             self.tempHora = str(valido[0][3])
             self.tempMin = str(valido[0][4])
             self.tempSeg = str(valido[0][5])
+            
+            #Formatando as varíaveis para encaixar no label - Tempo Programado
+            self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
             
             #Se a função foi invocada pelo parâmetro 2, #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar irá continuar sendo tempo extra e o último tempo Adcionado
             if opcao == 2:
@@ -672,12 +678,6 @@ class AplicacaoBack():
                     
                     self.backup = valido[0][16]
                 
-                    #Formatando as varíaveis para encaixar no label - Tempo Programado
-                    self.tempProg = valido[0][16]
-                    
-                    #Obtendo Código de Peça salva no banco de dados e armazenando na variável - Caso Opcao == 2
-                    self.codP = str(valido[0][3])
-            
                     
             if int(self.tempHora) == 0:
                 self.ho = 0
@@ -795,12 +795,6 @@ class AplicacaoBack():
             
             if opcao == 1:
                 self.backup = str(self.tempHora)+':'+str(self.tempMin)+':'+str(self.tempSeg)
-                
-                #Formatando as varíaveis para encaixar no label - Tempo Programado
-                self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
-                
-                #Obtendo Código de Peça salva no banco de dados e armazenando na variável - Caso Opcao == 1
-                self.codP = str(valido[0][2])
 
             #Mostrando o tempo Programado através do label
             self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 17, 'bold'), bg='#135565', fg='white')
