@@ -589,14 +589,14 @@ class AplicacaoBack():
     
         try:
                         
-            self.cursorServer.execute("select * from pecas_codigo where codigo = "+self.campoPeca.get())
-            valido = self.cursorServer.fetchall()
+            self.cursorServer.execute("select hora, minuto from pecas_codigo where codigo = "+self.campoPeca.get())
+            tempo_pecas = self.cursorServer.fetchall()
         
             self.mi = 0
             self.se = 0
-            self.tempHora = str(valido[0][3])
-            self.tempMin = str(valido[0][4])
-            self.tempSeg = str(valido[0][5])
+            self.tempHora = tempo_pecas[0][0]
+            self.tempMin = tempo_pecas[0][1]
+            self.tempSeg = '00'
             
             #Formatando as varíaveis para encaixar no label - Tempo Programado
             self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
@@ -618,9 +618,10 @@ class AplicacaoBack():
                     #Recebendo o número de vezes tempo extra do banco de dados
                     verificandoTempExtra = valido[0][14]
                     
-                    #Se for maior ou igual a 1 significa que o tempo que será adcionado e contado será do tempo extra restante
+                    #Se for maior ou igual a 1 significa que o tempo que será adcionado e contado será do Tempo Extra restante
                     if int(verificandoTempExtra) >= 1:
                         
+                        #Desfragmentando Tempo Extra já gasto pelo funcionário
                         tempo = valido[0][13]
                         for v in tempo:
                             if v != ':':
@@ -634,7 +635,7 @@ class AplicacaoBack():
                         self.tempExtraGastoB += int(listaNumSeparada[1])
                         self.tempExtraGastoC += 0
                         
-                        #Desfragmentando o tempo extra do banco de dados
+                        #Desfragmentando o Último Tempo Adicionado tempo extra do banco de dados
                         t = valido[0][15]
                         for num in t:
                             if num != ':':
