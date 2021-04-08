@@ -446,7 +446,7 @@ class AplicacaoBack():
                 except Exception as erro:
                     
                     print(erro)
-                    return messagebox.showerror('03-Error-Servidor', '03-Error: Não acesso ao servidor.')
+                    return messagebox.showerror(parent=self.janelaFuncio, title='03-Error-Servidor', message='03-Error: Não acesso ao servidor.')
 
                 #pegando hora atual de login caso encontrar resultado na busca
                 if len(valido) == 1:
@@ -459,7 +459,7 @@ class AplicacaoBack():
                 
                 #alerta caso o usuário não seja encontrado
                 else:
-                    return messagebox.showerror('Alerta','Login não Existe!')
+                    return messagebox.showerror(parent=self.janelaFuncio, title='Alerta', message='Login não Existe!')
             
             #caso o campo "senha" esteja vazio
             elif self.campoSenha.get() == '':
@@ -479,14 +479,18 @@ class AplicacaoBack():
 
     def confirmarCampos(self, event):
         
+        a = self.campoServico.get()
+        b = self.campoPeca.get()
+        c = self.campQuantidadePeca.get()
+        d = self.campoOperacao.get()
         
         #Verificando se algum campo está em branco
-        if self.campoServico.get() == '' or self.campoPeca.get() == '' or self.campoOperacao.get() == '':
+        if a == '' or b == '' or c == '' or int(c) <= 0 or d == '':
             
             return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Verifique os Campos!')
         
         #Verificando se os caracteres digitados nos campos são de valor numérico
-        elif self.campoServico.get().isnumeric() == False or self.campoPeca.get().isnumeric() == False or self.campoOperacao.get().isnumeric() == False:
+        elif self.campoServico.get().isnumeric() == False or self.campoPeca.get().isnumeric() == False or self.campQuantidadePeca.get().isnumeric() == False or self.campoOperacao.get().isnumeric() == False:
 
             return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Os Campos Precisam ser Numéricos!')
         
@@ -813,6 +817,7 @@ class AplicacaoBack():
             #Deletando campos de preenchimento para criação dos mesmos, porém em formato de Labels
             self.campoServico.destroy()
             self.campoPeca.destroy()
+            self.campQuantidadePeca.destroy()
             self.campoOperacao.destroy()
             
             #Mudando os campos Entry para Labels para exibir na tela
@@ -826,7 +831,7 @@ class AplicacaoBack():
             self.campoOperacao.place(relx=0.455, rely=0.510)
             
             self.campQuantidadePeca = Label(self.frameLeft, text=self.quant, font=('arial', 19), bg='white')
-            self.campQuantidadePeca.place(relx=0.880, rely=0.340, relwidth=0.075)
+            self.campQuantidadePeca.place(relx=0.880, rely=0.340, relwidth=0.085)
             
             #Labals que imprimem o cronômetro que totaliza o tempo de operação do funcionário
             self.segundos = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
@@ -896,7 +901,7 @@ class AplicacaoBack():
                 
         except Exception as erro:
             print(erro)
-            messagebox.showerror('05-Error-Servidor', '05-Error: Não acesso ao servidor.')
+            messagebox.showerror(parent=self.janelaOper, title='05-Error-Servidor', message='05-Error: Não acesso ao servidor.')
 
     def piscar_led(self):
         
@@ -981,6 +986,7 @@ class AplicacaoBack():
         self.multimolde['bg'] = cor1
         self.ordemServico['bg'] = cor1
         self.codigoPeca['bg'] = cor1
+        self.lbQuantidadePeca['bg'] = cor1
         self.codigoOperacao['bg'] = cor1
         self.tempoProgramado['bg'] = cor1
         
@@ -1002,6 +1008,7 @@ class AplicacaoBack():
         self.multimolde['fg'] = cor2
         self.ordemServico['fg'] = cor2
         self.codigoPeca['fg'] = cor2
+        self.lbQuantidadePeca['fg'] = cor2
         self.codigoOperacao['fg'] = cor2
         self.tempoProgramado['fg'] = cor2
 
@@ -1450,13 +1457,13 @@ class AplicacaoBack():
             #Se o tempoesgotado for == False significa que o tempo não esgotou, se chavefinalizar for == True não está mais em operação
             if self.tempoEsgotado == False and self.chaveFinalizar == True and self.tempoPausado == False:
                 
-                if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+                if messagebox.askokcancel(parent=self.janelaOper, title='Alerta', message='Deseja Realmente Sair?'):
                     
                     self.janelaOper.destroy()
                     self.__init__()
             else:
                 print('TESTE 2')
-                messagebox.showwarning('Alerta', 'Sistema em Operação.')
+                messagebox.showwarning(parent=self.janelaOper, title='Alerta', message='Sistema em Operação.')
             
         self.janelaOper.protocol('WM_DELETE_WINDOW', close)        
         
@@ -1621,12 +1628,12 @@ class AplicacaoBack():
                                     
                 self.bancoServer.commit()
                 
-                messagebox.showinfo('DATABASE SERVER', 'O.S Finalizada! Operação salva.')
+                messagebox.showinfo(parent=self.janelaOper, title='DATABASE SERVER', message='O.S Finalizada! Operação salva.')
                 
             #Excessão caso ocorra de não conseguir salvar
             except Exception as erro:
                 
-                if messagebox.showerror('06-Error-Servidor', '06-Error: Não acesso ao servidor.'):
+                if messagebox.showerror(parent=self.janelaOper, title='06-Error-Servidor', message='06-Error: Não acesso ao servidor.'):
             
                     try:
                         
@@ -1650,10 +1657,10 @@ class AplicacaoBack():
                         
                         self.bancoLocal.commit()
                         
-                        messagebox.showinfo('DATABASE LOCAL', 'O.S Finalizada! Operação salva.')
+                        messagebox.showinfo(parent=self.janelaOper, title='DATABASE LOCAL', message='O.S Finalizada! Operação salva.')
                         
                     except:
-                        messagebox.showerror('06-Error-Local', '06-Error: Não acesso a Database Local.')
+                        messagebox.showerror(parent=self.janelaOper, title='06-Error-Local', message='06-Error: Não acesso a Database Local.')
 
     def tentativa_pausar(self):
         
@@ -1741,12 +1748,12 @@ class AplicacaoBack():
         
         if self.tempoEsgotado == True:
 
-            messagebox.showerror('Alerta','Tempo Esgotado. Impossível Pausar!')
+            messagebox.showerror(parent=self.janelaPause, title='Alerta', message='Tempo Esgotado. Impossível Pausar!')
             self.janelaPause.destroy()
         
         elif self.resultPausa == '':
             
-            if messagebox.showerror('Alerta','Marque uma Opção!'):
+            if messagebox.showerror(parent=self.janelaPause, title='Alerta', message='Marque uma Opção!'):
                 self.janelaPause.lift()
                 self.janelaPause.focus_force()
             
@@ -1841,7 +1848,7 @@ class AplicacaoBack():
             
             self.bancoServer.commit()
             
-            messagebox.showinfo('DATABASE SERVER', 'O.S Pausada! Operação salva.')
+            messagebox.showinfo(parent=self.janelaOper, title='DATABASE SERVER', message='O.S Pausada! Operação salva.')
             
         except Exception as erro:
             
@@ -1869,7 +1876,7 @@ class AplicacaoBack():
             
             self.bancoLocal.commit()
             
-            messagebox.showinfo('DATABASE LOCAL', 'O.S Pausada! Operação salva.')
+            messagebox.showinfo(parent=self.janelaOper, title='DATABASE LOCAL', message='O.S Pausada! Operação salva.')
     
     def contagem_despausar(self, despause):
         try:
@@ -1895,7 +1902,7 @@ class AplicacaoBack():
         #Excessão carro algum erro ocorra um mensagebox aparecerá informando o corrido
         except Exception as erro:
             print(erro)
-            return messagebox.showerror('08-Error-Servidor', '08-Error: Não acesso ao servidor.')
+            return messagebox.showerror(parent=self.janelaOper, title='08-Error-Servidor', message='08-Error: Não acesso ao servidor.')
         
         #Destruindo botão despausar devido a função despausar foi invocada
         self.botFrameRetomar.destroy()
@@ -1984,7 +1991,7 @@ class AplicacaoBack():
         #Se a chaveFinalizar for True e osfinalizada for True significa que o operário conclui/finalizou a peça e poderá sair
         if self.chaveFinalizar == True and self.osfinalizada == True:
             
-            if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+            if messagebox.askokcancel(parent=self.janelaOper, title='Alerta', message='Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
                 #self.__init__()
@@ -2003,7 +2010,7 @@ class AplicacaoBack():
         #Se a chaveFinalizar and tempoPausado for True significa que o tempo foi pausado, e operário poderá sair
         elif self.chaveFinalizar == True and self.tempoPausado == True:
             
-            if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+            if messagebox.askokcancel(parent=self.janelaOper, title='Alerta', message='Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
                 #self.__init__()
@@ -2022,7 +2029,7 @@ class AplicacaoBack():
         #Se chaveControle for False e tempoEsgotado for False, poderá sair da janela mesmo tendo confirmado a OS após logar
         elif self.chaveControle == False and self.tempoEsgotado == False:
             
-            if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+            if messagebox.askokcancel(parent=self.janelaOper, title='Alerta', message='Deseja Realmente Sair?'):
                 
                 self.janelaOper.destroy()
                 #self.__init__()
@@ -2041,7 +2048,7 @@ class AplicacaoBack():
         #Senão significa que o cronômetro ainda está em execução
         else:
             
-            messagebox.showwarning('Alerta', 'Sistema em Operação.')
+            messagebox.showwarning(parent=self.janelaOper, title='Alerta', message='Sistema em Operação.')
 
 
 class AplicacaoFront(AplicacaoBack):
@@ -2332,17 +2339,13 @@ class AplicacaoFront(AplicacaoBack):
         self.sair = Button(self.frameBotSair, text='Sair', font=('arial',14,'bold'), fg='white', bg='red', activebackground='red', activeforeground='white', relief='flat', width=5, command=lambda:self.sairTela())
         self.sair.pack()
         
-        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
-
-        self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
-        self.ordemServico.place(relx=0.075, rely=0.170)
-        
         #Função local que verificará os campos colocando limites de capacidade
 
         def limite_campos_operacao(*args):
             
             varOS = cOS.get()
             varPeca = cPeca.get()
+            varQuant = cQuant.get()
             varOper = cOper.get()
             
             if len(varOS) > 13:
@@ -2354,6 +2357,11 @@ class AplicacaoFront(AplicacaoBack):
                 cPeca.set(varPeca[:-1])
             if not varPeca.isnumeric():
                 cPeca.set(varPeca[:-1])
+            
+            if len(varQuant) > 4:
+                cQuant.set(varQuant[:-1])
+            if not varQuant.isnumeric():
+                cQuant.set(varQuant[:-1])
             
             if len(varOper) > 3:
                 cOper.set(varOper[:-1])
@@ -2371,6 +2379,14 @@ class AplicacaoFront(AplicacaoBack):
         cOper = StringVar()
         cOper.trace('w', limite_campos_operacao)
         
+        cQuant = StringVar()
+        cQuant.trace('w', limite_campos_operacao)
+        
+        #(Tela Operativa) - LABELS E CAMPOS DE ENTRADA DA TELA DE OPERAÇÃO - FOMULÁRIO
+
+        self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
+        self.ordemServico.place(relx=0.075, rely=0.170)
+        
         self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOS, bg='white')
         self.campoServico.place(relx=0.455, rely=0.170)
         self.campoServico.focus_force()
@@ -2378,6 +2394,7 @@ class AplicacaoFront(AplicacaoBack):
         
         self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.codigoPeca.place(relx=0.110, rely=0.340)
+        
         self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cPeca)
         self.campoPeca.place(relx=0.455, rely=0.340)
         self.campoPeca.bind("<Return>", self.confirmarCampos)
@@ -2385,8 +2402,8 @@ class AplicacaoFront(AplicacaoBack):
         self.lbQuantidadePeca = Label(self.frameLeft, text='nº', font=('Arial', 20, 'bold'), bg='#135565', fg='white')
         self.lbQuantidadePeca.place(relx=0.830, rely=0.340)
         
-        self.campQuantidadePeca = Entry(self.frameLeft, font=('arial', 19))
-        self.campQuantidadePeca.place(relx=0.880, rely=0.340, relwidth=0.075)
+        self.campQuantidadePeca = Entry(self.frameLeft, font=('arial', 19), textvariable=cQuant)
+        self.campQuantidadePeca.place(relx=0.880, rely=0.340, relwidth=0.085)
         
         self.checkVazio = PhotoImage(file='img/verificaVazio.png')
         
@@ -2478,7 +2495,7 @@ class AplicacaoFront(AplicacaoBack):
             
             if self.sec == None:
                 
-                if messagebox.askokcancel('Alerta', 'Deseja Realmente Sair?'):
+                if messagebox.askokcancel(parent=self.janelaOper, title='Alerta', message='Deseja Realmente Sair?'):
                         
                     self.janelaOper.destroy()
                     self.__init__()
@@ -2588,7 +2605,7 @@ class AplicacaoFront(AplicacaoBack):
                 self.listaAtiva = lista.selection()[0]
                 self.tuplaSelect = lista.item(self.listaAtiva, 'values')
 
-            except: return messagebox.showerror('Erro', "Selecione uma OS antes de confirmar")
+            except: return messagebox.showerror(parent=self.janelaOsPendente, title='Erro', message="Selecione uma OS antes de confirmar")
             
             #Limpando o campo antes de inserir o número de Os e o Código de Peça
             self.campoServico.delete(0, END)
