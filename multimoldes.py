@@ -2389,7 +2389,7 @@ class AplicacaoFront(AplicacaoBack):
         self.ordemServico = Label(self.frameLeft, text='Ordem de Serviço:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.ordemServico.place(relx=0.075, rely=0.170)
         
-        self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOS, bg='white')
+        self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOS, bg='white', justify=CENTER)
         self.campoServico.place(relx=0.455, rely=0.170)
         self.campoServico.focus_force()
         self.campoServico.bind("<Return>", self.confirmarCampos)
