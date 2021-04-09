@@ -1808,9 +1808,9 @@ class AplicacaoBack():
             #Adcionando o próprio valor programado ao tempGasto
             self.tempGasto = self.backup
             
-            if int(self.minuC) + self.tempExtraGastoB >= 60:
+            if self.tempExtraGastoB+ int(self.minuC) >= 60:
                 self.tempExtraGastoA += 1
-                self.tempExtraGastoB -= int(self.minuC)
+                self.tempExtraGastoB -= (int(self.tempExtraGastoB) + int(self.minuC)) - 60
             else:
                 self.tempExtraGastoA += int(self.houC)
                 self.tempExtraGastoB += int(self.minuC)
