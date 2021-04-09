@@ -2397,7 +2397,7 @@ class AplicacaoFront(AplicacaoBack):
         self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.codigoPeca.place(relx=0.110, rely=0.340)
         
-        self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cPeca)
+        self.campoPeca = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cPeca, justify=CENTER)
         self.campoPeca.place(relx=0.455, rely=0.340)
         self.campoPeca.bind("<Return>", self.confirmarCampos)
         
