@@ -255,7 +255,7 @@ class AplicacaoBack():
         
         #Variável que armazenará o último tempo adcionado
         self.UltimoTempAdd = self.transformar_tempo_decimal(ll, mm, 0)
-        print(self.UltimoTempAdd)
+        print(f'Hora Extra Adicionada: {self.UltimoTempAdd}')
         
         self.bteste = 5
         
@@ -1411,10 +1411,17 @@ class AplicacaoBack():
                     
             if self.chaveTempExtra >= 1:
                 self.tempExtraGastoA += int(self.tempHora)
-                self.tempExtraGastoB += int(self.tempMin)
-                self.tempExtraGastoC += 0
-                print(f'Tempo Gasto Extra ADD: {self.tempExtraGastoA}:{self.tempExtraGastoB}')
-                print(f'Tempo Hora: {self.tempHora } Tempo Minuto: {self.tempMin}')
+                
+                if self.tempExtraGastoB + int(self.tempMin) >= 60:
+                    self.tempExtraGastoA += 1
+                    self.tempExtraGastoB = (int(self.tempExtraGastoB) + int(self.tempMin)) - 60
+                else:
+                    self.tempExtraGastoB += int(self.tempMin)
+                    self.tempExtraGastoC += 0
+                
+                print(f'Tempo Configurado Para: {self.tempHora }:{self.tempMin}')
+                print(f'Hora Extra Gasta 100%: {self.tempExtraGastoA}:{self.tempExtraGastoB}')
+                print('')
             
             self.objetos_cores('#870000', 'white')
             self.imagemTempRel.destroy()
@@ -1581,7 +1588,7 @@ class AplicacaoBack():
                 #Adcionando o próprio valor programado ao tempGasto
                 self.tempGasto = self.backup
             
-                if int(self.minuC) + self.tempExtraGastoB >= 60:
+                if self.tempExtraGastoB + int(self.minuC) >= 60:
                     self.tempExtraGastoA += 1
                     self.tempExtraGastoB -= int(self.minuC)
                 else:
