@@ -289,7 +289,7 @@ class AplicacaoBack():
         
         if int(self.tempHora) == 0:
             self.ho = 0
-            print(self.ho)
+            print(f'Metade Hora Extra {self.ho}', end='')
             if int(self.tempMin) == 0:
                 self.mi = 0
                 self.se = 0
@@ -301,18 +301,15 @@ class AplicacaoBack():
                 c = int(b[-1])
                 d = (c*10) - 20
                 self.se = d
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
                 self.mi = int(self.tempMin) // 2
                 self.se = 0
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) == 1:
                 self.mi = 0
                 self.se = (int(self.tempMin) * 60 ) // 2
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             #============================ ANALISAR O CODIGO =======================
             '''elif int(self.tempMin) == 2:
                 self.mi = 1
@@ -322,12 +319,11 @@ class AplicacaoBack():
         
         elif int(self.tempHora) == 1:
             self.ho = 0
-            print(self.ho)
+            print(f'Metade Hora Extra {self.ho}', end='')
             if int(self.tempMin) == 0:
                 self.mi = (int(self.tempHora) * 60) // 2
                 self.se = 0
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
                 self.mi = ((int(self.tempHora) * 60) // 2) + (int(self.tempMin) // 2)
                 a = int(self.tempMin)/2
@@ -335,27 +331,23 @@ class AplicacaoBack():
                 c = int(b[-1])
                 d = (c*10) - 20
                 self.se = d
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
                 self.mi = ((int(self.tempHora) * 60) // 2) + (int(self.tempMin) // 2)
                 self.se = 0
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) == 1:
                 self.mi = (int(self.tempHora) * 60) // 2 
                 self.se = (int(self.tempMin) * 60) // 2
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
         
         elif int(self.tempHora) > 1 and int(self.tempHora) % 2 == 0:
             self.ho = int(self.tempHora) // 2
-            print(self.ho)
+            print(f'Metade Hora Extra {self.ho}', end='')
             if int(self.tempMin) == 0:
                 self.mi = 0
                 self.se = 0
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
                 self.mi = int(self.tempMin) // 2
                 a = int(self.tempMin)/2
@@ -363,21 +355,18 @@ class AplicacaoBack():
                 c = int(b[-1])
                 d = (c*10) - 20
                 self.se = d
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
                 self.mi = int(self.tempMin) // 2
                 self.se = 0
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) == 1:
                 self.mi = 0
                 self.se = (int(self.tempMin) * 60) // 2
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
         elif int(self.tempHora) > 1 and int(self.tempHora) % 2 != 0:
             self.ho = int(self.tempHora) // 2
-            print(self.ho)
+            print(f'Metade Hora Extra {self.ho}', end='')
             a1 = int(self.tempHora)/2
             b2 = str(a1)
             c3 = int(b2[-1])
@@ -386,8 +375,7 @@ class AplicacaoBack():
             if int(self.tempMin) == 0:
                 self.mi = d4
                 self.se = 0
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
                 self.mi = (d4) + (int(self.tempMin) // 2)
                 a = int(self.tempMin)/2
@@ -395,17 +383,15 @@ class AplicacaoBack():
                 c = int(b[-1])
                 d = (c*10) - 20
                 self.se = d
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
                 self.mi = (d4) + (int(self.tempMin) // 2)
                 self.se = 0
-                print(self.mi)
-                print(self.se)
+                print(f'{self.mi}:{self.se}')
             elif int(self.tempMin) == 1:
                 self.mi = d4
                 self.se = (int(self.tempMin) * 60) // 2        
-                print(self.mi)         
+                print(f'{self.mi}:{self.se}')
         
         #Armazenando na variável já formatado
         self.tempProgExt = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
@@ -616,7 +602,8 @@ class AplicacaoBack():
             
             #Formatando as varíaveis para encaixar no label - Tempo Programado
             self.tempProg = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
-            print('O tempo é :', self.tempProg)
+            
+            print('Hora Programada é:', self.tempProg)
             
             #Se a função foi invocada pelo parâmetro 2, #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar irá continuar sendo tempo extra e o último tempo Adcionado
             if opcao == 2:
