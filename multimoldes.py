@@ -682,7 +682,7 @@ class AplicacaoBack():
                     
             if int(self.tempHora) == 0:
                 self.ho = 0
-                print(self.ho)
+                print(f'Metade de tempo: {self.ho}:', end='')
                 if int(self.tempMin) == 0:
                     self.mi = 0
                     self.se = 0
@@ -694,27 +694,23 @@ class AplicacaoBack():
                     c = int(b[-1])
                     d = (c*10) - 20
                     self.se = d
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
                     self.mi = int(self.tempMin) // 2
                     self.se = 0
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) == 1:
                     self.mi = 0
                     self.se = (int(self.tempMin) * 60 ) // 2
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
             
             elif int(self.tempHora) == 1:
                 self.ho = 0
-                print(self.ho)
+                print(f'Metade de tempo: {self.ho}:', end='')
                 if int(self.tempMin) == 0:
                     self.mi = (int(self.tempHora) * 60) // 2
                     self.se = 0
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
                     self.mi = ((int(self.tempHora) * 60) // 2) + (int(self.tempMin) // 2)
                     a = int(self.tempMin)/2
@@ -722,27 +718,23 @@ class AplicacaoBack():
                     c = int(b[-1])
                     d = (c*10) - 20
                     self.se = d
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
                     self.mi = ((int(self.tempHora) * 60) // 2) + (int(self.tempMin) // 2)
                     self.se = 0
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) == 1:
                     self.mi = (int(self.tempHora) * 60) // 2 
                     self.se = (int(self.tempMin) * 60) // 2
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
             
             elif int(self.tempHora) > 1 and int(self.tempHora) % 2 == 0:
                 self.ho = int(self.tempHora) // 2
-                print(self.ho)
+                print(f'Metade de tempo: {self.ho}:', end='')
                 if int(self.tempMin) == 0:
                     self.mi = 0
                     self.se = 0
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
                     self.mi = int(self.tempMin) // 2
                     a = int(self.tempMin)/2
@@ -750,21 +742,18 @@ class AplicacaoBack():
                     c = int(b[-1])
                     d = (c*10) - 20
                     self.se = d
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
                     self.mi = int(self.tempMin) // 2
                     self.se = 0
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) == 1:
                     self.mi = 0
                     self.se = (int(self.tempMin) * 60) // 2
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
             elif int(self.tempHora) > 1 and int(self.tempHora % 2 != 0):
                 self.ho = int(self.tempHora) // 2
-                print(self.ho)
+                print(f'Metade de tempo: {self.ho}:', end='')
                 a1 = int(self.tempHora)/2
                 b2 = str(a)
                 c3 = int(b[-1])
@@ -773,8 +762,7 @@ class AplicacaoBack():
                 if int(self.tempMin) == 0:
                     self.mi = d4
                     self.se = 0
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) > 1 and int(self.tempMin) % 2 != 0:
                     self.mi = (d4) + (int(self.tempMin) // 2)
                     a = int(self.tempMin)/2
@@ -782,17 +770,15 @@ class AplicacaoBack():
                     c = int(b[-1])
                     d = (c*10) - 20
                     self.se = d
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) > 1 and int(self.tempMin) % 2 == 0:
                     self.mi = (d4) + (int(self.tempMin) // 2)
                     self.se = 0
-                    print(self.mi)
-                    print(self.se)
+                    print(f'{self.mi}:{self.se}')
                 elif int(self.tempMin) == 1:
                     self.mi = d4
                     self.se = (int(self.tempMin) * 60) // 2
-                    print(self.mi)                
+                    print(f'{self.mi}:{self.se}')
             
             if opcao == 1:
                 self.backup = str(self.tempHora)+':'+str(self.tempMin)+':'+str(self.tempSeg)
