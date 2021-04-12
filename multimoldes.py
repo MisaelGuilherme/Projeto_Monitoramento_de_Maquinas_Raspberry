@@ -595,15 +595,20 @@ class AplicacaoBack():
             self.mi = 0
             self.se = 0
             
+            #Atribuindo a quantidade de peça já convertido para inteiro
             quantidadePeca = int(self.quant)
             
             self.tempHora = int(tempo_pecas[0][0]) * quantidadePeca
             self.tempMin = 0
             self.tempSeg = 0
             
+            #Minutos recebendo carga horária de acordo com a quantidade de peças digitadas
+            
             for q in range(int(self.quant)):
                 
                 self.tempMin += int(tempo_pecas[0][1])
+                
+                #Convertendo minutos em horas caso os minutos passarem de 60    
                 
                 if self.tempMin >= 60:
                     self.tempHora += 1
