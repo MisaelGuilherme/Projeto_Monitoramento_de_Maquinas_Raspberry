@@ -594,12 +594,24 @@ class AplicacaoBack():
         
             self.mi = 0
             self.se = 0
-            self.tempHora = tempo_pecas[0][0]
-            self.tempMin = tempo_pecas[0][1]
-            self.tempSeg = '00'
+            
+            quantidadePeca = int(self.quant)
+            
+            self.tempHora = int(tempo_pecas[0][0]) * quantidadePeca
+            self.tempMin = 0
+            self.tempSeg = 0
+            
+            for q in range(int(self.quant)):
+                
+                self.tempMin += int(tempo_pecas[0][1])
+                
+                if self.tempMin >= 60:
+                    self.tempHora += 1
+                    self.tempMin = self.tempMin - 60
             
             #Formatando as varíaveis para encaixar no label - Tempo Programado
-            self.tempProg = self.tempHora+':'+self.tempMin+':'+self.tempSeg
+            self.tempProg = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
+            print('O tempo é :', self.tempProg)
             
             #Se a função foi invocada pelo parâmetro 2, #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar irá continuar sendo tempo extra e o último tempo Adcionado
             if opcao == 2:
@@ -682,7 +694,7 @@ class AplicacaoBack():
                     
             if int(self.tempHora) == 0:
                 self.ho = 0
-                print(f'Metade de tempo: {self.ho}:', end='')
+                print(f'Metade de tempo1: {self.ho}:', end='')
                 if int(self.tempMin) == 0:
                     self.mi = 0
                     self.se = 0
@@ -706,7 +718,7 @@ class AplicacaoBack():
             
             elif int(self.tempHora) == 1:
                 self.ho = 0
-                print(f'Metade de tempo: {self.ho}:', end='')
+                print(f'Metade de tempo2: {self.ho}:', end='')
                 if int(self.tempMin) == 0:
                     self.mi = (int(self.tempHora) * 60) // 2
                     self.se = 0
@@ -730,7 +742,7 @@ class AplicacaoBack():
             
             elif int(self.tempHora) > 1 and int(self.tempHora) % 2 == 0:
                 self.ho = int(self.tempHora) // 2
-                print(f'Metade de tempo: {self.ho}:', end='')
+                print(f'Metade de tempo3: {self.ho}:', end='')
                 if int(self.tempMin) == 0:
                     self.mi = 0
                     self.se = 0
@@ -753,11 +765,11 @@ class AplicacaoBack():
                     print(f'{self.mi}:{self.se}')
             elif int(self.tempHora) > 1 and int(self.tempHora % 2 != 0):
                 self.ho = int(self.tempHora) // 2
-                print(f'Metade de tempo: {self.ho}:', end='')
+                print(f'Metade de tempo4: {self.ho}:', end='')
                 a1 = int(self.tempHora)/2
-                b2 = str(a)
-                c3 = int(b[-1])
-                d4 = (c*10) - 20
+                b2 = str(a1)
+                c3 = int(b2[-1])
+                d4 = (c3*10) - 20
                 
                 if int(self.tempMin) == 0:
                     self.mi = d4
