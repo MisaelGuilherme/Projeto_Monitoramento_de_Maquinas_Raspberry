@@ -2404,7 +2404,7 @@ class AplicacaoFront(AplicacaoBack):
         self.lbQuantidadePeca = Label(self.frameLeft, text='nº', font=('Arial', 20, 'bold'), bg='#135565', fg='white')
         self.lbQuantidadePeca.place(relx=0.830, rely=0.340)
         
-        self.campQuantidadePeca = Entry(self.frameLeft, font=('arial', 19), textvariable=cQuant)
+        self.campQuantidadePeca = Entry(self.frameLeft, font=('arial', 19), textvariable=cQuant, justify=CENTER)
         self.campQuantidadePeca.place(relx=0.880, rely=0.340, relwidth=0.085)
         
         self.checkVazio = PhotoImage(file='img/verificaVazio.png')
@@ -2430,7 +2430,7 @@ class AplicacaoFront(AplicacaoBack):
         
         self.codigoOperacao = Label(self.frameLeft, text='Operação:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
         self.codigoOperacao.place(relx=0.205, rely=0.510)
-        self.campoOperacao = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOper)
+        self.campoOperacao = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOper, justify=CENTER)
         self.campoOperacao.place(relx=0.455, rely=0.510)
         self.campoOperacao.bind("<Return>", self.confirmarCampos)
         
