@@ -609,24 +609,24 @@ class AplicacaoBack():
             if opcao == 2:
                 
                 #Selecionando do banco de dados onde o id for igual ao número de is da lista já separada igual a 10
-                self.cursorServer.execute('select * from pausa_funcionarios where ID = '+self.tuplaSelect[0])
+                self.cursorServer.execute('select CorTela, VezTempExt, TempGastoExt, UltimTempAdd, TempMarcadoCron, TempProg, TempOperando from pausa_funcionarios where ID = '+self.tuplaSelect[0])
                 valido = self.cursorServer.fetchall()
                 
                 if len(valido) == 1:
                     
                     #Recebendo cor da tela de quando foi pausada
-                    self.corTelaAtual = valido[0][17]
+                    self.corTelaAtual = valido[0][0]
                     
                     li = ''
                     listaNum = ''
                     #Recebendo o número de vezes tempo extra do banco de dados
-                    verificandoTempExtra = valido[0][14]
+                    verificandoTempExtra = valido[0][1]
                     
                     #Se for maior ou igual a 1 significa que o tempo que será adcionado e contado será do Tempo Extra restante
                     if int(verificandoTempExtra) >= 1:
                         
                         #Desfragmentando Tempo Extra já gasto pelo funcionário
-                        tempo = valido[0][13]
+                        tempo = valido[0][2]
                         for v in tempo:
                             if v != ':':
                                 listaNum += v
@@ -640,7 +640,7 @@ class AplicacaoBack():
                         self.tempExtraGastoC += 0
                         
                         #Desfragmentando o Último Tempo Adicionado tempo extra do banco de dados
-                        t = valido[0][15]
+                        t = valido[0][3]
                         for num in t:
                             if num != ':':
                                 li += num
@@ -656,10 +656,10 @@ class AplicacaoBack():
                         self.tempSeg = liDesfragment[2]
                         
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar irá continuar sendo tempo extra e o último tempo Adcionado
-                        self.UltimoTempAdd = valido[0][15]
+                        self.UltimoTempAdd = valido[0][3]
 
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar o contador de vezes irá retomar com o valor de onde parou
-                        self.chaveTempExtra = int(valido[0][14])
+                        self.chaveTempExtra = int(valido[0][1])
                         
                         self.vezes = Label(self.frameLeft, text='x'+str(self.chaveTempExtra), width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
                         self.vezes.place(x=750, y=400)
@@ -669,7 +669,7 @@ class AplicacaoBack():
                         self.campoProExt.place(x=640, y=400)
                     
                     #Armazenando na variável o tempo marcado quando pausado
-                    marcaTemp = valido[0][11]
+                    marcaTemp = valido[0][4]
                     
                     #Criando variável para obter o tempo marcado sem ser na forma de horário 00: 00: 00
                     self.tempoDePauseObtido = ''
@@ -681,7 +681,7 @@ class AplicacaoBack():
                         else:
                             self.tempoDePauseObtido +=' '
                     
-                    self.backup = valido[0][16]
+                    self.backup = valido[0][5]
                 
                     
             if int(self.tempHora) == 0:
@@ -843,7 +843,7 @@ class AplicacaoBack():
                 
                 #Configurando contagem de operagem com os dados salvos da pausagem
                 tempoOperador = ''
-                self.tempOperando = valido[0][21]
+                self.tempOperando = valido[0][6]
                 
                 #Formatando o dado extraído do banco de dados
                 for elemento in self.tempOperando:
