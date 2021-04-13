@@ -164,7 +164,7 @@ class AplicacaoBack():
         #Se a senha for numérica irá verificar no banco de dados se existe
         try:
             
-            self.cursorServer.execute('select * from supervisor_admin where senha ='+str(senha))
+            self.cursorServer.execute('select Senha from supervisor_admin where senha ='+str(senha))
             valido = self.cursorServer.fetchall()
             
         except Exception as erro:
@@ -493,7 +493,7 @@ class AplicacaoBack():
         
         
         #Buscando no banco de dados se existe a OS digitada e o Código de Peça em modo pausado
-        self.cursorServer.execute('select * from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0')
+        self.cursorServer.execute('select ID from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0')
         checar = self.cursorServer.fetchall()
         
         #Se ao ler a variável "checar" o valor for maior ou igual a 1, provavelmente existe no banco de dados
@@ -534,7 +534,7 @@ class AplicacaoBack():
         else:
             
             #Buscando a OS digitada no banco de dados
-            self.cursorServer.execute('select * from monitoria_funcionarios where OS ='+ self.campoServico.get()+' and CodigoPeca ='+self.campoPeca.get()+' and CodigoOperacao ='+self.campoOperacao.get())
+            self.cursorServer.execute('select ID from monitoria_funcionarios where OS ='+ self.campoServico.get()+' and CodigoPeca ='+self.campoPeca.get()+' and CodigoOperacao ='+self.campoOperacao.get())
             valido = self.cursorServer.fetchall()
                    
             self.checkSelect = PhotoImage(file='img/verifica.png')
@@ -826,10 +826,10 @@ class AplicacaoBack():
             self.horas = Label(self.frameLeft, text='00', font=('alarm clock',12,'bold'), width=2, fg='#023300')
             self.horas.place(relx=0.140, rely=0.880)
             
-            self.tempOperando = '00:00:00'
-            
             #Se a opcao for igual a 1: A OS está sendo criada e não é uma OS Pendente
             if opcao == 1:
+                
+                self.tempOperando = '00:00:00'
             
                 self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
                 self.frameBotIniciar.place(x=220, y=200)
@@ -2496,7 +2496,7 @@ class AplicacaoFront(AplicacaoBack):
         
         
         self.cursorServer.execute("use empresa_funcionarios")
-        self.cursorServer.execute("select * from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
+        self.cursorServer.execute("select ID from pausa_funcionarios where cpf ="+self.user+" and horaRetomada = 0")
         valido = self.cursorServer.fetchall()
         
         if len(valido) >= 1:
