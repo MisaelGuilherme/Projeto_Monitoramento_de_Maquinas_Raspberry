@@ -574,7 +574,7 @@ class AplicacaoBack():
         self.numOper = str(self.campoOperacao.get())
     
         try:
-                        
+            
             self.cursorServer.execute("select hora, minuto from pecas_codigo where codigo = "+self.codP)
             tempo_pecas = self.cursorServer.fetchall()
         
@@ -1616,7 +1616,8 @@ class AplicacaoBack():
                                     +str(self.tempExtraGasto)+"','"
                                     +str(self.chaveTempExtra)+"','"
                                     +self.tempOperando+"','"
-                                    +self.tipo+"')")
+                                    +self.tipo+"','"
+                                    +self.quant+"')")
                                     
                 self.bancoServer.commit()
                 
@@ -1645,7 +1646,8 @@ class AplicacaoBack():
                                         +str(self.tempExtraGasto)+"','"
                                         +str(self.chaveTempExtra)+"','"
                                         +self.tempOperando+"','"
-                                        +self.tipo+"')")
+                                        +self.tipo+"','"
+                                        +self.quant+"')")
                         
                         self.bancoLocal.commit()
                         
@@ -1836,7 +1838,8 @@ class AplicacaoBack():
                                       +str(self.horaInicial)+"','"
                                       +str(self.dateInicial)+"','"
                                       +self.tempOperando+"','"
-                                      +self.tipo+"')")
+                                      +self.tipo+"','"
+                                      +self.quant+"')")
             
             self.bancoServer.commit()
             
@@ -1864,7 +1867,8 @@ class AplicacaoBack():
                                      +str(self.horaInicial)+"','"
                                      +str(self.dateInicial)+"','"
                                      +self.tempOperando+"','"
-                                     +self.tipo+"')")
+                                     +self.tipo+"','"
+                                     +self.quant+"')")
             
             self.bancoLocal.commit()
             
