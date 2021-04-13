@@ -2627,19 +2627,19 @@ class AplicacaoFront(AplicacaoBack):
             #Buscando o tipo de OS no Banco de Dados, se é Nova ou Retrabalho
             self.cursorServer.execute('select Tipo from pausa_funcionarios where ID ='+self.tuplaSelect[0])
             valido = self.cursorServer.fetchall()
-            print(valido)
+
             #Armazenando imagem com visto - Imagem de Selecionado
             self.checkSelect = PhotoImage(file='img/verifica.png')
             
             if len(valido) == 1:
                 
                 #Verificando se o tipo de OS armazenada no Banco de Dados é Nova OS ou Retrabalho
-                if valido[0] == 'Nova OS':
+                if valido[0][0] == 'Nova OS':
                 
                     self.novoSelect['image'] = self.checkSelect
                     self.tipo = 'Nova OS'
 
-                elif valido[0] == 'Retrabalhar OS':
+                elif valido[0][0] == 'Retrabalhar OS':
                             
                     self.retrabalhoSelect['image'] = self.checkSelect
                     self.tipo = 'Retrabalhar OS'
