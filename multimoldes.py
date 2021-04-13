@@ -2545,21 +2545,23 @@ class AplicacaoFront(AplicacaoBack):
         style2 = ttk.Style()
         style2.configure('Treeview', font=('arial', 13))
         
-        lista = ttk.Treeview(self.janelaOsPendente, column=("1","2","3","4","5","6"), show='headings')
+        lista = ttk.Treeview(self.janelaOsPendente, column=("1","2","3","4","5","6","7"), show='headings')
         
         lista.heading("1", text='ID')
         lista.heading("2", text='O.S')
-        lista.heading("3", text='Nº de Peça')
+        lista.heading("3", text='Peça')
         lista.heading("4", text='Operação')
-        lista.heading("5", text='Pausado')
-        lista.heading("6", text='Data')
+        lista.heading("5", text='Quant.')
+        lista.heading("6", text='Pausado')
+        lista.heading("7", text='Data')
         
         lista.column("1", width=-50, anchor='n')
         lista.column("2", width=-30, anchor='n')
         lista.column("3", width=10, anchor='n')
         lista.column("4", width=13, anchor='n')
-        lista.column("5", width=50, anchor='n')
-        lista.column("6", width=20, anchor='n')
+        lista.column("5", width=-10, anchor='n')
+        lista.column("6", width=50, anchor='n')
+        lista.column("7", width=20, anchor='n')
         
         lista.place(relx=0.300, rely=0, relwidth=0.670, relheight=1)
         
@@ -2570,7 +2572,7 @@ class AplicacaoFront(AplicacaoBack):
         self.cursorServer.execute('use empresa_funcionarios')
         
         #executando cursor com o banco de dados para verificar novamente se existe os pausadas não finalizadas
-        self.cursorServer.execute("select id, OS, codigoPeca, CodigoOperacao, motivoPause, DataPause from pausa_funcionarios where cpf ="+str(self.user)+" and horaRetomada = 0")
+        self.cursorServer.execute("select id, OS, codigoPeca, CodigoOperacao, Quant, motivoPause, DataPause from pausa_funcionarios where cpf ="+str(self.user)+" and horaRetomada = 0")
         valido = self.cursorServer.fetchall()
         
         #se valido for igual a 1 ou mais, significa que o funcionário possui
@@ -2588,10 +2590,11 @@ class AplicacaoFront(AplicacaoBack):
                 os = pendente[i][1]
                 peca = pendente[i][2]
                 operacao = pendente[i][3]
-                motivoPause = pendente[i][4]
-                data = pendente[i][5]
+                quantidade = pendente[i][4]
+                motivoPause = pendente[i][5]
+                data = pendente[i][6]
                 
-                lista.insert("", "end", values=(idd, os, peca, operacao, motivoPause, data))
+                lista.insert("", "end", values=(idd, os, peca, operacao, quantidade, motivoPause, data))
 
         def os_select():
             
@@ -2607,6 +2610,7 @@ class AplicacaoFront(AplicacaoBack):
             self.campoServico.delete(0, END)
             self.campoPeca.delete(0, END)
             self.campoOperacao.delete(0, END)
+            self.campQuantidadePeca.delete(0, END)
             
             #Armazenando a OS selecionada numa variável e inserindo em um campo de texto
             self.campoServico.insert(0, self.tuplaSelect[1])
@@ -2617,10 +2621,13 @@ class AplicacaoFront(AplicacaoBack):
             #Armazenando o Código de Operação selecionado em uma variável e inserindo em um campo de texto
             self.campoOperacao.insert(0, self.tuplaSelect[3])
             
+            #Armazenando Quantidade de Peça selecionado em uma variável e inserindo em um campo de texto
+            self.campQuantidadePeca.insert(0, self.tuplaSelect[4])
+            
             #Buscando o tipo de OS no Banco de Dados, se é Nova ou Retrabalho
             self.cursorServer.execute('select Tipo from pausa_funcionarios where ID ='+self.tuplaSelect[0])
             valido = self.cursorServer.fetchall()
-
+            print(valido)
             #Armazenando imagem com visto - Imagem de Selecionado
             self.checkSelect = PhotoImage(file='img/verifica.png')
             
@@ -2632,7 +2639,7 @@ class AplicacaoFront(AplicacaoBack):
                     self.novoSelect['image'] = self.checkSelect
                     self.tipo = 'Nova OS'
 
-                else:
+                elif valido[0] == 'Retrabalhar OS':
                             
                     self.retrabalhoSelect['image'] = self.checkSelect
                     self.tipo = 'Retrabalhar OS'
