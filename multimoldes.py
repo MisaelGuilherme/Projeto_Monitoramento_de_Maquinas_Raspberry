@@ -289,7 +289,7 @@ class AplicacaoBack():
         
         if int(self.tempHora) == 0:
             self.ho = 0
-            print(f'Metade Hora Extra {self.ho}', end='')
+            print(f'Metade Hora Extra {self.ho}:', end='')
             if int(self.tempMin) == 0:
                 self.mi = 0
                 self.se = 0
@@ -1581,7 +1581,7 @@ class AplicacaoBack():
                 if self.tempExtraGastoB + int(self.minuC) >= 60:
                     self.tempExtraGastoA += 1
                     self.tempExtraGastoB = (int(self.tempExtraGastoB) + int(self.minuC)) - 60
-                else:
+                elif not self.tempoEsgotado:
                     self.tempExtraGastoA += int(self.houC)
                     self.tempExtraGastoB += int(self.minuC)
                     self.tempExtraGastoC = int(self.secC)
