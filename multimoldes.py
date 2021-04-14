@@ -785,7 +785,7 @@ class AplicacaoBack():
                     print(f'{self.mi}:{self.se}')
             
             if opcao == 1:
-                self.backup = str(self.tempHora)+':'+str(self.tempMin)+':'+str(self.tempSeg)
+                self.backup = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
 
             #Mostrando o tempo Programado através do label
             self.tempoProgramado = Label(self.frameLeft, text='Tempo Programado:', font=('arial', 17, 'bold'), bg='#135565', fg='white')
