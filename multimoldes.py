@@ -1803,7 +1803,7 @@ class AplicacaoBack():
             if self.tempExtraGastoB+ int(self.minuC) >= 60:
                 self.tempExtraGastoA += 1
                 self.tempExtraGastoB -= (int(self.tempExtraGastoB) + int(self.minuC)) - 60
-            else:
+            elif not self.tempoEsgotado:
                 self.tempExtraGastoA += int(self.houC)
                 self.tempExtraGastoB += int(self.minuC)
                 self.tempExtraGastoC = int(self.secC)
