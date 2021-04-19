@@ -1532,7 +1532,7 @@ class AplicacaoBack():
         #gpio.output(24, gpio.LOW)
         
         #Mostrando o botão sair ao iniciar operação
-        self.frameBotSair.place(x=1180, y=20)
+        self.frameBotSair.place(relx=0.920, rely=0.130)
         
         #Se a chaveFinalizar for verdadeira, o cronômetro para com a contagem
         if self.chaveFinalizar == True:
@@ -1702,7 +1702,7 @@ class AplicacaoBack():
         
         sistemaOperacional = system()
         if sistemaOperacional == 'Windows':
-            self.janelaPause.iconbitmap('img/multimoldes-icon.ico')
+            self.janelaPause.wm_iconphoto(True, self.icone)
 
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(600, 600, self.janelaPause)
@@ -1767,7 +1767,7 @@ class AplicacaoBack():
         self.botFramePausar.destroy()
         
         #Mostrando o botão sair ao iniciar operação
-        self.frameBotSair.place(x=1180, y=20)
+        self.frameBotSair.place(relx=0.920, rely=0.130)
         
         #Variável que irá habilitar a porta para pode executar a máquina (True=Ligado, False=Desligado)
         #gpio.output(24, gpio.LOW)
@@ -2213,7 +2213,7 @@ class AplicacaoFront(AplicacaoBack):
         
         sistemaOperacional = system()
         if sistemaOperacional == 'Windows':
-            self.janelaADM.iconbitmap('img/multimoldes-icon.ico')
+            self.janelaADM.wm_iconphoto(True, self.icone)
         
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(600, 600, self.janelaADM)
@@ -2262,7 +2262,7 @@ class AplicacaoFront(AplicacaoBack):
 
         sistemaOperacional = system()
         if sistemaOperacional == 'Windows':
-            self.janelaTempExtra.iconbitmap('img/multimoldes-icon.ico')
+            self.janelaTempExtra.wm_iconphoto(True, self.icone)
         
         #Chamando Função Para Centralizar a Tela
         self.centraliza_tela(550, 350, self.janelaTempExtra)
