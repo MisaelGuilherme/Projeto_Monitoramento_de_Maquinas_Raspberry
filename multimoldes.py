@@ -2120,7 +2120,7 @@ class AplicacaoFront(AplicacaoBack):
         
         self.imgFun = PhotoImage(data=base64.b64decode(self.imagemLogoMultimoldesBase64))
         
-        self.frameLogin = Frame(self.janelaFuncio, width=500, height=600, bg='white')
+        self.frameLogin = Frame(self.janelaFuncio, width=700, height=600, bg='white')
         self.frameLogin.pack()
 
         self.imagemPricipalFun = Label(self.frameLogin, image=self.imgFun, bg='white')
@@ -2165,6 +2165,15 @@ class AplicacaoFront(AplicacaoBack):
         self.campoSenha = Entry(self.frameLogin, width=13, show='l', font=('wingdings', 16, 'bold'), textvariable=cSenha, border=2, relief=GROOVE)
         self.campoSenha.place(relx=0.25, rely=0.550)
         self.campoSenha.bind("<Return>", self.confirmar_tela_funcionario)
+        
+        def limpar_campos_login():
+            
+            self.campoLogin.delete(0, END)
+            self.campoSenha.delete(0, END)
+            self.campoLogin.focus_force()
+        
+        self.botLimparCamposLogin = Button(self.frameLogin, text='Limpar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 14, 'bold'), width=8, command=limpar_campos_login)
+        self.botLimparCamposLogin.place(relx=0.770, rely=0.500)
 
         self.botao = Button(self.frameLogin, text='Confirmar', fg='white', activeforeground='white', bg='#3e8e94', activebackground='#3e8e94', border=0, font=('arial', 18, 'bold'), width=10, command = lambda: self.confirmar_tela_funcionario(self.confirmar_tela_funcionario))
         self.botao.place(relx=0.370, rely=0.700)
