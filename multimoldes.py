@@ -1622,7 +1622,8 @@ class AplicacaoBack():
                                     +str(self.chaveTempExtra)+"','"
                                     +self.tempOperando+"','"
                                     +self.tipo+"','"
-                                    +self.quant+"')")
+                                    +self.quant+"','"
+                                    +self.nMaquina+"')")
                                     
                 self.bancoServer.commit()
                 
@@ -1652,7 +1653,8 @@ class AplicacaoBack():
                                         +str(self.chaveTempExtra)+"','"
                                         +self.tempOperando+"','"
                                         +self.tipo+"','"
-                                        +self.quant+"')")
+                                        +self.quant+"','"
+                                        +self.nMaquina+"')")
                         
                         self.bancoLocal.commit()
                         
@@ -1844,7 +1846,8 @@ class AplicacaoBack():
                                       +str(self.dateInicial)+"','"
                                       +self.tempOperando+"','"
                                       +self.tipo+"','"
-                                      +self.quant+"')")
+                                      +self.quant+"','"
+                                      +self.nMaquina+"')")
             
             self.bancoServer.commit()
             
@@ -1873,7 +1876,8 @@ class AplicacaoBack():
                                      +str(self.dateInicial)+"','"
                                      +self.tempOperando+"','"
                                      +self.tipo+"','"
-                                     +self.quant+"')")
+                                     +self.quant+"','"
+                                     +self.nMaquina+"')")
             
             self.bancoLocal.commit()
             
@@ -2126,6 +2130,10 @@ class AplicacaoFront(AplicacaoBack):
         
         self.frameLogin = Frame(self.janelaFuncio, width=700, height=600, bg='white')
         self.frameLogin.pack()
+        
+        self.nMaquina = 'Máquina 01'
+        self.lbMaquina = Label(self.janelaFuncio, text=self.nMaquina, bg='white', fg='#3e8e94', font=('arial',18,'bold'))
+        self.lbMaquina.place(relx=0.870, rely=0.030)
 
         self.imagemPricipalFun = Label(self.frameLogin, image=self.imgFun, bg='white')
         self.imagemPricipalFun.place(relx=0.400, rely=0.05)

@@ -29,7 +29,8 @@ def create_tabels():
                                 VezTempExt varchar(8) NOT NULL DEFAULT '0',
                                 TempOperando varchar(8) NOT NULL DEFAULT '00:00:00',
                                 Tipo varchar(15) NOT NULL DEFAULT '',
-                                Quant int(4) NOT NULL DEFAULT 1)
+                                Quant int(4) NOT NULL DEFAULT 1,
+                                Maquina varchar(10) NOT NULL DEFAULT 'Máquina 00')
                                 
                             ''')
         
@@ -59,7 +60,8 @@ def create_tabels():
                                 Data_Inicial varchar(10) NOT NULL DEFAULT '00/00/0000',
                                 TempOperando varchar(8) NOT NULL DEFAULT '00:00:00',
                                 Tipo varchar(14) NOT NULL DEFAULT '',
-                                Quant int(4) NOT NULL DEFAULT 1)
+                                Quant int(4) NOT NULL DEFAULT 1,
+                                Maquina varchar(10) NOT NULL DEFAULT 'Máquina 00')
                             
                             ''')
         
