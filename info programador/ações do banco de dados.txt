@@ -1,9 +1,0 @@
-nome do operador
-horário de login
-horário de logout
-horário que apertou o botão
-horário que a máquina foi acionada
-número da peça
-tempo programado
-tempo que levou
-desempenho

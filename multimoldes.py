@@ -482,7 +482,7 @@ class AplicacaoBack():
             return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Os Campos Precisam ser Numéricos!')
         
         #Buscando o Código de Peça no banco de dados
-        self.cursorServer.execute("select codigo from pecas_codigo where codigo = "+self.campoPeca.get())
+        self.cursorServer.execute("select codigo, hora, minuto from pecas_codigo where codigo = "+self.campoPeca.get())
         valido = self.cursorServer.fetchall()
         
             
@@ -491,7 +491,11 @@ class AplicacaoBack():
             
             #Exibindo mensagem alertando que o Código de Peça não foi encontrado
             return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Código não Encontrado!')
-        
+
+        elif int(valido[0][1]) == 0 and int(valido[0][2]) == 0:
+            
+            #Exibindo mensagem alertando que o Código de Peça não foi encontrado
+            return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Hora Programada Inválida para Operação!')
         
         #Buscando no banco de dados se existe a OS digitada e o Código de Peça em modo pausado
         self.cursorServer.execute('select ID from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0')

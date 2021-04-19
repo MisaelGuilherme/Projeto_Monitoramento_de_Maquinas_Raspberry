@@ -1,7 +1,0 @@
-as variaveis self.houC é o tempo real só que em decimal
-
-as variaveis h, m, s são o mesmo tempo real mas só que de modo inteiro
-
-as variaveis, ho, mi, se são a metade do tempo
-
-as variaveis tempHora, tempMin, tempSeg, é o tempo fixo baixada do banco em String
