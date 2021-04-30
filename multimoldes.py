@@ -103,7 +103,7 @@ class AplicacaoBack():
             
             self.bancoServer = mysql.connector.connect(
                 
-                host = "localhost",
+                host = "10.0.0.65",
                 user = "MultimoldesClient",
                 password = "",
                 database="empresa_funcionarios")
@@ -114,7 +114,7 @@ class AplicacaoBack():
             self.bancoCriado = True
             self.bancoConect = self.bancoServer.is_connected()
         
-        except:
+        except Exception as erro:
             print('Ocorreu um erro ao tentar conectar-se ao banco de dados')
 
     def conection_database_close(self):
