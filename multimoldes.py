@@ -1060,7 +1060,7 @@ class AplicacaoBack():
             self.chaveControle = True
             
             #Variável que irá habilitar a porta para pode executar a máquina
-            #gpio.output(24, gpio.HIGH)
+            #gpio.output(40, gpio.HIGH)
             
         #Congfigurando os segundos do temporizador
         
@@ -1395,7 +1395,7 @@ class AplicacaoBack():
             self.tempoEsgotado = True
             
             #Variável que irá habilitar a porta para pode executar a máquina
-            #gpio.output(24, gpio.LOW)
+            #gpio.output(40, gpio.LOW)
             
             if self.ativaMensagem == 2 and int(self.tempMin) >= 6:
                 self.mensag2.destroy()
@@ -1533,7 +1533,7 @@ class AplicacaoBack():
         self.osfinalizada = True
         
         #Variável que irá habilitar a porta para pode executar a máquina
-        #gpio.output(24, gpio.LOW)
+        #gpio.output(40, gpio.LOW)
         
         #Mostrando o botão sair ao iniciar operação
         self.frameBotSair.place(relx=0.920, rely=0.130)
@@ -1776,7 +1776,7 @@ class AplicacaoBack():
         self.frameBotSair.place(relx=0.920, rely=0.130)
         
         #Variável que irá habilitar a porta para pode executar a máquina (True=Ligado, False=Desligado)
-        #gpio.output(24, gpio.LOW)
+        #gpio.output(40, gpio.LOW)
         
         #Se a função de piscar o led estiver ligada ela será desligada com a variável de controle "desligarfuncaoLed"
         if self.ledPiscando == True and self.desligarfuncaoLed == False:
@@ -1919,7 +1919,7 @@ class AplicacaoBack():
             self.chaveFinalizar = False
             
             #Variável que irá habilitar a porta para pode executar a máquina
-            #gpio.output(24, gpio.HIGH)
+            #gpio.output(40, gpio.HIGH)
             
             if self.chaveTempExtra != 0:
                 
