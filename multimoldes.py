@@ -498,7 +498,7 @@ class AplicacaoBack():
             return messagebox.showerror(parent=self.janelaOper, title='Alerta', message='Hora Programada Inválida para Operação!')
         
         #Buscando no banco de dados se existe a OS digitada e o Código de Peça em modo pausado
-        self.cursorServer.execute('select ID from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0')
+        self.cursorServer.execute('select ID from pausa_funcionarios where OS ='+self.campoServico.get()+' and codigoPeca = '+self.campoPeca.get()+' and CodigoOperacao = '+self.campoOperacao.get()+' and horaRetomada = 0 and dataRetomada = 0000-00-00')
         checar = self.cursorServer.fetchall()
         
         #Se ao ler a variável "checar" o valor for maior ou igual a 1, provavelmente existe no banco de dados
@@ -1035,7 +1035,7 @@ class AplicacaoBack():
                 
                 #Atribuindo a Hora Incial atual e a Data Inicial atual nas respectivas variáveis
                 self.horaInicial = time = datetime.now().time().strftime('%H:%M:%S')
-                self.dateInicial = datetime.now().date().strftime('%d/%m/%Y')
+                self.dateInicial = datetime.now().date()
                 
                 self.objetos_cores('green', 'white')
                 
@@ -1569,7 +1569,7 @@ class AplicacaoBack():
             
             #Atribuindo a Hora Final atual e a Data Final atual nas respectivas variáveis
             horaFinal = time
-            dateFinal = datetime.now().date().strftime('%d/%m/%Y')
+            dateFinal = datetime.now().date()
             
             #Se self.chaveTempExtra for 0, então não houve adcionamento de tempo extra
             if self.chaveTempExtra == 0:
@@ -1792,7 +1792,7 @@ class AplicacaoBack():
         
         #Capturando a hora inicial e a data atual em que o modo pause foi iniciado, em seguida inserir no banco de dados
         horaPause = datetime.now().time().strftime('%H:%M:%S')
-        datePause = datetime.now().date().strftime('%d/%m/%Y')
+        datePause = datetime.now().date()
         
         #Se self.chaveTempExtra for 0, então não houve adcionamento de tempo extra
         if self.chaveTempExtra == 0:
@@ -1888,20 +1888,20 @@ class AplicacaoBack():
             
             #Capturando a hora e a data atual em que a OS foi despausada, em seguida inserir no banco de dados
             horaRetomada = datetime.now().time().strftime('%H:%M:%S')
-            dateFinal = datetime.now().date().strftime('%d/%m/%Y')
+            dateFinal = datetime.now().date()
 
             #Atualizando Banco de Dados Local com data e hora retomada após função despausar for invocada
-            self.cursorLocal.execute("update OS_Pausadas set DataRetomada = '"+dateFinal+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and DataRetomada = 0 ")
-            self.bancoLocal.commit()
+            #self.cursorLocal.execute("update OS_Pausadas set DataRetomada = '"+dateFinal+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and DataRetomada = 0000-00-00 ")
+            #self.bancoLocal.commit()
             
-            self.cursorLocal.execute("update OS_Pausadas set HoraRetomada = '"+horaRetomada+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
-            self.bancoLocal.commit()
+            #self.cursorLocal.execute("update OS_Pausadas set HoraRetomada = '"+horaRetomada+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
+            #self.bancoLocal.commit()
             
             #Atualizando Banco de Dados Server com data e hora retomada após função despausar for invocada
-            self.cursorServer.execute("update pausa_funcionarios set DataRetomada = '"+dateFinal+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and DataRetomada = 0 ")
+            self.cursorServer.execute("update pausa_funcionarios set DataRetomada = '"+str(dateFinal)+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and DataRetomada = 0000-00-00 ")
             self.bancoServer.commit()
             
-            self.cursorServer.execute("update pausa_funcionarios set HoraRetomada = '"+horaRetomada+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
+            self.cursorServer.execute("update pausa_funcionarios set HoraRetomada = '"+str(horaRetomada)+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
             self.bancoServer.commit()
             
         #Excessão carro algum erro ocorra um mensagebox aparecerá informando o corrido
