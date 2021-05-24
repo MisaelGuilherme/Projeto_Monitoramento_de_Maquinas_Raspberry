@@ -1035,7 +1035,7 @@ class AplicacaoBack():
                 
                 #Atribuindo a Hora Incial atual e a Data Inicial atual nas respectivas variáveis
                 self.horaInicial = time = datetime.now().time().strftime('%H:%M:%S')
-                self.dateInicial = datetime.now().date()
+                self.dateInicial = str(datetime.now().date())
                 
                 self.objetos_cores('green', 'white')
                 
@@ -1569,7 +1569,7 @@ class AplicacaoBack():
             
             #Atribuindo a Hora Final atual e a Data Final atual nas respectivas variáveis
             horaFinal = time
-            dateFinal = datetime.now().date()
+            dateFinal = str(datetime.now().date())
             
             #Se self.chaveTempExtra for 0, então não houve adcionamento de tempo extra
             if self.chaveTempExtra == 0:
@@ -1610,9 +1610,9 @@ class AplicacaoBack():
                                     +str(self.user)+"','"
                                     +str(self.horaLogin)+"','"
                                     +str(self.horaInicial)+"','"
-                                    +str(self.dateInicial)+"','"
+                                    +self.dateInicial+"','"
                                     +str(horaFinal)+"','"
-                                    +str(dateFinal)+"','"
+                                    +dateFinal+"','"
                                     +self.tempGasto+"','"
                                     +str(self.tempProg)+"','"
                                     +self.numOS+"','"
@@ -1641,9 +1641,9 @@ class AplicacaoBack():
                                         +str(self.user)+"','"
                                         +str(self.horaLogin)+"','"
                                         +str(self.horaInicial)+"','"
-                                        +str(self.dateInicial)+"','"
+                                        +self.dateInicial+"','"
                                         +str(horaFinal)+"','"
-                                        +str(dateFinal)+"','"
+                                        +dateFinal+"','"
                                         +self.tempGasto+"','"
                                         +str(self.tempProg)+"','"
                                         +self.numOS+"','"
@@ -1843,7 +1843,7 @@ class AplicacaoBack():
                                       +corTela+"','"
                                       +str(self.horaLogin)+"','"
                                       +str(self.horaInicial)+"','"
-                                      +str(self.dateInicial)+"','"
+                                      +self.dateInicial+"','"
                                       +self.tempOperando+"','"
                                       +self.tipo+"','"
                                       +self.quant+"','"
@@ -1873,7 +1873,7 @@ class AplicacaoBack():
                                      +corTela+"','"
                                      +str(self.horaLogin)+"','"
                                      +str(self.horaInicial)+"','"
-                                     +str(self.dateInicial)+"','"
+                                     +self.dateInicial+"','"
                                      +self.tempOperando+"','"
                                      +self.tipo+"','"
                                      +self.quant+"','"
@@ -1888,7 +1888,7 @@ class AplicacaoBack():
             
             #Capturando a hora e a data atual em que a OS foi despausada, em seguida inserir no banco de dados
             horaRetomada = datetime.now().time().strftime('%H:%M:%S')
-            dateFinal = datetime.now().date()
+            dateRetomada = str(datetime.now().date())
 
             #Atualizando Banco de Dados Local com data e hora retomada após função despausar for invocada
             #self.cursorLocal.execute("update OS_Pausadas set DataRetomada = '"+dateFinal+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and DataRetomada = 0000-00-00 ")
@@ -1898,7 +1898,7 @@ class AplicacaoBack():
             #self.bancoLocal.commit()
             
             #Atualizando Banco de Dados Server com data e hora retomada após função despausar for invocada
-            self.cursorServer.execute("update pausa_funcionarios set DataRetomada = '"+str(dateFinal)+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and DataRetomada = 0000-00-00 ")
+            self.cursorServer.execute("update pausa_funcionarios set DataRetomada = '"+dateRetomada+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and DataRetomada = 0000-00-00 ")
             self.bancoServer.commit()
             
             self.cursorServer.execute("update pausa_funcionarios set HoraRetomada = '"+str(horaRetomada)+"' where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = 0 ")
@@ -1972,7 +1972,7 @@ class AplicacaoBack():
                 #Armazenando os dados capturados nas variáveis
                 self.horaLogin = valido[0][0]
                 self.horaInicial = valido[0][1]
-                self.dateInicial = valido[0][2]
+                self.dateInicial = str(valido[0][2])
             
             #Varável que indica quando cronômetro parar, se é parou porque finalizou ou por pausa, usada nas funções mais abaixo
             self.tempoPausado = False
