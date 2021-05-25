@@ -397,11 +397,13 @@ class AplicacaoBack():
         #Armazenando na variável já formatado
         self.tempProgExt = self.transformar_tempo_decimal(self.tempHora, self.tempMin, self.tempSeg)
         
-        self.vezes = Label(self.frameLeft, text='x'+str(self.chaveTempExtra), width=2, font=('arial', 15, 'bold'), bg='#870000', fg='white')
+        self.vezes['text'] = 'x'+str(self.chaveTempExtra)
+        self.vezes['bg'] = '#870000'
         self.vezes.place(relx=0.950, rely=0.700)
         
         #Exibindo no label o horário adcionado após o tempo ser esgotado
-        self.campoProExt = Label(self.frameLeft, text=self.tempProgExt, width=8, font=('arial', 15, 'bold'), bg='white', fg='red')
+        
+        self.campoProExt['text'] = self.tempProgExt
         self.campoProExt.place(relx=0.810, rely=0.700)
         
         self.frameBotIniciar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
@@ -667,12 +669,12 @@ class AplicacaoBack():
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar o contador de vezes irá retomar com o valor de onde parou
                         self.chaveTempExtra = valido[0][1]
                         
-                        self.vezes = Label(self.frameLeft, text='x'+str(self.chaveTempExtra), width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
-                        self.vezes.place(x=750, y=400)
-                                
-                        #Exibindo no label o horário adcionado após o tempo ser esgotado
-                        self.campoProExt = Label(self.frameLeft, text=self.UltimoTempAdd, width=8, font=('arial', 15, 'bold'), bg='white', fg='red')
-                        self.campoProExt.place(x=640, y=400)
+                        self.vezes['text'] = 'x'+str(self.chaveTempExtra)
+                        self.vezes.place(relx=0.950, rely=0.700)
+                        
+                        self.campoProExt['text'] = self.UltimoTempAdd
+                        self.campoProExt.place(relx=0.810, rely=0.700)
+                        
                     
                     #Armazenando na variável o tempo marcado quando pausado
                     marcaTemp = str(valido[0][4])
@@ -968,6 +970,10 @@ class AplicacaoBack():
                 self.Led_OFF_ON = 0
                 self.piscar_led()
         
+        if self.chaveTempExtra >= 1:
+            self.vezes['bg'] = cor1
+            self.vezes['fg'] = cor2
+            
         self.frameTop['bg'] = cor1
         self.frameLeft['bg'] = cor1
         self.frameRight['bg'] = cor1
@@ -988,10 +994,6 @@ class AplicacaoBack():
         self.frameRetrabalho['bg'] = cor1
         self.retrabalhoOS['bg'] = cor1
         self.retrabalhoSelect['bg'] = cor1
-        
-        if self.chaveTempExtra >= 1:
-            self.vezes['bg'] = cor1
-            self.vezes['fg'] = cor2
         
         self.operadorNome['fg'] = cor2
         self.operadorNomeUser['fg'] = cor2
@@ -2517,6 +2519,11 @@ class AplicacaoFront(AplicacaoBack):
         self.campoOperacao = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOper, justify=CENTER)
         self.campoOperacao.place(relx=0.455, rely=0.510)
         self.campoOperacao.bind("<Return>", self.confirmarCampos)
+        
+        #(Tela Operativa) - LABELS QUE IMPRIMEM O TEMPO EXTRA QUANDO HOUVER
+        self.vezes = Label(self.frameLeft, width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
+        
+        self.campoProExt = Label(self.frameLeft, width=8, font=('arial', 15, 'bold'), bg='white', fg='red')
         
         self.botConfirmar = Button(self.frameLeft, text='Confirmar', fg='white', activebackground='orange', activeforeground='white', border=0, width=10, font=('arial', 15,'bold'), bg='orange', command=lambda:self.confirmarCampos(self.confirmarCampos))
         self.botConfirmar.place(relx=0.455, rely=0.790)
