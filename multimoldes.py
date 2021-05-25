@@ -628,10 +628,11 @@ class AplicacaoBack():
                     verificandoTempExtra = valido[0][1]
                     
                     #Se for maior ou igual a 1 significa que o tempo que será adcionado e contado será do Tempo Extra restante
-                    if int(verificandoTempExtra) >= 1:
+                    if verificandoTempExtra >= 1:
                         
                         #Desfragmentando Tempo Extra já gasto pelo funcionário
-                        tempo = valido[0][2]
+                        tempo = str(valido[0][2])
+                        
                         for v in tempo:
                             if v != ':':
                                 listaNum += v
@@ -645,7 +646,7 @@ class AplicacaoBack():
                         self.tempExtraGastoC += 0
                         
                         #Desfragmentando o Último Tempo Adicionado tempo extra do banco de dados
-                        t = valido[0][3]
+                        t = str(valido[0][3])
                         for num in t:
                             if num != ':':
                                 li += num
@@ -661,10 +662,10 @@ class AplicacaoBack():
                         self.tempSeg = liDesfragment[2]
                         
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar irá continuar sendo tempo extra e o último tempo Adcionado
-                        self.UltimoTempAdd = valido[0][3]
+                        self.UltimoTempAdd = str(valido[0][3])
 
                         #Quando pausado, se o tempo adcionado era tempo extra, então ao retomar o contador de vezes irá retomar com o valor de onde parou
-                        self.chaveTempExtra = int(valido[0][1])
+                        self.chaveTempExtra = valido[0][1]
                         
                         self.vezes = Label(self.frameLeft, text='x'+str(self.chaveTempExtra), width=2, font=('arial', 15, 'bold'), bg='#135565', fg='white')
                         self.vezes.place(x=750, y=400)
@@ -674,7 +675,7 @@ class AplicacaoBack():
                         self.campoProExt.place(x=640, y=400)
                     
                     #Armazenando na variável o tempo marcado quando pausado
-                    marcaTemp = valido[0][4]
+                    marcaTemp = str(valido[0][4])
                     
                     #Criando variável para obter o tempo marcado sem ser na forma de horário 00: 00: 00
                     self.tempoDePauseObtido = ''
@@ -686,7 +687,7 @@ class AplicacaoBack():
                         else:
                             self.tempoDePauseObtido +=' '
                     
-                    self.backup = valido[0][5]
+                    self.backup = str(valido[0][5])
                 
                     
             if int(self.tempHora) == 0:
@@ -848,7 +849,7 @@ class AplicacaoBack():
                 
                 #Configurando contagem de operagem com os dados salvos da pausagem
                 tempoOperador = ''
-                self.tempOperando = valido[0][6]
+                self.tempOperando = str(valido[0][6])
                 
                 #Formatando o dado extraído do banco de dados
                 for elemento in self.tempOperando:
@@ -1605,6 +1606,8 @@ class AplicacaoBack():
             self.botReiniciar = Button(self.frameBotReiniciar, text='NOVO.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 20, 'bold'), width=12, command = lambda: self.nova_tela_operacao())
             self.botReiniciar.pack()
             
+            #Convertendo para String para concatenação
+            self.chaveTempExtra = str(self.chaveTempExtra)
             
             #Enviando todos os dados ao banco
             try:
@@ -1618,12 +1621,12 @@ class AplicacaoBack():
                                     +horaFinal+"','"
                                     +dateFinal+"','"
                                     +self.tempGasto+"','"
-                                    +str(self.tempProg)+"','"
+                                    +self.tempProg+"','"
                                     +self.numOS+"','"
                                     +self.codP+"','"
                                     +self.numOper+"','"
-                                    +str(self.tempExtraGasto)+"','"
-                                    +str(self.chaveTempExtra)+"','"
+                                    +self.tempExtraGasto+"','"
+                                    +self.chaveTempExtra+"','"
                                     +self.tempOperando+"','"
                                     +self.tipo+"','"
                                     +self.quant+"','"
@@ -1649,12 +1652,12 @@ class AplicacaoBack():
                                         +horaFinal+"','"
                                         +dateFinal+"','"
                                         +self.tempGasto+"','"
-                                        +str(self.tempProg)+"','"
+                                        +self.tempProg+"','"
                                         +self.numOS+"','"
                                         +self.codP+"','"
                                         +self.numOper+"','"
-                                        +str(self.tempExtraGasto)+"','"
-                                        +str(self.chaveTempExtra)+"','"
+                                        +self.tempExtraGasto+"','"
+                                        +self.chaveTempExtra+"','"
                                         +self.tempOperando+"','"
                                         +self.tipo+"','"
                                         +self.quant+"','"
@@ -1831,6 +1834,9 @@ class AplicacaoBack():
         self.botDespausar = Button(self.botFrameRetomar, text='RETOMAR.OS', bg='#035700', fg='white', activebackground='#035700', activeforeground='white', relief='flat', font=('arial', 22, 'bold'), width=13, command = lambda: self.contagem_despausar(1))
         self.botDespausar.pack()            
             
+        #Convertendo para String para concatenação
+        self.chaveTempExtra = str(self.chaveTempExtra)
+            
         try:
             self.cursorServer.execute("insert into pausa_funcionarios VALUES('id','"
                                       +str(self.operador)+"','"
@@ -1844,9 +1850,9 @@ class AplicacaoBack():
                                       +self.tempoMarcado+"','"
                                       +self.tempGasto+"','"
                                       +self.tempExtraGasto+"','"
-                                      +str(self.chaveTempExtra)+"','"
-                                      +str(self.UltimoTempAdd)+ "','"
-                                      +str(self.tempProg)+"','"
+                                      +self.chaveTempExtra+"','"
+                                      +self.UltimoTempAdd+ "','"
+                                      +self.tempProg+"','"
                                       +corTela+"','"
                                       +self.horaLogin+"','"
                                       +self.horaInicial+"','"
@@ -1861,7 +1867,7 @@ class AplicacaoBack():
             messagebox.showinfo(parent=self.janelaOper, title='DATABASE SERVER', message='O.S Pausada! Operação salva.')
             
         except Exception as erro:
-            
+            return print(erro)
             self.cursorLocal.execute("insert into OS_Pausadas VALUES('id','"
                                      +str(self.operador)+"','"
                                      +self.user+"','"
@@ -1874,9 +1880,9 @@ class AplicacaoBack():
                                      +self.tempoMarcado+"','"
                                      +self.tempGasto+"','"
                                      +self.tempExtraGasto+"','"
-                                     +str(self.chaveTempExtra)+"','"
-                                     +str(self.UltimoTempAdd)+ "','"
-                                     +str(self.tempProg)+"','"
+                                     +self.chaveTempExtra+"','"
+                                     +self.UltimoTempAdd+ "','"
+                                     +self.tempProg+"','"
                                      +corTela+"','"
                                      +self.horaLogin+"','"
                                      +self.horaInicial+"','"
@@ -1947,6 +1953,9 @@ class AplicacaoBack():
             
             #Se o parâmetro passado for 1: irá criar antecipadamente os botões FINALIZAR E PAUSAR
             if despause == 1:
+                
+                #Convertendo para Inteiro
+                self.chaveTempExtra = int(self.chaveTempExtra)
                 
                 #Escondendo o botão sair ao iniciar operação
                 try:
@@ -2564,7 +2573,7 @@ class AplicacaoFront(AplicacaoBack):
         self.tempExtraGastoB = 0
         self.tempExtraGastoC = 0       
         
-        self.UltimoTempAdd = 0 
+        self.UltimoTempAdd = '00:00:00' 
         
         self.bteste = 5
         
