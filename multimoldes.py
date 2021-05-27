@@ -1181,7 +1181,7 @@ class AplicacaoBack():
                     print('Parte 1 A')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto(s)', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
-                    self.mensag.place(x=160, y=400)
+                    self.mensag.place(relx=0.270, rely=0.700)
                     self.ativ = 1
                 
                 elif m + c == int(self.tempMin) and h == int(self.tempHora) and int(self.tempMin) <= 5:
@@ -1208,7 +1208,7 @@ class AplicacaoBack():
                     print('Parte 3 A')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto(s)', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
-                    self.mensag.place(x=160, y=400)
+                    self.mensag.place(relx=0.270, rely=0.700)
                     self.ativ = 1                  
                 
                 elif h == int(self.tempHora) - 1 and int(self.tempMin) == 0 and m + c == 60:
@@ -1248,7 +1248,7 @@ class AplicacaoBack():
                     print('Parte 1 B')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto(s)', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
-                    self.mensag.place(x=160, y=400)
+                    self.mensag.place(relx=0.270, rely=0.700)
                     self.ativ = 1
                 
                 #Condição responsável por verificar a cada segundo quantos minutos falta
@@ -1261,7 +1261,7 @@ class AplicacaoBack():
                 if h == 0 and int(self.tempMin) == 1 and m == 56 and s == 0 and c == 5 or h == 0 and int(self.tempMin) == 1 and c+valueM==61 and m == valueM and s == valueS+1 and iniciaCont == 2:
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto(s)', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
-                    self.mensag.place(x=160, y=400)
+                    self.mensag.place(relx=0.270, rely=0.700)
                     self.ativ = 1
                     if iniciaCont == 2:
                         self.bteste = c
@@ -1276,7 +1276,7 @@ class AplicacaoBack():
                 if h == 0 and int(self.tempMin) == 2 and m == 57 and s == 0 and c == 5 or h == 0 and int(self.tempMin) == 2 and c+valueM==62 and m == valueM and s == valueS+1 and iniciaCont == 2:
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto(s)', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
-                    self.mensag.place(x=160, y=400)
+                    self.mensag.place(relx=0.270, rely=0.700)
                     self.ativ = 1
                     if iniciaCont == 2:
                         self.bteste = c
@@ -1291,7 +1291,7 @@ class AplicacaoBack():
                 if h == 0 and int(self.tempMin) == 3 and m == 58 and s == 0 and c == 5 or h == 0 and int(self.tempMin) == 3 and c+valueM==63 and m == valueM and s == valueS+1 and iniciaCont == 2:
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto(s)', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
-                    self.mensag.place(x=160, y=400)
+                    self.mensag.place(relx=0.270, rely=0.700)
                     self.ativ = 1
                     if iniciaCont == 2:
                         self.bteste = c
@@ -1306,7 +1306,7 @@ class AplicacaoBack():
                 if h == 0 and int(self.tempMin) == 4 and m == 59 and s == 0 and c == 5 or h == 0 and int(self.tempMin) == 4 and c+valueM==64 and m == valueM and s == valueS+1 and iniciaCont == 2:
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto(s)', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
-                    self.mensag.place(x=160, y=400)
+                    self.mensag.place(relx=0.270, rely=0.700)
                     self.ativ = 1
                     if iniciaCont == 2:
                         self.bteste = c
@@ -1322,7 +1322,7 @@ class AplicacaoBack():
                     print('Parte 2 B')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto(s)', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
-                    self.mensag.place(x=160, y=400)
+                    self.mensag.place(relx=0.270, rely=0.700)
                     self.ativ = 1
                     
                 #Condição responsável por verificar a cada segundo quantos minutos falta
@@ -1376,7 +1376,7 @@ class AplicacaoBack():
                     print('Parte 1 C')
                     telaVermelha2()
                     self.mensag = Label(self.frameRight, text='Resta '+str(c)+' Minuto(s)', bg='red', fg='white', font=('F25 Bank Printer', 20, 'bold'))
-                    self.mensag.place(x=160, y=400)
+                    self.mensag.place(relx=0.270, rely=0.700)
                     self.ativ = 1
                 
                 #Condição que ficará responsável de atualizar o tempo depois que o objeto com a mensagem for criada
