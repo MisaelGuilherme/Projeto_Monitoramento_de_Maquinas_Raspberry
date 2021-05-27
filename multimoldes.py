@@ -569,16 +569,20 @@ class AplicacaoBack():
         self.logoMarcaRight.destroy()
         
         #Pegando o número de OS digitada no campo e armazenando na variável
-        self.numOS = str(self.campoServico.get())
+        self.numOS = int(self.campoServico.get())
+        self.numOS = str(self.numOS)
         
         #Pegando o código de Peca no campo e armazenando na variável
-        self.codP = str(self.campoPeca.get())
+        self.codP = int(self.campoPeca.get())
+        self.codP = str(self.codP)
         
         #Pegando a quantidade de peças e armazenando na variável
-        self.quant = str(self.campQuantidadePeca.get())
+        self.quant = int(self.campQuantidadePeca.get())
+        self.quant = str(self.quant)
         
         #Pegando o número de Operação no campo e armazenando na variável
-        self.numOper = str(self.campoOperacao.get())
+        self.numOper = int(self.campoOperacao.get())
+        self.numOper = str(self.numOper)
     
         try:
             
