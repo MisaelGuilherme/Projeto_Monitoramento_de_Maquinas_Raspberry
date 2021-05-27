@@ -616,7 +616,7 @@ class AplicacaoBack():
             if opcao == 2:
                 
                 #Selecionando do banco de dados onde o id for igual ao número de is da lista já separada igual a 10
-                self.cursorServer.execute('select CorTela, VezTempExt, TempGastoExt, UltimTempAdd, TempMarcadoCron, TempProg, TempOperando from pausa_funcionarios where ID = '+self.tuplaSelect[0])
+                self.cursorServer.execute('select CorTela, VezTempExt, TempGastoExt, UltimTempAdd, TempMarcadoCron, TempProg, TempOperando, repairTemp from pausa_funcionarios where ID = '+self.tuplaSelect[0])
                 valido = self.cursorServer.fetchall()
                 
                 if len(valido) == 1:
@@ -632,8 +632,8 @@ class AplicacaoBack():
                     #Se for maior ou igual a 1 significa que o tempo que será adcionado e contado será do Tempo Extra restante
                     if verificandoTempExtra >= 1:
                         
-                        #Desfragmentando Tempo Extra já gasto pelo funcionário
-                        tempo = str(valido[0][2])
+                        #Desfragmentando Tempos Extras que foram armazenados antes e somados
+                        tempo = str(valido[0][7])
                         
                         for v in tempo:
                             if v != ':':
@@ -643,9 +643,12 @@ class AplicacaoBack():
                         listaNum.split()
                         listaNumSeparada = listaNum.split()
                         
-                        self.tempExtraGastoA += int(listaNumSeparada[0])
-                        self.tempExtraGastoB += int(listaNumSeparada[1])
-                        self.tempExtraGastoC += 0
+                        self.tempExtraGastoA = int(listaNumSeparada[0])
+                        self.tempExtraGastoB = int(listaNumSeparada[1])
+                        self.tempExtraGastoC = 0
+                        
+                        #Armazenando somas dos tempo extras formatado em horário normal para evitar bug ao pausar e sair da aplicação não perder os dados do total e tempo extra somados
+                        self.repairTempExtra = tempo
                         
                         #Desfragmentando o Último Tempo Adicionado tempo extra do banco de dados
                         t = str(valido[0][3])
@@ -1037,11 +1040,13 @@ class AplicacaoBack():
                 self.frameBotIniciar.destroy()
                 
                 #Atribuindo a Hora Incial atual e a Data Inicial atual nas respectivas variáveis
-                time = datetime.now().time().strftime('%H:%M:%S')
-                date = datetime.now().date()
+                #Só será atribuido caso não tiver tempo extra indicando que o tempo será pego só na primeira vez que apertar o botão iniciar
+                if self.chaveTempExtra == 0:
+                    time = datetime.now().time().strftime('%H:%M:%S')
+                    date = datetime.now().date()
                 
-                self.horaInicial = str(time)
-                self.dateInicial = str(date)
+                    self.horaInicial = str(time)
+                    self.dateInicial = str(date)
                 
                 self.objetos_cores('green', 'white')
                 
@@ -1420,8 +1425,13 @@ class AplicacaoBack():
                     self.tempExtraGastoB += int(self.tempMin)
                     self.tempExtraGastoC += 0
                 
+                #Armazenando os tempos extras em uma variável para ir somando, e independente das pausas se o usuário sair ou não sempre irá somar com o tempo extra armazenado + o tempo tempo cronometrado
+                self.repairTempExtra = self.transformar_tempo_decimal(self.tempExtraGastoA, self.tempExtraGastoB, self.tempExtraGastoC)
+                
                 print(f'Tempo Configurado Para: {self.tempHora }:{self.tempMin}')
                 print(f'Hora Extra Gasta 100%: {self.tempExtraGastoA}:{self.tempExtraGastoB}')
+                print(f'Tempo Cronometro: {int(self.houC)} : {int(self.minuC)} : {int(self.secC)}')
+                print(f'Tempo Armazeado: {self.repairTempExtra}')
                 print('')
             
             self.objetos_cores('#870000', 'white')
@@ -1838,7 +1848,7 @@ class AplicacaoBack():
             
         #Convertendo para String para concatenação
         self.chaveTempExtra = str(self.chaveTempExtra)
-            
+
         try:
             self.cursorServer.execute("insert into pausa_funcionarios VALUES('id','"
                                       +str(self.operador)+"','"
@@ -1862,7 +1872,8 @@ class AplicacaoBack():
                                       +self.tempOperando+"','"
                                       +self.tipo+"','"
                                       +self.quant+"','"
-                                      +self.nMaquina+"')")
+                                      +self.nMaquina+"','"
+                                      +self.repairTempExtra+"')")
             
             self.bancoServer.commit()
             
@@ -1963,6 +1974,38 @@ class AplicacaoBack():
                 try:
                     self.frameBotSair.place_forget()
                 except: pass
+                
+                if self.chaveTempExtra == 1:
+                    self.tempExtraGastoA = 0
+                    self.tempExtraGastoB = 0
+                    self.tempExtraGastoC = 0
+                #Se for maior ou igual a 1 significa que o tempo que será adcionado e contado será do Tempo Extra restante
+                elif self.chaveTempExtra > 1:
+                    
+                    #Selecionando os tempoms extras armazenado do usuário para repor nas variáveis e dar continuidade de onde parou
+                    try:
+                        self.cursorServer.execute("select repairTemp from pausa_funcionarios where CPF = '"+self.user+"' and CodigoPeca = '"+self.codP+"' and OS = '"+self.numOS+"' and HoraRetomada = '"+str(time)+"' ")
+                        valido = self.cursorServer.fetchall()
+                        print(valido)
+                    except Exception as erro: 
+                        print(erro)
+                        return messagebox.showerror(parent=self.janelaOper, title='09-Error-Servidor', message='09-Error: Não acesso ao servidor.')
+                
+                    #Desfragmentando Tempos Extras que foram armazenados antes e somados
+                    tempo = str(valido[0][0])
+                    listaNum = ''
+                    for v in tempo:
+                        if v != ':':
+                            listaNum += v
+                        else:
+                            listaNum += ' '
+                    listaNum.split()
+                    listaNumSeparada = listaNum.split()
+                    
+                    #Atribuindo nas variáveis os tempos extras armazenados antes, da OS que foi Pausada e precisou sair da aplicação
+                    self.tempExtraGastoA = int(listaNumSeparada[0])
+                    self.tempExtraGastoB = int(listaNumSeparada[1])
+                    self.tempExtraGastoC = 0
                 
                 #Criando frame para fazer uma borda pro botão botFinalizar
                 self.botFrameFinalizar = Frame(self.frameRight, highlightbackground='black', highlightthickness=2)
@@ -2578,7 +2621,10 @@ class AplicacaoFront(AplicacaoBack):
         self.chaveTempExtra = 0
         self.tempExtraGastoA = 0
         self.tempExtraGastoB = 0
-        self.tempExtraGastoC = 0       
+        self.tempExtraGastoC = 0
+        
+        #Variável que irá fazer as reparações e armazenar todos os tempos extras adicionados após o sistema Exceder o Tempo
+        self.repairTempExtra = '00:00:00'
         
         self.UltimoTempAdd = '00:00:00' 
         
