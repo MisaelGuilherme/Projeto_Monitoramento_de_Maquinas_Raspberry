@@ -1659,7 +1659,7 @@ class AplicacaoBack():
             
                     try:
                         
-                        self.cursorLocal.execute("insert into OS_Finalizadas VALUES(NULL,'"
+                        self.cursorLocal.execute("insert into OS_Finalizadas VALUES('id','"
                                         +str(self.operador)+"','"
                                         +str(self.user)+"','"
                                         +self.horaLogin+"','"
@@ -1884,34 +1884,42 @@ class AplicacaoBack():
             messagebox.showinfo(parent=self.janelaOper, title='DATABASE SERVER', message='O.S Pausada! Operação salva.')
             
         except Exception as erro:
-            return print(erro)
-            self.cursorLocal.execute("insert into OS_Pausadas VALUES('id','"
-                                     +str(self.operador)+"','"
-                                     +self.user+"','"
-                                     +self.codP+"','"
-                                     +self.numOper+"','"
-                                     +self.numOS+"','"
-                                     +self.resultPausa+"','"
-                                     +horaPause+"','"
-                                     +datePause+"','00:00:00','0000-00-00','"
-                                     +self.tempoMarcado+"','"
-                                     +self.tempGasto+"','"
-                                     +self.tempExtraGasto+"','"
-                                     +self.chaveTempExtra+"','"
-                                     +self.UltimoTempAdd+ "','"
-                                     +self.tempProg+"','"
-                                     +corTela+"','"
-                                     +self.horaLogin+"','"
-                                     +self.horaInicial+"','"
-                                     +self.dateInicial+"','"
-                                     +self.tempOperando+"','"
-                                     +self.tipo+"','"
-                                     +self.quant+"','"
-                                     +self.nMaquina+"')")
             
-            self.bancoLocal.commit()
-            
-            messagebox.showinfo(parent=self.janelaOper, title='DATABASE LOCAL', message='O.S Pausada! Operação salva.')
+            if messagebox.showerror(parent=self.janelaOper, title='06-Error-Servidor', message='06-Error: Não acesso ao servidor.'):
+                
+                try:
+                    
+                    self.cursorLocal.execute("insert into OS_Pausadas VALUES('id','"
+                                            +str(self.operador)+"','"
+                                            +self.user+"','"
+                                            +self.codP+"','"
+                                            +self.numOper+"','"
+                                            +self.numOS+"','"
+                                            +self.resultPausa+"','"
+                                            +horaPause+"','"
+                                            +datePause+"','00:00:00','0000-00-00','"
+                                            +self.tempoMarcado+"','"
+                                            +self.tempGasto+"','"
+                                            +self.tempExtraGasto+"','"
+                                            +self.chaveTempExtra+"','"
+                                            +self.UltimoTempAdd+ "','"
+                                            +self.tempProg+"','"
+                                            +corTela+"','"
+                                            +self.horaLogin+"','"
+                                            +self.horaInicial+"','"
+                                            +self.dateInicial+"','"
+                                            +self.tempOperando+"','"
+                                            +self.tipo+"','"
+                                            +self.quant+"','"
+                                            +self.nMaquina+"','"
+                                            +self.repairTempExtra+"')")
+                    
+                    self.bancoLocal.commit()
+                    
+                    messagebox.showinfo(parent=self.janelaOper, title='DATABASE LOCAL', message='O.S Pausada! Operação salva.')
+                
+                except:    
+                    messagebox.showerror(parent=self.janelaOper, title='06-Error-Servidor', message='06-Error: Não acesso ao servidor.')
     
     def contagem_despausar(self, despause):
         try:
