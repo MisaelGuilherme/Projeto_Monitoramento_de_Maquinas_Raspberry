@@ -2691,10 +2691,8 @@ class AplicacaoFront(AplicacaoBack):
         
         if len(valido) >= 1:
             
-            if self.tela_alerta_os_pendente():
+            self.tela_alerta_os_pendente()
             
-            #if messagebox.askyesno(parent=self.janelaOper, title='OS Pendente', message='Você tem OS pendente, Deseja Ver?'):
-                self.verificação_de_OS()
         else:
             self.campoServico.focus_force()
         
