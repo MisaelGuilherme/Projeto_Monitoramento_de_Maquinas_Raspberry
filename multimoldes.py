@@ -2408,6 +2408,46 @@ class AplicacaoFront(AplicacaoBack):
         
         self.janelaTempExtra.mainloop()
 
+    def tela_alerta_os_pendente(self):
+        
+        self.janelaAlertaOSPendente = Toplevel()
+        self.janelaAlertaOSPendente.resizable(False, False)
+        self.janelaAlertaOSPendente['bg'] = 'white'
+        
+        def close():
+            
+            self.campoServico.focus_force()
+            self.janelaAlertaOSPendente.destroy()
+        
+        self.janelaAlertaOSPendente.protocol('WM_DELETE_WINDOW', close)
+        
+        def chamar_tela_de_os_pendente(condicao):
+            
+            if condicao == 0:
+                self.campoServico.focus_force()
+                self.janelaAlertaOSPendente.destroy()
+            elif condicao == 1:
+                self.janelaAlertaOSPendente.destroy()
+                self.verificação_de_OS()
+        
+        #Invocando função para centralizar a janela ao centro
+        self.centraliza_tela(400, 150, self.janelaAlertaOSPendente)
+        
+        self.janelaAlertaOSPendente.transient(self.janelaOper)
+        self.janelaAlertaOSPendente.focus_force()
+        self.janelaAlertaOSPendente.grab_set()
+        
+        label = Label(self.janelaAlertaOSPendente, text='Você tem O.S pendente, Deseja Ver?', font=('arial', 15, 'bold'), bg='white')
+        label.place(relx=0.060, rely=0.100)
+        
+        button1 = Button(self.janelaAlertaOSPendente, text='Não', font=('arial', 15, 'bold'), relief=SOLID, border=2, bg='red', fg='white', activebackground='red', activeforeground='white', command=lambda:chamar_tela_de_os_pendente(0))
+        button1.place(relx=0.190, rely=0.600, relwidth=0.250, relheight=0.230)
+        
+        button2 = Button(self.janelaAlertaOSPendente, text='Sim', font=('arial', 15, 'bold'), relief=SOLID, border=2, bg='green', fg='white', activebackground='green', activeforeground='white', command=lambda:chamar_tela_de_os_pendente(1))
+        button2.place(relx=0.590, rely=0.600, relwidth=0.250, relheight=0.230)
+        
+        self.janelaAlertaOSPendente.mainloop()
+    
     def tela_de_operacao(self):
 
         self.janelaOper = Toplevel()
@@ -2524,7 +2564,6 @@ class AplicacaoFront(AplicacaoBack):
         
         self.campoServico = Entry(self.frameLeft, width=20, font=('arial', 19), textvariable=cOS, bg='white', justify=CENTER)
         self.campoServico.place(relx=0.455, rely=0.170)
-        self.campoServico.focus_force()
         self.campoServico.bind("<Return>", self.confirmarCampos)
         
         self.codigoPeca = Label(self.frameLeft, text='Código da Peça:', font=('arial', 20, 'bold'), bg='#135565', fg='white')
@@ -2651,8 +2690,13 @@ class AplicacaoFront(AplicacaoBack):
         valido = self.cursorServer.fetchall()
         
         if len(valido) >= 1:
-            if messagebox.askyesno(parent=self.janelaOper, title='OS Pendente', message='Você tem OS pendente, Deseja Ver?'):
+            
+            if self.tela_alerta_os_pendente():
+            
+            #if messagebox.askyesno(parent=self.janelaOper, title='OS Pendente', message='Você tem OS pendente, Deseja Ver?'):
                 self.verificação_de_OS()
+        else:
+            self.campoServico.focus_force()
         
         self.janelaOper.mainloop()
     
